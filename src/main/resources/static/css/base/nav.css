@@ -1,0 +1,139 @@
+nav{
+    position: fixed;
+    width: 1920px;
+    height: 79px;
+    left: 0px;
+    top: 0px;
+    background: #1A73E8;
+    z-index: 999;
+    cursor: pointer;
+}
+
+
+.logo{
+    position: absolute;
+    width: 218px;
+    height: 53px;
+    left: 48px;
+    top: 13px;
+
+    font-family: 'Raleway';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 45px;
+    line-height: 53px;
+
+
+    color: #FFFFFF;
+}
+
+nav span:nth-child(1) {
+    /* WashPlan */
+
+    position: absolute;
+    width: 218px;
+    height: 53px;
+    left: 48px;
+    top: 13px;
+
+    font-family: 'Raleway';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 45px;
+    line-height: 53px;
+    /* identical to box height */
+
+    color: #FFFFFF;
+}
+
+
+
+
+nav span:nth-child(2) {
+    /* 예약 */
+
+    position: absolute;
+    width: 51px;
+    height: 28px;
+    left: 1438px;
+    top: 21px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+
+    color: #FFFFFF;
+}
+
+
+
+
+nav span:nth-child(3){
+    /* FAQ */
+
+    position: absolute;
+    width: 52px;
+    height: 38px;
+    left: 1550px;
+    top: 21px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #FFFFFF;
+
+
+}
+
+
+nav span:nth-child(4){
+    /* 회원가입 */
+
+    position: absolute;
+    width: 103px;
+    height: 38px;
+    left: 1663px;
+    top: 21px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #FFFFFF;
+
+
+}
+
+
+nav span:nth-child(5){
+    /* 로그인 */
+
+    position: absolute;
+    width: 99px;
+    height: 38px;
+    left: 1797px;
+    top: 21px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #FFFFFF;
+}
+
+nav span:hover {
+    color: #FFFF00;
+}
+
