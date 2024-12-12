@@ -6,8 +6,8 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <link rel="stylesheet" href="../../static/css/base/nav.css">
-    <link rel="stylesheet" href="../../static/css/main/main.css">
+    <link rel="stylesheet" th:href="@{/css/base/nav.css}">
+    <link rel="stylesheet" th:href="@{/css/main/main.css}">
 
 </head>
 <body>
@@ -22,7 +22,7 @@
         </nav>
     </header>
 
-    <img class="mainimage" src="../../static/images/main/MainPage.png" alt="메인배경">
+    <img class="mainimage" th:src="@{/images/main/MainPage.png}" alt="메인배경">
 
     <div class="washplan">
         <span>Wash Plan</span>
@@ -32,14 +32,14 @@
 
     <div class="intro">
         <p class="fade-in">01 소개</p>
-        <img src="../../static/images/main/intro.png" alt="소개사진" class="fade-in">
+        <img th:src="@{/images/main/intro.png}" alt="소개사진" class="fade-in">
         <h1 class="fade-in">안녕하세요! <span>워시플랜</span>은</h1>
         <p class="fade-in">24시간 예약제 서비스를</p>
         <p class="fade-in">제공하는 프리미엄</p>
         <p class="fade-in">셀프 세탁 브랜드입니다.</p>
     </div>
     <div class="intro2">
-        <img src="../../static/images/main/intro2.png" alt="소개사진2" class="fade-in">
+        <img th:src="@{/images/main/intro2.png}" alt="소개사진2" class="fade-in">
         <p class="fade-in">" 내 시간에 맞는 세탁, 건조</p>
         <p class="fade-in">예약제로 간편하게 !"</p>
         <p class="fade-in">원하는 시간에 예약하고</p>
@@ -89,7 +89,8 @@
         });
     </script>
 
-    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=db599a814f7e9882d8336d50c8927553"></script>
+    <script th:src="@{'https://dapi.kakao.com/v2/maps/sdk.js?appkey=db599a814f7e9882d8336d50c8927553'}"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var mapContainer = document.getElementById('map'), // 지도를 표시할 div
