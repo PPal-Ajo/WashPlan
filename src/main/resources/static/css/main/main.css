@@ -45,29 +45,70 @@ footer span:nth-child(3){
     left:500px;
     top:90px;
 }
-.washplan span:nth-child(1){
+/* 애니메이션 효과 */
+@keyframes fadeInSlideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(50px); /* 아래에서 시작 */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0); /* 원래 위치로 이동 */
+    }
+}
+
+@keyframes fadeInBounce {
+    0% {
+        opacity: 0;
+        transform: scale(0.8); /* 작게 시작 */
+    }
+    60% {
+        opacity: 1;
+        transform: scale(1.1); /* 커지는 효과 */
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1); /* 원래 크기로 돌아옴 */
+    }
+}
+/* Wash Plan 텍스트 */
+.washplan span:nth-child(1) {
     position: absolute;
+    width: 1000px;
+    height: 1000px;
     font-family: 'Raleway';
     font-style: normal;
     font-weight: 800;
     font-size: 150px;
     color: #000000;
-    top:200px;
-    left:100px;
+    top: 200px;
+    left: 100px;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+    opacity: 0; /* 초기 상태 숨김 */
+    animation: fadeInSlideUp 0.8s ease forwards; /* 슬라이드 업 애니메이션 */
+    animation-delay: 0.2s; /* 0.2초 지연 후 시작 */
 }
-.washplan span:nth-child(2){
+/* 무인 예약 세탁소 텍스트 */
+.washplan span:nth-child(2) {
     position: absolute;
+    width: 1000px;
+    height: 1000px;
     font-family: 'Do Hyeon';
     font-style: normal;
     font-weight: 500;
     font-size: 64px;
     color: #FFFFFF;
-    top:400px;
-    left:120px;
+    top: 400px;
+    left: 120px;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+    opacity: 0; /* 초기 상태 숨김 */
+    animation: fadeInSlideUp 0.8s ease forwards; /* 슬라이드 업 애니메이션 */
+    animation-delay: 0.4s; /* 0.4초 지연 후 시작 */
 }
-.reservation{
+/* 예약하기 버튼 */
+.reservation {
     position: absolute;
     width: 465px;
     height: 88px;
@@ -75,17 +116,21 @@ footer span:nth-child(3){
     top: 701px;
     background: #1A73E8;
     border-radius: 850px;
-    border:none;
+    border: none;
     font-family: 'Do Hyeon';
     font-style: normal;
     font-weight: 400;
     font-size: 40px;
     color: #FFFFFF;
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-    cursor:pointer;
+    cursor: pointer;
 
-    transition: transform 0.1s ease, box-shadow 0.1s ease; /* 애니메이션 추가 */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* 버튼의 그림자 */
+    transition: transform 0.1s ease, box-shadow 0.1s ease; /* 클릭 애니메이션 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* 버튼 그림자 */
+
+    opacity: 0; /* 초기 상태 숨김 */
+    animation: fadeInBounce 1s ease forwards; /* 바운스 애니메이션 */
+    animation-delay: 0.6s; /* 0.6초 지연 후 시작 */
 }
 .reservation:active {
     transform: scale(0.95); /* 버튼을 살짝 작게 만들어 눌리는 효과 */
@@ -203,6 +248,7 @@ footer span:nth-child(3){
     height: 50px;
     left: 256px;
     top: 1950px;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
     font-family: 'Gmarket Sans';
     font-style: normal;
@@ -219,6 +265,7 @@ footer span:nth-child(3){
     height: 50px;
     left: 470px;
     top: 2050px;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
     font-family: 'Gmarket Sans';
     font-style: normal;
@@ -235,6 +282,7 @@ footer span:nth-child(3){
     height: 50px;
     left: 340px;
     top: 2150px;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
     font-family: 'Gmarket Sans';
     font-style: normal;
@@ -251,6 +299,7 @@ footer span:nth-child(3){
     height: 50px;
     left: 500px;
     top: 2250px;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
     font-family: 'Gmarket Sans';
     font-style: normal;
@@ -267,6 +316,7 @@ footer span:nth-child(3){
     height: 50px;
     left: 380px;
     top: 2350px;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
     font-family: 'Gmarket Sans';
     font-style: normal;
@@ -283,6 +333,7 @@ footer span:nth-child(3){
     height: 50px;
     left: 530px;
     top: 2450px;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
     font-family: 'Gmarket Sans';
     font-style: normal;
@@ -299,6 +350,7 @@ footer span:nth-child(3){
     height: 50px;
     left: 400px;
     top: 2550px;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
     font-family: 'Gmarket Sans';
     font-style: normal;
@@ -327,6 +379,7 @@ footer span:nth-child(3){
     left: 130px;
     top: 3000px;
     z-index: 99;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
     font-family: 'Do Hyeon';
     font-style: normal;
@@ -344,6 +397,7 @@ footer span:nth-child(3){
     left: 200px;
     top: 3500px;
     z-index: 99;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
     font-family: 'Gmarket Sans';
     font-style: normal;
@@ -361,6 +415,7 @@ footer span:nth-child(3){
     left: 500px;
     top: 3600px;
     z-index: 99;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
     font-family: 'Gmarket Sans';
     font-style: normal;
@@ -378,6 +433,7 @@ footer span:nth-child(3){
     left: 700px;
     top: 3700px;
     z-index: 99;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
     font-family: 'Gmarket Sans';
     font-style: normal;
