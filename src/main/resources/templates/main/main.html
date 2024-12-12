@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../static/css/base/nav.css">
+    <link rel="stylesheet" href="../../static/css/main/main.css">
+
+</head>
+<body>
+    <header>
+        <nav>
+            <!--네비바-->
+            <span>WashPlan</span>
+            <span>예약</span>
+            <span>FAQ</span>
+            <span>회원가입</span>
+            <span>로그인</span>
+        </nav>
+    </header>
+
+    <img class="mainimage" src="../../static/images/main/MainPage.png" alt="메인배경">
+
+    <div class="washplan">
+        <span>Wash Plan</span>
+        <span>무인 예약 세탁소</span>
+    </div>
+    <button class="reservation">예약하기</button>
+
+    <div class="intro">
+        <p class="fade-in">01 소개</p>
+        <img src="../../static/images/main/intro.png" alt="소개사진" class="fade-in">
+        <h1 class="fade-in">안녕하세요! <span>워시플랜</span>은</h1>
+        <p class="fade-in">24시간 예약제 서비스를</p>
+        <p class="fade-in">제공하는 프리미엄</p>
+        <p class="fade-in">셀프 세탁 브랜드입니다.</p>
+    </div>
+    <div class="intro2">
+        <img src="../../static/images/main/intro2.png" alt="소개사진2" class="fade-in">
+        <p class="fade-in">" 내 시간에 맞는 세탁, 건조</p>
+        <p class="fade-in">예약제로 간편하게 !"</p>
+        <p class="fade-in">원하는 시간에 예약하고</p>
+        <p class="fade-in">기다림 없이 이용할 수 있는</p>
+        <p class="fade-in">스마트한 세탁소,</p>
+        <p class="fade-in">고객님의 편리함을</p>
+        <p class="fade-in">최우선으로 생각합니다.</p>
+    </div>
+
+    <div class="findmap">
+        <p class="fade-in">02 찾아오시는길</p>
+        <p class="fade-in">"스마트한 세탁소, 가까운 거리에서 경험하세요 !"</p>
+        <p class="fade-in">미사역 10번 출구에서 도보 2분 거리의 최적의 위치.</p>
+        <p class="fade-in">주변 환경을 고려한 편리한 위치에서 스마트한 세탁을 만나보세요.</p>
+    </div>
+    <div id="map" class="fade-in"></div>
+
+    <footer>
+        <span>📞031-123-4567ㅣ✉️contact@washplan.com</span>
+        <span>🚩경기 하남시 미사강변동로 85 힐스테이트 에코 3층</span>
+        <span>ⓒ 2024 PPal-AjoㅣAll rights reserved.Designed for your convenience.</span>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const fadeInElements = document.querySelectorAll(".fade-in");
+
+            const observerOptions = {
+                threshold: 0.1, // 요소가 10% 이상 보이면 트리거
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // 요소가 화면에 들어오면 'show' 클래스 추가
+                        entry.target.classList.add("show");
+                    } else {
+                        // 요소가 화면을 벗어나면 'show' 클래스 제거
+                        entry.target.classList.remove("show");
+                    }
+                });
+            }, observerOptions);
+
+            fadeInElements.forEach(element => {
+                observer.observe(element); // 각 요소를 관찰
+            });
+        });
+    </script>
+
+    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=db599a814f7e9882d8336d50c8927553"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+                mapOption = {
+                    center: new kakao.maps.LatLng(37.562900, 127.192047), // 지도의 중심좌표
+                    level: 1 // 지도의 확대 레벨
+                };
+
+            var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+            // 마커를 표시할 위치입니다
+            var position = new kakao.maps.LatLng(37.562900, 127.192047);
+
+            // 마커를 생성합니다
+            var marker = new kakao.maps.Marker({
+                position: position
+            });
+
+            // 마커를 지도에 표시합니다.
+            marker.setMap(map);
+
+            // 마커에 커서가 오버됐을 때 마커 위에 표시할 인포윈도우를 생성합니다
+            var iwContent = '<div style="padding:5px;">WashPlan 무인세탁소<br>경기도 하남시 미사강변동로 85 힐스테이트 에코 3층</div>';
+
+            // 인포윈도우를 생성합니다
+            var infowindow = new kakao.maps.InfoWindow({
+                content: iwContent
+            });
+
+            // 마커에 마우스오버 이벤트를 등록합니다
+            kakao.maps.event.addListener(marker, 'mouseover', function () {
+                infowindow.open(map, marker); // 마커 위에 인포윈도우 표시
+            });
+
+            // 마커에 마우스아웃 이벤트를 등록합니다
+            kakao.maps.event.addListener(marker, 'mouseout', function () {
+                infowindow.close(); // 인포윈도우 닫기
+            });
+        });
+    </script>
+
+
+
+
+</body>
+</html>

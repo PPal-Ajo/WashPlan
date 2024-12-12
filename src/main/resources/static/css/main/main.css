@@ -1,0 +1,414 @@
+.mainimage {
+    position: absolute;
+    margin: 0; /* 마진 제거 */
+    padding: 0; /* 패딩 제거 */
+    border: none; /* 테두리 제거 */
+    display: block; /* 줄바꿈 간격 제거 */
+    left:-1px;
+    top:60px;
+}
+footer{
+    position: absolute;
+    width: 1920px;
+    height: 147px;
+    left:-1px;
+    top: 3823px;
+    background: #1A73E8;
+}
+footer span:nth-child(1){
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 25px;
+    color: #FFFFFF;
+    position: absolute;
+    left:350px;
+    top:30px;
+}
+footer span:nth-child(2){
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 25px;
+    color: #FFFFFF;
+    position: absolute;
+    left:970px;
+    top:30px;
+}
+footer span:nth-child(3){
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 25px;
+    color: #FFFFFF;
+    position: absolute;
+    left:500px;
+    top:90px;
+}
+.washplan span:nth-child(1){
+    position: absolute;
+    font-family: 'Raleway';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 150px;
+    color: #000000;
+    top:200px;
+    left:100px;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.washplan span:nth-child(2){
+    position: absolute;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 64px;
+    color: #FFFFFF;
+    top:400px;
+    left:120px;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.reservation{
+    position: absolute;
+    width: 465px;
+    height: 88px;
+    left: 98px;
+    top: 701px;
+    background: #1A73E8;
+    border-radius: 850px;
+    border:none;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    color: #FFFFFF;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    cursor:pointer;
+
+    transition: transform 0.1s ease, box-shadow 0.1s ease; /* 애니메이션 추가 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* 버튼의 그림자 */
+}
+.reservation:active {
+    transform: scale(0.95); /* 버튼을 살짝 작게 만들어 눌리는 효과 */
+    background: #155BB5; /* 살짝 더 어두운 색으로 변경 */
+    filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.2)); /* 그림자 감소 */
+}
+
+.intro p:nth-of-type(1){
+    position: absolute;
+    width: 400px;
+    height: 50px;
+    left: 256px;
+    top: 1150px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+
+    color: #000000;
+
+    word-spacing: 80px;
+}
+.intro img{
+    position: absolute;
+    width: 509px;
+    height: 434px;
+    left: 282px;
+    top: 1353px;
+    border-radius: 50px;
+}
+
+.intro h1 {
+    position: absolute;
+    width: 850px;
+    height: 448px;
+    left: 820px;
+    top: 1270px;
+
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 64px;
+
+    color: #000000;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+
+}
+.intro h1 span{
+
+    color: #1A73E8;
+
+}
+.intro p:nth-of-type(2){
+    position: absolute;
+    width: 850px;
+    height: 448px;
+    left: 1000px;
+    top: 1370px;
+
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 64px;
+
+    color: #000000;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+}
+
+.intro p:nth-of-type(3){
+    position: absolute;
+    width: 850px;
+    height: 448px;
+    left: 900px;
+    top: 1490px;
+
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 64px;
+
+    color: #000000;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+}
+.intro p:nth-of-type(4){
+    position: absolute;
+    width: 850px;
+    height: 448px;
+    left: 1000px;
+    top: 1610px;
+
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 64px;
+
+    color: #000000;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+}
+
+.intro2 img{
+    position: absolute;
+    left: 1082px;
+    top: 1900px;
+    border-radius: 50px;
+}
+
+.intro2 p:nth-of-type(1){
+    position: absolute;
+    width: 600px;
+    height: 50px;
+    left: 256px;
+    top: 1950px;
+
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 48px;
+
+    color:  #1A73E8;
+
+
+}
+.intro2 p:nth-of-type(2){
+    position: absolute;
+    width: 600px;
+    height: 50px;
+    left: 470px;
+    top: 2050px;
+
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 48px;
+
+    color:  #1A73E8;
+
+
+}
+.intro2 p:nth-of-type(3){
+    position: absolute;
+    width: 600px;
+    height: 50px;
+    left: 340px;
+    top: 2150px;
+
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 48px;
+
+    color:  #000000;
+
+
+}
+.intro2 p:nth-of-type(4){
+    position: absolute;
+    width: 600px;
+    height: 50px;
+    left: 500px;
+    top: 2250px;
+
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 48px;
+
+    color:  #000000;
+
+
+}
+.intro2 p:nth-of-type(5){
+    position: absolute;
+    width: 600px;
+    height: 50px;
+    left: 380px;
+    top: 2350px;
+
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 48px;
+
+    color:  #000000;
+
+
+}
+.intro2 p:nth-of-type(6){
+    position: absolute;
+    width: 600px;
+    height: 50px;
+    left: 530px;
+    top: 2450px;
+
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 48px;
+
+    color:  #000000;
+
+
+}
+.intro2 p:nth-of-type(7){
+    position: absolute;
+    width: 600px;
+    height: 50px;
+    left: 400px;
+    top: 2550px;
+
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 48px;
+
+    color:  #000000;
+
+
+}
+#map{
+    position: absolute;
+    width: 1736px;
+    height: 379px;
+    left: 75px;
+    top: 3117px;
+    border-radius: 50px;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+
+.findmap p:nth-of-type(1){
+    position: absolute;
+    width: 400px;
+    height: 50px;
+    left: 130px;
+    top: 3000px;
+    z-index: 99;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+
+    color: #000000;
+
+    word-spacing: 80px;
+}
+.findmap p:nth-of-type(2){
+    position: absolute;
+    width: 800px;
+    height: 50px;
+    left: 200px;
+    top: 3500px;
+    z-index: 99;
+
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 36px;
+
+    color:  #1A73E8;
+
+
+}
+.findmap p:nth-of-type(3){
+    position: absolute;
+    width: 900px;
+    height: 50px;
+    left: 500px;
+    top: 3600px;
+    z-index: 99;
+
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 36px;
+
+    color:  #000000;
+
+
+}
+.findmap p:nth-of-type(4){
+    position: absolute;
+    width: 1100px;
+    height: 50px;
+    left: 700px;
+    top: 3700px;
+    z-index: 99;
+
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 36px;
+
+    color:  #000000;
+
+
+}
+
+.fade-in {
+    opacity: 0; /* 초기 상태에서 투명 */
+    transform: translateY(20px); /* 아래로 약간 이동 */
+    transition: opacity 0.6s ease, transform 0.6s ease; /* 부드러운 애니메이션 */
+}
+
+.fade-in.show {
+    opacity: 1; /* 보이기 */
+    transform: translateY(0); /* 원래 위치로 이동 */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
