@@ -1,0 +1,199 @@
+.bg{
+    position: absolute;
+    left: -1px;
+    top: -1px;
+}
+
+#loginlogo{
+    /* WashPlan */
+
+    position: absolute;
+    width: 218px;
+    height: 53px;
+    left: 850px;
+    top: 295px;
+
+    font-family: 'Raleway';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 45px;
+    line-height: 53px;
+    /* identical to box height */
+
+    color: #000000;
+
+
+}
+
+#box1{
+    /* ID : */
+
+    position: absolute;
+    width: 66.8px;
+    height: 44.97px;
+    left: 675.6px;
+    top: 447.08px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: #000000;
+
+}
+
+#box2{/* Rectangle 274 */
+
+    position: absolute;
+    width: 472.61px;
+    height: 69.82px;
+    left: 827.67px;
+    top: 434.07px;
+
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 30px;
+    border: none;
+
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+
+    color: #000000;
+
+    padding-left: 30px;
+
+
+}
+
+#box3{
+    /* PASSWORD : */
+
+    position: absolute;
+    width: 267.2px;
+    height: 44.97px;
+    left: 592.1px;
+    top: 550.03px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    text-align: center;
+
+    color: #000000;
+
+}
+
+#box4{
+    /* Rectangle 275 */
+
+    position: absolute;
+    width: 472.61px;
+    height: 69.82px;
+    left: 830.67px;
+    top: 537.02px;
+
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 30px;
+    border: none;
+
+
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+
+    color: #000000;
+
+    padding-left: 30px;
+
+
+}
+
+.ivs{
+    /* Invisible */
+
+    position: absolute;
+    width: 75.15px;
+    height: 53.25px;
+    left: 1221.11px;
+    top: 545.3px;
+
+    border-radius: 30px;
+
+    cursor: pointer;
+}
+
+.loginbtn{
+
+    /* Rectangle 276 */
+
+    position: absolute;
+    width: 377.18px;
+    height: 94.67px;
+    left: 776px;
+    top: 703px;
+
+    background: #42A5F5;
+    border-radius: 30px;
+    border: none;
+
+
+    /* 로그인 */
+
+
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 50px;
+
+    color: #FFFFFF;
+
+
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.1s ease; /* 애니메이션 추가 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* 버튼의 그림자 */
+
+}
+
+.loginbtn:active {
+    transform: scale(0.95); /* 버튼을 살짝 작게 만들어 눌리는 효과 */
+    filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.2)); /* 그림자 감소 */
+    background: #0056B3; /* 색상 변경 (옵션) */
+}
+
+#forget{
+
+    /* 아이디나 비밀번호를 잊으셨나요? */
+
+    position: absolute;
+    width: 309px;
+    height: 36px;
+    left: 815px;
+    top: 878px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 30px;
+
+    color: #000000;
+
+    cursor: pointer;
+}
