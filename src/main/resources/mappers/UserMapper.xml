@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ohgiraffers.washplan.user.model.dao.UserMapper">
+    <!-- 사용자 아이디로 정보 조회 -->
+    <select id="findByUserId" resultType="com.ohgiraffers.washplan.user.model.dto.UserDTO">
+        SELECT USER_ID AS userId,
+        USER_PWD AS userPwd,
+        EMAIL AS email,
+        USER_STATUS AS userStatus
+        FROM TBL_USER
+        WHERE USER_ID = #{userId}
+    </select>
+</mapper>
