@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" th:href="@{/css/base/nav.css}">
+    <link rel="stylesheet" th:href="@{/css/reservation/reservation.css}">
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css}">
+    <!-- Flatpickr JavaScript -->
+    <script th:src="@{https://cdn.jsdelivr.net/npm/flatpickr}"></script>
+    <!-- Flatpickr 한국어 언어팩 -->
+    <script th:src="@{https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ko.js}"></script>
+</head>
+<body>
+    <div class="background-container">
+        <!-- 컨텐츠 -->
+    </div>
+    <header>
+        <nav>
+            <!--네비바-->
+            <span onclick="location.href='/main'">WashPlan</span>
+            <span style="color: #FFFF00;">예약</span>
+            <span>FAQ</span>
+            <span>회원가입</span>
+            <span>로그인</span>
+        </nav>
+    </header>
+
+    <button class="wash" id="washButton">세탁기</button>
+    <button class="dry" id="dryButton">건조기</button>
+
+
+
+
+
+
+    <div class="washReserve" id="washReserve">
+        <div class="reserveTime">
+            <input id="washDatetimePicker" type="text" class="datetime-picker" placeholder="시간 선택">
+            <p id="washTimeRangeDisplay" class="time-range-display"></p>
+        </div>
+
+
+        <span>기기</span>
+        <span>현황</span>
+        <span>옵션</span>
+        <span>가격</span>
+        <span>예약</span>
+        <hr>
+        <img class="washimage" th:src="@{/images/reservation/wash.png}" alt="세탁기">
+        <span>세탁기 - 101호</span>
+        <div class="situation"><span>사용가능</span></div>
+        <div class="dropdown-container">
+            <label for="washing-options" class="dropdown-label">세탁 옵션</label>
+            <select id="washing-options" class="dropdown">
+                <option value="standard" data-price="5,000">표준세탁 (30분)</option>
+                <option value="bedding" data-price="6,000">침구세탁 (40분)</option>
+            </select>
+        </div>
+        <div id="selected-option" class="result">
+            5,000원
+        </div>
+        <button class="reservebtn">예약하기</button>
+
+
+        <img class="washimage2" th:src="@{/images/reservation/wash.png}" alt="세탁기">
+        <span>세탁기 - 102호</span>
+        <div class="situation2"><span>사용가능</span></div>
+        <div class="dropdown-container2">
+            <label for="washing-options" class="dropdown-label">세탁 옵션</label>
+            <select id="washing-options2" class="dropdown">
+                <option value="standard" data-price="5,000">표준세탁 (30분)</option>
+                <option value="bedding" data-price="6,000">침구세탁 (40분)</option>
+            </select>
+        </div>
+        <div id="selected-option2" class="result2">
+            5,000원
+        </div>
+        <button class="reservebtn2">예약하기</button>
+
+
+
+        <img class="washimage3" th:src="@{/images/reservation/wash.png}" alt="세탁기">
+        <span>세탁기 - 102호</span>
+        <div class="situation3"><span>사용가능</span></div>
+        <div class="dropdown-container3">
+            <label for="washing-options" class="dropdown-label">세탁 옵션</label>
+            <select id="washing-options3" class="dropdown">
+                <option value="standard" data-price="5,000">표준세탁 (30분)</option>
+                <option value="bedding" data-price="6,000">침구세탁 (40분)</option>
+            </select>
+        </div>
+        <div id="selected-option3" class="result3">
+            5,000원
+        </div>
+        <button class="reservebtn3">예약하기</button>
+    </div>
+
+    <div class="dryReserve" id="dryReserve">
+
+        <div class="reserveTime">
+            <input id="dryDatetimePicker" type="text" class="datetime-picker" placeholder="시간 선택">
+            <p id="dryTimeRangeDisplay" class="time-range-display"></p>
+        </div>
+
+
+
+        <span>기기</span>
+        <span>현황</span>
+        <span>옵션</span>
+        <span>가격</span>
+        <span>예약</span>
+        <hr>
+        <img class="dryimage" th:src="@{/images/reservation/dry.png}" alt="건조기">
+        <span>건조기 - 201호</span>
+        <div class="dry-situation"><span>사용가능</span></div>
+        <div class="dry-dropdown-container">
+            <label for="washing-options" class="dropdown-label">세탁 옵션</label>
+            <select id="drying-options" class="dropdown">
+                <option value="standard" data-price="4,000">표준건조 (40분)</option>
+                <option value="bedding" data-price="3,000">소량건조 (30분)</option>
+            </select>
+        </div>
+        <div id="dry-selected-option" class="dry-result">
+            4,000원
+        </div>
+        <button class="dry-reservebtn">예약하기</button>
+
+
+        <img class="dryimage2" th:src="@{/images/reservation/dry.png}" alt="건조기">
+        <span>건조기 - 202호</span>
+        <div class="dry-situation2"><span>사용가능</span></div>
+        <div class="dry-dropdown-container2">
+            <label for="washing-options" class="dropdown-label">세탁 옵션</label>
+            <select id="drying-options2" class="dropdown">
+                <option value="standard" data-price="4,000">표준건조 (40분)</option>
+                <option value="bedding" data-price="3,000">소량건조 (30분)</option>
+            </select>
+        </div>
+        <div id="dry-selected-option2" class="dry-result2">
+            4,000원
+        </div>
+        <button class="dry-reservebtn2">예약하기</button>
+
+        <img class="dryimage3" th:src="@{/images/reservation/dry.png}" alt="건조기">
+        <span>건조기 - 203호</span>
+        <div class="dry-situation3"><span>사용가능</span></div>
+        <div class="dry-dropdown-container3">
+            <label for="washing-options" class="dropdown-label">세탁 옵션</label>
+            <select id="drying-options3" class="dropdown">
+                <option value="standard" data-price="4,000">표준건조 (40분)</option>
+                <option value="bedding" data-price="3,000">소량건조 (30분)</option>
+            </select>
+        </div>
+        <div id="dry-selected-option3" class="dry-result3">
+            4,000원
+        </div>
+        <button class="dry-reservebtn3">예약하기</button>
+    </div>
+
+    <footer>
+        <span>📞031-123-4567ㅣ✉️contact@washplan.com</span>
+        <span>🚩경기 하남시 미사강변동로 85 힐스테이트 에코 3층</span>
+        <span>ⓒ 2024 PPal-AjoㅣAll rights reserved.Designed for your convenience.</span>
+    </footer>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const washButton = document.getElementById("washButton");
+        const dryButton = document.getElementById("dryButton");
+        const washReserve = document.getElementById("washReserve");
+        const dryReserve = document.getElementById("dryReserve");
+        const washTimeRangeDisplay = document.getElementById("washTimeRangeDisplay");
+        const dryTimeRangeDisplay = document.getElementById("dryTimeRangeDisplay");
+
+
+        // 10분 단위로 반올림된 현재 시간 + 1시간 계산
+        function getDefaultStartTime() {
+            const now = new Date();
+            now.setMinutes(Math.ceil(now.getMinutes() / 10) * 10, 0, 0); // 10분 단위 반올림
+            now.setHours(now.getHours() + 1); // 현재 시간에서 1시간 뒤
+            return now;
+        }
+
+        // 종료 시간 계산 및 포맷팅
+        function calculateAndFormatEndTime(startTime) {
+            const endTime = new Date(startTime);
+            endTime.setHours(endTime.getHours() + 1); // 종료 시간 = 시작 시간 + 1시간
+            return endTime.toLocaleTimeString("ko-KR", {
+                hour: "2-digit",
+                minute: "2-digit",
+            });
+        }
+
+        // 시간 형식 포맷팅
+        function formatTime(date) {
+            return date.toLocaleTimeString("ko-KR", {
+                hour: "2-digit",
+                minute: "2-digit",
+            });
+        }
+
+        let washFlatpickr = null; // 세탁기 Flatpickr 인스턴스 저장
+        let dryFlatpickr = null;  // 건조기 Flatpickr 인스턴스 저장
+
+        washReserve.style.display = "block";
+        dryReserve.style.display = "none";
+        washButton.classList.add("active");
+
+
+        // 버튼 활성화 관리
+        washButton.addEventListener("click", () => {
+            washReserve.style.display = "block";
+            dryReserve.style.display = "none";
+
+            washButton.classList.add("active");
+            dryButton.classList.remove("active");
+
+            // Flatpickr 초기화 또는 재설정 (세탁기용)
+            if (!washFlatpickr) {
+                initializeFlatpickr("#washDatetimePicker",washTimeRangeDisplay);
+            }
+        });
+
+        dryButton.addEventListener("click", () => {
+            washReserve.style.display = "none";
+            dryReserve.style.display = "block";
+            dryButton.classList.add("active");
+            washButton.classList.remove("active");
+            // Flatpickr 초기화 또는 재설정 (건조기용)
+            if (!dryFlatpickr) {
+                initializeFlatpickr("#dryDatetimePicker",dryTimeRangeDisplay);
+            }
+        });
+
+        // Flatpickr 초기화 함수
+        function initializeFlatpickr(selector, displayElement) {
+            const defaultStartTime = getDefaultStartTime();
+            let minTime = `${String(defaultStartTime.getHours()).padStart(2, "0")}:${String(defaultStartTime.getMinutes()).padStart(2, "0")}`;
+            const defaultEndTime = calculateAndFormatEndTime(defaultStartTime);
+
+            // 초기 시간 표시
+            displayElement.textContent = `${formatTime(defaultStartTime)} ~ ${defaultEndTime}`;
+
+            flatpickr(selector, {
+                enableTime: true,
+                dateFormat: "m/d(D) H:i", // 날짜 및 시간 포맷
+                time_24hr: true, // 24시간 형식 사용
+                minuteIncrement: 10, // 10분 단위로 시간 선택
+                locale:"ko", // 한국어 설정
+                defaultDate: defaultStartTime, // 시작 시간: 현재 시간 + 1시간
+                minDate: "today", // 오늘 이후의 날짜만 선택 가능
+                maxDate: new Date().fp_incr(7), // 7일 후까지 선택 가능
+                minTime: minTime, // 현재 시간 기준 1시간 뒤부터 선택 가능
+                onChange: function (selectedDates, dateStr, instance) {
+                    if (selectedDates.length > 0) {
+                        const startTime = new Date(selectedDates[0]);
+                        const today = new Date();
+                        const isToday = startTime.toDateString() === today.toDateString();
+                        const endTime = calculateAndFormatEndTime(startTime);
+                        displayElement.textContent = `${formatTime(startTime)} ~ ${endTime}`;
+
+                        // 날짜가 오늘인 경우, 현재 시간 + 1시간 이후만 선택 가능
+                        if (isToday) {
+                            minTime = `${String(today.getHours() + 1).padStart(2, "0")}:${String(
+                                Math.ceil(today.getMinutes() / 10) * 10
+                            ).padStart(2, "0")}`;
+                        } else {
+                            // 다른 날짜의 경우 00:00부터 선택 가능
+                            minTime = "00:00";
+
+                        }
+
+                        instance.set("minTime", minTime);
+                    }
+                },
+            });
+        }
+
+        // 세탁기와 건조기 Flatpickr 초기화
+        initializeFlatpickr("#washDatetimePicker", washTimeRangeDisplay);
+        initializeFlatpickr("#dryDatetimePicker", dryTimeRangeDisplay);
+
+    });
+
+
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const dropdown = document.getElementById("washing-options");
+        const resultDisplay = document.getElementById("selected-option");
+
+        // 드롭다운 값이 변경되었을 때 실행
+        dropdown.addEventListener("change", function () {
+            const selectedText = dropdown.options[dropdown.selectedIndex].text; // 선택된 옵션의 텍스트
+            const selectedPrice = dropdown.options[dropdown.selectedIndex].getAttribute("data-price"); // data-price에서 가격 가져오기
+
+            // 선택된 옵션과 가격을 화면에 표시
+            resultDisplay.textContent = `${selectedPrice}원`;
+
+            // 추가로 선택된 값을 활용하려면 여기에서 처리
+            console.log("선택된 옵션:", selectedText);
+            console.log("가격:", selectedPrice);
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const dropdown = document.getElementById("washing-options2");
+        const resultDisplay = document.getElementById("selected-option2");
+
+        // 드롭다운 값이 변경되었을 때 실행
+        dropdown.addEventListener("change", function () {
+            const selectedText = dropdown.options[dropdown.selectedIndex].text; // 선택된 옵션의 텍스트
+            const selectedPrice = dropdown.options[dropdown.selectedIndex].getAttribute("data-price"); // data-price에서 가격 가져오기
+
+            // 선택된 옵션과 가격을 화면에 표시
+            resultDisplay.textContent = `${selectedPrice}원`;
+
+            // 추가로 선택된 값을 활용하려면 여기에서 처리
+            console.log("선택된 옵션:", selectedText);
+            console.log("가격:", selectedPrice);
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const dropdown = document.getElementById("washing-options3");
+        const resultDisplay = document.getElementById("selected-option3");
+
+        // 드롭다운 값이 변경되었을 때 실행
+        dropdown.addEventListener("change", function () {
+            const selectedText = dropdown.options[dropdown.selectedIndex].text; // 선택된 옵션의 텍스트
+            const selectedPrice = dropdown.options[dropdown.selectedIndex].getAttribute("data-price"); // data-price에서 가격 가져오기
+
+            // 선택된 옵션과 가격을 화면에 표시
+            resultDisplay.textContent = `${selectedPrice}원`;
+
+            // 추가로 선택된 값을 활용하려면 여기에서 처리
+            console.log("선택된 옵션:", selectedText);
+            console.log("가격:", selectedPrice);
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const dropdown = document.getElementById("drying-options");
+        const resultDisplay = document.getElementById("dry-selected-option");
+
+        // 드롭다운 값이 변경되었을 때 실행
+        dropdown.addEventListener("change", function () {
+            const selectedText = dropdown.options[dropdown.selectedIndex].text; // 선택된 옵션의 텍스트
+            const selectedPrice = dropdown.options[dropdown.selectedIndex].getAttribute("data-price"); // data-price에서 가격 가져오기
+
+            // 선택된 옵션과 가격을 화면에 표시
+            resultDisplay.textContent = `${selectedPrice}원`;
+
+            // 추가로 선택된 값을 활용하려면 여기에서 처리
+            console.log("선택된 옵션:", selectedText);
+            console.log("가격:", selectedPrice);
+        });
+    });
+</script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const dropdown = document.getElementById("drying-options2");
+            const resultDisplay = document.getElementById("dry-selected-option2");
+
+            // 드롭다운 값이 변경되었을 때 실행
+            dropdown.addEventListener("change", function () {
+                const selectedText = dropdown.options[dropdown.selectedIndex].text; // 선택된 옵션의 텍스트
+                const selectedPrice = dropdown.options[dropdown.selectedIndex].getAttribute("data-price"); // data-price에서 가격 가져오기
+
+                // 선택된 옵션과 가격을 화면에 표시
+                resultDisplay.textContent = `${selectedPrice}원`;
+
+                // 추가로 선택된 값을 활용하려면 여기에서 처리
+                console.log("선택된 옵션:", selectedText);
+                console.log("가격:", selectedPrice);
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const dropdown = document.getElementById("drying-options3");
+            const resultDisplay = document.getElementById("dry-selected-option3");
+
+            // 드롭다운 값이 변경되었을 때 실행
+            dropdown.addEventListener("change", function () {
+                const selectedText = dropdown.options[dropdown.selectedIndex].text; // 선택된 옵션의 텍스트
+                const selectedPrice = dropdown.options[dropdown.selectedIndex].getAttribute("data-price"); // data-price에서 가격 가져오기
+
+                // 선택된 옵션과 가격을 화면에 표시
+                resultDisplay.textContent = `${selectedPrice}원`;
+
+                // 추가로 선택된 값을 활용하려면 여기에서 처리
+                console.log("선택된 옵션:", selectedText);
+                console.log("가격:", selectedPrice);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1218 @@
+.background-container {
+    position: absolute;
+    left:-1px;
+    top:-1px;
+    width: 1920px;
+    height: 1191px;
+    background: #E3F2FD; /* 원하는 배경색 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 선택적으로 그림자 추가 */
+
+}
+
+footer{
+    position: absolute;
+    width: 1920px;
+    height: 147px;
+    left:-1px;
+    top: 1044px;
+    background: #1A73E8;
+}
+footer span:nth-child(1){
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 25px;
+    color: #FFFFFF;
+    position: absolute;
+    left:350px;
+    top:30px;
+}
+footer span:nth-child(2){
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 25px;
+    color: #FFFFFF;
+    position: absolute;
+    left:970px;
+    top:30px;
+}
+footer span:nth-child(3){
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 25px;
+    color: #FFFFFF;
+    position: absolute;
+    left:500px;
+    top:90px;
+}
+
+/* 공통 버튼 스타일 */
+button {
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.2s ease; /* 부드러운 전환 효과 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* 버튼 그림자 */
+}
+
+.wash{
+    position: absolute;
+    width: 190px;
+    height: 73px;
+    left: 80px;
+    top: 161px;
+
+    background: #42A5F5;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    border-radius: 20px;
+    border:none;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+
+    color: #FFFFFF;
+
+
+}
+
+
+
+.dry{
+    position: absolute;
+    width: 190px;
+    height: 73px;
+    left: 330px;
+    top: 161px;
+
+    background: #42A5F5;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    border-radius: 20px;
+    border:none;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #FFFFFF;
+
+
+}
+
+
+.active {
+    background: #0056B3;
+}
+/* 버튼 클릭 시 효과 */
+button:active {
+    transform: scale(0.95); /* 클릭 시 살짝 작아지는 효과 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 클릭 시 그림자 감소 */
+}
+
+.washReserve{
+    position: absolute;
+    width: 1813px;
+    height: 680px;
+    left: 54px;
+    top: 256px;
+
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+}
+.washReserve span:nth-of-type(1){
+    position: absolute;
+    width: 47px;
+    height: 38px;
+    left: 262px;
+    top: 29px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #000000;
+}
+.washReserve span:nth-of-type(2){
+    position: absolute;
+    width: 47px;
+    height: 38px;
+    left: 614px;
+    top: 29px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #000000;
+}
+.washReserve span:nth-of-type(3){
+    position: absolute;
+    width: 47px;
+    height: 38px;
+    left: 944px;
+    top: 29px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #000000;
+}
+.washReserve span:nth-of-type(4){
+    position: absolute;
+    width: 47px;
+    height: 38px;
+    left: 1278px;
+    top: 29px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #000000;
+}
+.washReserve span:nth-of-type(5){
+    position: absolute;
+    width: 47px;
+    height: 38px;
+    left: 1588px;
+    top: 29px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #000000;
+}
+hr{
+    position: absolute;
+    left:50px;
+    top:90px;
+    width:1700px;
+    border: 2px solid #000000;
+
+}
+.washimage{
+    position: absolute;
+    left:122px;
+    top:135px;
+}
+
+.washReserve span:nth-of-type(6){
+    position: absolute;
+    width: 195px;
+    height: 30px;
+    left: 288px;
+    top: 177px;
+
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 30px;
+    /* identical to box height */
+
+    color: #000000;
+}
+.situation{
+
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 171px;
+    height: 43px;
+    left: 552px;
+    top: 170px;
+
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    border-radius: 50px;
+
+
+
+
+}
+
+.situation span:nth-of-type(1){
+
+    position: absolute;
+    width: 171px;
+    height: 43px;
+    left:38px;
+    top:8px;
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 25px;
+    line-height: 25px;
+
+
+    color: #0062FF;
+}
+
+
+
+/* 드롭다운 스타일 */
+.dropdown-container {
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 260px;
+    height: 43px;
+    left: 835px;
+    top: 170px;
+
+    background: #FFFFFF;
+
+    border-radius: 50px;
+
+}
+
+.dropdown {
+    appearance: none; /* 기본 브라우저 스타일 제거 */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    border-radius: 20px;
+
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+
+    /* identical to box height */
+
+    color: #000000;
+    cursor: pointer;
+    width: 260px;
+    height: 43px;
+
+    text-align: center;
+}
+
+.dropdown:focus {
+    outline: none; /* 포커스 시 외곽선 제거 */
+
+}
+
+.dropdown-label {
+    display: none; /* 필요 시 보이도록 수정 가능 */
+}
+
+/* 화살표 커스터마이즈 */
+.dropdown-container::after {
+    content: "▼";
+    font-size: 20px;
+    color: #000000;
+    position: absolute;
+    right:15px;
+    top: 10px;
+    pointer-events: none; /* 클릭 불가 처리 */
+}
+
+/* 선택된 결과 스타일 */
+.result {
+    position: absolute;
+    width: 117px;
+    height: 30px;
+    left: 1250px;
+    top: 177px;
+
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 30px;
+    /* identical to box height */
+
+    color: #000000;
+}
+
+.reservebtn{
+    /* Rectangle 315 */
+
+    position: absolute;
+    width: 190px;
+    height: 73px;
+    left: 1520px;
+    top: 150px;
+
+    background: #42A5F5;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    border:none;
+
+
+    /* 예약하기 */
+
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #FFFFFF;
+
+
+}
+
+
+.washimage2{
+    position: absolute;
+    left:122px;
+    top:337px;
+}
+
+.washReserve span:nth-of-type(7){
+    position: absolute;
+    width: 300px;
+    height: 30px;
+    left: 288px;
+    top: 387px;
+
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 30px;
+    /* identical to box height */
+
+    color: #000000;
+}
+.situation2{
+
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 171px;
+    height: 43px;
+    left: 552px;
+    top: 379px;
+
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    border-radius: 50px;
+
+
+
+
+}
+
+.situation2 span:nth-of-type(1){
+
+    position: absolute;
+    width: 171px;
+    height: 43px;
+    left:38px;
+    top:8px;
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 25px;
+    line-height: 25px;
+
+
+    color: #0062FF;
+}
+
+
+
+/* 드롭다운 스타일 */
+.dropdown-container2 {
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 260px;
+    height: 43px;
+    left: 835px;
+    top: 379px;
+
+    background: #FFFFFF;
+
+    border-radius: 50px;
+
+}
+
+/* 화살표 커스터마이즈 */
+.dropdown-container2::after {
+    content: "▼";
+    font-size: 20px;
+    color: #000000;
+    position: absolute;
+    right:15px;
+    top: 10px;
+    pointer-events: none; /* 클릭 불가 처리 */
+}
+
+
+/* 선택된 결과 스타일 */
+.result2 {
+    position: absolute;
+    width: 117px;
+    height: 30px;
+    left: 1250px;
+    top: 387px;
+
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 30px;
+    /* identical to box height */
+
+    color: #000000;
+}
+
+.reservebtn2{
+    /* Rectangle 315 */
+
+    position: absolute;
+    width: 190px;
+    height: 73px;
+    left: 1520px;
+    top: 360px;
+
+    background: #42A5F5;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    border:none;
+
+
+    /* 예약하기 */
+
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #FFFFFF;
+
+
+}
+
+.washimage3{
+    position: absolute;
+    left:122px;
+    top:537px;
+}
+
+.washReserve span:nth-of-type(8){
+    position: absolute;
+    width: 300px;
+    height: 30px;
+    left: 288px;
+    top: 587px;
+
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 30px;
+    /* identical to box height */
+
+    color: #000000;
+}
+.situation3{
+
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 171px;
+    height: 43px;
+    left: 552px;
+    top: 579px;
+
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    border-radius: 50px;
+
+
+
+
+}
+
+.situation3 span:nth-of-type(1){
+
+    position: absolute;
+    width: 171px;
+    height: 43px;
+    left:38px;
+    top:8px;
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 25px;
+    line-height: 25px;
+
+
+    color: #0062FF;
+}
+
+
+
+/* 드롭다운 스타일 */
+.dropdown-container3 {
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 260px;
+    height: 43px;
+    left: 835px;
+    top: 579px;
+
+    background: #FFFFFF;
+
+    border-radius: 50px;
+
+}
+
+/* 화살표 커스터마이즈 */
+.dropdown-container3::after {
+    content: "▼";
+    font-size: 20px;
+    color: #000000;
+    position: absolute;
+    right:15px;
+    top: 10px;
+    pointer-events: none; /* 클릭 불가 처리 */
+}
+
+
+/* 선택된 결과 스타일 */
+.result3 {
+    position: absolute;
+    width: 117px;
+    height: 30px;
+    left: 1250px;
+    top: 587px;
+
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 30px;
+    /* identical to box height */
+
+    color: #000000;
+}
+
+.reservebtn3{
+    /* Rectangle 315 */
+
+    position: absolute;
+    width: 190px;
+    height: 73px;
+    left: 1520px;
+    top: 560px;
+
+    background: #42A5F5;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    border:none;
+
+
+    /* 예약하기 */
+
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #FFFFFF;
+
+
+}
+
+.dryReserve{
+    position: absolute;
+    width: 1813px;
+    height: 680px;
+    left: 54px;
+    top: 256px;
+
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+}
+.dryReserve span:nth-of-type(1){
+    position: absolute;
+    width: 47px;
+    height: 38px;
+    left: 262px;
+    top: 29px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #000000;
+}
+.dryReserve span:nth-of-type(2){
+    position: absolute;
+    width: 47px;
+    height: 38px;
+    left: 614px;
+    top: 29px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #000000;
+}
+.dryReserve span:nth-of-type(3){
+    position: absolute;
+    width: 47px;
+    height: 38px;
+    left: 944px;
+    top: 29px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #000000;
+}
+.dryReserve span:nth-of-type(4){
+    position: absolute;
+    width: 47px;
+    height: 38px;
+    left: 1278px;
+    top: 29px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #000000;
+}
+.dryReserve span:nth-of-type(5){
+    position: absolute;
+    width: 47px;
+    height: 38px;
+    left: 1588px;
+    top: 29px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #000000;
+}
+
+
+.dryimage{
+    position: absolute;
+    left:122px;
+    top:135px;
+}
+
+.dryReserve span:nth-of-type(6){
+    position: absolute;
+    width: 300px;
+    height: 30px;
+    left: 288px;
+    top: 177px;
+
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 30px;
+    /* identical to box height */
+
+    color: #000000;
+}
+.dry-situation{
+
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 171px;
+    height: 43px;
+    left: 552px;
+    top: 170px;
+
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    border-radius: 50px;
+
+
+
+
+}
+
+.dry-situation span:nth-of-type(1){
+
+    position: absolute;
+    width: 171px;
+    height: 43px;
+    left:38px;
+    top:8px;
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 25px;
+    line-height: 25px;
+
+
+    color: #0062FF;
+}
+
+
+
+/* 드롭다운 스타일 */
+.dry-dropdown-container {
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 260px;
+    height: 43px;
+    left: 835px;
+    top: 170px;
+
+    background: #FFFFFF;
+
+    border-radius: 50px;
+
+}
+/* 화살표 커스터마이즈 */
+.dry-dropdown-container::after {
+    content: "▼";
+    font-size: 20px;
+    color: #000000;
+    position: absolute;
+    right:15px;
+    top: 10px;
+    pointer-events: none; /* 클릭 불가 처리 */
+}
+
+
+/* 선택된 결과 스타일 */
+.dry-result {
+    position: absolute;
+    width: 307px;
+    height: 30px;
+    left: 1250px;
+    top: 177px;
+
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 30px;
+    /* identical to box height */
+
+    color: #000000;
+}
+
+.dry-reservebtn{
+    /* Rectangle 315 */
+
+    position: absolute;
+    width: 190px;
+    height: 73px;
+    left: 1520px;
+    top: 150px;
+
+    background: #42A5F5;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    border:none;
+
+
+    /* 예약하기 */
+
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #FFFFFF;
+
+
+}
+.dryimage2{
+    position: absolute;
+    left:122px;
+    top:337px;
+}
+
+.dryReserve span:nth-of-type(7){
+    position: absolute;
+    width: 300px;
+    height: 30px;
+    left: 288px;
+    top: 387px;
+
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 30px;
+    /* identical to box height */
+
+    color: #000000;
+}
+.dry-situation2{
+
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 171px;
+    height: 43px;
+    left: 552px;
+    top: 379px;
+
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    border-radius: 50px;
+
+
+
+
+}
+
+.dry-situation2 span:nth-of-type(1){
+
+    position: absolute;
+    width: 171px;
+    height: 43px;
+    left:38px;
+    top:8px;
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 25px;
+    line-height: 25px;
+
+
+    color: #0062FF;
+}
+
+
+
+/* 드롭다운 스타일 */
+.dry-dropdown-container2 {
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 260px;
+    height: 43px;
+    left: 835px;
+    top: 379px;
+
+    background: #FFFFFF;
+
+    border-radius: 50px;
+
+}
+/* 화살표 커스터마이즈 */
+.dry-dropdown-container2::after {
+    content: "▼";
+    font-size: 20px;
+    color: #000000;
+    position: absolute;
+    right:15px;
+    top: 10px;
+    pointer-events: none; /* 클릭 불가 처리 */
+}
+
+
+/* 선택된 결과 스타일 */
+.dry-result2 {
+    position: absolute;
+    width: 307px;
+    height: 30px;
+    left: 1250px;
+    top: 387px;
+
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 30px;
+    /* identical to box height */
+
+    color: #000000;
+}
+
+.dry-reservebtn2{
+    /* Rectangle 315 */
+
+    position: absolute;
+    width: 190px;
+    height: 73px;
+    left: 1520px;
+    top: 360px;
+
+    background: #42A5F5;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    border:none;
+
+
+    /* 예약하기 */
+
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #FFFFFF;
+
+
+}
+
+.dryimage3{
+    position: absolute;
+    left:122px;
+    top:537px;
+}
+
+.dryReserve span:nth-of-type(8){
+    position: absolute;
+    width: 300px;
+    height: 30px;
+    left: 288px;
+    top: 587px;
+
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 30px;
+    /* identical to box height */
+
+    color: #000000;
+}
+.dry-situation3{
+
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 171px;
+    height: 43px;
+    left: 552px;
+    top: 579px;
+
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    border-radius: 50px;
+
+
+
+
+}
+
+.dry-situation3 span:nth-of-type(1){
+
+    position: absolute;
+    width: 171px;
+    height: 43px;
+    left:38px;
+    top:8px;
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 25px;
+    line-height: 25px;
+
+
+    color: #0062FF;
+}
+
+
+
+/* 드롭다운 스타일 */
+.dry-dropdown-container3 {
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 260px;
+    height: 43px;
+    left: 835px;
+    top: 579px;
+
+    background: #FFFFFF;
+
+    border-radius: 50px;
+
+}
+/* 화살표 커스터마이즈 */
+.dry-dropdown-container3::after {
+    content: "▼";
+    font-size: 20px;
+    color: #000000;
+    position: absolute;
+    right:15px;
+    top: 10px;
+    pointer-events: none; /* 클릭 불가 처리 */
+}
+
+
+/* 선택된 결과 스타일 */
+.dry-result3 {
+    position: absolute;
+    width: 307px;
+    height: 30px;
+    left: 1250px;
+    top: 587px;
+
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 30px;
+    /* identical to box height */
+
+    color: #000000;
+}
+
+.dry-reservebtn3{
+    /* Rectangle 315 */
+
+    position: absolute;
+    width: 190px;
+    height: 73px;
+    left: 1520px;
+    top: 560px;
+
+    background: #42A5F5;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    border:none;
+
+
+    /* 예약하기 */
+
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #FFFFFF;
+
+
+}
+
+.reserveTime{
+    position: absolute;
+    top:-120px;
+    left:1400px;
+    width:300px;
+}
+/* 화살표 커스터마이즈 */
+.reserveTime::after {
+    content: "▼";
+    font-size: 20px;
+    color: #000000;
+    position: absolute;
+    right:20px;
+    top: 10px;
+    pointer-events: none; /* 클릭 불가 처리 */
+}
+
+/* 입력 필드에 포커스 시 스타일 */
+.datetime-picker:focus {
+    border:none;
+
+}
+
+.reserveTime p:nth-of-type(1){
+    position: absolute;
+    left:10px;
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 25px;
+
+    /* identical to box height */
+
+    color: #000000;
+}
+.datetime-picker{
+    box-sizing: border-box;
+    width: 300px;
+    height: 43px;
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    border-radius: 50px;
+
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 25px;
+    text-align: center;
+    /* identical to box height */
+
+    color: #000000;
+}
+
+
+
+
+
+
+
+
+
+
+
+
