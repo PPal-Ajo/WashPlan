@@ -1,0 +1,50 @@
+.bg{
+    position: absolute;
+    left: -1px;
+    top: -1px;
+}
+
+.emaillogo{
+    /* 약관 동의 */
+
+    position: absolute;
+    width: 327px;
+    height: 148px;
+    left: 796px;
+    top: 160px;
+
+    font-family: 'BM Dohyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 60px;
+    line-height: 74px;
+
+    color: #000000;
+
+}
+
+.emaildetail{
+    /* 회원가입을 위해 이메일 인증을 진행합니다. */
+
+    position: absolute;
+    width: 1108px;
+    height: 40.81px;
+    left: 687px;
+    top: 335px;
+
+    font-family: 'BM Dohyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 37px;
+
+    color: #000000;
+
+
+}
+
+.emailbox{
+    position: absolute;
+    top: 483px;
+    left: 248px;
+}
