@@ -1,0 +1,293 @@
+.bg{
+    position: absolute;
+    left: -1px;
+    top: -1px;
+}
+
+.agreelogo{
+    /* 약관 동의 */
+
+    position: absolute;
+    width: 269px;
+    height: 61px;
+    left: 796px;
+    top: 100px;
+
+    font-family: 'BM Dohyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 60px;
+    line-height: 74px;
+
+    color: #000000;
+
+}
+
+.terms1{
+    /* Rectangle 296 */
+
+    position: absolute;
+    width: 1081px;
+    height: 148px;
+    overflow-y: auto;
+    left: 214px;
+    top: 328px;
+
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+
+    font-family: "Do Hyeon";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 31px;
+
+    color: #000000;
+
+    padding-left : 50px;
+    padding-right: 30px;
+
+
+}
+
+.agree1 {
+    /* Rectangle 276 */
+
+    position: absolute;
+    width: 209px;
+    height: 59px;
+    left: 1498px;
+    top: 377px;
+
+    background: #42A5F5;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    border: none;
+
+    color: #FFFFFF;
+    font-family: "Do Hyeon";
+    font-size: 40px;
+    cursor: pointer;
+
+}
+
+.agree1.agreed {
+    background-color: #0056B3;
+}
+
+.terms2{
+    position: absolute;
+    width: 1081px;
+    height: 148px;
+    overflow-y: auto;
+    left: 214px;
+    top: 505px;
+
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+
+    font-family: "Do Hyeon";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 31px;
+
+    color: #000000;
+
+    padding-left : 50px;
+    padding-right: 30px;
+}
+
+.agree2 {
+    /* Rectangle 276 */
+
+    position: absolute;
+    width: 209px;
+    height: 59px;
+    left: 1498px;
+    top: 554px;
+
+    background: #42A5F5;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    border: none;
+
+    color: #FFFFFF;
+    font-family: "Do Hyeon";
+    font-size: 40px;
+    cursor: pointer;
+
+}
+
+.agree2.agreed {
+    background-color: #0056B3;
+}
+
+
+.terms3{
+    position: absolute;
+    width: 1081px;
+    height: 148px;
+    overflow-y: auto;
+    left: 214px;
+    top: 688px;
+
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+
+    font-family: "Do Hyeon";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 31px;
+
+    color: #000000;
+
+    padding-left : 50px;
+    padding-right: 30px;
+}
+
+.agree3 {
+    /* Rectangle 276 */
+
+    position: absolute;
+    width: 209px;
+    height: 59px;
+    left: 1498px;
+    top: 731px;
+
+    background: #42A5F5;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    border: none;
+
+    color: #FFFFFF;
+    font-family: "Do Hyeon";
+    font-size: 40px;
+    cursor: pointer;
+
+}
+
+.agree3.agreed {
+    background-color: #0056B3;
+}
+
+.allagree {
+    position: absolute;
+    width: 209px;
+    height: 59px;
+    left: 711px;
+    top: 876px;
+
+    background: #42A5F5;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    border: none;
+
+    color: #FFFFFF;
+    font-family: "Do Hyeon";
+    font-size: 40px;
+    cursor: pointer;
+}
+
+.allagree.agreed {
+    background: #0056B3;
+}
+
+.next {
+    position: absolute;
+    width: 209px;
+    height: 59px;
+    left: 1550px;
+    top: 896px;
+
+    background: #42A5F5;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    border: none;
+
+    color: #FFFFFF;
+    font-family: "Do Hyeon";
+    font-size: 40px;
+    cursor: pointer;
+}
+
+.modal {
+    display: none; /* 초기에는 숨김 */
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+}
+
+
+
+.modal-content {
+    /* Group 19 */
+
+    /* Rectangle 224 */
+
+    position: absolute;
+    width: 1106px;
+    height: 326px;
+    left: 404px;
+    top: 379px;
+
+    background: #E3F2FD;
+    box-shadow: 0px 7px 24.4px 7px rgba(0, 0, 0, 0.25);
+    border-radius: 70px;
+    border: none;
+}
+
+.modal-content button {
+    /* Rectangle 276 */
+
+    box-sizing: border-box;
+
+    position: fixed;
+    width: 209px;
+    height: 59px;
+    left: 856px;
+    top: 611px;
+
+    background: #42A5F5;
+    border: 1px solid #E3F2FD;
+    border-radius: 50px;
+
+    font-size: 40px;
+    color: #FFFFFF;
+    font-family: "Do Hyeon";
+
+    cursor: pointer;
+
+}
+
+.modal-content button:hover {
+    background-color: #0056b3;
+}
+
+.modal-content p {
+    /* 모든 약관에 동의하셔야 회원가입이 가능합니다. */
+
+    position: fixed;
+    width: 1108px;
+    height: 39px;
+    left: 668px;
+    top: 475px;
+
+    font-family: 'BM Dohyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 37px;
+
+    color: #000000;
+
+
+}
