@@ -197,3 +197,23 @@
 
     cursor: pointer;
 }
+
+.error{
+    /* 아이디나 비밀번호가 일치하지 않습니다. */
+
+    position: absolute;
+    width: 431px;
+    height: 45px;
+    left: 759px;
+    top: 644px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+
+    color: #FD3C3C;
+
+
+}

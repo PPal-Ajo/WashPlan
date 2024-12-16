@@ -25,19 +25,25 @@
 <main>
     <span id="loginlogo">WashPlan</span>
 
-    <div class="loginbox">
-        <span id="box1">ID : </span>
-        <input id="box2" type="text">
-
-        <span id="box3">PASSWORD : </span>
-        <input id="box4" type="password">
-        <!-- 이미지 경로를 Thymeleaf로 설정 -->
-        <img th:src="@{/images/login/Invisible.png}" alt="Invisible" class="ivs">
+    <!-- 오류 메시지 -->
+    <div th:if="${param.error}" class="error">
+        아이디나 비밀번호가 잘못되었습니다.
     </div>
 
-    <button class="loginbtn">로그인</button>
+    <!-- 로그인 폼 -->
+    <form th:action="@{/login}" method="post" class="loginbox">
+        <label for="box2" id="box1">ID :</label>
+        <input id="box2" name="username" type="text" placeholder="아이디 입력" required>
 
-    <p id="forget">아이디나 비밀번호를 잊으셨나요?</p>
+        <label for="box4" id="box3">PASSWORD :</label>
+        <input id="box4" name="password" type="password" placeholder="비밀번호 입력" required>
+        <!-- 이미지 경로를 Thymeleaf로 설정 -->
+        <img th:src="@{/images/login/Invisible.png}" alt="Invisible" class="ivs">
+
+        <button class="loginbtn" type="submit">로그인</button>
+    </form>
+
+    <p id="forget"><a th:href="@{/forgot-password}">아이디나 비밀번호를 잊으셨나요?</a></p>
 </main>
 </body>
 </html>
