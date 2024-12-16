@@ -38,4 +38,9 @@ public class AuthController {
             return "redirect:/login?error=true"; // 로그인 페이지로 다시 이동
         }
     }
+
+    @GetMapping("/signup/agree")
+    public String showAgreementPage() {
+        return "signup/agree"; // templates/signup/agree.html 렌더링
+    }
 }
