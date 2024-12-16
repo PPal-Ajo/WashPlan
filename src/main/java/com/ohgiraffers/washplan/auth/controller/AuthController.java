@@ -43,4 +43,11 @@ public class AuthController {
     public String showAgreementPage() {
         return "signup/agree"; // templates/signup/agree.html 렌더링
     }
+
+    @GetMapping("/signup/email")
+    public String showEmailPage() {
+        return "signup/email";
+    }
+
+
 }
