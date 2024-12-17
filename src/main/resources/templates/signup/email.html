@@ -2,8 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>이메일인증</title>
-  <!-- CSS 경로를 Thymeleaf로 설정 -->
+  <title>이메일 인증</title>
   <link th:href="@{/css/base/nav.css}" rel="stylesheet">
   <link th:href="@{/css/signup/email.css}" rel="stylesheet">
   <style>
@@ -12,24 +11,17 @@
       align-items: center;
       gap: 5px;
     }
-
     #sendAuthCode {
       margin-left: 10px;
-      transition: margin-left 0.3s ease;
-    }
-
-    #customDomain {
-      display: inline-block;
     }
   </style>
 </head>
 <body>
-<!-- 배경 이미지 경로를 Thymeleaf로 설정 -->
+<!-- 배경 이미지 -->
 <img th:src="@{/images/signup/Signup.png}" alt="mainpage" class="bg">
 
 <header>
   <nav>
-    <!-- 네비바 -->
     <span>WashPlan</span>
     <span>예약</span>
     <span>FAQ</span>
@@ -40,11 +32,10 @@
 
 <main>
   <span class="emaillogo">이메일 인증</span>
-
   <span class="emaildetail">회원가입을 위해 이메일 인증을 진행합니다.</span>
 
   <div class="emailbox">
-    <label for="emailinput">이메일 : </label>
+    <label for="emailinput">이메일: </label>
     <input type="text" id="emailinput" placeholder="아이디">
     @
     <input type="text" id="customDomain" placeholder="도메인 입력">
@@ -55,13 +46,13 @@
       <option value="daum.net">daum.net</option>
     </select>
   </div>
-  <button id="sendAuthCode">인증하기</button>
+  <button id="sendAuthCode">인증번호 전송</button>
 
-  <div class="codebox">
-    <label for="codeinput"> 인증번호 : </label>
+  <div class="codebox" style="margin-top: 10px;">
+    <label for="codeinput">인증번호: </label>
     <input type="text" id="codeinput">
   </div>
-  <button id="confirm">코드확인</button>
+  <button id="confirm">코드 확인</button>
 
   <script>
     const emailDomain = document.getElementById('emailDomain');
@@ -70,34 +61,72 @@
     // 도메인 선택 변경 이벤트
     emailDomain.addEventListener('change', () => {
       if (emailDomain.value === 'custom') {
-        // '직접 입력' 선택 시 도메인 입력란 활성화
-        customDomain.disabled = false; // 활성화
-        customDomain.value = ''; // 값 초기화
-        customDomain.focus(); // 포커스 이동
+        customDomain.disabled = false;
+        customDomain.value = '';
+        customDomain.focus();
       } else {
-        // '직접 입력'이 아닌 다른 도메인 선택 시
-        customDomain.disabled = true; // 비활성화
-        customDomain.value = emailDomain.value; // 선택된 도메인 값 입력
+        customDomain.disabled = true;
+        customDomain.value = emailDomain.value;
       }
     });
 
-    // 인증하기 버튼 클릭 시 동작
+    // 인증번호 전송 요청
     document.getElementById('sendAuthCode').addEventListener('click', () => {
       const emailInput = document.getElementById('emailinput').value;
-      const finalDomain =
+      const domain =
               emailDomain.value === 'custom' ? customDomain.value : emailDomain.value;
 
-      if (!emailInput || !finalDomain) {
-        alert('이메일 아이디와 도메인을 모두 입력하세요.');
+      const email = `${emailInput}@${domain}`;
+
+      if (!emailInput || !domain || !domain.includes('.')) {
+        alert('올바른 이메일 주소를 입력하세요.');
         return;
       }
 
-      if (emailDomain.value === 'custom' && !customDomain.value.includes('.')) {
-        alert('유효한 도메인을 입력하세요. 예: example.com');
+      fetch('/email/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email })
+      })
+              .then(response => response.json())
+              .then(data => {
+                if (data.success) {
+                  alert('인증번호가 전송되었습니다.');
+                } else {
+                  alert('인증번호 전송에 실패했습니다.');
+                }
+              })
+              .catch(err => console.error('Error:', err));
+    });
+
+    // 인증번호 확인 요청
+    document.getElementById('confirm').addEventListener('click', () => {
+      const emailInput = document.getElementById('emailinput').value;
+      const domain =
+              emailDomain.value === 'custom' ? customDomain.value : emailDomain.value;
+
+      const email = `${emailInput}@${domain}`;
+      const code = document.getElementById('codeinput').value;
+
+      if (!code) {
+        alert('인증번호를 입력하세요.');
         return;
       }
 
-      alert(`이메일 주소: ${emailInput}@${finalDomain}`);
+      fetch('/email/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, code: code })
+      })
+              .then(response => response.json())
+              .then(data => {
+                if (data.success) {
+                  alert('인증이 완료되었습니다.');
+                } else {
+                  alert('인증번호가 올바르지 않습니다.');
+                }
+              })
+              .catch(err => console.error('Error:', err));
     });
   </script>
 </main>
