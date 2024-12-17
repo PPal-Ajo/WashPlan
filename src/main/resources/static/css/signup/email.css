@@ -47,4 +47,140 @@
     position: absolute;
     top: 483px;
     left: 248px;
+    font-size: 30px;
+    font-family: "Do Hyeon";
+}
+
+#emailinput{
+    /* Rectangle 274 */
+    width: 381px;
+    height: 59px;
+    left: 384px;
+    top: 472px;
+
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    border : none;
+
+    font-family: "Do Hyeon";
+    font-size: 30px;
+
+    padding-left: 20px;
+}
+
+#emailDomain {
+    /* Rectangle 274 */
+    width: 381px;
+    height: 59px;
+    left: 803px;
+    top: 472px;
+
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    border : none;
+
+    font-family: "Do Hyeon";
+    font-size: 30px;
+
+    padding-left: 20px;
+}
+
+#sendAuthCode {
+    /* Rectangle 276 */
+
+    position: absolute;
+    width: 209px;
+    height: 59px;
+    left: 1565px;
+    top: 480px;
+
+    background: #42A5F5;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    border: none;
+
+    font-family: "Do Hyeon";
+    font-size: 30px;
+    color: #FFFFFF;
+    cursor: pointer;
+
+}
+
+#sendAuthCode:active {
+
+    background: #0056B3;
+}
+
+
+.codebox{
+    position: absolute;
+    top: 635px;
+    left: 219px;
+    font-size: 30px;
+    font-family: "Do Hyeon";
+}
+
+#codeinput{
+    /* Rectangle 276 */
+
+
+    width: 830px;
+    height: 59px;
+    left: 384px;
+    top: 620px;
+
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    border: none;
+
+    font-family: "Do Hyeon";
+    font-size: 30px;
+
+    padding-left: 20px;
+}
+
+#confirm {
+
+
+    position: absolute;
+    width: 209px;
+    height: 59px;
+    left: 1240px;
+    top: 630px;
+
+    background: #42A5F5;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    border: none;
+
+    font-family: "Do Hyeon";
+    font-size: 30px;
+    color: #FFFFFF;
+    cursor: pointer;
+
+}
+
+#confirm:active {
+    background: #0056B3;
+}
+
+#customDomain {
+    /* Rectangle 274 */
+    width: 381px;
+    height: 59px;
+    left: 803px;
+    top: 472px;
+
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    border : none;
+
+    font-family: "Do Hyeon";
+    font-size: 30px;
+
+    padding-left: 20px;
 }
