@@ -1,13 +1,11 @@
 package com.ohgiraffers.washplan.auth.controller;
 
+import com.ohgiraffers.washplan.user.model.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -18,11 +16,19 @@ import java.util.Random;
 @RequestMapping("/email")
 public class EmailController {
 
-    @Autowired
-    private JavaMailSender mailSender;
-
+    private final JavaMailSender mailSender;
+    private final UserService userService;
     private final Map<String, CodeData> codeStorage = new HashMap<>();
 
+    @Autowired
+    public EmailController(JavaMailSender mailSender, UserService userService) {
+        this.mailSender = mailSender;
+        this.userService = userService;
+    }
+
+    /**
+     * 이메일로 인증 코드 전송
+     */
     @PostMapping("/send")
     public ResponseEntity<?> sendEmail(@RequestBody Map<String, String> request) {
         String email = request.get("email");
@@ -30,8 +36,6 @@ public class EmailController {
         long expiryTime = System.currentTimeMillis() + 5 * 60 * 1000; // 5분 후 만료
 
         codeStorage.put(email, new CodeData(code, expiryTime));
-
-        System.out.println("Generated code for " + email + ": " + code);
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(email);
@@ -43,6 +47,9 @@ public class EmailController {
         return ResponseEntity.ok(Collections.singletonMap("success", true));
     }
 
+    /**
+     * 인증 코드 확인
+     */
     @PostMapping("/verify")
     public ResponseEntity<?> verifyCode(@RequestBody Map<String, String> request) {
         String email = request.get("email");
@@ -50,31 +57,27 @@ public class EmailController {
 
         CodeData codeData = codeStorage.get(email);
         if (codeData != null && code.equals(codeData.getCode()) && System.currentTimeMillis() <= codeData.getExpiryTime()) {
-            codeStorage.remove(email); // 성공 시 코드 삭제
+            codeStorage.remove(email); // 인증 성공 시 코드 삭제
             return ResponseEntity.ok(Collections.singletonMap("success", true));
         } else {
             return ResponseEntity.ok(Collections.singletonMap("success", false));
         }
     }
 
-    private static class CodeData {
-        private final String code;
-        private final long expiryTime;
+    /**
+     * 중복 이메일 확인
+     */
+    @PostMapping("/check-duplicate")
+    public ResponseEntity<?> checkEmailDuplicate(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        boolean isDuplicate = userService.isEmailDuplicate(email);
 
-        public CodeData(String code, long expiryTime) {
-            this.code = code;
-            this.expiryTime = expiryTime;
-        }
-
-        public String getCode() {
-            return code;
-        }
-
-        public long getExpiryTime() {
-            return expiryTime;
-        }
+        return ResponseEntity.ok(Collections.singletonMap("isDuplicate", isDuplicate));
     }
 
+    /**
+     * 인증 코드 생성
+     */
     private String generateCode() {
         return String.valueOf(new Random().nextInt(999999 - 100000) + 100000);
     }
