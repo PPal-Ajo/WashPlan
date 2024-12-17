@@ -25,7 +25,7 @@ public class SecurityConfig {
             http
                     .csrf(csrf -> csrf.disable()) // CSRF 비활성화 (개발 환경에서만)
                     .authorizeHttpRequests(auth -> auth
-                            .requestMatchers("/login", "/main", "/signup/**").permitAll() // 로그인 / 메인 허용
+                            .requestMatchers("/login", "/main", "/signup/**","/email/**","/reservation/**").permitAll() // 로그인 / 메인 허용
                             .anyRequest().authenticated() // 나머지 항목은 비허용
 
 

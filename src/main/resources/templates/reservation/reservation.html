@@ -45,26 +45,45 @@
         </div>
 
 
-        <span>기기</span>
-        <span>현황</span>
-        <span>옵션</span>
-        <span>가격</span>
-        <span>예약</span>
+        <span class="machine">기기</span>
+        <span class="curent">현황</span>
+        <span class="option">옵션</span>
+        <span class="price">가격</span>
+        <span class="reserve">예약</span>
         <hr>
         <img class="washimage" th:src="@{/images/reservation/wash.png}" alt="세탁기">
-        <span>세탁기 - 101호</span>
+        <span class="호101">세탁기 - <span th:text="${machineNo}"></span>호</span>
         <div class="situation"><span>사용가능</span></div>
         <div class="dropdown-container">
             <label for="washing-options" class="dropdown-label">세탁 옵션</label>
             <select id="washing-options" class="dropdown">
-                <option value="standard" data-price="5,000">표준세탁 (30분)</option>
-                <option value="bedding" data-price="6,000">침구세탁 (40분)</option>
+                <option value="표준세탁" data-price="5,000">표준세탁 (30분)</option>
+                <option value="침구세탁" data-price="6,000">침구세탁 (40분)</option>
             </select>
         </div>
         <div id="selected-option" class="result">
             5,000원
         </div>
-        <button class="reservebtn">예약하기</button>
+        <button class="reservebtn" id="reserveButton">예약하기</button>
+
+        <!-- 모달창 -->
+        <div id="modal" class="modal">
+            <div class="modal-content" id="modal-content">
+                <p class="modal-text">
+                    "예약된 시간으로부터 10분 이내에 이용을 시작하지 않을 경우, <br>예약이 자동 취소됩니다.<br>
+                    자동 취소가 3회 발생할 경우, 계정이 일시 정지됩니다."<br><br>
+                </p>
+                <span class="reserveText">위 내용을 확인하시고 예약을 진행하시겠습니까?</span>
+
+                <button id="cancelButton" class="cancel">취소</button>
+                <button id="confirmButton" class="confirm">확인</button>
+
+            </div>
+        </div>
+        <div class="modal-content2" id="modal-content2">
+            <span class="reserveConfirm">예약이 완료되었습니다 !</span>
+            <button id="confirmButton2" class="confirm2">확인</button>
+        </div>
 
 
         <img class="washimage2" th:src="@{/images/reservation/wash.png}" alt="세탁기">
@@ -80,12 +99,31 @@
         <div id="selected-option2" class="result2">
             5,000원
         </div>
-        <button class="reservebtn2">예약하기</button>
+        <button class="reservebtn2" id="reserveButton2">예약하기</button>
+
+        <!-- 모달창 -->
+        <div id="modal2" class="modal">
+            <div class="modal-content" id="modal-content3">
+                <p class="modal-text">
+                    "예약된 시간으로부터 10분 이내에 이용을 시작하지 않을 경우, <br>예약이 자동 취소됩니다.<br>
+                    자동 취소가 3회 발생할 경우, 계정이 일시 정지됩니다."<br><br>
+                </p>
+                <span class="reserveText">위 내용을 확인하시고 예약을 진행하시겠습니까?</span>
+
+                <button id="cancelButton2" class="cancel">취소</button>
+                <button id="confirmButton3" class="confirm">확인</button>
+
+            </div>
+        </div>
+        <div class="modal-content2" id="modal-content4">
+            <span class="reserveConfirm">예약이 완료되었습니다 !</span>
+            <button id="confirmButton4" class="confirm2">확인</button>
+        </div>
 
 
 
         <img class="washimage3" th:src="@{/images/reservation/wash.png}" alt="세탁기">
-        <span>세탁기 - 102호</span>
+        <span>세탁기 - 103호</span>
         <div class="situation3"><span>사용가능</span></div>
         <div class="dropdown-container3">
             <label for="washing-options" class="dropdown-label">세탁 옵션</label>
@@ -97,8 +135,29 @@
         <div id="selected-option3" class="result3">
             5,000원
         </div>
-        <button class="reservebtn3">예약하기</button>
+        <button class="reservebtn3" id="reserveButton3">예약하기</button>
+
+        <!-- 모달창 -->
+        <div id="modal3" class="modal">
+            <div class="modal-content" id="modal-content5">
+                <p class="modal-text">
+                    "예약된 시간으로부터 10분 이내에 이용을 시작하지 않을 경우, <br>예약이 자동 취소됩니다.<br>
+                    자동 취소가 3회 발생할 경우, 계정이 일시 정지됩니다."<br><br>
+                </p>
+                <span class="reserveText">위 내용을 확인하시고 예약을 진행하시겠습니까?</span>
+
+                <button id="cancelButton3" class="cancel">취소</button>
+                <button id="confirmButton5" class="confirm">확인</button>
+
+            </div>
+        </div>
+        <div class="modal-content2" id="modal-content6">
+            <span class="reserveConfirm">예약이 완료되었습니다 !</span>
+            <button id="confirmButton6" class="confirm2">확인</button>
+        </div>
     </div>
+
+
 
     <div class="dryReserve" id="dryReserve">
 
@@ -109,11 +168,12 @@
 
 
 
-        <span>기기</span>
-        <span>현황</span>
-        <span>옵션</span>
-        <span>가격</span>
-        <span>예약</span>
+
+        <span class="machine">기기</span>
+        <span class="curent">현황</span>
+        <span class="option">옵션</span>
+        <span class="price">가격</span>
+        <span class="reserve">예약</span>
         <hr>
         <img class="dryimage" th:src="@{/images/reservation/dry.png}" alt="건조기">
         <span>건조기 - 201호</span>
@@ -128,7 +188,26 @@
         <div id="dry-selected-option" class="dry-result">
             4,000원
         </div>
-        <button class="dry-reservebtn">예약하기</button>
+        <button class="dry-reservebtn" id="reserveButton4">예약하기</button>
+
+        <!-- 모달창 -->
+        <div id="modal4" class="modal">
+            <div class="modal-content" id="modal-content7">
+                <p class="modal-text">
+                    "예약된 시간으로부터 10분 이내에 이용을 시작하지 않을 경우, <br>예약이 자동 취소됩니다.<br>
+                    자동 취소가 3회 발생할 경우, 계정이 일시 정지됩니다."<br><br>
+                </p>
+                <span class="reserveText">위 내용을 확인하시고 예약을 진행하시겠습니까?</span>
+
+                <button id="cancelButton4" class="cancel">취소</button>
+                <button id="confirmButton7" class="confirm">확인</button>
+
+            </div>
+        </div>
+        <div class="modal-content2" id="modal-content8">
+            <span class="reserveConfirm">예약이 완료되었습니다 !</span>
+            <button id="confirmButton8" class="confirm2">확인</button>
+        </div>
 
 
         <img class="dryimage2" th:src="@{/images/reservation/dry.png}" alt="건조기">
@@ -144,7 +223,26 @@
         <div id="dry-selected-option2" class="dry-result2">
             4,000원
         </div>
-        <button class="dry-reservebtn2">예약하기</button>
+        <button class="dry-reservebtn2" id="reserveButton5">예약하기</button>
+
+        <!-- 모달창 -->
+        <div id="modal5" class="modal">
+            <div class="modal-content" id="modal-content9">
+                <p class="modal-text">
+                    "예약된 시간으로부터 10분 이내에 이용을 시작하지 않을 경우, <br>예약이 자동 취소됩니다.<br>
+                    자동 취소가 3회 발생할 경우, 계정이 일시 정지됩니다."<br><br>
+                </p>
+                <span class="reserveText">위 내용을 확인하시고 예약을 진행하시겠습니까?</span>
+
+                <button id="cancelButton5" class="cancel">취소</button>
+                <button id="confirmButton9" class="confirm">확인</button>
+
+            </div>
+        </div>
+        <div class="modal-content2" id="modal-content10">
+            <span class="reserveConfirm">예약이 완료되었습니다 !</span>
+            <button id="confirmButton10" class="confirm2">확인</button>
+        </div>
 
         <img class="dryimage3" th:src="@{/images/reservation/dry.png}" alt="건조기">
         <span>건조기 - 203호</span>
@@ -159,7 +257,27 @@
         <div id="dry-selected-option3" class="dry-result3">
             4,000원
         </div>
-        <button class="dry-reservebtn3">예약하기</button>
+        <button class="dry-reservebtn3" id="reserveButton6">예약하기</button>
+
+
+        <!-- 모달창 -->
+        <div id="modal6" class="modal">
+            <div class="modal-content" id="modal-content11">
+                <p class="modal-text">
+                    "예약된 시간으로부터 10분 이내에 이용을 시작하지 않을 경우, <br>예약이 자동 취소됩니다.<br>
+                    자동 취소가 3회 발생할 경우, 계정이 일시 정지됩니다."<br><br>
+                </p>
+                <span class="reserveText">위 내용을 확인하시고 예약을 진행하시겠습니까?</span>
+
+                <button id="cancelButton6" class="cancel">취소</button>
+                <button id="confirmButton11" class="confirm">확인</button>
+
+            </div>
+        </div>
+        <div class="modal-content2" id="modal-content12">
+            <span class="reserveConfirm">예약이 완료되었습니다 !</span>
+            <button id="confirmButton12" class="confirm2">확인</button>
+        </div>
     </div>
 
     <footer>
@@ -176,6 +294,9 @@
         const dryReserve = document.getElementById("dryReserve");
         const washTimeRangeDisplay = document.getElementById("washTimeRangeDisplay");
         const dryTimeRangeDisplay = document.getElementById("dryTimeRangeDisplay");
+        const situationElement = document.querySelector(".situation span");
+        const reserveButton = document.getElementById("reserveButton");
+
 
 
         // 10분 단위로 반올림된 현재 시간 + 1시간 계산
@@ -186,22 +307,15 @@
             return now;
         }
 
-        // 종료 시간 계산 및 포맷팅
         function calculateAndFormatEndTime(startTime) {
             const endTime = new Date(startTime);
             endTime.setHours(endTime.getHours() + 1); // 종료 시간 = 시작 시간 + 1시간
-            return endTime.toLocaleTimeString("ko-KR", {
-                hour: "2-digit",
-                minute: "2-digit",
-            });
+            return `${String(endTime.getHours()).padStart(2, "0")}:${String(endTime.getMinutes()).padStart(2, "0")}`;
         }
 
         // 시간 형식 포맷팅
         function formatTime(date) {
-            return date.toLocaleTimeString("ko-KR", {
-                hour: "2-digit",
-                minute: "2-digit",
-            });
+            return `${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
         }
 
         let washFlatpickr = null; // 세탁기 Flatpickr 인스턴스 저장
@@ -237,8 +351,11 @@
             }
         });
 
+
+
         // Flatpickr 초기화 함수
-        function initializeFlatpickr(selector, displayElement) {
+        async function initializeFlatpickr(selector, displayElement, machineNo) {
+
             const defaultStartTime = getDefaultStartTime();
             let minTime = `${String(defaultStartTime.getHours()).padStart(2, "0")}:${String(defaultStartTime.getMinutes()).padStart(2, "0")}`;
             const defaultEndTime = calculateAndFormatEndTime(defaultStartTime);
@@ -248,7 +365,7 @@
 
             flatpickr(selector, {
                 enableTime: true,
-                dateFormat: "m/d(D) H:i", // 날짜 및 시간 포맷
+                dateFormat: "Y-m-d H:i", // 날짜 및 시간 포맷
                 time_24hr: true, // 24시간 형식 사용
                 minuteIncrement: 10, // 10분 단위로 시간 선택
                 locale:"ko", // 한국어 설정
@@ -258,12 +375,16 @@
                 minTime: minTime, // 현재 시간 기준 1시간 뒤부터 선택 가능
                 onChange: function (selectedDates, dateStr, instance) {
                     if (selectedDates.length > 0) {
-                        const startTime = new Date(selectedDates[0]);
+                        const selectedDate = dateStr.split(" ")[0];
+                        const startTime = selectedDates[0]; // Date 객체
+                        const formattedStartTime = formatTime(startTime); // 화면에 표시할 시작 시간
+                        const endTime = calculateAndFormatEndTime(selectedDates[0]);
+
+                        displayElement.textContent = `${formattedStartTime} ~ ${endTime}`;
+
+
                         const today = new Date();
                         const isToday = startTime.toDateString() === today.toDateString();
-                        const endTime = calculateAndFormatEndTime(startTime);
-                        displayElement.textContent = `${formatTime(startTime)} ~ ${endTime}`;
-
                         // 날짜가 오늘인 경우, 현재 시간 + 1시간 이후만 선택 가능
                         if (isToday) {
                             minTime = `${String(today.getHours() + 1).padStart(2, "0")}:${String(
@@ -309,6 +430,8 @@
         });
     });
 </script>
+
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -409,5 +532,376 @@
             });
         });
     </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const reserveButton = document.getElementById("reserveButton");
+            const modal = document.getElementById("modal");
+            const modal1= document.getElementById("modal-content");
+            const modal2= document.getElementById("modal-content2");
+            const cancelButton = document.getElementById("cancelButton");
+            const confirmButton = document.getElementById("confirmButton");
+            const confirmButton2 = document.getElementById("confirmButton2");
+
+            // 예약하기 버튼 클릭 시 모달 열기
+            reserveButton.addEventListener("click", () => {
+                modal.style.display = "block"; // 모달 표시
+                modal1.style.display= "block";
+                document.body.classList.add("no-scroll"); // 스크롤 비활성화
+            });
+
+            // 취소 버튼 클릭 시 모달 닫기
+            cancelButton.addEventListener("click", () => {
+                modal.style.display = "none";
+                modal1.style.display="none";
+                document.body.classList.remove("no-scroll"); // 스크롤 활성화
+            });
+
+            // 확인 버튼 클릭 시 처리
+            confirmButton.addEventListener("click", () => {
+                // 예약 정보 수집
+                const reservationData = {
+                    machineNo: document.querySelector(".호101 span").innerText.trim(), // 기기 번호
+                    reserveDate: document.getElementById("washDatetimePicker").value.split(" ")[0], // 날짜만
+                    startTime: document.getElementById("washTimeRangeDisplay").textContent.split("~")[0].trim(), // 시작 시간
+                    endTime: document.getElementById("washTimeRangeDisplay").textContent.split("~")[1].trim(), // 종료 시간
+                    reserveOption: document.getElementById("washing-options").value, // 세탁 옵션
+                    reservePrice: parseInt(document.getElementById("selected-option").textContent.replace(/[^0-9]/g, ""), 10), // 숫자만
+                };
+
+                // 서버에 전송
+                fetch("/reservation/save", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(reservationData),
+                })
+                    .then((response) => {
+                        if (response.ok) {
+
+                            document.getElementById("modal").style.display = "none";
+                            document.getElementById("modal-content2").style.display = "block";
+                        } else {
+                            alert("예약에 실패했습니다.");
+                        }
+                    })
+                    .catch((error) => console.error("Error:", error));
+
+
+            });
+            confirmButton2.addEventListener("click", () => {
+                modal.style.display="none";
+                modal2.style.display="none";
+                document.body.classList.remove("no-scroll"); // 스크롤 활성화
+
+            })
+
+            // 외부 클릭 차단 (모든 모달)
+            modal.addEventListener("click", (event) => {
+                if (!event.target.closest(".modal-content") && !event.target.closest(".modal-content2")) {
+                    event.stopPropagation(); // 외부 클릭 차단
+                }
+            });
+
+            // 모달 외부의 다른 버튼 클릭 차단
+            document.addEventListener("click", function (event) {
+                if (modal.style.display === "block") {
+                    const isModalContent = event.target.closest(".modal-content") || event.target.closest(".modal-content2");
+                    if (!isModalContent) {
+                        event.stopPropagation();
+                    }
+                }
+            }, true);
+        });
+
+    </script>
+
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const reserveButton = document.getElementById("reserveButton2");
+            const modal = document.getElementById("modal2");
+            const modal1= document.getElementById("modal-content3");
+            const modal2= document.getElementById("modal-content4");
+            const cancelButton = document.getElementById("cancelButton2");
+            const confirmButton = document.getElementById("confirmButton3");
+            const confirmButton2 = document.getElementById("confirmButton4");
+
+            // 예약하기 버튼 클릭 시 모달 열기
+            reserveButton.addEventListener("click", () => {
+                modal.style.display = "block"; // 모달 표시
+                modal1.style.display= "block";
+                document.body.classList.add("no-scroll"); // 스크롤 비활성화
+            });
+
+            // 취소 버튼 클릭 시 모달 닫기
+            cancelButton.addEventListener("click", () => {
+                modal.style.display = "none";
+                modal1.style.display="none";
+                document.body.classList.remove("no-scroll"); // 스크롤 활성화
+            });
+
+            // 확인 버튼 클릭 시 처리
+            confirmButton.addEventListener("click", () => {
+                modal1.style.display="none";
+                modal2.style.display="block"
+
+                // 여기에 예약 처리 로직을 추가하세요
+            });
+            confirmButton2.addEventListener("click", () => {
+                modal.style.display="none";
+                modal2.style.display="none";
+                document.body.classList.remove("no-scroll"); // 스크롤 활성화
+            })
+
+            // 외부 클릭 차단 (모든 모달)
+            modal.addEventListener("click", (event) => {
+                if (!event.target.closest(".modal-content") && !event.target.closest(".modal-content2")) {
+                    event.stopPropagation(); // 외부 클릭 차단
+                }
+            });
+
+            // 모달 외부의 다른 버튼 클릭 차단
+            document.addEventListener("click", function (event) {
+                if (modal.style.display === "block") {
+                    const isModalContent = event.target.closest(".modal-content") || event.target.closest(".modal-content2");
+                    if (!isModalContent) {
+                        event.stopPropagation();
+                    }
+                }
+            }, true);
+        });
+
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const reserveButton = document.getElementById("reserveButton3");
+            const modal = document.getElementById("modal3");
+            const modal1= document.getElementById("modal-content5");
+            const modal2= document.getElementById("modal-content6");
+            const cancelButton = document.getElementById("cancelButton3");
+            const confirmButton = document.getElementById("confirmButton5");
+            const confirmButton2 = document.getElementById("confirmButton6");
+
+            // 예약하기 버튼 클릭 시 모달 열기
+            reserveButton.addEventListener("click", () => {
+                modal.style.display = "block"; // 모달 표시
+                modal1.style.display= "block";
+                document.body.classList.add("no-scroll"); // 스크롤 비활성화
+            });
+
+            // 취소 버튼 클릭 시 모달 닫기
+            cancelButton.addEventListener("click", () => {
+                modal.style.display = "none";
+                modal1.style.display="none";
+                document.body.classList.remove("no-scroll"); // 스크롤 활성화
+            });
+
+            // 확인 버튼 클릭 시 처리
+            confirmButton.addEventListener("click", () => {
+                modal1.style.display="none";
+                modal2.style.display="block"
+
+                // 여기에 예약 처리 로직을 추가하세요
+            });
+            confirmButton2.addEventListener("click", () => {
+                modal.style.display="none";
+                modal2.style.display="none";
+                document.body.classList.remove("no-scroll"); // 스크롤 활성화
+            })
+
+            // 외부 클릭 차단 (모든 모달)
+            modal.addEventListener("click", (event) => {
+                if (!event.target.closest(".modal-content") && !event.target.closest(".modal-content2")) {
+                    event.stopPropagation(); // 외부 클릭 차단
+                }
+            });
+
+            // 모달 외부의 다른 버튼 클릭 차단
+            document.addEventListener("click", function (event) {
+                if (modal.style.display === "block") {
+                    const isModalContent = event.target.closest(".modal-content") || event.target.closest(".modal-content2");
+                    if (!isModalContent) {
+                        event.stopPropagation();
+                    }
+                }
+            }, true);
+        });
+
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const reserveButton = document.getElementById("reserveButton4");
+            const modal = document.getElementById("modal4");
+            const modal1= document.getElementById("modal-content7");
+            const modal2= document.getElementById("modal-content8");
+            const cancelButton = document.getElementById("cancelButton4");
+            const confirmButton = document.getElementById("confirmButton7");
+            const confirmButton2 = document.getElementById("confirmButton8");
+
+            // 예약하기 버튼 클릭 시 모달 열기
+            reserveButton.addEventListener("click", () => {
+                modal.style.display = "block"; // 모달 표시
+                modal1.style.display= "block";
+                document.body.classList.add("no-scroll"); // 스크롤 비활성화
+            });
+
+            // 취소 버튼 클릭 시 모달 닫기
+            cancelButton.addEventListener("click", () => {
+                modal.style.display = "none";
+                modal1.style.display="none";
+                document.body.classList.remove("no-scroll"); // 스크롤 활성화
+            });
+
+            // 확인 버튼 클릭 시 처리
+            confirmButton.addEventListener("click", () => {
+                modal1.style.display="none";
+                modal2.style.display="block"
+
+                // 여기에 예약 처리 로직을 추가하세요
+            });
+            confirmButton2.addEventListener("click", () => {
+                modal.style.display="none";
+                modal2.style.display="none";
+                document.body.classList.remove("no-scroll"); // 스크롤 활성화
+            })
+
+            // 외부 클릭 차단 (모든 모달)
+            modal.addEventListener("click", (event) => {
+                if (!event.target.closest(".modal-content") && !event.target.closest(".modal-content2")) {
+                    event.stopPropagation(); // 외부 클릭 차단
+                }
+            });
+
+            // 모달 외부의 다른 버튼 클릭 차단
+            document.addEventListener("click", function (event) {
+                if (modal.style.display === "block") {
+                    const isModalContent = event.target.closest(".modal-content") || event.target.closest(".modal-content2");
+                    if (!isModalContent) {
+                        event.stopPropagation();
+                    }
+                }
+            }, true);
+        });
+
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const reserveButton = document.getElementById("reserveButton5");
+            const modal = document.getElementById("modal5");
+            const modal1= document.getElementById("modal-content9");
+            const modal2= document.getElementById("modal-content10");
+            const cancelButton = document.getElementById("cancelButton5");
+            const confirmButton = document.getElementById("confirmButton9");
+            const confirmButton2 = document.getElementById("confirmButton10");
+
+            // 예약하기 버튼 클릭 시 모달 열기
+            reserveButton.addEventListener("click", () => {
+                modal.style.display = "block"; // 모달 표시
+                modal1.style.display= "block";
+                document.body.classList.add("no-scroll"); // 스크롤 비활성화
+            });
+
+            // 취소 버튼 클릭 시 모달 닫기
+            cancelButton.addEventListener("click", () => {
+                modal.style.display = "none";
+                modal1.style.display="none";
+                document.body.classList.remove("no-scroll"); // 스크롤 활성화
+            });
+
+            // 확인 버튼 클릭 시 처리
+            confirmButton.addEventListener("click", () => {
+                modal1.style.display="none";
+                modal2.style.display="block"
+
+                // 여기에 예약 처리 로직을 추가하세요
+            });
+            confirmButton2.addEventListener("click", () => {
+                modal.style.display="none";
+                modal2.style.display="none";
+                document.body.classList.remove("no-scroll"); // 스크롤 활성화
+            })
+
+            // 외부 클릭 차단 (모든 모달)
+            modal.addEventListener("click", (event) => {
+                if (!event.target.closest(".modal-content") && !event.target.closest(".modal-content2")) {
+                    event.stopPropagation(); // 외부 클릭 차단
+                }
+            });
+
+            // 모달 외부의 다른 버튼 클릭 차단
+            document.addEventListener("click", function (event) {
+                if (modal.style.display === "block") {
+                    const isModalContent = event.target.closest(".modal-content") || event.target.closest(".modal-content2");
+                    if (!isModalContent) {
+                        event.stopPropagation();
+                    }
+                }
+            }, true);
+        });
+
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const reserveButton = document.getElementById("reserveButton6");
+            const modal = document.getElementById("modal6");
+            const modal1= document.getElementById("modal-content11");
+            const modal2= document.getElementById("modal-content12");
+            const cancelButton = document.getElementById("cancelButton6");
+            const confirmButton = document.getElementById("confirmButton11");
+            const confirmButton2 = document.getElementById("confirmButton12");
+
+            // 예약하기 버튼 클릭 시 모달 열기
+            reserveButton.addEventListener("click", () => {
+                modal.style.display = "block"; // 모달 표시
+                modal1.style.display= "block";
+                document.body.classList.add("no-scroll"); // 스크롤 비활성화
+            });
+
+            // 취소 버튼 클릭 시 모달 닫기
+            cancelButton.addEventListener("click", () => {
+                modal.style.display = "none";
+                modal1.style.display="none";
+                document.body.classList.remove("no-scroll"); // 스크롤 활성화
+            });
+
+            // 확인 버튼 클릭 시 처리
+            confirmButton.addEventListener("click", () => {
+                modal1.style.display="none";
+                modal2.style.display="block"
+
+                // 여기에 예약 처리 로직을 추가하세요
+            });
+            confirmButton2.addEventListener("click", () => {
+                modal.style.display="none";
+                modal2.style.display="none";
+                document.body.classList.remove("no-scroll"); // 스크롤 활성화
+            })
+
+            // 외부 클릭 차단 (모든 모달)
+            modal.addEventListener("click", (event) => {
+                if (!event.target.closest(".modal-content") && !event.target.closest(".modal-content2")) {
+                    event.stopPropagation(); // 외부 클릭 차단
+                }
+            });
+
+            // 모달 외부의 다른 버튼 클릭 차단
+            document.addEventListener("click", function (event) {
+                if (modal.style.display === "block") {
+                    const isModalContent = event.target.closest(".modal-content") || event.target.closest(".modal-content2");
+                    if (!isModalContent) {
+                        event.stopPropagation();
+                    }
+                }
+            }, true);
+        });
+
+    </script>
+
+
 </body>
 </html>
