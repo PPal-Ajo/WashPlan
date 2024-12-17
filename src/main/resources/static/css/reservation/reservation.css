@@ -1,3 +1,8 @@
+/* 스크롤 비활성화 */
+body.no-scroll {
+    overflow: hidden;
+}
+
 .background-container {
     position: absolute;
     left:-1px;
@@ -125,7 +130,7 @@ button:active {
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 50px;
 }
-.washReserve span:nth-of-type(1){
+.washReserve .machine{
     position: absolute;
     width: 47px;
     height: 38px;
@@ -141,7 +146,7 @@ button:active {
 
     color: #000000;
 }
-.washReserve span:nth-of-type(2){
+.washReserve .curent{
     position: absolute;
     width: 47px;
     height: 38px;
@@ -157,7 +162,7 @@ button:active {
 
     color: #000000;
 }
-.washReserve span:nth-of-type(3){
+.washReserve .option{
     position: absolute;
     width: 47px;
     height: 38px;
@@ -173,7 +178,7 @@ button:active {
 
     color: #000000;
 }
-.washReserve span:nth-of-type(4){
+.washReserve .price{
     position: absolute;
     width: 47px;
     height: 38px;
@@ -189,7 +194,7 @@ button:active {
 
     color: #000000;
 }
-.washReserve span:nth-of-type(5){
+.washReserve .reserve{
     position: absolute;
     width: 47px;
     height: 38px;
@@ -219,7 +224,7 @@ hr{
     top:135px;
 }
 
-.washReserve span:nth-of-type(6){
+.washReserve .호101{
     position: absolute;
     width: 195px;
     height: 30px;
@@ -235,6 +240,7 @@ hr{
 
     color: #000000;
 }
+
 .situation{
 
     box-sizing: border-box;
@@ -380,6 +386,193 @@ hr{
 
 }
 
+.modal{
+    display: none; /* 초기 상태에서는 숨김 */
+    position: absolute;
+    z-index: 1000;
+    left:-54px;
+    top: -256px;
+    width: 1920px;
+    height: 1191px;
+    background: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+
+
+}
+
+/* 모달 내용 */
+.modal-content {
+    position: absolute;
+    width: 1106px;
+    height: 326px;
+    left: calc(50% - 1106px/2 + 1px);
+    top: 416px;
+    z-index: 1001;
+
+    background: #E3F2FD;
+    box-shadow: 0px 7px 24.4px 7px rgba(0, 0, 0, 0.25);
+    border-radius: 70px;
+}
+
+.modal-text{
+    /* "예약된 시간으로부터 10분 이내에 이용을 시작하지 않을 경우, 예약이 자동 취소됩니다. 자동 취소가 3회 발생할 경우, 계정이 일시 정지됩니다.” 위 내용을 확인하시고 예약을 진행하시겠습니까? */
+
+    position: absolute;
+    width: 921px;
+    height: 172px;
+    left: calc(50% - 921px/2 + 1.5px);
+    top: 1px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 35px;
+    line-height: 44px;
+    text-align: center;
+
+    color: #FD3C3C;
+
+
+}
+
+.reserveText{
+
+
+    position: absolute;
+    width: 921px;
+    height: 172px;
+    left: calc(50% - 921px/2 + 1.5px);
+    top: 180px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 35px;
+    line-height: 44px;
+    text-align: center;
+
+    color: #000000;
+
+
+}
+.cancel{
+    /* Rectangle 276 */
+
+    position: absolute;
+    width: 209px;
+    height: 59px;
+    left: calc(50% - 209px/2 - 215.5px);
+    top: 240px;
+
+    background: #0056B3;
+    border-radius: 50px;
+    border:none;
+    text-align: center;
+
+    /* 취소 */
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 50px;
+
+    color: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+
+
+}
+.confirm{
+    /* Rectangle 276 */
+
+    position: absolute;
+    width: 209px;
+    height: 59px;
+    left: calc(50% - 209px/2 + 214.5px);
+    top: 240px;
+
+    background: #42A5F5;
+    border-radius: 50px;
+    border:none;
+
+    /* 확인 */
+
+    text-align: center;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 50px;
+
+    color: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+
+}
+
+/* 모달 내용 */
+.modal-content2 {
+    display: none;
+    position: absolute;
+    width: 1106px;
+    height: 326px;
+    left: calc(50% - 1106px/2 + 1px);
+    top: 160px;
+    z-index: 1002;
+
+    background: #E3F2FD;
+    box-shadow: 0px 7px 24.4px 7px rgba(0, 0, 0, 0.25);
+    border-radius: 70px;
+}
+.reserveConfirm{
+    /* 예약이 완료되었습니다! */
+
+    position: absolute;
+    width: 921px;
+    height: 172px;
+    left:350px;
+    top: 50px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 48px;
+    line-height: 60px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: #000000;
+
+}
+.confirm2{
+    /* Rectangle 276 */
+
+    position: absolute;
+    width: 209px;
+    height: 59px;
+    left: calc(50% - 209px/2 + 2.5px);
+    top: 200px;
+
+    background: #42A5F5;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    border:none;
+
+    /* 확인 */
+
+    box-sizing: border-box;
+    text-align: center;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 50px;
+
+    color: #FFFFFF;
+
+}
 
 .washimage2{
     position: absolute;
@@ -664,7 +857,8 @@ hr{
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 50px;
 }
-.dryReserve span:nth-of-type(1){
+
+.dryReserve .machine{
     position: absolute;
     width: 47px;
     height: 38px;
@@ -680,7 +874,7 @@ hr{
 
     color: #000000;
 }
-.dryReserve span:nth-of-type(2){
+.dryReserve .curent{
     position: absolute;
     width: 47px;
     height: 38px;
@@ -696,7 +890,7 @@ hr{
 
     color: #000000;
 }
-.dryReserve span:nth-of-type(3){
+.dryReserve .option{
     position: absolute;
     width: 47px;
     height: 38px;
@@ -712,7 +906,7 @@ hr{
 
     color: #000000;
 }
-.dryReserve span:nth-of-type(4){
+.dryReserve .price{
     position: absolute;
     width: 47px;
     height: 38px;
@@ -728,7 +922,7 @@ hr{
 
     color: #000000;
 }
-.dryReserve span:nth-of-type(5){
+.dryReserve .reserve{
     position: absolute;
     width: 47px;
     height: 38px;
@@ -744,6 +938,7 @@ hr{
 
     color: #000000;
 }
+
 
 
 .dryimage{
