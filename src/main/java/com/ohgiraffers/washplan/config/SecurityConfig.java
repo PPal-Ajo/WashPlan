@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -25,11 +26,16 @@ public class SecurityConfig {
             http
                     .csrf(csrf -> csrf.disable()) // CSRF 비활성화 (개발 환경에서만)
                     .authorizeHttpRequests(auth -> auth
-                            .requestMatchers("/login", "/main", "/signup/**", "/email/**","/reservation/**").permitAll() // 로그인 / 메인 허용
+                            .requestMatchers("/login", "/main", "/signup/**", "/email/**","/reservation/**", "/auth/**").permitAll() // 로그인 / 메인 허용
                             .anyRequest().authenticated() // 나머지 항목은 비허용
-
-
+        );
+        http.sessionManagement(session ->
+                session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS) // 항상 세션 유지
         )
+
+
+
+
              .formLogin(form -> form
                 .loginPage("/login") // 커스텀 로그인 페이지 설정
                 .defaultSuccessUrl("/main") // 로그인 성공 시 리다이렉트 경로

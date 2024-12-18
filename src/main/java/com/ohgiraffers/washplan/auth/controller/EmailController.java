@@ -1,7 +1,9 @@
 package com.ohgiraffers.washplan.auth.controller;
 
 import com.ohgiraffers.washplan.user.model.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -51,13 +53,19 @@ public class EmailController {
      * 인증 코드 확인
      */
     @PostMapping("/verify")
-    public ResponseEntity<?> verifyCode(@RequestBody Map<String, String> request) {
+    public ResponseEntity<?> verifyCode(@RequestBody Map<String, String> request, HttpSession session) {
         String email = request.get("email");
         String code = request.get("code");
 
         CodeData codeData = codeStorage.get(email);
         if (codeData != null && code.equals(codeData.getCode()) && System.currentTimeMillis() <= codeData.getExpiryTime()) {
-            codeStorage.remove(email); // 인증 성공 시 코드 삭제
+            // 성공 시 코드 삭제
+            codeStorage.remove(email);
+
+            // 세션에 이메일 저장
+            session.setAttribute("verifiedEmail", email);
+            System.out.println("세션에 저장된 이메일: " + session.getAttribute("verifiedEmail"));
+
             return ResponseEntity.ok(Collections.singletonMap("success", true));
         } else {
             return ResponseEntity.ok(Collections.singletonMap("success", false));
@@ -80,5 +88,17 @@ public class EmailController {
      */
     private String generateCode() {
         return String.valueOf(new Random().nextInt(999999 - 100000) + 100000);
+    }
+
+
+    @GetMapping("/get-session-email")
+    public ResponseEntity<?> getSessionEmail(HttpSession session) {
+        String verifiedEmail = (String) session.getAttribute("verifiedEmail");
+        if (verifiedEmail != null) {
+            return ResponseEntity.ok(Collections.singletonMap("verifiedEmail", verifiedEmail));
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Collections.singletonMap("message", "No verified email in session"));
+        }
     }
 }
