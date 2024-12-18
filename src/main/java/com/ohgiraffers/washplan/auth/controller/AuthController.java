@@ -49,5 +49,10 @@ public class AuthController {
         return "signup/email";
     }
 
+    @GetMapping("/signup/signup")
+    public String singUpPage(){
+        return "signup/signup";
+    }
+
 
 }
