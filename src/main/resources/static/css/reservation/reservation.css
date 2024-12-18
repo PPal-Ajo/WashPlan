@@ -265,8 +265,9 @@ hr{
     position: absolute;
     width: 171px;
     height: 43px;
-    left:38px;
+
     top:8px;
+    text-align: center;
     font-family: 'Gmarket Sans';
     font-style: normal;
     font-weight: 500;
@@ -303,6 +304,7 @@ hr{
     border: 1px solid #000000;
     border-radius: 20px;
 
+
     font-family: 'Gmarket Sans';
     font-style: normal;
     font-weight: 400;
@@ -317,6 +319,7 @@ hr{
 
     text-align: center;
 }
+
 
 .dropdown:focus {
     outline: none; /* 포커스 시 외곽선 제거 */
@@ -454,6 +457,16 @@ hr{
 
 
 }
+.reserveText .modal-time{
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 35px;
+    line-height: 44px;
+    text-align: center;
+
+    color: #2E8B57;
+}
 .cancel{
     /* Rectangle 276 */
 
@@ -580,7 +593,7 @@ hr{
     top:337px;
 }
 
-.washReserve span:nth-of-type(7){
+.washReserve .호102{
     position: absolute;
     width: 300px;
     height: 30px;
@@ -620,7 +633,7 @@ hr{
     position: absolute;
     width: 171px;
     height: 43px;
-    left:38px;
+    text-align: center;
     top:8px;
     font-family: 'Gmarket Sans';
     font-style: normal;
@@ -716,7 +729,7 @@ hr{
     top:537px;
 }
 
-.washReserve span:nth-of-type(8){
+.washReserve .호103{
     position: absolute;
     width: 300px;
     height: 30px;
@@ -756,7 +769,7 @@ hr{
     position: absolute;
     width: 171px;
     height: 43px;
-    left:38px;
+    text-align: center;
     top:8px;
     font-family: 'Gmarket Sans';
     font-style: normal;
@@ -947,7 +960,7 @@ hr{
     top:135px;
 }
 
-.dryReserve span:nth-of-type(6){
+.dryReserve .호201{
     position: absolute;
     width: 300px;
     height: 30px;
@@ -987,7 +1000,7 @@ hr{
     position: absolute;
     width: 171px;
     height: 43px;
-    left:38px;
+    text-align: center;
     top:8px;
     font-family: 'Gmarket Sans';
     font-style: normal;
@@ -1081,7 +1094,7 @@ hr{
     top:337px;
 }
 
-.dryReserve span:nth-of-type(7){
+.dryReserve .호202{
     position: absolute;
     width: 300px;
     height: 30px;
@@ -1121,7 +1134,7 @@ hr{
     position: absolute;
     width: 171px;
     height: 43px;
-    left:38px;
+    text-align: center;
     top:8px;
     font-family: 'Gmarket Sans';
     font-style: normal;
@@ -1216,7 +1229,7 @@ hr{
     top:537px;
 }
 
-.dryReserve span:nth-of-type(8){
+.dryReserve .호203{
     position: absolute;
     width: 300px;
     height: 30px;
@@ -1256,7 +1269,7 @@ hr{
     position: absolute;
     width: 171px;
     height: 43px;
-    left:38px;
+    text-align: center;
     top:8px;
     font-family: 'Gmarket Sans';
     font-style: normal;
@@ -1344,12 +1357,33 @@ hr{
 
 
 }
+.reserveDate{
+
+
+    position: absolute;
+    width: 100px;
+    height: 38px;
+    left: 1100px;
+    top: -75px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+    text-align: center;
+
+    color: #000000;
+
+
+}
 
 .reserveTime{
     position: absolute;
-    top:-120px;
-    left:1400px;
-    width:300px;
+    top:-80px;
+    left:1170px;
+    width:500px;
 }
 /* 화살표 커스터마이즈 */
 .reserveTime::after {
@@ -1357,7 +1391,7 @@ hr{
     font-size: 20px;
     color: #000000;
     position: absolute;
-    right:20px;
+    right:190px;
     top: 10px;
     pointer-events: none; /* 클릭 불가 처리 */
 }
@@ -1368,9 +1402,10 @@ hr{
 
 }
 
-.reserveTime p:nth-of-type(1){
+.time-range-display{
     position: absolute;
-    left:10px;
+    top:-95px;
+    left:1560px;
     font-family: 'Gmarket Sans';
     font-style: normal;
     font-weight: 400;
@@ -1383,7 +1418,7 @@ hr{
 }
 .datetime-picker{
     box-sizing: border-box;
-    width: 300px;
+    width: 320px;
     height: 43px;
     background: #FFFFFF;
     border: 1px solid #000000;
@@ -1398,6 +1433,19 @@ hr{
     /* identical to box height */
 
     color: #000000;
+}
+.imtDate{
+    position: absolute;
+    left:1180px;
+    top:180px;
+    font-size: 30px;
+
+}
+.imtTime{
+    position: absolute;
+    left:1570px;
+    top:178px;
+    font-size: 30px;
 }
 
 

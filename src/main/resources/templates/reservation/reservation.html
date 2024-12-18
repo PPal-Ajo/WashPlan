@@ -33,16 +33,18 @@
     <button class="wash" id="washButton">세탁기</button>
     <button class="dry" id="dryButton">건조기</button>
 
-
+    <span class="imtDate">📆</span>
+    <span class="imtTime">⏳</span>
 
 
 
 
     <div class="washReserve" id="washReserve">
+<!--        <span class="reserveDate">예악날짜</span>-->
         <div class="reserveTime">
             <input id="washDatetimePicker" type="text" class="datetime-picker" placeholder="시간 선택">
-            <p id="washTimeRangeDisplay" class="time-range-display"></p>
         </div>
+        <p id="washTimeRangeDisplay" class="time-range-display"></p>
 
 
         <span class="machine">기기</span>
@@ -52,11 +54,11 @@
         <span class="reserve">예약</span>
         <hr>
         <img class="washimage" th:src="@{/images/reservation/wash.png}" alt="세탁기">
-        <span class="호101">세탁기 - <span th:text="${machineNo}"></span>호</span>
+        <span class="호101">세탁기 - <span th:text="${machineNo101}"></span>호</span>
         <div class="situation"><span>사용가능</span></div>
         <div class="dropdown-container">
             <label for="washing-options" class="dropdown-label">세탁 옵션</label>
-            <select id="washing-options" class="dropdown">
+            <select id="washing-options" class="dropdown" data-id="1">
                 <option value="표준세탁" data-price="5,000">표준세탁 (30분)</option>
                 <option value="침구세탁" data-price="6,000">침구세탁 (40분)</option>
             </select>
@@ -73,7 +75,7 @@
                     "예약된 시간으로부터 10분 이내에 이용을 시작하지 않을 경우, <br>예약이 자동 취소됩니다.<br>
                     자동 취소가 3회 발생할 경우, 계정이 일시 정지됩니다."<br><br>
                 </p>
-                <span class="reserveText">위 내용을 확인하시고 예약을 진행하시겠습니까?</span>
+                <span class="reserveText">위 내용을 확인하시고 <span id="modalTimeDisplay" class="modal-time"></span> 예약을 진행하시겠습니까?</span>
 
                 <button id="cancelButton" class="cancel">취소</button>
                 <button id="confirmButton" class="confirm">확인</button>
@@ -87,13 +89,13 @@
 
 
         <img class="washimage2" th:src="@{/images/reservation/wash.png}" alt="세탁기">
-        <span>세탁기 - 102호</span>
+        <span class="호102">세탁기 - <span th:text="${machineNo102}"></span>호</span>
         <div class="situation2"><span>사용가능</span></div>
         <div class="dropdown-container2">
             <label for="washing-options" class="dropdown-label">세탁 옵션</label>
-            <select id="washing-options2" class="dropdown">
-                <option value="standard" data-price="5,000">표준세탁 (30분)</option>
-                <option value="bedding" data-price="6,000">침구세탁 (40분)</option>
+            <select id="washing-options2" class="dropdown" data-id="2">
+                <option value="표준세탁" data-price="5,000">표준세탁 (30분)</option>
+                <option value="침구세탁" data-price="6,000">침구세탁 (40분)</option>
             </select>
         </div>
         <div id="selected-option2" class="result2">
@@ -108,7 +110,7 @@
                     "예약된 시간으로부터 10분 이내에 이용을 시작하지 않을 경우, <br>예약이 자동 취소됩니다.<br>
                     자동 취소가 3회 발생할 경우, 계정이 일시 정지됩니다."<br><br>
                 </p>
-                <span class="reserveText">위 내용을 확인하시고 예약을 진행하시겠습니까?</span>
+                <span class="reserveText">위 내용을 확인하시고 <span id="modalTimeDisplay2" class="modal-time"></span> 예약을 진행하시겠습니까?</span>
 
                 <button id="cancelButton2" class="cancel">취소</button>
                 <button id="confirmButton3" class="confirm">확인</button>
@@ -123,13 +125,13 @@
 
 
         <img class="washimage3" th:src="@{/images/reservation/wash.png}" alt="세탁기">
-        <span>세탁기 - 103호</span>
+        <span class="호103">세탁기 - <span th:text="${machineNo103}"></span>호</span>
         <div class="situation3"><span>사용가능</span></div>
         <div class="dropdown-container3">
-            <label for="washing-options" class="dropdown-label">세탁 옵션</label>
+            <label for="washing-options" class="dropdown-label" data-id="3">세탁 옵션</label>
             <select id="washing-options3" class="dropdown">
-                <option value="standard" data-price="5,000">표준세탁 (30분)</option>
-                <option value="bedding" data-price="6,000">침구세탁 (40분)</option>
+                <option value="표준세탁" data-price="5,000">표준세탁 (30분)</option>
+                <option value="침구세탁" data-price="6,000">침구세탁 (40분)</option>
             </select>
         </div>
         <div id="selected-option3" class="result3">
@@ -144,7 +146,7 @@
                     "예약된 시간으로부터 10분 이내에 이용을 시작하지 않을 경우, <br>예약이 자동 취소됩니다.<br>
                     자동 취소가 3회 발생할 경우, 계정이 일시 정지됩니다."<br><br>
                 </p>
-                <span class="reserveText">위 내용을 확인하시고 예약을 진행하시겠습니까?</span>
+                <span class="reserveText">위 내용을 확인하시고 <span id="modalTimeDisplay3" class="modal-time"></span> 예약을 진행하시겠습니까?</span>
 
                 <button id="cancelButton3" class="cancel">취소</button>
                 <button id="confirmButton5" class="confirm">확인</button>
@@ -163,8 +165,9 @@
 
         <div class="reserveTime">
             <input id="dryDatetimePicker" type="text" class="datetime-picker" placeholder="시간 선택">
-            <p id="dryTimeRangeDisplay" class="time-range-display"></p>
+
         </div>
+        <p id="dryTimeRangeDisplay" class="time-range-display"></p>
 
 
 
@@ -176,13 +179,13 @@
         <span class="reserve">예약</span>
         <hr>
         <img class="dryimage" th:src="@{/images/reservation/dry.png}" alt="건조기">
-        <span>건조기 - 201호</span>
+        <span class="호201">건조기 - <span th:text="${machineNo201}"></span>호</span>
         <div class="dry-situation"><span>사용가능</span></div>
         <div class="dry-dropdown-container">
             <label for="washing-options" class="dropdown-label">세탁 옵션</label>
-            <select id="drying-options" class="dropdown">
-                <option value="standard" data-price="4,000">표준건조 (40분)</option>
-                <option value="bedding" data-price="3,000">소량건조 (30분)</option>
+            <select id="drying-options" class="dropdown" data-id="4">
+                <option value="표준건조" data-price="4,000">표준건조 (40분)</option>
+                <option value="소량건조" data-price="3,000">소량건조 (30분)</option>
             </select>
         </div>
         <div id="dry-selected-option" class="dry-result">
@@ -197,7 +200,7 @@
                     "예약된 시간으로부터 10분 이내에 이용을 시작하지 않을 경우, <br>예약이 자동 취소됩니다.<br>
                     자동 취소가 3회 발생할 경우, 계정이 일시 정지됩니다."<br><br>
                 </p>
-                <span class="reserveText">위 내용을 확인하시고 예약을 진행하시겠습니까?</span>
+                <span class="reserveText">위 내용을 확인하시고 <span id="modalTimeDisplay4" class="modal-time"></span> 예약을 진행하시겠습니까?</span>
 
                 <button id="cancelButton4" class="cancel">취소</button>
                 <button id="confirmButton7" class="confirm">확인</button>
@@ -211,13 +214,13 @@
 
 
         <img class="dryimage2" th:src="@{/images/reservation/dry.png}" alt="건조기">
-        <span>건조기 - 202호</span>
+        <span class="호202">건조기 - <span th:text="${machineNo202}"></span>호</span>
         <div class="dry-situation2"><span>사용가능</span></div>
         <div class="dry-dropdown-container2">
             <label for="washing-options" class="dropdown-label">세탁 옵션</label>
-            <select id="drying-options2" class="dropdown">
-                <option value="standard" data-price="4,000">표준건조 (40분)</option>
-                <option value="bedding" data-price="3,000">소량건조 (30분)</option>
+            <select id="drying-options2" class="dropdown" data-id="5">
+                <option value="표준건조" data-price="4,000">표준건조 (40분)</option>
+                <option value="소량건조" data-price="3,000">소량건조 (30분)</option>
             </select>
         </div>
         <div id="dry-selected-option2" class="dry-result2">
@@ -232,7 +235,7 @@
                     "예약된 시간으로부터 10분 이내에 이용을 시작하지 않을 경우, <br>예약이 자동 취소됩니다.<br>
                     자동 취소가 3회 발생할 경우, 계정이 일시 정지됩니다."<br><br>
                 </p>
-                <span class="reserveText">위 내용을 확인하시고 예약을 진행하시겠습니까?</span>
+                <span class="reserveText">위 내용을 확인하시고 <span id="modalTimeDisplay5" class="modal-time"></span> 예약을 진행하시겠습니까?</span>
 
                 <button id="cancelButton5" class="cancel">취소</button>
                 <button id="confirmButton9" class="confirm">확인</button>
@@ -245,13 +248,13 @@
         </div>
 
         <img class="dryimage3" th:src="@{/images/reservation/dry.png}" alt="건조기">
-        <span>건조기 - 203호</span>
+        <span class="호203">건조기 - <span th:text="${machineNo203}"></span>호</span>
         <div class="dry-situation3"><span>사용가능</span></div>
         <div class="dry-dropdown-container3">
             <label for="washing-options" class="dropdown-label">세탁 옵션</label>
-            <select id="drying-options3" class="dropdown">
-                <option value="standard" data-price="4,000">표준건조 (40분)</option>
-                <option value="bedding" data-price="3,000">소량건조 (30분)</option>
+            <select id="drying-options3" class="dropdown" data-id="6">
+                <option value="표준건조" data-price="4,000">표준건조 (40분)</option>
+                <option value="소량건조" data-price="3,000">소량건조 (30분)</option>
             </select>
         </div>
         <div id="dry-selected-option3" class="dry-result3">
@@ -267,7 +270,7 @@
                     "예약된 시간으로부터 10분 이내에 이용을 시작하지 않을 경우, <br>예약이 자동 취소됩니다.<br>
                     자동 취소가 3회 발생할 경우, 계정이 일시 정지됩니다."<br><br>
                 </p>
-                <span class="reserveText">위 내용을 확인하시고 예약을 진행하시겠습니까?</span>
+                <span class="reserveText">위 내용을 확인하시고 <span id="modalTimeDisplay6" class="modal-time"></span> 예약을 진행하시겠습니까?</span>
 
                 <button id="cancelButton6" class="cancel">취소</button>
                 <button id="confirmButton11" class="confirm">확인</button>
@@ -294,8 +297,7 @@
         const dryReserve = document.getElementById("dryReserve");
         const washTimeRangeDisplay = document.getElementById("washTimeRangeDisplay");
         const dryTimeRangeDisplay = document.getElementById("dryTimeRangeDisplay");
-        const situationElement = document.querySelector(".situation span");
-        const reserveButton = document.getElementById("reserveButton");
+
 
 
 
@@ -354,7 +356,7 @@
 
 
         // Flatpickr 초기화 함수
-        async function initializeFlatpickr(selector, displayElement, machineNo) {
+        async function initializeFlatpickr(selector, displayElement) {
 
             const defaultStartTime = getDefaultStartTime();
             let minTime = `${String(defaultStartTime.getHours()).padStart(2, "0")}:${String(defaultStartTime.getMinutes()).padStart(2, "0")}`;
@@ -365,7 +367,7 @@
 
             flatpickr(selector, {
                 enableTime: true,
-                dateFormat: "Y-m-d H:i", // 날짜 및 시간 포맷
+                dateFormat: "Y-m-d ㅣ H:i", // 날짜 및 시간 포맷
                 time_24hr: true, // 24시간 형식 사용
                 minuteIncrement: 10, // 10분 단위로 시간 선택
                 locale:"ko", // 한국어 설정
@@ -375,7 +377,6 @@
                 minTime: minTime, // 현재 시간 기준 1시간 뒤부터 선택 가능
                 onChange: function (selectedDates, dateStr, instance) {
                     if (selectedDates.length > 0) {
-                        const selectedDate = dateStr.split(" ")[0];
                         const startTime = selectedDates[0]; // Date 객체
                         const formattedStartTime = formatTime(startTime); // 화면에 표시할 시작 시간
                         const endTime = calculateAndFormatEndTime(selectedDates[0]);
@@ -542,12 +543,63 @@
             const cancelButton = document.getElementById("cancelButton");
             const confirmButton = document.getElementById("confirmButton");
             const confirmButton2 = document.getElementById("confirmButton2");
+            const situationElement = document.querySelector(".situation span");
+
+            // 예약 상태 확인 함수
+            async function checkAndUpdateStatus() {
+                const reservationData = {
+                    machineNo: document.querySelector(".호101 span").innerText.trim(), // 기기 번호
+                    reserveDate: document.getElementById("washDatetimePicker").value.split(" ")[0], // 날짜만
+                    startTime: document.getElementById("washTimeRangeDisplay").textContent.split("~")[0].trim(), // 시작 시간
+                    endTime: document.getElementById("washTimeRangeDisplay").textContent.split("~")[1].trim(), // 종료 시간
+                };
+
+                const response = await fetch("/reservation/checkStatus", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(reservationData),
+                });
+                const data = await response.json();
+
+                if (data.status === "예약중") {
+                    situationElement.textContent = "예약중";
+                    situationElement.style.color = "#FD3C3C"; // 빨간색으로 설정
+                    reserveButton.disabled = true; // 버튼 비활성화
+                } else {
+                    situationElement.textContent = "사용가능";
+                    situationElement.style.color = "#0062FF";
+                    reserveButton.disabled = false;
+                }
+            }
+            // Flatpickr 시간 변경 이벤트에 예약 상태 확인 추가
+            document.getElementById("washDatetimePicker").addEventListener("change", checkAndUpdateStatus);
+            document.getElementById("washTimeRangeDisplay").addEventListener("change", checkAndUpdateStatus);
+
+
+            // 예약 종료 시간 업데이트 (서버에 완료 상태 변경 요청)
+            async function updateReservationStatus() {
+                try {
+                    await fetch("/reservation/updateStatus", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                    });
+                    checkAndUpdateStatus(); // 예약 상태 다시 확인
+                } catch (error) {
+                    console.error("Error:", error);
+                }
+            }
+            // 예약 상태와 종료 시간 자동 업데이트 (1분마다 실행)
+            setInterval(updateReservationStatus, 60000); // 60초마다 실행
 
             // 예약하기 버튼 클릭 시 모달 열기
             reserveButton.addEventListener("click", () => {
                 modal.style.display = "block"; // 모달 표시
                 modal1.style.display= "block";
                 document.body.classList.add("no-scroll"); // 스크롤 비활성화
+
+                // 시작 시간과 종료 시간을 가져와서 모달에 표시
+                const timeRange = washTimeRangeDisplay.textContent; // "시작시간 ~ 종료시간"
+                document.getElementById("modalTimeDisplay").textContent = `${timeRange}`;
             });
 
             // 취소 버튼 클릭 시 모달 닫기
@@ -578,8 +630,11 @@
                     .then((response) => {
                         if (response.ok) {
 
-                            document.getElementById("modal").style.display = "none";
+                            document.getElementById("modal").style.display = "block";
                             document.getElementById("modal-content2").style.display = "block";
+
+                            // 예약 상태를 확인하고 즉시 업데이트
+                            checkAndUpdateStatus();
                         } else {
                             alert("예약에 실패했습니다.");
                         }
@@ -611,6 +666,9 @@
                     }
                 }
             }, true);
+
+            // 페이지 로드 시 예약 상태 확인
+            checkAndUpdateStatus();
         });
 
     </script>
@@ -626,12 +684,63 @@
             const cancelButton = document.getElementById("cancelButton2");
             const confirmButton = document.getElementById("confirmButton3");
             const confirmButton2 = document.getElementById("confirmButton4");
+            const situationElement = document.querySelector(".situation2 span");
+
+            // 예약 상태 확인 함수
+            async function checkAndUpdateStatus() {
+                const reservationData = {
+                    machineNo: document.querySelector(".호102 span").innerText.trim(), // 기기 번호
+                    reserveDate: document.getElementById("washDatetimePicker").value.split(" ")[0], // 날짜만
+                    startTime: document.getElementById("washTimeRangeDisplay").textContent.split("~")[0].trim(), // 시작 시간
+                    endTime: document.getElementById("washTimeRangeDisplay").textContent.split("~")[1].trim(), // 종료 시간
+                };
+
+                const response = await fetch("/reservation/checkStatus", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(reservationData),
+                });
+                const data = await response.json();
+
+                if (data.status === "예약중") {
+                    situationElement.textContent = "예약중";
+                    situationElement.style.color = "#FD3C3C"; // 빨간색으로 설정
+                    reserveButton.disabled = true; // 버튼 비활성화
+                } else {
+                    situationElement.textContent = "사용가능";
+                    situationElement.style.color = "#0062FF";
+                    reserveButton.disabled = false;
+                }
+            }
+            // Flatpickr 시간 변경 이벤트에 예약 상태 확인 추가
+            document.getElementById("washDatetimePicker").addEventListener("change", checkAndUpdateStatus);
+            document.getElementById("washTimeRangeDisplay").addEventListener("change", checkAndUpdateStatus);
+
+
+            // 예약 종료 시간 업데이트 (서버에 완료 상태 변경 요청)
+            async function updateReservationStatus() {
+                try {
+                    await fetch("/reservation/updateStatus", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                    });
+                    checkAndUpdateStatus(); // 예약 상태 다시 확인
+                } catch (error) {
+                    console.error("Error:", error);
+                }
+            }
+            // 예약 상태와 종료 시간 자동 업데이트 (1분마다 실행)
+            setInterval(updateReservationStatus, 60000);
 
             // 예약하기 버튼 클릭 시 모달 열기
             reserveButton.addEventListener("click", () => {
                 modal.style.display = "block"; // 모달 표시
                 modal1.style.display= "block";
                 document.body.classList.add("no-scroll"); // 스크롤 비활성화
+
+                // 시작 시간과 종료 시간을 가져와서 모달에 표시
+                const timeRange = washTimeRangeDisplay.textContent; // "시작시간 ~ 종료시간"
+                document.getElementById("modalTimeDisplay2").textContent = `${timeRange}`;
             });
 
             // 취소 버튼 클릭 시 모달 닫기
@@ -643,10 +752,36 @@
 
             // 확인 버튼 클릭 시 처리
             confirmButton.addEventListener("click", () => {
-                modal1.style.display="none";
-                modal2.style.display="block"
+                // 예약 정보 수집
+                const reservationData = {
+                    machineNo: document.querySelector(".호102 span").innerText.trim(), // 기기 번호
+                    reserveDate: document.getElementById("washDatetimePicker").value.split(" ")[0], // 날짜만
+                    startTime: document.getElementById("washTimeRangeDisplay").textContent.split("~")[0].trim(), // 시작 시간
+                    endTime: document.getElementById("washTimeRangeDisplay").textContent.split("~")[1].trim(), // 종료 시간
+                    reserveOption: document.getElementById("washing-options2").value, // 세탁 옵션
+                    reservePrice: parseInt(document.getElementById("selected-option2").textContent.replace(/[^0-9]/g, ""), 10), // 숫자만
+                };
 
-                // 여기에 예약 처리 로직을 추가하세요
+                // 서버에 전송
+                fetch("/reservation/save", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(reservationData),
+                })
+                    .then((response) => {
+                        if (response.ok) {
+
+                            document.getElementById("modal2").style.display = "block";
+                            document.getElementById("modal-content4").style.display = "block";
+                            checkAndUpdateStatus();
+                        } else {
+                            alert("예약에 실패했습니다.");
+                        }
+                    })
+                    .catch((error) => console.error("Error:", error));
+
+
+
             });
             confirmButton2.addEventListener("click", () => {
                 modal.style.display="none";
@@ -670,6 +805,8 @@
                     }
                 }
             }, true);
+
+            checkAndUpdateStatus();
         });
 
     </script>
@@ -683,12 +820,64 @@
             const cancelButton = document.getElementById("cancelButton3");
             const confirmButton = document.getElementById("confirmButton5");
             const confirmButton2 = document.getElementById("confirmButton6");
+            const situationElement = document.querySelector(".situation3 span");
+
+            // 예약 상태 확인 함수
+            async function checkAndUpdateStatus() {
+                const reservationData = {
+                    machineNo: document.querySelector(".호103 span").innerText.trim(), // 기기 번호
+                    reserveDate: document.getElementById("washDatetimePicker").value.split(" ")[0], // 날짜만
+                    startTime: document.getElementById("washTimeRangeDisplay").textContent.split("~")[0].trim(), // 시작 시간
+                    endTime: document.getElementById("washTimeRangeDisplay").textContent.split("~")[1].trim(), // 종료 시간
+                };
+
+                const response = await fetch("/reservation/checkStatus", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(reservationData),
+                });
+                const data = await response.json();
+
+                if (data.status === "예약중") {
+                    situationElement.textContent = "예약중";
+                    situationElement.style.color = "#FD3C3C"; // 빨간색으로 설정
+                    reserveButton.disabled = true; // 버튼 비활성화
+                } else {
+                    situationElement.textContent = "사용가능";
+                    situationElement.style.color = "#0062FF";
+                    reserveButton.disabled = false;
+                }
+            }
+            // Flatpickr 시간 변경 이벤트에 예약 상태 확인 추가
+            document.getElementById("washDatetimePicker").addEventListener("change", checkAndUpdateStatus);
+            document.getElementById("washTimeRangeDisplay").addEventListener("change", checkAndUpdateStatus);
+
+
+            // 예약 종료 시간 업데이트 (서버에 완료 상태 변경 요청)
+            async function updateReservationStatus() {
+                try {
+                    await fetch("/reservation/updateStatus", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                    });
+                    checkAndUpdateStatus(); // 예약 상태 다시 확인
+                } catch (error) {
+                    console.error("Error:", error);
+                }
+            }
+            // 예약 상태와 종료 시간 자동 업데이트 (1분마다 실행)
+            setInterval(updateReservationStatus, 60000);
+
 
             // 예약하기 버튼 클릭 시 모달 열기
             reserveButton.addEventListener("click", () => {
                 modal.style.display = "block"; // 모달 표시
                 modal1.style.display= "block";
                 document.body.classList.add("no-scroll"); // 스크롤 비활성화
+
+                // 시작 시간과 종료 시간을 가져와서 모달에 표시
+                const timeRange = washTimeRangeDisplay.textContent; // "시작시간 ~ 종료시간"
+                document.getElementById("modalTimeDisplay3").textContent = `${timeRange}`;
             });
 
             // 취소 버튼 클릭 시 모달 닫기
@@ -700,10 +889,33 @@
 
             // 확인 버튼 클릭 시 처리
             confirmButton.addEventListener("click", () => {
-                modal1.style.display="none";
-                modal2.style.display="block"
+                // 예약 정보 수집
+                const reservationData = {
+                    machineNo: document.querySelector(".호103 span").innerText.trim(), // 기기 번호
+                    reserveDate: document.getElementById("washDatetimePicker").value.split(" ")[0], // 날짜만
+                    startTime: document.getElementById("washTimeRangeDisplay").textContent.split("~")[0].trim(), // 시작 시간
+                    endTime: document.getElementById("washTimeRangeDisplay").textContent.split("~")[1].trim(), // 종료 시간
+                    reserveOption: document.getElementById("washing-options3").value, // 세탁 옵션
+                    reservePrice: parseInt(document.getElementById("selected-option3").textContent.replace(/[^0-9]/g, ""), 10), // 숫자만
+                };
 
-                // 여기에 예약 처리 로직을 추가하세요
+                // 서버에 전송
+                fetch("/reservation/save", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(reservationData),
+                })
+                    .then((response) => {
+                        if (response.ok) {
+
+                            document.getElementById("modal3").style.display = "block";
+                            document.getElementById("modal-content6").style.display = "block";
+                            checkAndUpdateStatus();
+                        } else {
+                            alert("예약에 실패했습니다.");
+                        }
+                    })
+                    .catch((error) => console.error("Error:", error));
             });
             confirmButton2.addEventListener("click", () => {
                 modal.style.display="none";
@@ -727,6 +939,7 @@
                     }
                 }
             }, true);
+            checkAndUpdateStatus();
         });
 
     </script>
@@ -740,12 +953,64 @@
             const cancelButton = document.getElementById("cancelButton4");
             const confirmButton = document.getElementById("confirmButton7");
             const confirmButton2 = document.getElementById("confirmButton8");
+            const situationElement = document.querySelector(".dry-situation span");
+
+            // 예약 상태 확인 함수
+            async function checkAndUpdateStatus() {
+                const reservationData = {
+                    machineNo: document.querySelector(".호201 span").innerText.trim(), // 기기 번호
+                    reserveDate: document.getElementById("dryDatetimePicker").value.split(" ")[0], // 날짜만
+                    startTime: document.getElementById("dryTimeRangeDisplay").textContent.split("~")[0].trim(), // 시작 시간
+                    endTime: document.getElementById("dryTimeRangeDisplay").textContent.split("~")[1].trim(), // 종료 시간
+                };
+
+                const response = await fetch("/reservation/checkStatus", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(reservationData),
+                });
+                const data = await response.json();
+
+                if (data.status === "예약중") {
+                    situationElement.textContent = "예약중";
+                    situationElement.style.color = "#FD3C3C"; // 빨간색으로 설정
+                    reserveButton.disabled = true; // 버튼 비활성화
+                } else {
+                    situationElement.textContent = "사용가능";
+                    situationElement.style.color = "#0062FF";
+                    reserveButton.disabled = false;
+                }
+            }
+            // Flatpickr 시간 변경 이벤트에 예약 상태 확인 추가
+            document.getElementById("dryDatetimePicker").addEventListener("change", checkAndUpdateStatus);
+            document.getElementById("dryTimeRangeDisplay").addEventListener("change", checkAndUpdateStatus);
+
+
+            // 예약 종료 시간 업데이트 (서버에 완료 상태 변경 요청)
+            async function updateReservationStatus() {
+                try {
+                    await fetch("/reservation/updateStatus", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                    });
+                    checkAndUpdateStatus(); // 예약 상태 다시 확인
+                } catch (error) {
+                    console.error("Error:", error);
+                }
+            }
+            // 예약 상태와 종료 시간 자동 업데이트 (1분마다 실행)
+            setInterval(updateReservationStatus, 60000);
+
 
             // 예약하기 버튼 클릭 시 모달 열기
             reserveButton.addEventListener("click", () => {
                 modal.style.display = "block"; // 모달 표시
                 modal1.style.display= "block";
                 document.body.classList.add("no-scroll"); // 스크롤 비활성화
+
+                // 시작 시간과 종료 시간을 가져와서 모달에 표시
+                const timeRange = dryTimeRangeDisplay.textContent; // "시작시간 ~ 종료시간"
+                document.getElementById("modalTimeDisplay4").textContent = `${timeRange}`;
             });
 
             // 취소 버튼 클릭 시 모달 닫기
@@ -757,10 +1022,33 @@
 
             // 확인 버튼 클릭 시 처리
             confirmButton.addEventListener("click", () => {
-                modal1.style.display="none";
-                modal2.style.display="block"
+                // 예약 정보 수집
+                const reservationData = {
+                    machineNo: document.querySelector(".호201 span").innerText.trim(), // 기기 번호
+                    reserveDate: document.getElementById("dryDatetimePicker").value.split(" ")[0], // 날짜만
+                    startTime: document.getElementById("dryTimeRangeDisplay").textContent.split("~")[0].trim(), // 시작 시간
+                    endTime: document.getElementById("dryTimeRangeDisplay").textContent.split("~")[1].trim(), // 종료 시간
+                    reserveOption: document.getElementById("drying-options").value, // 세탁 옵션
+                    reservePrice: parseInt(document.getElementById("dry-selected-option").textContent.replace(/[^0-9]/g, ""), 10), // 숫자만
+                };
 
-                // 여기에 예약 처리 로직을 추가하세요
+                // 서버에 전송
+                fetch("/reservation/save", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(reservationData),
+                })
+                    .then((response) => {
+                        if (response.ok) {
+
+                            document.getElementById("modal4").style.display = "block";
+                            document.getElementById("modal-content8").style.display = "block";
+                            checkAndUpdateStatus();
+                        } else {
+                            alert("예약에 실패했습니다.");
+                        }
+                    })
+                    .catch((error) => console.error("Error:", error));
             });
             confirmButton2.addEventListener("click", () => {
                 modal.style.display="none";
@@ -784,6 +1072,7 @@
                     }
                 }
             }, true);
+            checkAndUpdateStatus();
         });
 
     </script>
@@ -797,12 +1086,63 @@
             const cancelButton = document.getElementById("cancelButton5");
             const confirmButton = document.getElementById("confirmButton9");
             const confirmButton2 = document.getElementById("confirmButton10");
+            const situationElement = document.querySelector(".dry-situation2 span");
+
+            // 예약 상태 확인 함수
+            async function checkAndUpdateStatus() {
+                const reservationData = {
+                    machineNo: document.querySelector(".호202 span").innerText.trim(), // 기기 번호
+                    reserveDate: document.getElementById("dryDatetimePicker").value.split(" ")[0], // 날짜만
+                    startTime: document.getElementById("dryTimeRangeDisplay").textContent.split("~")[0].trim(), // 시작 시간
+                    endTime: document.getElementById("dryTimeRangeDisplay").textContent.split("~")[1].trim(), // 종료 시간
+                };
+
+                const response = await fetch("/reservation/checkStatus", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(reservationData),
+                });
+                const data = await response.json();
+
+                if (data.status === "예약중") {
+                    situationElement.textContent = "예약중";
+                    situationElement.style.color = "#FD3C3C"; // 빨간색으로 설정
+                    reserveButton.disabled = true; // 버튼 비활성화
+                } else {
+                    situationElement.textContent = "사용가능";
+                    situationElement.style.color = "#0062FF";
+                    reserveButton.disabled = false;
+                }
+            }
+            // Flatpickr 시간 변경 이벤트에 예약 상태 확인 추가
+            document.getElementById("dryDatetimePicker").addEventListener("change", checkAndUpdateStatus);
+            document.getElementById("dryTimeRangeDisplay").addEventListener("change", checkAndUpdateStatus);
+
+
+            // 예약 종료 시간 업데이트 (서버에 완료 상태 변경 요청)
+            async function updateReservationStatus() {
+                try {
+                    await fetch("/reservation/updateStatus", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                    });
+                    checkAndUpdateStatus(); // 예약 상태 다시 확인
+                } catch (error) {
+                    console.error("Error:", error);
+                }
+            }
+            // 예약 상태와 종료 시간 자동 업데이트 (1분마다 실행)
+            setInterval(updateReservationStatus, 60000);
 
             // 예약하기 버튼 클릭 시 모달 열기
             reserveButton.addEventListener("click", () => {
                 modal.style.display = "block"; // 모달 표시
                 modal1.style.display= "block";
                 document.body.classList.add("no-scroll"); // 스크롤 비활성화
+
+                // 시작 시간과 종료 시간을 가져와서 모달에 표시
+                const timeRange = dryTimeRangeDisplay.textContent; // "시작시간 ~ 종료시간"
+                document.getElementById("modalTimeDisplay5").textContent = `${timeRange}`;
             });
 
             // 취소 버튼 클릭 시 모달 닫기
@@ -814,10 +1154,33 @@
 
             // 확인 버튼 클릭 시 처리
             confirmButton.addEventListener("click", () => {
-                modal1.style.display="none";
-                modal2.style.display="block"
+                // 예약 정보 수집
+                const reservationData = {
+                    machineNo: document.querySelector(".호202 span").innerText.trim(), // 기기 번호
+                    reserveDate: document.getElementById("dryDatetimePicker").value.split(" ")[0], // 날짜만
+                    startTime: document.getElementById("dryTimeRangeDisplay").textContent.split("~")[0].trim(), // 시작 시간
+                    endTime: document.getElementById("dryTimeRangeDisplay").textContent.split("~")[1].trim(), // 종료 시간
+                    reserveOption: document.getElementById("drying-options2").value, // 세탁 옵션
+                    reservePrice: parseInt(document.getElementById("dry-selected-option2").textContent.replace(/[^0-9]/g, ""), 10), // 숫자만
+                };
 
-                // 여기에 예약 처리 로직을 추가하세요
+                // 서버에 전송
+                fetch("/reservation/save", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(reservationData),
+                })
+                    .then((response) => {
+                        if (response.ok) {
+
+                            document.getElementById("modal5").style.display = "block";
+                            document.getElementById("modal-content10").style.display = "block";
+                            checkAndUpdateStatus();
+                        } else {
+                            alert("예약에 실패했습니다.");
+                        }
+                    })
+                    .catch((error) => console.error("Error:", error));
             });
             confirmButton2.addEventListener("click", () => {
                 modal.style.display="none";
@@ -841,6 +1204,7 @@
                     }
                 }
             }, true);
+            checkAndUpdateStatus();
         });
 
     </script>
@@ -854,12 +1218,63 @@
             const cancelButton = document.getElementById("cancelButton6");
             const confirmButton = document.getElementById("confirmButton11");
             const confirmButton2 = document.getElementById("confirmButton12");
+            const situationElement = document.querySelector(".dry-situation3 span");
+
+            // 예약 상태 확인 함수
+            async function checkAndUpdateStatus() {
+                const reservationData = {
+                    machineNo: document.querySelector(".호203 span").innerText.trim(), // 기기 번호
+                    reserveDate: document.getElementById("dryDatetimePicker").value.split(" ")[0], // 날짜만
+                    startTime: document.getElementById("dryTimeRangeDisplay").textContent.split("~")[0].trim(), // 시작 시간
+                    endTime: document.getElementById("dryTimeRangeDisplay").textContent.split("~")[1].trim(), // 종료 시간
+                };
+
+                const response = await fetch("/reservation/checkStatus", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(reservationData),
+                });
+                const data = await response.json();
+
+                if (data.status === "예약중") {
+                    situationElement.textContent = "예약중";
+                    situationElement.style.color = "#FD3C3C"; // 빨간색으로 설정
+                    reserveButton.disabled = true; // 버튼 비활성화
+                } else {
+                    situationElement.textContent = "사용가능";
+                    situationElement.style.color = "#0062FF";
+                    reserveButton.disabled = false;
+                }
+            }
+            // Flatpickr 시간 변경 이벤트에 예약 상태 확인 추가
+            document.getElementById("dryDatetimePicker").addEventListener("change", checkAndUpdateStatus);
+            document.getElementById("dryTimeRangeDisplay").addEventListener("change", checkAndUpdateStatus);
+
+
+            // 예약 종료 시간 업데이트 (서버에 완료 상태 변경 요청)
+            async function updateReservationStatus() {
+                try {
+                    await fetch("/reservation/updateStatus", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                    });
+                    checkAndUpdateStatus(); // 예약 상태 다시 확인
+                } catch (error) {
+                    console.error("Error:", error);
+                }
+            }
+            // 예약 상태와 종료 시간 자동 업데이트 (1분마다 실행)
+            setInterval(updateReservationStatus, 60000);
 
             // 예약하기 버튼 클릭 시 모달 열기
             reserveButton.addEventListener("click", () => {
                 modal.style.display = "block"; // 모달 표시
                 modal1.style.display= "block";
                 document.body.classList.add("no-scroll"); // 스크롤 비활성화
+
+                // 시작 시간과 종료 시간을 가져와서 모달에 표시
+                const timeRange = dryTimeRangeDisplay.textContent; // "시작시간 ~ 종료시간"
+                document.getElementById("modalTimeDisplay6").textContent = `${timeRange}`;
             });
 
             // 취소 버튼 클릭 시 모달 닫기
@@ -871,10 +1286,33 @@
 
             // 확인 버튼 클릭 시 처리
             confirmButton.addEventListener("click", () => {
-                modal1.style.display="none";
-                modal2.style.display="block"
+                // 예약 정보 수집
+                const reservationData = {
+                    machineNo: document.querySelector(".호203 span").innerText.trim(), // 기기 번호
+                    reserveDate: document.getElementById("dryDatetimePicker").value.split(" ")[0], // 날짜만
+                    startTime: document.getElementById("dryTimeRangeDisplay").textContent.split("~")[0].trim(), // 시작 시간
+                    endTime: document.getElementById("dryTimeRangeDisplay").textContent.split("~")[1].trim(), // 종료 시간
+                    reserveOption: document.getElementById("drying-options3").value, // 세탁 옵션
+                    reservePrice: parseInt(document.getElementById("dry-selected-option3").textContent.replace(/[^0-9]/g, ""), 10), // 숫자만
+                };
 
-                // 여기에 예약 처리 로직을 추가하세요
+                // 서버에 전송
+                fetch("/reservation/save", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(reservationData),
+                })
+                    .then((response) => {
+                        if (response.ok) {
+
+                            document.getElementById("modal6").style.display = "block";
+                            document.getElementById("modal-content12").style.display = "block";
+                            checkAndUpdateStatus();
+                        } else {
+                            alert("예약에 실패했습니다.");
+                        }
+                    })
+                    .catch((error) => console.error("Error:", error));
             });
             confirmButton2.addEventListener("click", () => {
                 modal.style.display="none";
@@ -898,6 +1336,7 @@
                     }
                 }
             }, true);
+            checkAndUpdateStatus();
         });
 
     </script>

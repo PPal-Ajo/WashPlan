@@ -16,10 +16,11 @@ public class ReservationDTO {
     private LocalTime EndTime;
     private String reserveOption;
     private int reservePrice;
+    private String reserveStatus;
 
     public ReservationDTO() {}
 
-    public ReservationDTO(int machineNo, int userNo, LocalDate reserveDate, LocalTime startTime, LocalTime endTime, String reserveOption, int reservePrice) {
+    public ReservationDTO(int machineNo, int userNo, LocalDate reserveDate, LocalTime startTime, LocalTime endTime, String reserveOption, int reservePrice, String reserveStatus) {
         this.machineNo = machineNo;
         this.userNo = userNo;
         this.reserveDate = reserveDate;
@@ -27,6 +28,7 @@ public class ReservationDTO {
         EndTime = endTime;
         this.reserveOption = reserveOption;
         this.reservePrice = reservePrice;
+        this.reserveStatus = reserveStatus;
     }
 
     public int getMachineNo() {
@@ -85,6 +87,14 @@ public class ReservationDTO {
         this.reservePrice = reservePrice;
     }
 
+    public String getReserveStatus() {
+        return reserveStatus;
+    }
+
+    public void setReserveStatus(String reserveStatus) {
+        this.reserveStatus = reserveStatus;
+    }
+
     @Override
     public String toString() {
         return "ReservationDTO{" +
@@ -95,6 +105,7 @@ public class ReservationDTO {
                 ", EndTime=" + EndTime +
                 ", reserveOption='" + reserveOption + '\'' +
                 ", reservePrice=" + reservePrice +
+                ", reserveStatus='" + reserveStatus + '\'' +
                 '}';
     }
 }

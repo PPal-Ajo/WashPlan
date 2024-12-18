@@ -9,26 +9,65 @@
         <result column="MACHINE_NO" property="machineNo"/>
     </resultMap>
 
-<select id="findMachineNo" resultMap="reservationResultMap">
+<select id="findMachineNo101" resultType="int" >
     SELECT MACHINE_NO
     FROM TBL_MACHINE
     WHERE MACHINE_NO = 101
 </select>
+    <select id="findMachineNo102" resultType="int">
+        SELECT MACHINE_NO
+        FROM TBL_MACHINE
+        WHERE MACHINE_NO = 102
+    </select>
+    <select id="findMachineNo103" resultType="int">
+        SELECT MACHINE_NO
+        FROM TBL_MACHINE
+        WHERE MACHINE_NO = 103
+    </select>
+    <select id="findMachineNo201" resultType="int">
+        SELECT MACHINE_NO
+        FROM TBL_MACHINE
+        WHERE MACHINE_NO = 201
+    </select>
+    <select id="findMachineNo202" resultType="int">
+        SELECT MACHINE_NO
+        FROM TBL_MACHINE
+        WHERE MACHINE_NO = 202
+    </select>
+    <select id="findMachineNo203" resultType="int">
+        SELECT MACHINE_NO
+        FROM TBL_MACHINE
+        WHERE MACHINE_NO = 203
+    </select>
 
     <insert id="insertReservation" parameterType="com.ohgiraffers.washplan.reservation.model.dto.ReservationDTO">
         INSERT INTO TBL_RESERVATION(
-            USER_NO, MACHINE_NO, RESERVE_DATE, START_TIME, END_TIME, RESERVE_OPTION, RESERVE_PRICE
+            USER_NO, MACHINE_NO, RESERVE_DATE, START_TIME, END_TIME, RESERVE_OPTION, RESERVE_PRICE, RESERVE_STATUS
         )
         VALUES (
-            #{userNo}, #{machineNo}, #{reserveDate}, #{startTime}, #{endTime}, #{reserveOption}, #{reservePrice}
+            #{userNo}, #{machineNo}, #{reserveDate}, #{startTime}, #{endTime}, #{reserveOption}, #{reservePrice}, '예약중'
         )
 
 
     </insert>
 
-    <select id="findReservations" resultType="map">
-        SELECT RESERVE_DATE, START_TIME, END_TIME
-        FROM TBL_RESERVATION
-        WHERE MACHINE_NO = #{machineNo}
+
+    <select id="checkReservation" resultType="int">
+            SELECT COUNT(*)
+            FROM TBL_RESERVATION
+            WHERE MACHINE_NO = #{machineNo}
+            AND RESERVE_DATE = #{reserveDate}
+            AND (START_TIME &lt; #{endTime} AND END_TIME &gt; #{startTime})
     </select>
+
+
+    <!-- 예약 상태 완료로 변경 -->
+    <update id="updateReservationStatus">
+        UPDATE TBL_RESERVATION
+        SET RESERVE_STATUS = '완료'
+        WHERE RESERVE_STATUS = '예약중'
+        AND RESERVE_DATE &lt; CURDATE()
+        OR (RESERVE_DATE = CURDATE() AND END_TIME &lt;= CURTIME());
+    </update>
+
 </mapper>
