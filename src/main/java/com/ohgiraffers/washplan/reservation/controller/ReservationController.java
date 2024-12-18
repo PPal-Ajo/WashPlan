@@ -7,10 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -30,11 +27,22 @@ public class ReservationController {
 
     @GetMapping("/reservation")
     public String reservation(Model model) {
-        // 기기 번호 조회
-        ReservationDTO reservationDTO = reservationService.getMachineNo();
+       int machineNo101 = reservationService.getMachineNo101();
+       int machineNo102 = reservationService.getMachineNo102();
+       int machineNo103 = reservationService.getMachineNo103();
+       int machineNo201 = reservationService.getMachineNo201();
+       int machineNo202 = reservationService.getMachineNo202();
+       int machineNo203 = reservationService.getMachineNo203();
 
-        // 모델에 기기 번호 추가
-        model.addAttribute("machineNo", reservationDTO.getMachineNo());
+
+       model.addAttribute("machineNo101", machineNo101);
+       model.addAttribute("machineNo102", machineNo102);
+       model.addAttribute("machineNo103", machineNo103);
+       model.addAttribute("machineNo201", machineNo201);
+       model.addAttribute("machineNo202", machineNo202);
+       model.addAttribute("machineNo203", machineNo203);
+
+
 
 
         return "reservation/reservation";
@@ -50,11 +58,30 @@ public class ReservationController {
         return new ResponseEntity<>("Reservation saved successfully!", HttpStatus.OK);
     }
 
-    @GetMapping("/reservation/status")
-    public ResponseEntity<List<Map<String, Object>>> getReservationStatus(@RequestParam("machineNo") int machineNo) {
-        List<Map<String, Object>> reservations = reservationService.getReservations(machineNo);
-        return ResponseEntity.ok(reservations);
+    @PostMapping("/reservation/checkStatus")
+    @ResponseBody
+    public Map<String, String> checkReservationStatus(@RequestBody Map<String, String> request) {
+        int machineNo = Integer.parseInt(request.get("machineNo")); // String to int 변환
+        String reserveDate = request.get("reserveDate");
+        String startTime = request.get("startTime");
+        String endTime = request.get("endTime");
+
+        int count = reservationService.checkReservationStatus(machineNo, reserveDate, startTime, endTime);
+
+        Map<String, String> response = new HashMap<>();
+        response.put("status", count > 0 ? "예약중" : "사용가능");
+
+        return response;
     }
+
+    // 예약 상태 업데이트 (예약중 -> 완료)
+    @PostMapping("/reservation/updateStatus")
+    public ResponseEntity<String> updateReservationStatus() {
+        reservationService.updateReservationStatus();
+        return new ResponseEntity<>("Reservation status updated!", HttpStatus.OK);
+    }
+
+
 
 
 
