@@ -67,7 +67,7 @@
   <div id="successModal">
     <div class="modal-content">
     <p>인증이 완료되었습니다!</p>
-    <button id="closeModal">확인</button>
+    <button id="closeModal"><a th:href="@{/signup/signup}" style="text-decoration: none; color: inherit;">확인</a></button>
     </div>
   </div>
 
@@ -207,11 +207,6 @@
                 verifyMessage.style.display = 'block';
                 console.error('Error:', err);
               });
-
-      // 모달 닫기 버튼 이벤트
-      closeModal.addEventListener('click', () => {
-        successModal.style.display = 'none';
-      });
     });
   </script>
 </main>

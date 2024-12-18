@@ -1,0 +1,225 @@
+.bg{
+    position: absolute;
+    left: -1px;
+    top: -1px;
+}
+
+.signupLogo{
+    /* 약관 동의 */
+
+    position: absolute;
+    width: 327px;
+    height: 148px;
+    left: 796px;
+    top: 160px;
+
+    font-family: 'BM Dohyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 60px;
+    line-height: 74px;
+
+    color: #000000;
+
+}
+
+.idBox{
+    /* 아이디 : */
+
+    position: absolute;
+    width: 85px;
+    height: 38px;
+    left: 351px;
+    top: 349px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #000000;
+}
+
+.idBox input {
+    /* Rectangle 277 */
+
+    position: fixed;
+    width: 381px;
+    height: 59px;
+    left: 495px;
+    top: 338px;
+
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    border: none;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    padding-left: 20px;
+
+}
+
+.passwordBox {
+    /* 비밀번호 : */
+
+    position: absolute;
+    width: 108px;
+    height: 38px;
+    left: 328px;
+    top: 444px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+    text-align: center;
+
+    color: #000000;
+}
+
+.passwordBox input {
+    /* Rectangle 274 */
+
+    position: fixed;
+    width: 381px;
+    height: 59px;
+    left: 495px;
+    top: 433px;
+
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    border: none;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    padding-left: 20px;
+
+}
+
+.ivs1  {
+    /* Invisible */
+
+    position: absolute;
+    width: 75px;
+    height: 53px;
+    left: 811px;
+    top: 439px;
+
+    cursor: pointer;
+}
+
+.passwordRepeatBox{
+    position: absolute;
+    width: 190px;
+    height: 38px;
+    left: 289px;
+    top: 551px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #000000;
+}
+
+.passwordRepeatBox input {
+
+    position: fixed;
+    width: 381px;
+    height: 59px;
+    left: 495px;
+    top: 540px;
+
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    border: none;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    padding-left: 20px;
+}
+
+.ivs2 {
+    /* Invisible */
+
+    position: absolute;
+    width: 75px;
+    height: 53px;
+    left: 811px;
+    top: 547px;
+
+    cursor: pointer;
+}
+
+.pwdValid{
+    /* 비밀번호는 영문,숫자,특수문자가 각 하나씩 포함되어야 합니다. */
+
+    position: absolute;
+    width: 700px;
+    height: 38px;
+    left: 993px;
+    top: 415px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #000000;
+
+}
+
+.completeBtn{
+    /* Rectangle 276 */
+
+    position: absolute;
+    width: 209px;
+    height: 80px;
+    left: 856px;
+    top: 783px;
+
+    background: #42A5F5;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    border: none;
+
+    /* 완료 */
+
+
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 50px;
+
+    color: #FFFFFF;
+    cursor: pointer;
+
+}
+
+.completeBtn:active {
+    background : #0056B3;
+    transition: 0.3ms;
+}
