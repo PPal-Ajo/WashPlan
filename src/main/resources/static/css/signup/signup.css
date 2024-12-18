@@ -46,7 +46,7 @@
     /* Rectangle 277 */
 
     position: fixed;
-    width: 381px;
+    width: 900px;
     height: 59px;
     left: 495px;
     top: 338px;
@@ -72,7 +72,7 @@
     width: 108px;
     height: 38px;
     left: 328px;
-    top: 444px;
+    top: 495px;
 
     font-family: 'Do Hyeon';
     font-style: normal;
@@ -89,10 +89,10 @@
     /* Rectangle 274 */
 
     position: fixed;
-    width: 381px;
+    width: 900px;
     height: 59px;
     left: 495px;
-    top: 433px;
+    top: 480px;
 
     background: #FFFFFF;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -114,8 +114,8 @@
     position: absolute;
     width: 75px;
     height: 53px;
-    left: 811px;
-    top: 439px;
+    left: 1325px;
+    top: 480px;
 
     cursor: pointer;
 }
@@ -125,7 +125,7 @@
     width: 190px;
     height: 38px;
     left: 289px;
-    top: 551px;
+    top: 641px;
 
     font-family: 'Do Hyeon';
     font-style: normal;
@@ -140,10 +140,10 @@
 .passwordRepeatBox input {
 
     position: fixed;
-    width: 381px;
+    width: 900px;
     height: 59px;
     left: 495px;
-    top: 540px;
+    top: 622px;
 
     background: #FFFFFF;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -164,8 +164,8 @@
     position: absolute;
     width: 75px;
     height: 53px;
-    left: 811px;
-    top: 547px;
+    left: 1325px;
+    top: 622px;
 
     cursor: pointer;
 }
@@ -176,8 +176,8 @@
     position: absolute;
     width: 700px;
     height: 38px;
-    left: 993px;
-    top: 415px;
+    left: 490px;
+    top: 520px;
 
     font-family: 'Do Hyeon';
     font-style: normal;
@@ -197,7 +197,7 @@
     width: 209px;
     height: 80px;
     left: 856px;
-    top: 783px;
+    top: 875px;
 
     background: #42A5F5;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -222,4 +222,63 @@
 .completeBtn:active {
     background : #0056B3;
     transition: 0.3ms;
+}
+
+.emailBox{
+    /* 아이디 : */
+
+    position: absolute;
+    width: 85px;
+    height: 38px;
+    left: 351px;
+    top: 787px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #000000;
+}
+
+.emailBox input{
+    position: fixed;
+    width: 900px;
+    height: 59px;
+    left: 495px;
+    top: 774px;
+
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    border: none;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    padding-left: 20px;
+}
+
+.idValid{
+
+
+    position: absolute;
+    width: 290px;
+    height: 38.16px;
+    left: 490px;
+    top: 378px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+
+
+
+
 }

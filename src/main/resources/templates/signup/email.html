@@ -67,7 +67,7 @@
   <div id="successModal">
     <div class="modal-content">
     <p>인증이 완료되었습니다!</p>
-    <button id="closeModal"><a th:href="@{/signup/signup}" style="text-decoration: none; color: inherit;">확인</a></button>
+    <button id="closeModal">확인</button>
     </div>
   </div>
 
@@ -206,6 +206,27 @@
                 verifyMessage.textContent = '서버 오류가 발생했습니다.';
                 verifyMessage.style.display = 'block';
                 console.error('Error:', err);
+              });
+    });
+
+    document.getElementById('closeModal').addEventListener('click', () => {
+      fetch('/email/get-session-email', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      })
+              .then(response => response.json())
+              .then(data => {
+                console.log("Fetched data:", data); // 이걸로 데이터가 제대로 오는지 확인
+                if (data.verifiedEmail) {
+                  // 세션 데이터가 있을 경우 페이지 이동
+                  window.location.href = '/signup/form';
+                } else {
+                  alert('이메일 인증이 필요합니다.');
+                }
+              })
+              .catch(error => {
+                console.error('Error fetching session email:', error);
+                alert('서버 오류가 발생했습니다.');
               });
     });
   </script>
