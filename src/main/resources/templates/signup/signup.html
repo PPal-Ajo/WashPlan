@@ -24,32 +24,21 @@
 <main>
     <span class="signupLogo">회원가입</span>
 
-    <div class="idBox">
-        <span>아이디 : </span>
-        <input type="text" required>
-    </div>
-    <p class="idValid"> * 아이디를 입력해주세요. </p>
-    <div class="passwordBox">
-        <span>비밀번호 : </span>
-        <input type="password" required>
-    </div>
-    <img th:src="@{/images/login/Invisible.png}" alt="Invisible" class="ivs1">
-    <p class="pwdValid"> * 비밀번호는 영문,숫자,특수문자가 각 하나씩 포함되어야 합니다.</p>
-    <div class="passwordRepeatBox">
-        <span>비밀번호 재확인 : </span>
-        <input type="password" required>
-    </div>
-    <img th:src="@{/images/login/Invisible.png}" alt="Invisible" class="ivs2">
-
-
-    <div class="emailBox">
-        <label for="email">이메일:</label>
-        <input type="text" id="email" name="email" th:value="${verifiedEmail}" readonly placeholder="이게보이면 안됨">
-    </div>
-
-
-
-    <button class="completeBtn">완료</button>
+    <form th:action="@{/signup/submit}" method="post">
+        <div class="idBox">
+            <span>아이디 : </span>
+            <input type="text" name="userId" required>
+        </div>
+        <div class="passwordBox">
+            <span>비밀번호 : </span>
+            <input type="password" name="password" required>
+        </div>
+        <div class="emailBox">
+            <label for="email">이메일:</label>
+            <input type="text" id="email" name="email" th:value="${verifiedEmail}" readonly>
+        </div>
+        <button type="submit" class="completeBtn">완료</button>
+    </form>
 </main>
 </body>
 </html>

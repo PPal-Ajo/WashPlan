@@ -13,4 +13,11 @@
         FROM TBL_USER
         WHERE USER_ID = #{userId}
     </select>
+
+
+    <!-- 회원 정보 삽입 -->
+    <insert id="insertUser" parameterType="com.ohgiraffers.washplan.user.model.dto.UserDTO">
+        INSERT INTO TBL_USER (USER_ID, USER_PWD, EMAIL, USER_STATUS, CREATED_TIME)
+        VALUES (#{userId}, #{userPwd}, #{email}, #{userStatus}, NOW());
+    </insert>
 </mapper>
