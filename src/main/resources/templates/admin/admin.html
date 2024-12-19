@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" th:href="@{/css/base/nav.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/admin.css}">
+</head>
+<body>
+<header>
+    <nav>
+        <!--네비바-->
+        <span onclick="location.href='/main'">WashPlan</span>
+        <span onclick="location.href='/reservation'">예약</span>
+        <span>FAQ</span>
+        <span id="adminTab" class="admin">관리자</span>
+        <span>로그인</span>
+    </nav>
+</header>
+
+
+<!-- 관리자 메뉴 -->
+<div class="admin-menu" id="adminMenu">
+    <button onclick="location.href='/adminUser'" class="adminUser">사용자 관리</button>
+    <button onclick="location.href='/adminMachine'" class="adminMachine">세탁기/건조기 관리</button>
+    <button onclick="location.href='/adminInquiry'" class="adminInquiry">문의사항 관리</button>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const adminTab = document.getElementById("adminTab");
+        const adminMenu = document.getElementById("adminMenu");
+
+        // 관리자 탭 클릭 시 메뉴 표시/숨김 토글
+        adminTab.addEventListener("click", function () {
+            if (adminMenu.style.display === "block") {
+                adminMenu.style.display = "none"; // 숨김
+                adminTab.classList.remove("active");
+
+            } else {
+                adminMenu.style.display = "block"; // 표시
+                adminTab.classList.add("active");
+            }
+        });
+    });
+</script>
+</body>
+</html>
