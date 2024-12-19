@@ -1,20 +1,22 @@
 package com.ohgiraffers.washplan.user.model.dto;
 
-import java.util.Date;
+import org.apache.ibatis.type.Alias;
 
+import java.time.LocalDateTime;
+
+@Alias("UserDTO")
 public class UserDTO {
     private String userId;
-    private String userPwd;
+    private String password;
     private String email;
     private String userStatus;
-    private Date createdTime;
+    private LocalDateTime createdTime;
 
     public UserDTO() {}
 
-
-    public UserDTO(String userId, String userPwd, String email, String userStatus, Date createdTime) {
+    public UserDTO(String userId, String password, String email, String userStatus, LocalDateTime createdTime) {
         this.userId = userId;
-        this.userPwd = userPwd;
+        this.password = password;
         this.email = email;
         this.userStatus = userStatus;
         this.createdTime = createdTime;
@@ -28,12 +30,12 @@ public class UserDTO {
         this.userId = userId;
     }
 
-    public String getUserPwd() {
-        return userPwd;
+    public String getPassword() {
+        return password;
     }
 
-    public void setUserPwd(String userPwd) {
-        this.userPwd = userPwd;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getEmail() {
@@ -52,11 +54,21 @@ public class UserDTO {
         this.userStatus = userStatus;
     }
 
-    public Date getCreatedTime() {
+    public LocalDateTime getCreatedTime() {
         return createdTime;
     }
 
-    public void setCreatedTime(Date createdTime) {
+    public void setCreatedTime(LocalDateTime createdTime) {
         this.createdTime = createdTime;
+    }
+
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "userId='" + userId + '\'' +
+                ", email='" + email + '\'' +
+                ", userStatus='" + userStatus + '\'' +
+                ", createdTime=" + createdTime +
+                '}';
     }
 }
