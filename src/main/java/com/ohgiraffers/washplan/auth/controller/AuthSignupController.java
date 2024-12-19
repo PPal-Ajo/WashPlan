@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class AuthController {
+public class AuthSignupController {
 
     private final AuthService authService;
 
     // AuthService 주입
     @Autowired
-    public AuthController(AuthService authService) {
+    public AuthSignupController(AuthService authService) {
         this.authService = authService;
     }
 

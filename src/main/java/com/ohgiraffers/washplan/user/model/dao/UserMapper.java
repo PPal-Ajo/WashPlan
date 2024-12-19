@@ -13,4 +13,7 @@ public interface UserMapper {
     // 중복 이메일 확인
     @Select("SELECT COUNT(*) FROM TBL_USER WHERE email = #{email}")
     int countByEmail(@Param("email") String email);
+
+    void insertUser(UserDTO user);
+
 }
