@@ -4,20 +4,12 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ohgiraffers.washplan.user.model.dao.UserMapper">
-    <!-- 사용자 아이디로 정보 조회 -->
-    <select id="findByUserId" resultType="com.ohgiraffers.washplan.user.model.dto.UserDTO">
-        SELECT USER_ID AS userId,
-        USER_PWD AS userPwd,
-        EMAIL AS email,
-        USER_STATUS AS userStatus
-        FROM TBL_USER
-        WHERE USER_ID = #{userId}
-    </select>
+
 
 
     <!-- 회원 정보 삽입 -->
     <insert id="insertUser" parameterType="com.ohgiraffers.washplan.user.model.dto.UserDTO">
         INSERT INTO TBL_USER (USER_ID, USER_PWD, EMAIL, USER_STATUS, CREATED_TIME)
-        VALUES (#{userId}, #{userPwd}, #{email}, #{userStatus}, NOW());
+        VALUES (#{userId}, #{password}, #{email}, #{userStatus}, NOW());
     </insert>
 </mapper>
