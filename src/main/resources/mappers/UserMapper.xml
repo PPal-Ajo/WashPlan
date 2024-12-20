@@ -3,13 +3,22 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.ohgiraffers.washplan.user.model.dao.UserMapper">
+<mapper namespace="com.ohgiraffers.washplan.auth.model.dao.AuthMapper">
 
 
 
-    <!-- 회원 정보 삽입 -->
-    <insert id="insertUser" parameterType="com.ohgiraffers.washplan.user.model.dto.UserDTO">
-        INSERT INTO TBL_USER (USER_ID, USER_PWD, EMAIL, USER_STATUS, CREATED_TIME)
-        VALUES (#{userId}, #{password}, #{email}, #{userStatus}, NOW());
-    </insert>
+
+
+
+    <select id="findByUserId" parameterType="string" resultType="com.ohgiraffers.washplan.user.model.dto.UserDTO">
+        SELECT USER_ID AS userId,
+        USER_PWD AS password,
+        EMAIL AS email,
+        USER_STATUS AS userStatus,
+        CREATED_TIME AS createdTime
+        FROM TBL_USER
+        WHERE USER_ID = #{userId}
+    </select>
+
+
 </mapper>

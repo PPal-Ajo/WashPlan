@@ -19,6 +19,7 @@ public interface AuthMapper {
     @Select("SELECT USER_PWD FROM TBL_USER WHERE USER_ID = #{userId}")
     String findPasswordByUserId(@Param("userId") String userId);
 
-    @Select("SELECT USER_ID, USER_PWD, EMAIL, USER_STATUS FROM TBL_USER WHERE USER_ID = #{userId}")
+
     UserDTO findByUserId(@Param("userId") String userId);
 }
+

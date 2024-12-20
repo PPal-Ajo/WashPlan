@@ -11,16 +11,21 @@
 
 </head>
 <body>
-    <header>
-        <nav>
-            <!--네비바-->
-            <span>WashPlan</span>
-            <span onclick="location.href='/reservation'">예약</span>
-            <span>FAQ</span>
-            <span>회원가입</span>
-            <span>로그인</span>
-        </nav>
-    </header>
+<header>
+    <nav>
+        <!-- 네비게이션 바 -->
+        <span>WashPlan</span>
+        <span onclick="location.href='/reservation'">예약</span>
+        <span>FAQ</span>
+
+        <!-- 로그인 여부에 따라 네비게이션 바 표시 -->
+        <span th:if="${#authentication.name == 'anonymous'}" onclick="location.href='/signup'">회원가입</span>
+        <span th:if="${#authentication.name != 'anonymous'}" onclick="location.href='/mypage'">마이페이지</span>
+
+        <span th:if="${#authentication.name == 'anonymous'}" onclick="location.href='/login'">로그인</span>
+        <span th:if="${#authentication.name != 'anonymous'}" onclick="location.href='/logout'">로그아웃</span>
+    </nav>
+</header>
 
     <img class="mainimage" th:src="@{/images/main/MainPage.png}" alt="메인배경">
 
