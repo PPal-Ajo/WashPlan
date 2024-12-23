@@ -18,4 +18,5 @@ public class UserService {
     public boolean isEmailDuplicate(String email) {
         return userMapper.countByEmail(email) > 0;
     }
+
 }

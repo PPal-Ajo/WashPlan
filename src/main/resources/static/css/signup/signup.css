@@ -263,14 +263,14 @@
     padding-left: 20px;
 }
 
-.idValid{
+#idValid{
 
 
     position: absolute;
-    width: 290px;
+    width: 400px;
     height: 38.16px;
-    left: 490px;
-    top: 378px;
+    left: 150px;
+    top: 60px;
 
     font-family: 'Do Hyeon';
     font-style: normal;
@@ -280,5 +280,21 @@
 
 
 
-
 }
+
+#pwdValid {
+    position: absolute;
+    width: 350px;
+    height: 38.16px;
+    left: 150px;
+    top: 60px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+
+    white-space: nowrap;
+}
+

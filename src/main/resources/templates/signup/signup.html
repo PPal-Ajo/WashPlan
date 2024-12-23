@@ -6,6 +6,22 @@
     <!-- CSS 경로를 Thymeleaf로 설정 -->
     <link th:href="@{/css/base/nav.css}" rel="stylesheet">
     <link th:href="@{/css/signup/signup.css}" rel="stylesheet">
+    <style>
+        /* 비활성화된 버튼 스타일 */
+        .disabled-btn {
+            background-color: #cccccc; /* 회색 */
+            color: #666666; /* 텍스트 색상 */
+            cursor: not-allowed; /* 클릭 불가 커서 */
+        }
+        /* 유효한 입력 메시지 스타일 */
+        .valid-message {
+            color: #0088ff; /* 파란색 */
+        }
+        /* 유효하지 않은 입력 메시지 스타일 */
+        .invalid-message {
+            color: red;
+        }
+    </style>
 </head>
 <body>
 <!-- 배경 이미지 경로를 Thymeleaf로 설정 -->
@@ -18,7 +34,7 @@
         <span>예약</span>
         <span>FAQ</span>
         <span style="color: #FFFF00">회원가입</span>
-        <span >로그인</span>
+        <span>로그인</span>
     </nav>
 </header>
 <main>
@@ -27,18 +43,104 @@
     <form th:action="@{/signup/submit}" method="post">
         <div class="idBox">
             <span>아이디 : </span>
-            <input type="text" name="userId" required>
+            <input type="text" name="userId" id="userId" required>
+            <span id="idValid" class="invalid-message" style="display: none;">이미 사용 중인 아이디입니다.</span>
         </div>
         <div class="passwordBox">
             <span>비밀번호 : </span>
-            <input type="password" name="password" required>
+            <input type="password" name="password" id="password" required>
+            <span id="pwdValid" class="invalid-message" style="display: none;">비밀번호는 영문, 숫자, 특수문자를 포함하고 8자 이상이어야 합니다.</span>
         </div>
         <div class="emailBox">
             <label for="email">이메일:</label>
             <input type="text" id="email" name="email" th:value="${verifiedEmail}" readonly>
         </div>
-        <button type="submit" class="completeBtn">완료</button>
+        <button type="submit" class="completeBtn disabled-btn" id="submitBtn" disabled>완료</button>
     </form>
 </main>
+
+<script>
+    const userIdInput = document.getElementById('userId');
+    const passwordInput = document.getElementById('password');
+    const idCheckMessage = document.getElementById('idValid');
+    const pwdCheckMessage = document.getElementById('pwdValid');
+    const submitBtn = document.getElementById('submitBtn');
+
+    // 유효성 검사 상태
+    let isUserIdValid = false;
+    let isPasswordValid = false;
+
+    // 유효성 검사를 위한 입력 이벤트 처리
+    userIdInput.addEventListener('input', () => {
+        const userId = userIdInput.value;
+
+        if (userId.trim() === "") {
+            idCheckMessage.style.display = "none";
+            isUserIdValid = false;
+            toggleSubmitButton();
+            return;
+        }
+
+        fetch(`/api/user/check-username?userId=${userId}`)
+            .then(response => response.json())
+            .then(isDuplicate => {
+                if (isDuplicate) {
+                    idCheckMessage.style.display = "inline";
+                    idCheckMessage.textContent = "이미 사용 중인 아이디입니다.";
+                    idCheckMessage.className = "invalid-message";
+                    isUserIdValid = false;
+                } else {
+                    idCheckMessage.style.display = "inline";
+                    idCheckMessage.textContent = "사용 가능한 아이디입니다.";
+                    idCheckMessage.className = "valid-message";
+                    isUserIdValid = true;
+                }
+                toggleSubmitButton();
+            })
+            .catch(error => {
+                console.error("Error checking username:", error);
+                isUserIdValid = false;
+                toggleSubmitButton();
+            });
+    });
+
+    passwordInput.addEventListener('input', () => {
+        const password = passwordInput.value;
+
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+        if (!passwordRegex.test(password)) {
+            pwdCheckMessage.style.display = "inline";
+            pwdCheckMessage.textContent = "비밀번호는 영문자,숫자,특수문자를 포함해야 합니다.";
+            pwdCheckMessage.className = "invalid-message";
+            isPasswordValid = false;
+        } else {
+            pwdCheckMessage.style.display = "inline";
+            pwdCheckMessage.textContent = "사용 가능한 비밀번호입니다.";
+            pwdCheckMessage.className = "valid-message";
+            isPasswordValid = true;
+        }
+        toggleSubmitButton();
+    });
+
+    // 버튼 활성화/비활성화 처리
+    function toggleSubmitButton() {
+        if (isUserIdValid && isPasswordValid) {
+            enableSubmitButton();
+        } else {
+            disableSubmitButton();
+        }
+    }
+
+    function disableSubmitButton() {
+        submitBtn.disabled = true;
+        submitBtn.classList.add('disabled-btn'); // 회색 스타일 추가
+    }
+
+    function enableSubmitButton() {
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('disabled-btn'); // 회색 스타일 제거
+    }
+</script>
 </body>
 </html>

@@ -21,11 +21,11 @@ public class AuthService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public void registerUser(String userId, String password, String email) {
-        String hashedPassword = passwordEncoder.encode(password);
-        System.out.println("해싱된 비밀번호: " + hashedPassword);
-        authMapper.insertUser(userId, hashedPassword, email);
-    }
+//    public void registerUser(String userId, String password, String email) {
+//        String hashedPassword = passwordEncoder.encode(password);
+//        System.out.println("해싱된 비밀번호: " + hashedPassword);
+//        authMapper.insertUser(userId, hashedPassword, email);
+//    }
 
     public String getPasswordByUserId(String userId) {
         return authMapper.findPasswordByUserId(userId);
