@@ -51,6 +51,11 @@
             <input type="password" name="password" id="password" required>
             <span id="pwdValid" class="invalid-message" style="display: none;">비밀번호는 영문, 숫자, 특수문자를 포함하고 8자 이상이어야 합니다.</span>
         </div>
+        <div class="passwordRepeatBox">
+            <span>비밀번호 재확인 : </span>
+            <input type="password" name="passwordRepeat" id="passwordRepeat" required>
+            <span id="pwdRepeatValid" class="invalid-message" style="display: none;">비밀번호가 일치하지 않습니다.</span>
+        </div>
         <div class="emailBox">
             <label for="email">이메일:</label>
             <input type="text" id="email" name="email" th:value="${verifiedEmail}" readonly>
@@ -62,15 +67,18 @@
 <script>
     const userIdInput = document.getElementById('userId');
     const passwordInput = document.getElementById('password');
+    const passwordRepeatInput = document.getElementById('passwordRepeat'); // 비밀번호 재확인 입력
     const idCheckMessage = document.getElementById('idValid');
     const pwdCheckMessage = document.getElementById('pwdValid');
+    const pwdRepeatCheckMessage = document.getElementById('pwdRepeatValid'); // 비밀번호 재확인 메시지
     const submitBtn = document.getElementById('submitBtn');
 
     // 유효성 검사 상태
     let isUserIdValid = false;
     let isPasswordValid = false;
+    let isPasswordRepeatValid = false; // 비밀번호 재확인 상태
 
-    // 유효성 검사를 위한 입력 이벤트 처리
+    // 아이디 입력 유효성 검사
     userIdInput.addEventListener('input', () => {
         const userId = userIdInput.value;
 
@@ -104,6 +112,7 @@
             });
     });
 
+    // 비밀번호 입력 유효성 검사
     passwordInput.addEventListener('input', () => {
         const password = passwordInput.value;
 
@@ -111,7 +120,7 @@
 
         if (!passwordRegex.test(password)) {
             pwdCheckMessage.style.display = "inline";
-            pwdCheckMessage.textContent = "비밀번호는 영문자,숫자,특수문자를 포함해야 합니다.";
+            pwdCheckMessage.textContent = "비밀번호는 영문자, 숫자, 특수문자를 포함해야 합니다.";
             pwdCheckMessage.className = "invalid-message";
             isPasswordValid = false;
         } else {
@@ -120,12 +129,36 @@
             pwdCheckMessage.className = "valid-message";
             isPasswordValid = true;
         }
+        validatePasswordRepeat(); // 비밀번호 확인도 다시 검증
         toggleSubmitButton();
     });
 
+    // 비밀번호 재확인 입력 유효성 검사
+    passwordRepeatInput.addEventListener('input', () => {
+        validatePasswordRepeat();
+        toggleSubmitButton();
+    });
+
+    function validatePasswordRepeat() {
+        const password = passwordInput.value;
+        const passwordRepeat = passwordRepeatInput.value;
+
+        if (password !== passwordRepeat) {
+            pwdRepeatCheckMessage.style.display = "inline";
+            pwdRepeatCheckMessage.textContent = "비밀번호가 일치하지 않습니다.";
+            pwdRepeatCheckMessage.className = "invalid-message";
+            isPasswordRepeatValid = false;
+        } else {
+            pwdRepeatCheckMessage.style.display = "inline";
+            pwdRepeatCheckMessage.textContent = "비밀번호가 일치합니다.";
+            pwdRepeatCheckMessage.className = "valid-message";
+            isPasswordRepeatValid = true;
+        }
+    }
+
     // 버튼 활성화/비활성화 처리
     function toggleSubmitButton() {
-        if (isUserIdValid && isPasswordValid) {
+        if (isUserIdValid && isPasswordValid && isPasswordRepeatValid) {
             enableSubmitButton();
         } else {
             disableSubmitButton();
