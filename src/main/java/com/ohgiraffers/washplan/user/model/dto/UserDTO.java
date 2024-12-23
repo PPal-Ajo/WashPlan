@@ -1,10 +1,10 @@
 package com.ohgiraffers.washplan.user.model.dto;
 
-import org.apache.ibatis.type.Alias;
+
 
 import java.time.LocalDateTime;
 
-@Alias("UserDTO")
+
 public class UserDTO {
     private String userId;
     private String password;

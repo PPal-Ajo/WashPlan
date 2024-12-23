@@ -18,15 +18,23 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        // 입력받은 username 출력
+        System.out.println("로그인 요청: username=" + username);
+
         UserDTO user = authMapper.findByUserId(username);
 
-        // 디버깅 출력
+        // DB 조회 결과 출력
         if (user == null) {
-            System.out.println("User not found in DB for username: " + username);
+            System.out.println("DB에서 사용자 조회 실패: username=" + username);
             throw new UsernameNotFoundException("User not found: " + username);
         }
-        System.out.println("DB에서 조회된 사용자: " + user);
+        System.out.println("DB에서 조회된 사용자 정보: " + user);
 
-        return new CustomUserDetails(user.getUserId(), user.getPassword(), user.getEmail());
+        // 사용자 정보를 반환하기 전에 확인
+        CustomUserDetails customUserDetails = new CustomUserDetails(user.getUserId(), user.getPassword(), user.getEmail());
+        System.out.println("생성된 CustomUserDetails: " + customUserDetails);
+
+        return customUserDetails;
     }
 }
