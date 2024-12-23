@@ -129,12 +129,22 @@
             pwdCheckMessage.className = "valid-message";
             isPasswordValid = true;
         }
-        validatePasswordRepeat(); // 비밀번호 확인도 다시 검증
+        // validatePasswordRepeat(); // 비밀번호 확인도 다시 검증
         toggleSubmitButton();
     });
 
     // 비밀번호 재확인 입력 유효성 검사
     passwordRepeatInput.addEventListener('input', () => {
+        const passwordRepeat = passwordRepeatInput.value;
+
+        // 비밀번호 재입력 칸에 값이 있는 경우에만 유효성 검사 수행
+        if (passwordRepeat.trim() === "") {
+            pwdRepeatCheckMessage.style.display = "none"; // 메시지 숨기기
+            isPasswordRepeatValid = false; // 유효하지 않은 상태로 설정
+            toggleSubmitButton();
+            return;
+        }
+
         validatePasswordRepeat();
         toggleSubmitButton();
     });

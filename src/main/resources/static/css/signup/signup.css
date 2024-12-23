@@ -298,3 +298,19 @@
     white-space: nowrap;
 }
 
+
+#pwdRepeatValid {
+    position: absolute;
+    width: 350px;
+    height: 38.16px;
+    left: 220px;
+    top: 60px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+
+    white-space: nowrap;
+}
