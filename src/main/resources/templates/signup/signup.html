@@ -18,7 +18,7 @@
         <span>예약</span>
         <span>FAQ</span>
         <span style="color: #FFFF00">회원가입</span>
-        <span >로그인</span>
+        <span>로그인</span>
     </nav>
 </header>
 <main>
@@ -27,18 +27,196 @@
     <form th:action="@{/signup/submit}" method="post">
         <div class="idBox">
             <span>아이디 : </span>
-            <input type="text" name="userId" required>
+            <input type="text" name="userId" id="userId" required>
+            <span id="idValid" class="invalid-message" style="display: none;">이미 사용 중인 아이디입니다.</span>
         </div>
         <div class="passwordBox">
             <span>비밀번호 : </span>
-            <input type="password" name="password" required>
+            <input type="password" name="password" id="password" required>
+            <span id="pwdValid" class="invalid-message" style="display: none;">비밀번호는 영문, 숫자, 특수문자를 포함하고 8자 이상이어야 합니다.</span>
+        </div>
+        <div class="passwordRepeatBox">
+            <span>비밀번호 재확인 : </span>
+            <input type="password" name="passwordRepeat" id="passwordRepeat" required>
+            <span id="pwdRepeatValid" class="invalid-message" style="display: none;">비밀번호가 일치하지 않습니다.</span>
         </div>
         <div class="emailBox">
             <label for="email">이메일:</label>
             <input type="text" id="email" name="email" th:value="${verifiedEmail}" readonly>
         </div>
-        <button type="submit" class="completeBtn">완료</button>
+        <button type="submit" class="completeBtn disabled-btn" id="submitBtn" disabled>완료</button>
     </form>
-</main>
+
+    <!-- 모달 -->
+    <div id="successModal">
+        <div class="modal-content">
+            <p>회원가입이 성공적으로 완료되었습니다!</p>
+            <button id="modalCloseBtn">확인</button>
+        </div>
+    </div>
+
+<script>
+    const userIdInput = document.getElementById('userId');
+    const passwordInput = document.getElementById('password');
+    const passwordRepeatInput = document.getElementById('passwordRepeat'); // 비밀번호 재확인 입력
+    const idCheckMessage = document.getElementById('idValid');
+    const pwdCheckMessage = document.getElementById('pwdValid');
+    const pwdRepeatCheckMessage = document.getElementById('pwdRepeatValid'); // 비밀번호 재확인 메시지
+    const submitBtn = document.getElementById('submitBtn');
+
+    // 유효성 검사 상태
+    let isUserIdValid = false;
+    let isPasswordValid = false;
+    let isPasswordRepeatValid = false; // 비밀번호 재확인 상태
+
+    // 아이디 입력 유효성 검사
+    userIdInput.addEventListener('input', () => {
+        const userId = userIdInput.value;
+
+        if (userId.trim() === "") {
+            idCheckMessage.style.display = "none";
+            isUserIdValid = false;
+            toggleSubmitButton();
+            return;
+        }
+
+        fetch(`/api/user/check-username?userId=${userId}`)
+            .then(response => response.json())
+            .then(isDuplicate => {
+                if (isDuplicate) {
+                    idCheckMessage.style.display = "inline";
+                    idCheckMessage.textContent = "이미 사용 중인 아이디입니다.";
+                    idCheckMessage.className = "invalid-message";
+                    isUserIdValid = false;
+                } else {
+                    idCheckMessage.style.display = "inline";
+                    idCheckMessage.textContent = "사용 가능한 아이디입니다.";
+                    idCheckMessage.className = "valid-message";
+                    isUserIdValid = true;
+                }
+                toggleSubmitButton();
+            })
+            .catch(error => {
+                console.error("Error checking username:", error);
+                isUserIdValid = false;
+                toggleSubmitButton();
+            });
+    });
+
+    // 비밀번호 입력 유효성 검사
+    passwordInput.addEventListener('input', () => {
+        const password = passwordInput.value;
+
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+        if (!passwordRegex.test(password)) {
+            pwdCheckMessage.style.display = "inline";
+            pwdCheckMessage.textContent = "비밀번호는 영문자, 숫자, 특수문자를 포함해야 합니다.";
+            pwdCheckMessage.className = "invalid-message";
+            isPasswordValid = false;
+        } else {
+            pwdCheckMessage.style.display = "inline";
+            pwdCheckMessage.textContent = "사용 가능한 비밀번호입니다.";
+            pwdCheckMessage.className = "valid-message";
+            isPasswordValid = true;
+        }
+        // validatePasswordRepeat(); // 비밀번호 확인도 다시 검증
+        toggleSubmitButton();
+    });
+
+    // 비밀번호 재확인 입력 유효성 검사
+    passwordRepeatInput.addEventListener('input', () => {
+        const passwordRepeat = passwordRepeatInput.value;
+
+        // 비밀번호 재입력 칸에 값이 있는 경우에만 유효성 검사 수행
+        if (passwordRepeat.trim() === "") {
+            pwdRepeatCheckMessage.style.display = "none"; // 메시지 숨기기
+            isPasswordRepeatValid = false; // 유효하지 않은 상태로 설정
+            toggleSubmitButton();
+            return;
+        }
+
+        validatePasswordRepeat();
+        toggleSubmitButton();
+    });
+
+    function validatePasswordRepeat() {
+        const password = passwordInput.value;
+        const passwordRepeat = passwordRepeatInput.value;
+
+        if (password !== passwordRepeat) {
+            pwdRepeatCheckMessage.style.display = "inline";
+            pwdRepeatCheckMessage.textContent = "비밀번호가 일치하지 않습니다.";
+            pwdRepeatCheckMessage.className = "invalid-message";
+            isPasswordRepeatValid = false;
+        } else {
+            pwdRepeatCheckMessage.style.display = "inline";
+            pwdRepeatCheckMessage.textContent = "비밀번호가 일치합니다.";
+            pwdRepeatCheckMessage.className = "valid-message";
+            isPasswordRepeatValid = true;
+        }
+    }
+
+    // 버튼 활성화/비활성화 처리
+    function toggleSubmitButton() {
+        if (isUserIdValid && isPasswordValid && isPasswordRepeatValid) {
+            enableSubmitButton();
+        } else {
+            disableSubmitButton();
+        }
+    }
+
+    function disableSubmitButton() {
+        submitBtn.disabled = true;
+        submitBtn.classList.add('disabled-btn'); // 회색 스타일 추가
+    }
+
+    function enableSubmitButton() {
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('disabled-btn'); // 회색 스타일 제거
+
+
+    }
+
+    const form = document.querySelector("form");
+    const successModal = document.getElementById("successModal");
+    const modalCloseBtn = document.getElementById("modalCloseBtn");
+
+    // 완료 버튼 클릭 시 이벤트 처리
+    form.addEventListener("submit", (event) => {
+        event.preventDefault(); // 기본 폼 제출 동작 중단
+
+        // 서버에 데이터 전송 로직
+        const formData = new FormData(form);
+        fetch(form.action, {
+            method: "POST",
+            body: formData,
+        })
+            .then((response) => {
+                if (response.ok) {
+                    // 회원가입 성공 시 모달 표시
+                    showModal();
+                } else {
+                    alert("회원가입에 실패했습니다. 다시 시도해주세요.");
+                }
+            })
+            .catch((error) => {
+                console.error("Error submitting the form:", error);
+                alert("회원가입 중 오류가 발생했습니다. 다시 시도해주세요.");
+            });
+    });
+
+    // 모달 표시
+    function showModal() {
+        successModal.style.display = "block";
+    }
+
+    // 모달 닫기
+    modalCloseBtn.addEventListener("click", () => {
+        successModal.style.display = "none";
+        window.location.href = "/login"; // 로그인 페이지로 이동
+    });
+
+</script>
 </body>
 </html>

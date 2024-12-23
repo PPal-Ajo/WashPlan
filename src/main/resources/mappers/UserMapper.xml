@@ -6,10 +6,6 @@
 <mapper namespace="com.ohgiraffers.washplan.auth.model.dao.AuthMapper">
 
 
-
-
-
-
     <select id="findByUserId" parameterType="string" resultType="com.ohgiraffers.washplan.user.model.dto.UserDTO">
         SELECT USER_ID AS userId,
         USER_PWD AS password,
@@ -19,6 +15,9 @@
         FROM TBL_USER
         WHERE USER_ID = #{userId}
     </select>
+
+
+
 
 
 </mapper>
