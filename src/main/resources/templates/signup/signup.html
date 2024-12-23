@@ -6,22 +6,6 @@
     <!-- CSS 경로를 Thymeleaf로 설정 -->
     <link th:href="@{/css/base/nav.css}" rel="stylesheet">
     <link th:href="@{/css/signup/signup.css}" rel="stylesheet">
-    <style>
-        /* 비활성화된 버튼 스타일 */
-        .disabled-btn {
-            background-color: #cccccc; /* 회색 */
-            color: #666666; /* 텍스트 색상 */
-            cursor: not-allowed; /* 클릭 불가 커서 */
-        }
-        /* 유효한 입력 메시지 스타일 */
-        .valid-message {
-            color: #0088ff; /* 파란색 */
-        }
-        /* 유효하지 않은 입력 메시지 스타일 */
-        .invalid-message {
-            color: red;
-        }
-    </style>
 </head>
 <body>
 <!-- 배경 이미지 경로를 Thymeleaf로 설정 -->
@@ -62,7 +46,14 @@
         </div>
         <button type="submit" class="completeBtn disabled-btn" id="submitBtn" disabled>완료</button>
     </form>
-</main>
+
+    <!-- 모달 -->
+    <div id="successModal">
+        <div class="modal-content">
+            <p>회원가입이 성공적으로 완료되었습니다!</p>
+            <button id="modalCloseBtn">확인</button>
+        </div>
+    </div>
 
 <script>
     const userIdInput = document.getElementById('userId');
@@ -183,7 +174,49 @@
     function enableSubmitButton() {
         submitBtn.disabled = false;
         submitBtn.classList.remove('disabled-btn'); // 회색 스타일 제거
+
+
     }
+
+    const form = document.querySelector("form");
+    const successModal = document.getElementById("successModal");
+    const modalCloseBtn = document.getElementById("modalCloseBtn");
+
+    // 완료 버튼 클릭 시 이벤트 처리
+    form.addEventListener("submit", (event) => {
+        event.preventDefault(); // 기본 폼 제출 동작 중단
+
+        // 서버에 데이터 전송 로직
+        const formData = new FormData(form);
+        fetch(form.action, {
+            method: "POST",
+            body: formData,
+        })
+            .then((response) => {
+                if (response.ok) {
+                    // 회원가입 성공 시 모달 표시
+                    showModal();
+                } else {
+                    alert("회원가입에 실패했습니다. 다시 시도해주세요.");
+                }
+            })
+            .catch((error) => {
+                console.error("Error submitting the form:", error);
+                alert("회원가입 중 오류가 발생했습니다. 다시 시도해주세요.");
+            });
+    });
+
+    // 모달 표시
+    function showModal() {
+        successModal.style.display = "block";
+    }
+
+    // 모달 닫기
+    modalCloseBtn.addEventListener("click", () => {
+        successModal.style.display = "none";
+        window.location.href = "/login"; // 로그인 페이지로 이동
+    });
+
 </script>
 </body>
 </html>
