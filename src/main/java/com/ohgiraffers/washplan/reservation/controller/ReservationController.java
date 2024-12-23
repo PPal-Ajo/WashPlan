@@ -1,10 +1,14 @@
 package com.ohgiraffers.washplan.reservation.controller;
 
+import com.ohgiraffers.washplan.auth.model.dto.CustomUserDetails;
+import com.ohgiraffers.washplan.auth.model.service.CustomUserDetailsService;
 import com.ohgiraffers.washplan.reservation.model.dto.ReservationDTO;
 import com.ohgiraffers.washplan.reservation.model.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -49,8 +53,15 @@ public class ReservationController {
     }
     @PostMapping("/reservation/save")
     public ResponseEntity<String> saveReservation(@RequestBody ReservationDTO reservationDTO) {
-        // 유저 번호 임시 설정
-        reservationDTO.setUserNo(1);
+        // 로그인한 유저의 번호 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof CustomUserDetails) {
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            int userNo = userDetails.getUserNo();
+            reservationDTO.setUserNo(userNo); // 유저 번호 설정
+        } else {
+            return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED); // 인증되지 않은 경우 처리
+        }
 
         // 예약 정보 저장
         reservationService.saveReservation(reservationDTO);

@@ -6,12 +6,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 
 public class CustomUserDetails implements UserDetails {
-
+    private int userNo;
     private String userId;
     private String password;
     private String email;
 
-    public CustomUserDetails(String userId, String password, String email) {
+    public CustomUserDetails(int userNo, String userId, String password, String email) {
+        this.userNo = userNo;
         this.userId = userId;
         this.password = password;
         this.email = email;
@@ -24,6 +25,14 @@ public class CustomUserDetails implements UserDetails {
         return null; // 필요에 따라 구현
     }
 
+    public int getUserNo() {
+        return userNo;
+    }
+
+    public void setUserNo(int userNo) {
+        this.userNo = userNo;
+    }
+
     @Override
     public String getPassword() {
         return password;
@@ -33,6 +42,9 @@ public class CustomUserDetails implements UserDetails {
     public String getUsername() {
         return userId;
     }
+
+
+
 
     @Override
     public boolean isAccountNonExpired() {

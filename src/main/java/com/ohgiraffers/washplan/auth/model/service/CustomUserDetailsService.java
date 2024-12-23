@@ -32,7 +32,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         System.out.println("DB에서 조회된 사용자 정보: " + user);
 
         // 사용자 정보를 반환하기 전에 확인
-        CustomUserDetails customUserDetails = new CustomUserDetails(user.getUserId(), user.getPassword(), user.getEmail());
+        CustomUserDetails customUserDetails = new CustomUserDetails( user.getUserNo(), user.getUserId(), user.getPassword(), user.getEmail());
         System.out.println("생성된 CustomUserDetails: " + customUserDetails);
 
         return customUserDetails;
