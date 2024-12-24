@@ -635,7 +635,7 @@ button:active {
 
 .userStatusValue{
     position: absolute;
-    left:1030px;
+    left:1010px;
     width:100px;
 }
 .userCancelValue{
@@ -653,18 +653,15 @@ button:active {
 
 .pagination{
     position: absolute;
-    top:940px;
-    left:900px;
-    width: 300px;
+    top:920px;
+    left:850px;
 
-    font-family: 'Do Hyeon';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 38px;
-    /* identical to box height */
+    width: auto; /* 가로 크기를 자동으로 조정 */
+    display: flex; /* 플렉스 박스 사용 */
+    justify-content: center; /* 가운데 정렬 */
+    align-items: center; /* 수직 가운데 정렬 */
+    gap: 10px; /* 버튼 간 간격 추가 */
 
-    color: #000000;
 }
 
 #prevPage, #nextPage {
@@ -676,12 +673,36 @@ button:active {
     height: 40px;
 
     text-align: center;
-    font-size: 18px;
+    font-size: 20px;
     cursor: pointer;
 }
-#currentPage, #totalPages {
-    margin: 0 20px; /* 페이지 번호 간 간격 추가 */
 
+
+
+.page-number {
+    background-color: #f0f0f0;
+    color: black;
+    border: none;
+    border-radius: 4px;
+    width: 40px;
+    height: 40px;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #000000;
+    cursor: pointer;
+    margin: 0 10px; /* 페이지 번호 간 간격 추가 */
+
+}
+
+.page-number.active {
+    background-color: #42A5F5;
+    color: white;
+    font-weight: bold;
 }
 
 

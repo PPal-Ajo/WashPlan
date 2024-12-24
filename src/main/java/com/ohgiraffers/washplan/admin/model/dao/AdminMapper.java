@@ -13,4 +13,8 @@ public interface AdminMapper {
     void pauseUser(int userNo);
 
     void deleteUser(int userNo);
+
+    List<AdminDTO> searchAll(String s);
+
+    List<AdminDTO> searchByCancelCount(int cancelCount);
 }
