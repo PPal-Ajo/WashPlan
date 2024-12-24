@@ -545,8 +545,39 @@
             const confirmButton2 = document.getElementById("confirmButton2");
             const situationElement = document.querySelector(".situation span");
 
+            let isMachineBroken = false; // 기기가 고장 상태인지 추적
+
+            // 기기 상태 확인 함수
+            async function checkMachineStatus() {
+                try {
+                    const response = await fetch("/reservation/status/101"); // 서버에서 기기 상태 확인
+                    if (!response.ok) {
+                        throw new Error("기기 상태를 가져오는 중 오류 발생");
+                    }
+                    const status = await response.text(); // 기기 상태 텍스트 반환
+
+                    // 기기 상태 처리
+                    if (status === "고장") {
+                        situationElement.textContent = "고장";
+                        situationElement.style.color = "#A500FF"; // 빨간색
+                        reserveButton.disabled = true; // 예약 버튼 비활성화
+                        isMachineBroken = true; // 고장 상태 설정
+                    } else {
+                        checkAndUpdateStatus()
+                        isMachineBroken = false; // 고장 상태 해제
+                    }
+                } catch (error) {
+                    console.error("기기 상태 확인 중 오류 발생:", error);
+                }
+            }
+
             // 예약 상태 확인 함수
             async function checkAndUpdateStatus() {
+
+                if (isMachineBroken) {
+                    // 기기가 고장 상태라면 예약 상태를 확인하지 않음
+                    return;
+                }
                 const reservationData = {
                     machineNo: document.querySelector(".호101 span").innerText.trim(), // 기기 번호
                     reserveDate: document.getElementById("washDatetimePicker").value.split(" ")[0], // 날짜만
@@ -578,6 +609,11 @@
 
             // 예약 종료 시간 업데이트 (서버에 완료 상태 변경 요청)
             async function updateReservationStatus() {
+
+                if (isMachineBroken) {
+                    // 기기가 고장 상태라면 예약 상태를 확인하지 않음
+                    return;
+                }
                 try {
                     await fetch("/reservation/updateStatus", {
                         method: "POST",
@@ -668,7 +704,7 @@
             }, true);
 
             // 페이지 로드 시 예약 상태 확인
-            checkAndUpdateStatus();
+            checkMachineStatus()
         });
 
     </script>
@@ -686,8 +722,38 @@
             const confirmButton2 = document.getElementById("confirmButton4");
             const situationElement = document.querySelector(".situation2 span");
 
+            let isMachineBroken = false; // 기기가 고장 상태인지 추적
+
+            // 기기 상태 확인 함수
+            async function checkMachineStatus() {
+                try {
+                    const response = await fetch("/reservation/status/102"); // 서버에서 기기 상태 확인
+                    if (!response.ok) {
+                        throw new Error("기기 상태를 가져오는 중 오류 발생");
+                    }
+                    const status = await response.text(); // 기기 상태 텍스트 반환
+
+                    // 기기 상태 처리
+                    if (status === "고장") {
+                        situationElement.textContent = "고장";
+                        situationElement.style.color = "#A500FF"; // 빨간색
+                        reserveButton.disabled = true; // 예약 버튼 비활성화
+                        isMachineBroken = true; // 고장 상태 설정
+                    } else {
+                        checkAndUpdateStatus()
+                        isMachineBroken = false; // 고장 상태 해제
+                    }
+                } catch (error) {
+                    console.error("기기 상태 확인 중 오류 발생:", error);
+                }
+            }
+
             // 예약 상태 확인 함수
             async function checkAndUpdateStatus() {
+                if (isMachineBroken) {
+                    // 기기가 고장 상태라면 예약 상태를 확인하지 않음
+                    return;
+                }
                 const reservationData = {
                     machineNo: document.querySelector(".호102 span").innerText.trim(), // 기기 번호
                     reserveDate: document.getElementById("washDatetimePicker").value.split(" ")[0], // 날짜만
@@ -719,6 +785,11 @@
 
             // 예약 종료 시간 업데이트 (서버에 완료 상태 변경 요청)
             async function updateReservationStatus() {
+                if (isMachineBroken) {
+                    // 기기가 고장 상태라면 예약 상태를 업데이트하지 않음
+                    return;
+                }
+
                 try {
                     await fetch("/reservation/updateStatus", {
                         method: "POST",
@@ -806,7 +877,9 @@
                 }
             }, true);
 
-            checkAndUpdateStatus();
+
+            checkMachineStatus();
+
         });
 
     </script>
@@ -822,8 +895,39 @@
             const confirmButton2 = document.getElementById("confirmButton6");
             const situationElement = document.querySelector(".situation3 span");
 
+            let isMachineBroken = false; // 기기가 고장 상태인지 추적
+
+            // 기기 상태 확인 함수
+            async function checkMachineStatus() {
+                try {
+                    const response = await fetch("/reservation/status/103"); // 서버에서 기기 상태 확인
+                    if (!response.ok) {
+                        throw new Error("기기 상태를 가져오는 중 오류 발생");
+                    }
+                    const status = await response.text(); // 기기 상태 텍스트 반환
+
+                    // 기기 상태 처리
+                    if (status === "고장") {
+                        situationElement.textContent = "고장";
+                        situationElement.style.color = "#A500FF"; // 빨간색
+                        reserveButton.disabled = true; // 예약 버튼 비활성화
+                        isMachineBroken = true; // 고장 상태 설정
+                    } else {
+                        checkAndUpdateStatus()
+                        isMachineBroken = false; // 고장 상태 해제
+                    }
+                } catch (error) {
+                    console.error("기기 상태 확인 중 오류 발생:", error);
+                }
+            }
+
             // 예약 상태 확인 함수
             async function checkAndUpdateStatus() {
+
+                if (isMachineBroken) {
+                    // 기기가 고장 상태라면 예약 상태를 업데이트하지 않음
+                    return;
+                }
                 const reservationData = {
                     machineNo: document.querySelector(".호103 span").innerText.trim(), // 기기 번호
                     reserveDate: document.getElementById("washDatetimePicker").value.split(" ")[0], // 날짜만
@@ -855,6 +959,11 @@
 
             // 예약 종료 시간 업데이트 (서버에 완료 상태 변경 요청)
             async function updateReservationStatus() {
+
+                if (isMachineBroken) {
+                    // 기기가 고장 상태라면 예약 상태를 업데이트하지 않음
+                    return;
+                }
                 try {
                     await fetch("/reservation/updateStatus", {
                         method: "POST",
@@ -939,7 +1048,7 @@
                     }
                 }
             }, true);
-            checkAndUpdateStatus();
+            checkMachineStatus()
         });
 
     </script>
@@ -954,9 +1063,37 @@
             const confirmButton = document.getElementById("confirmButton7");
             const confirmButton2 = document.getElementById("confirmButton8");
             const situationElement = document.querySelector(".dry-situation span");
+            let isMachineBroken = false; // 기기가 고장 상태인지 추적
+            // 기기 상태 확인 함수
+            async function checkMachineStatus() {
+                try {
+                    const response = await fetch("/reservation/status/201"); // 서버에서 기기 상태 확인
+                    if (!response.ok) {
+                        throw new Error("기기 상태를 가져오는 중 오류 발생");
+                    }
+                    const status = await response.text(); // 기기 상태 텍스트 반환
+
+                    // 기기 상태 처리
+                    if (status === "고장") {
+                        situationElement.textContent = "고장";
+                        situationElement.style.color = "#A500FF"; // 빨간색
+                        reserveButton.disabled = true; // 예약 버튼 비활성화
+                        isMachineBroken = true; // 고장 상태 설정
+                    } else {
+                        checkAndUpdateStatus()
+                        isMachineBroken = false; // 고장 상태 해제
+                    }
+                } catch (error) {
+                    console.error("기기 상태 확인 중 오류 발생:", error);
+                }
+            }
 
             // 예약 상태 확인 함수
             async function checkAndUpdateStatus() {
+                if (isMachineBroken) {
+                    // 기기가 고장 상태라면 예약 상태를 업데이트하지 않음
+                    return;
+                }
                 const reservationData = {
                     machineNo: document.querySelector(".호201 span").innerText.trim(), // 기기 번호
                     reserveDate: document.getElementById("dryDatetimePicker").value.split(" ")[0], // 날짜만
@@ -988,6 +1125,11 @@
 
             // 예약 종료 시간 업데이트 (서버에 완료 상태 변경 요청)
             async function updateReservationStatus() {
+
+                if (isMachineBroken) {
+                    // 기기가 고장 상태라면 예약 상태를 업데이트하지 않음
+                    return;
+                }
                 try {
                     await fetch("/reservation/updateStatus", {
                         method: "POST",
@@ -1072,7 +1214,7 @@
                     }
                 }
             }, true);
-            checkAndUpdateStatus();
+            checkMachineStatus()
         });
 
     </script>
@@ -1088,8 +1230,37 @@
             const confirmButton2 = document.getElementById("confirmButton10");
             const situationElement = document.querySelector(".dry-situation2 span");
 
+            let isMachineBroken = false; // 기기가 고장 상태인지 추적
+            // 기기 상태 확인 함수
+            async function checkMachineStatus() {
+                try {
+                    const response = await fetch("/reservation/status/202"); // 서버에서 기기 상태 확인
+                    if (!response.ok) {
+                        throw new Error("기기 상태를 가져오는 중 오류 발생");
+                    }
+                    const status = await response.text(); // 기기 상태 텍스트 반환
+
+                    // 기기 상태 처리
+                    if (status === "고장") {
+                        situationElement.textContent = "고장";
+                        situationElement.style.color = "#A500FF"; // 빨간색
+                        reserveButton.disabled = true; // 예약 버튼 비활성화
+                        isMachineBroken = true; // 고장 상태 설정
+                    } else {
+                        checkAndUpdateStatus()
+                        isMachineBroken = false; // 고장 상태 해제
+                    }
+                } catch (error) {
+                    console.error("기기 상태 확인 중 오류 발생:", error);
+                }
+            }
+
             // 예약 상태 확인 함수
             async function checkAndUpdateStatus() {
+                if (isMachineBroken) {
+                    // 기기가 고장 상태라면 예약 상태를 업데이트하지 않음
+                    return;
+                }
                 const reservationData = {
                     machineNo: document.querySelector(".호202 span").innerText.trim(), // 기기 번호
                     reserveDate: document.getElementById("dryDatetimePicker").value.split(" ")[0], // 날짜만
@@ -1121,6 +1292,10 @@
 
             // 예약 종료 시간 업데이트 (서버에 완료 상태 변경 요청)
             async function updateReservationStatus() {
+                if (isMachineBroken) {
+                    // 기기가 고장 상태라면 예약 상태를 업데이트하지 않음
+                    return;
+                }
                 try {
                     await fetch("/reservation/updateStatus", {
                         method: "POST",
@@ -1204,7 +1379,7 @@
                     }
                 }
             }, true);
-            checkAndUpdateStatus();
+            checkMachineStatus()
         });
 
     </script>
@@ -1220,8 +1395,37 @@
             const confirmButton2 = document.getElementById("confirmButton12");
             const situationElement = document.querySelector(".dry-situation3 span");
 
+            let isMachineBroken = false; // 기기가 고장 상태인지 추적
+            // 기기 상태 확인 함수
+            async function checkMachineStatus() {
+                try {
+                    const response = await fetch("/reservation/status/203"); // 서버에서 기기 상태 확인
+                    if (!response.ok) {
+                        throw new Error("기기 상태를 가져오는 중 오류 발생");
+                    }
+                    const status = await response.text(); // 기기 상태 텍스트 반환
+
+                    // 기기 상태 처리
+                    if (status === "고장") {
+                        situationElement.textContent = "고장";
+                        situationElement.style.color = "#A500FF"; // 빨간색
+                        reserveButton.disabled = true; // 예약 버튼 비활성화
+                        isMachineBroken = true; // 고장 상태 설정
+                    } else {
+                        checkAndUpdateStatus()
+                        isMachineBroken = false; // 고장 상태 해제
+                    }
+                } catch (error) {
+                    console.error("기기 상태 확인 중 오류 발생:", error);
+                }
+            }
+
             // 예약 상태 확인 함수
             async function checkAndUpdateStatus() {
+                if (isMachineBroken) {
+                    // 기기가 고장 상태라면 예약 상태를 업데이트하지 않음
+                    return;
+                }
                 const reservationData = {
                     machineNo: document.querySelector(".호203 span").innerText.trim(), // 기기 번호
                     reserveDate: document.getElementById("dryDatetimePicker").value.split(" ")[0], // 날짜만
@@ -1253,6 +1457,10 @@
 
             // 예약 종료 시간 업데이트 (서버에 완료 상태 변경 요청)
             async function updateReservationStatus() {
+                if (isMachineBroken) {
+                    // 기기가 고장 상태라면 예약 상태를 업데이트하지 않음
+                    return;
+                }
                 try {
                     await fetch("/reservation/updateStatus", {
                         method: "POST",
@@ -1336,7 +1544,7 @@
                     }
                 }
             }, true);
-            checkAndUpdateStatus();
+            checkMachineStatus();
         });
 
     </script>

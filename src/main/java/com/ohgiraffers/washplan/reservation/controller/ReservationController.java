@@ -45,12 +45,20 @@ public class ReservationController {
        model.addAttribute("machineNo201", machineNo201);
        model.addAttribute("machineNo202", machineNo202);
        model.addAttribute("machineNo203", machineNo203);
+       
 
 
 
 
         return "reservation/reservation";
     }
+
+    @GetMapping("/reservation/status/{machineNo}")
+    @ResponseBody
+    public String getMachineStatus(@PathVariable int machineNo) {
+        return reservationService.getMachineStatus(machineNo); // 기기 상태 반환
+    }
+
     @PostMapping("/reservation/save")
     public ResponseEntity<String> saveReservation(@RequestBody ReservationDTO reservationDTO) {
         // 로그인한 유저의 번호 가져오기

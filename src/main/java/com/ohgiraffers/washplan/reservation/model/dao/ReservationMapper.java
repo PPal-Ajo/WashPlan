@@ -32,4 +32,12 @@ public interface ReservationMapper {
 
 
     int checkReservation(Map<String, Object> params);
+
+    String findMachineStatus101();
+
+    String findMachineStatus102();
+
+    String findMachineStatus103();
+
+    String getMachineStatus(int machineNo);
 }
