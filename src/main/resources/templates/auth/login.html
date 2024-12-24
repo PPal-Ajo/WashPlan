@@ -38,12 +38,30 @@
         <label for="box4" id="box3">PASSWORD :</label>
         <input id="box4" name="password" type="password" placeholder="비밀번호 입력" required>
         <!-- 이미지 경로를 Thymeleaf로 설정 -->
-        <img th:src="@{/images/login/Invisible.png}" alt="Invisible" class="ivs">
+        <img th:src="@{/images/login/Invisible.png}" alt="Invisible" class="ivs1">
 
         <button class="loginbtn" type="submit">로그인</button>
     </form>
 
     <p id="forget"><a th:href="@{/forgot-password}">아이디나 비밀번호를 잊으셨나요?</a></p>
 </main>
+
+<script>
+    const ivs1 = document.querySelector('.ivs1');
+    const passwordInput = document.getElementById('box4'); // 비밀번호 입력 필드 가져오기
+
+    // 비밀번호 표시 여부 상태
+    let isPasswordVisible = false;
+
+    // ivs1 클릭 시 비밀번호 입력칸 토글
+    ivs1.addEventListener('click', () => {
+        isPasswordVisible = !isPasswordVisible;
+        passwordInput.type = isPasswordVisible ? 'text' : 'password';
+    });
+
+
+
+
+</script>
 </body>
 </html>
