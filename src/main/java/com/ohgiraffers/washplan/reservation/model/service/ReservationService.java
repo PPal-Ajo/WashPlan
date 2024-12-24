@@ -68,4 +68,20 @@ public class ReservationService {
 
         return reservationMapper.checkReservation(params);
     }
+
+    public String getStatus101() {
+        return reservationMapper.findMachineStatus101();
+    }
+
+    public String getStatus102() {
+        return reservationMapper.findMachineStatus102();
+    }
+
+    public String getStatus103() {
+        return reservationMapper.findMachineStatus103();
+    }
+
+    public String getMachineStatus(int machineNo) {
+        return reservationMapper.getMachineStatus(machineNo);
+    }
 }

@@ -70,4 +70,12 @@
         OR (RESERVE_DATE = CURDATE() AND END_TIME &lt;= CURTIME());
     </update>
 
+
+    <!-- 기기 상태 조회 -->
+    <select id="getMachineStatus" parameterType="int" resultType="string">
+        SELECT MACHINE_STATUS
+        FROM TBL_MACHINE
+        WHERE MACHINE_NO = #{machineNo}
+    </select>
+
 </mapper>
