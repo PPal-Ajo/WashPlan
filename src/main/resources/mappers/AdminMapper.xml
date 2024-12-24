@@ -34,5 +34,18 @@
         WHERE USER_NO = #{userNo}
     </update>
 
+    <select id="searchAll" parameterType="string" resultMap="adminResultMap">
+        SELECT USER_NO, USER_ID, CREATED_TIME, USER_STATUS, CANCEL_COUNT
+        FROM TBL_USER
+        WHERE USER_ID LIKE #{keyword}
+        OR USER_STATUS LIKE #{keyword}
+    </select>
+
+    <select id="searchByCancelCount" parameterType="int" resultMap="adminResultMap">
+        SELECT USER_NO, USER_ID, CREATED_TIME, USER_STATUS, CANCEL_COUNT
+        FROM TBL_USER
+        WHERE CANCEL_COUNT >= #{cancelCount}
+    </select>
+
 
 </mapper>

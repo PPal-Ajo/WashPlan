@@ -34,4 +34,12 @@ public class AdminService {
             adminMapper.deleteUser(userNo);
         }
     }
+
+    public List<AdminDTO> searchAll(String keyword) {
+        return adminMapper.searchAll("%" + keyword + "%");
+    }
+
+    public List<AdminDTO> searchByCancelCount(int cancelCount) {
+        return adminMapper.searchByCancelCount(cancelCount);
+    }
 }
