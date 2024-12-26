@@ -31,7 +31,7 @@
 </header>
 
 <main>
-    <span class="emaillogo">이메일 인증</span>
+    <span class="emaillogo">아이디 찾기</span>
     <span class="emaildetail">회원가입 시 사용하신 이메일을 입력해주세요.</span>
 
     <div class="emailbox">
@@ -54,24 +54,16 @@
     </div>
     <button id="confirm">코드 확인</button>
 
-
-
     <div id="loading" style="display:none;">로딩 중...</div>
     <div id="message" style="display:none;"></div>
 
-
-    <!-- 인증번호 메시지 출력 영역 -->
-    <div id="verifyMessage"></div>
-
     <!-- 모달 창 -->
-    <div id="successModal">
+    <div id="successModal" style="display:none;">
         <div class="modal-content">
-            <p>인증이 완료되었습니다!</p>
+            <p id="foundIdMessage"></p>
             <button id="closeModal">확인</button>
         </div>
     </div>
-
-
 
     <script>
         const emailDomain = document.getElementById('emailDomain');
@@ -88,26 +80,16 @@
                 customDomain.value = emailDomain.value;
             }
         });
+
         document.getElementById('sendAuthCode').addEventListener('click', () => {
             const emailInput = document.getElementById('emailinput').value;
-            const customDomain = document.getElementById('customDomain').value;
-            const emailDomain = document.getElementById('emailDomain').value;
-            const domain = emailDomain === 'custom' ? customDomain : emailDomain;
-
+            const domain = emailDomain.value === 'custom' ? customDomain.value : emailDomain.value;
             const email = `${emailInput}@${domain}`;
             const message = document.getElementById('message');
             const loading = document.getElementById('loading');
 
-            // 정규 표현식으로 이메일 형식 검사
+            // 이메일 유효성 검사
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-            if (!emailInput || !domain) {
-                message.textContent = "이메일을 입력해주세요.";
-                message.style.color = "red";
-                message.style.display = "block";
-                return;
-            }
-
             if (!emailRegex.test(email)) {
                 message.textContent = "유효하지 않은 이메일 형식입니다.";
                 message.style.color = "red";
@@ -115,43 +97,26 @@
                 return;
             }
 
-            // 로딩 표시
+            // 로딩 시작
             loading.style.display = 'block';
-            message.style.display = 'none';
 
-            // Step 1: 이메일 중복 체크
-            fetch('/email/check-duplicate', {
+            // 이메일 존재 여부 확인 및 인증번호 전송
+            fetch('/email/find-id/send', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email: email })
+                body: JSON.stringify({ email })
             })
                 .then(response => response.json())
                 .then(data => {
-                    if (data.isDuplicate) {
-                        // 중복된 이메일
-                        loading.style.display = 'none';
-                        message.textContent = "중복된 이메일입니다.";
+                    loading.style.display = 'none';
+                    if (!data.exists) {
+                        message.textContent = "존재하지 않는 이메일입니다.";
                         message.style.color = "red";
                         message.style.display = "block";
                     } else {
-                        // Step 2: 인증번호 전송
-                        fetch('/email/send', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ email: email })
-                        })
-                            .then(response => response.json())
-                            .then(sendData => {
-                                loading.style.display = 'none';
-                                if (sendData.success) {
-                                    message.textContent = "인증번호가 발송되었습니다.";
-                                    message.style.color = "#0062FF";
-                                } else {
-                                    message.textContent = "인증번호 전송에 실패했습니다.";
-                                    message.style.color = "red";
-                                }
-                                message.style.display = "block";
-                            });
+                        message.textContent = "인증번호가 발송되었습니다.";
+                        message.style.color = "#0062FF";
+                        message.style.display = "block";
                     }
                 })
                 .catch(error => {
@@ -159,75 +124,52 @@
                     message.textContent = "서버 오류가 발생했습니다.";
                     message.style.color = "red";
                     message.style.display = "block";
-                    console.error('Error:', error);
                 });
         });
 
-
-
-        // 인증번호 확인 요청
         document.getElementById('confirm').addEventListener('click', () => {
             const emailInput = document.getElementById('emailinput').value;
-            const domain =
-                emailDomain.value === 'custom' ? customDomain.value : emailDomain.value;
-
+            const domain = emailDomain.value === 'custom' ? customDomain.value : emailDomain.value;
             const email = `${emailInput}@${domain}`;
             const code = document.getElementById('codeinput').value;
-            const verifyMessage = document.getElementById('verifyMessage');
-            const successModal = document.getElementById('successModal');
-            const closeModal = document.getElementById('closeModal');
 
-            // 입력한 코드가 비어있을 경우
+            const verifyMessage = document.getElementById('message');
+            const successModal = document.getElementById('successModal');
+            const foundIdMessage = document.getElementById('foundIdMessage');
+
             if (!code) {
-                verifyMessage.textContent = '인증번호를 입력해주세요.';
-                verifyMessage.style.display = 'block';
+                verifyMessage.textContent = "인증번호를 입력해주세요.";
+                verifyMessage.style.color = "red";
+                verifyMessage.style.display = "block";
                 return;
             }
 
-            // 서버에 인증번호 확인 요청
-            fetch('/email/verify', {
+            // 인증번호 확인 요청
+            fetch('/email/find-id/verify', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email: email, code: code })
+                body: JSON.stringify({ email, code })
             })
                 .then(response => response.json())
                 .then(data => {
-                    if (data.success) {
-                        // 성공: 모달 창 표시
+                    if (data.userId) {
+                        foundIdMessage.textContent = `회원님의 아이디는 ${data.userId} 입니다.`;
                         successModal.style.display = 'block';
-                        verifyMessage.style.display = 'none';
                     } else {
-                        // 실패: 메시지 출력
-                        verifyMessage.textContent = '인증번호가 올바르지 않습니다.';
-                        verifyMessage.style.display = 'block';
+                        verifyMessage.textContent = "인증번호가 올바르지 않습니다.";
+                        verifyMessage.style.color = "red";
+                        verifyMessage.style.display = "block";
                     }
                 })
                 .catch(err => {
-                    verifyMessage.textContent = '서버 오류가 발생했습니다.';
-                    verifyMessage.style.display = 'block';
-                    console.error('Error:', err);
+                    verifyMessage.textContent = "서버 오류가 발생했습니다.";
+                    verifyMessage.style.color = "red";
+                    verifyMessage.style.display = "block";
                 });
         });
 
         document.getElementById('closeModal').addEventListener('click', () => {
-            fetch('/email/get-session-email', {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json' },
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log("Fetched data:", data); // 이걸로 데이터가 제대로 오는지 확인
-                    if (data.verifiedEmail) {
-                        // 세션 데이터가 있을 경우 페이지 이동
-                        window.location.href = '/signup/form';
-                    } else {
-                        alert('이메일 인증이 필요합니다.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching session email:', error);
-                    alert('서버 오류가 발생했습니다.');
-                });
+            window.location.href = '/login';
         });
     </script>
 </main>

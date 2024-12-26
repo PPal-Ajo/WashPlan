@@ -101,4 +101,15 @@ public class EmailController {
                     .body(Collections.singletonMap("message", "No verified email in session"));
         }
     }
+
+    @PostMapping("/check-existence")
+    public ResponseEntity<Map<String, Boolean>> checkEmailExistence(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        boolean exists = userService.checkEmailExistence(email);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("exists", exists);
+        return ResponseEntity.ok(response);
+    }
+
+
 }
