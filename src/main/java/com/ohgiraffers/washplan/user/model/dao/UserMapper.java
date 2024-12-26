@@ -21,4 +21,9 @@ public interface UserMapper {
     @Select("SELECT COUNT(*) FROM TBL_USER WHERE USER_ID = #{userId}")
     int countByUserId(@Param("userId") String userId);
 
+    @Select("SELECT USER_ID FROM TBL_USER WHERE EMAIL = #{email}")
+    String getUserIdByEmail(@Param("email") String email);
+
+
+
 }

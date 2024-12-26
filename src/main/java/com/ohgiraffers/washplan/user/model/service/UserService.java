@@ -19,4 +19,12 @@ public class UserService {
         return userMapper.countByEmail(email) > 0;
     }
 
+    public boolean checkEmailExistence(String email) {
+        return userMapper.countByEmail(email) > 0;
+    }
+
+    public String getUserIdByEmail(String email) {
+        return userMapper.getUserIdByEmail(email);
+    }
+
 }
