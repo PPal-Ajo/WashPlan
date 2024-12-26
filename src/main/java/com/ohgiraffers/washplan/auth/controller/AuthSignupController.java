@@ -75,4 +75,7 @@ public class AuthSignupController {
 
     @GetMapping("/forget")
     public String forgetPage() { return "auth/forget";}
+
+    @GetMapping("/findid")
+    public String findIdPage() { return "auth/findid";}
 }
