@@ -72,4 +72,7 @@ public class AuthSignupController {
     public String singUpPage() {
         return "signup/signup";
     }
+
+    @GetMapping("/forget")
+    public String forgetPage() { return "auth/forget";}
 }
