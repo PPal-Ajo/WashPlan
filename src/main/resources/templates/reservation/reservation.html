@@ -561,6 +561,7 @@
                         situationElement.textContent = "고장";
                         situationElement.style.color = "#A500FF"; // 빨간색
                         reserveButton.disabled = true; // 예약 버튼 비활성화
+                        reserveButton.classList.add("disabled-button"); // 비활성화 스타일 추가
                         isMachineBroken = true; // 고장 상태 설정
                     } else {
                         checkAndUpdateStatus()
@@ -596,10 +597,12 @@
                     situationElement.textContent = "예약중";
                     situationElement.style.color = "#FD3C3C"; // 빨간색으로 설정
                     reserveButton.disabled = true; // 버튼 비활성화
+                    reserveButton.classList.add("disabled-button"); // 비활성화 스타일 추가
                 } else {
                     situationElement.textContent = "사용가능";
                     situationElement.style.color = "#0062FF";
                     reserveButton.disabled = false;
+                    reserveButton.classList.remove("disabled-button"); // 비활성화 스타일 제거
                 }
             }
             // Flatpickr 시간 변경 이벤트에 예약 상태 확인 추가
@@ -738,6 +741,7 @@
                         situationElement.textContent = "고장";
                         situationElement.style.color = "#A500FF"; // 빨간색
                         reserveButton.disabled = true; // 예약 버튼 비활성화
+                        reserveButton.classList.add("disabled-button"); // 비활성화 스타일 추가
                         isMachineBroken = true; // 고장 상태 설정
                     } else {
                         checkAndUpdateStatus()
@@ -772,10 +776,12 @@
                     situationElement.textContent = "예약중";
                     situationElement.style.color = "#FD3C3C"; // 빨간색으로 설정
                     reserveButton.disabled = true; // 버튼 비활성화
+                    reserveButton.classList.add("disabled-button"); // 비활성화 스타일 추가
                 } else {
                     situationElement.textContent = "사용가능";
                     situationElement.style.color = "#0062FF";
                     reserveButton.disabled = false;
+                    reserveButton.classList.remove("disabled-button"); // 비활성화 스타일 제거
                 }
             }
             // Flatpickr 시간 변경 이벤트에 예약 상태 확인 추가
@@ -911,6 +917,7 @@
                         situationElement.textContent = "고장";
                         situationElement.style.color = "#A500FF"; // 빨간색
                         reserveButton.disabled = true; // 예약 버튼 비활성화
+                        reserveButton.classList.add("disabled-button"); // 비활성화 스타일 추가
                         isMachineBroken = true; // 고장 상태 설정
                     } else {
                         checkAndUpdateStatus()
@@ -946,10 +953,12 @@
                     situationElement.textContent = "예약중";
                     situationElement.style.color = "#FD3C3C"; // 빨간색으로 설정
                     reserveButton.disabled = true; // 버튼 비활성화
+                    reserveButton.classList.add("disabled-button"); // 비활성화 스타일 추가
                 } else {
                     situationElement.textContent = "사용가능";
                     situationElement.style.color = "#0062FF";
                     reserveButton.disabled = false;
+                    reserveButton.classList.remove("disabled-button"); // 비활성화 스타일 제거
                 }
             }
             // Flatpickr 시간 변경 이벤트에 예약 상태 확인 추가
@@ -1078,6 +1087,7 @@
                         situationElement.textContent = "고장";
                         situationElement.style.color = "#A500FF"; // 빨간색
                         reserveButton.disabled = true; // 예약 버튼 비활성화
+                        reserveButton.classList.add("disabled-button"); // 비활성화 스타일 추가
                         isMachineBroken = true; // 고장 상태 설정
                     } else {
                         checkAndUpdateStatus()
@@ -1112,10 +1122,12 @@
                     situationElement.textContent = "예약중";
                     situationElement.style.color = "#FD3C3C"; // 빨간색으로 설정
                     reserveButton.disabled = true; // 버튼 비활성화
+                    reserveButton.classList.add("disabled-button"); // 비활성화 스타일 추가
                 } else {
                     situationElement.textContent = "사용가능";
                     situationElement.style.color = "#0062FF";
                     reserveButton.disabled = false;
+                    reserveButton.classList.remove("disabled-button"); // 비활성화 스타일 제거
                 }
             }
             // Flatpickr 시간 변경 이벤트에 예약 상태 확인 추가
@@ -1245,6 +1257,7 @@
                         situationElement.textContent = "고장";
                         situationElement.style.color = "#A500FF"; // 빨간색
                         reserveButton.disabled = true; // 예약 버튼 비활성화
+                        reserveButton.classList.add("disabled-button"); // 비활성화 스타일 추가
                         isMachineBroken = true; // 고장 상태 설정
                     } else {
                         checkAndUpdateStatus()
@@ -1279,10 +1292,12 @@
                     situationElement.textContent = "예약중";
                     situationElement.style.color = "#FD3C3C"; // 빨간색으로 설정
                     reserveButton.disabled = true; // 버튼 비활성화
+                    reserveButton.classList.add("disabled-button"); // 비활성화 스타일 추가
                 } else {
                     situationElement.textContent = "사용가능";
                     situationElement.style.color = "#0062FF";
                     reserveButton.disabled = false;
+                    reserveButton.classList.remove("disabled-button"); // 비활성화 스타일 제거
                 }
             }
             // Flatpickr 시간 변경 이벤트에 예약 상태 확인 추가
@@ -1408,8 +1423,9 @@
                     // 기기 상태 처리
                     if (status === "고장") {
                         situationElement.textContent = "고장";
-                        situationElement.style.color = "#A500FF"; // 빨간색
+                        situationElement.style.color = "#A500FF";
                         reserveButton.disabled = true; // 예약 버튼 비활성화
+                        reserveButton.classList.add("disabled-button"); // 비활성화 스타일 추가
                         isMachineBroken = true; // 고장 상태 설정
                     } else {
                         checkAndUpdateStatus()
@@ -1444,10 +1460,12 @@
                     situationElement.textContent = "예약중";
                     situationElement.style.color = "#FD3C3C"; // 빨간색으로 설정
                     reserveButton.disabled = true; // 버튼 비활성화
+                    reserveButton.classList.add("disabled-button"); // 비활성화 스타일 추가
                 } else {
                     situationElement.textContent = "사용가능";
                     situationElement.style.color = "#0062FF";
                     reserveButton.disabled = false;
+                    reserveButton.classList.remove("disabled-button"); // 비활성화 스타일 제거
                 }
             }
             // Flatpickr 시간 변경 이벤트에 예약 상태 확인 추가

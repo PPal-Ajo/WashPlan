@@ -13,6 +13,12 @@
         <result column="CANCEL_COUNT" property="cancelCount"/>
     </resultMap>
 
+    <resultMap id="machineResultMap" type="com.ohgiraffers.washplan.admin.model.dto.MachineDTO">
+        <result column="MACHINE_NO" property="machineNo"/>
+        <result column="MACHINE_TYPE" property="machineType"/>
+        <result column="MACHINE_STATUS" property="machineStatus"/>
+    </resultMap>
+
     <select id="findUserInfo" resultMap="adminResultMap">
         SELECT USER_NO,
                 USER_ID,
@@ -46,6 +52,32 @@
         FROM TBL_USER
         WHERE CANCEL_COUNT >= #{cancelCount}
     </select>
+
+    <select id="findWashMachineInfo" resultMap="machineResultMap">
+        SELECT MACHINE_NO,
+                MACHINE_STATUS
+        FROM TBL_MACHINE
+        WHERE MACHINE_TYPE = '세탁기'
+    </select>
+
+    <select id="findDryMachineInfo" resultMap="machineResultMap">
+        SELECT MACHINE_NO,
+                MACHINE_STATUS
+        FROM TBL_MACHINE
+        WHERE MACHINE_TYPE = '건조기'
+
+    </select>
+
+    <update id="toggleMachineStatus">
+        UPDATE TBL_MACHINE
+        SET MACHINE_STATUS =
+            CASE
+                WHEN MACHINE_STATUS = '사용가능' THEN '고장'
+                ELSE '사용가능'
+            END
+        WHERE MACHINE_NO = #{machineNo}
+    </update>
+
 
 
 </mapper>

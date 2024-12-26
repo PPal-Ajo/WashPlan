@@ -2,6 +2,7 @@ package com.ohgiraffers.washplan.admin.model.service;
 
 import com.ohgiraffers.washplan.admin.model.dao.AdminMapper;
 import com.ohgiraffers.washplan.admin.model.dto.AdminDTO;
+import com.ohgiraffers.washplan.admin.model.dto.MachineDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,5 +42,17 @@ public class AdminService {
 
     public List<AdminDTO> searchByCancelCount(int cancelCount) {
         return adminMapper.searchByCancelCount(cancelCount);
+    }
+
+    public List<MachineDTO> getWashMachineInfo() {
+        return adminMapper.findWashMachineInfo();
+    }
+
+    public List<MachineDTO> getDryMachineInfo() {
+        return adminMapper.findDryMachineInfo();
+    }
+
+    public void changeMachineStatus(List<Integer> machineNos) {
+        machineNos.forEach(adminMapper::toggleMachineStatus);
     }
 }

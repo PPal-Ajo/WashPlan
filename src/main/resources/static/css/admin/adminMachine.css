@@ -478,3 +478,67 @@ button:active {
     color: #FFFFFF;
 
 }
+
+.washingInfo{
+    position: absolute;
+    top:500px;
+    left:492px;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #000000;
+}
+
+
+.washMachineStatusValue{
+    position: absolute;
+    left:135px;
+    width:200px;
+    text-align: center;
+}
+
+.washingCheckbox{
+    position: absolute;
+    left:-80px;
+    width:30px;
+    height:30px;
+}
+
+
+.dryingInfo{
+    position: absolute;
+    top:500px;
+    left:1207px;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #000000;
+}
+
+
+.dryMachineStatusValue{
+    position: absolute;
+    left:135px;
+    width:200px;
+    text-align: center;
+}
+
+.dryingCheckbox{
+    position: absolute;
+    left:-80px;
+    width:30px;
+    height:30px;
+}
+
+
+
+
+
