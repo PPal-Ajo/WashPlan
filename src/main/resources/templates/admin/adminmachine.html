@@ -36,8 +36,26 @@
 <span class="washingNo">기기번호</span>
 <span class="washingStatus">상태</span>
 
+<!--세탁기 정보 불러오기 -->
+<div id="washingContainer" class="washingInfo">
+    <div  id="washingContent"  class="washingInfo2" th:each="washmachine : ${washmachines}">
+        <input type="checkbox" class="washingCheckbox" name="machineCheckBox" th:value="${washmachine.machineNo}">
+        <span class="washMachineNoValue" th:text="${washmachine.machineNo + '호'}"></span>
+        <span class="washMachineStatusValue" th:text="${washmachine.machineStatus}"></span>
+    </div>
+</div>
+
 <span class="dryingNo">기기번호</span>
 <span class="dryingStatus">상태</span>
+
+<!--세탁기 정보 불러오기 -->
+<div id="dryingContainer" class="dryingInfo">
+    <div  id="dryingContent"  class="dryingInfo2" th:each="drymachine : ${drymachines}">
+        <input type="checkbox" class="dryingCheckbox" name="machineCheckBox" th:value="${drymachine.machineNo}">
+        <span class="dryMachineNoValue" th:text="${drymachine.machineNo + '호'}"></span>
+        <span class="dryMachineStatusValue" th:text="${drymachine.machineStatus}"></span>
+    </div>
+</div>
 
 <button class="statusButton" id="statusChange">상태변경</button>
 
@@ -88,12 +106,6 @@
         const confirmButton2 = document.getElementById("confirmButton2");
 
 
-        // 선택된 체크박스에서 userNo 값을 가져오는 함수
-        function getSelectedUserNos() {
-            const checkboxes = document.querySelectorAll("input[name='userCheckBox']:checked");
-            return Array.from(checkboxes).map(checkbox => checkbox.value);
-
-        }
 
 
         // 일시정지 버튼 클릭 시 모달 열기
@@ -112,9 +124,47 @@
         });
 
         confirmButton.addEventListener("click", async () => {
-            modal.style.display = "block";
-            modal1.style.display = "none";
-            modal2.style.display = "block";
+            selectedMachineNos = getSelectedMachineNos();
+
+            if (selectedMachineNos.length === 0) {
+                alert("상태를 변경할 기기를 선택하세요.");
+                return;
+            }
+            try {
+                const response = await fetch("/adminmachine/changeStatus", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(selectedMachineNos),
+                });
+
+                if (response.ok) {
+                    // 상태 변경 성공 시
+                    selectedMachineNos.forEach(machineNo => {
+                        const machineRow = Array.from(document.querySelectorAll(".washMachineNoValue, .dryMachineNoValue"))
+                            .find(element => element.textContent.replace("호", "").trim() === machineNo);
+
+                        if (machineRow) {
+                            const statusElement = machineRow.closest("div").querySelector(".washMachineStatusValue, .dryMachineStatusValue");
+                            if (statusElement) {
+                                if (statusElement.textContent === "사용가능") {
+                                    statusElement.textContent = "고장";
+                                    statusElement.style.color = "#A500FF"; // 보라색
+                                } else {
+                                    statusElement.textContent = "사용가능";
+                                    statusElement.style.color = "#0062FF"; // 파란색
+                                }
+                            }
+                        }
+                    });
+
+                    modal1.style.display = "none";
+                    modal2.style.display = "block";
+                } else {
+                    alert("상태 변경에 실패했습니다.");
+                }
+            } catch (error) {
+                console.error("상태 변경 중 오류 발생:", error);
+            }
         });
 
 
@@ -145,5 +195,101 @@
 
     });
 </script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const washingContainer = document.getElementById("washingContainer");
+
+        // 세탁기 데이터를 서버에서 가져오는 함수
+        async function fetchWashMachines() {
+            try {
+                const response = await fetch("/adminmachine/wash"); // 서버에서 JSON 데이터 요청
+                if (!response.ok) {
+                    throw new Error("네트워크 응답이 올바르지 않습니다.");
+                }
+                const washmachines = await response.json(); // JSON 데이터 파싱
+                renderWashMachines(washmachines); // 데이터를 화면에 렌더링
+            } catch (error) {
+                console.error("세탁기 데이터를 가져오는 중 오류 발생:", error);
+            }
+        }
+
+        // 데이터를 화면에 추가하는 함수
+        function renderWashMachines(washmachines) {
+            washingContainer.innerHTML = ""; // 기존 내용을 비웁니다.
+
+            washmachines.forEach(washmachine => {
+                const washingContent = document.createElement("div");
+                washingContent.classList.add("washingInfo2");
+                washingContent.style.marginBottom = "100px"; // 항목 간의 간격 설정
+
+                // 상태에 따라 색상을 변경
+                const statusColor = washmachine.machineStatus === "사용가능" ? "#0062FF" : "#A500FF";
+
+                washingContent.innerHTML = `
+                <input type="checkbox" class="washingCheckbox" name="machineCheckBox" value="${washmachine.machineNo}">
+                <span class="washMachineNoValue">${washmachine.machineNo +'호'}</span>
+               <span class="washMachineStatusValue" style="color: ${statusColor};">${washmachine.machineStatus}</span>
+            `;
+
+                washingContainer.appendChild(washingContent);
+            });
+        }
+
+        // 초기 데이터 가져오기
+        fetchWashMachines();
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const dryingContainer = document.getElementById("dryingContainer");
+
+        // 세탁기 데이터를 서버에서 가져오는 함수
+        async function fetchDryMachines() {
+            try {
+                const response = await fetch("/adminmachine/dry"); // 서버에서 JSON 데이터 요청
+                if (!response.ok) {
+                    throw new Error("네트워크 응답이 올바르지 않습니다.");
+                }
+                const drymachines = await response.json(); // JSON 데이터 파싱
+                renderDryMachines(drymachines); // 데이터를 화면에 렌더링
+            } catch (error) {
+                console.error("세탁기 데이터를 가져오는 중 오류 발생:", error);
+            }
+        }
+
+        // 데이터를 화면에 추가하는 함수
+        function renderDryMachines(drymachines) {
+            dryingContainer.innerHTML = ""; // 기존 내용을 비웁니다.
+
+            drymachines.forEach(drymachine => {
+                const dryingContent = document.createElement("div");
+                dryingContent.classList.add("dryingInfo2");
+                dryingContent.style.marginBottom = "100px"; // 항목 간의 간격 설정
+
+                // 상태에 따라 색상을 변경
+                const statusColor = drymachine.machineStatus === "사용가능" ? "#0062FF" : "#A500FF";
+
+                dryingContent.innerHTML = `
+                <input type="checkbox" class="dryingCheckbox" name="machineCheckBox" value="${drymachine.machineNo}">
+                <span class="dryMachineNoValue">${drymachine.machineNo +'호'}</span>
+                 <span class="dryMachineStatusValue" style="color: ${statusColor};">${drymachine.machineStatus}</span>
+            `;
+
+                dryingContainer.appendChild(dryingContent);
+            });
+        }
+
+        // 초기 데이터 가져오기
+        fetchDryMachines();
+    });
+
+    // 체크된 기기 번호 가져오기
+    function getSelectedMachineNos() {
+        const checkboxes = document.querySelectorAll("input[name='machineCheckBox']:checked");
+        return Array.from(checkboxes).map(checkbox => checkbox.value);
+    }
+
+</script>
+
 </body>
 </html>

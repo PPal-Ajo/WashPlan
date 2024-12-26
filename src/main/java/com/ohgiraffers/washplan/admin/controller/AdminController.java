@@ -2,6 +2,7 @@ package com.ohgiraffers.washplan.admin.controller;
 
 
 import com.ohgiraffers.washplan.admin.model.dto.AdminDTO;
+import com.ohgiraffers.washplan.admin.model.dto.MachineDTO;
 import com.ohgiraffers.washplan.admin.model.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -78,8 +79,29 @@ public class AdminController {
     @GetMapping("/adminmachine")
     public String adminMachine(Model model) {
 
+
         return "admin/adminmachine";
     }
+
+    @GetMapping("/adminmachine/wash")
+    @ResponseBody
+    public List<MachineDTO> getWashMachineData() {
+
+        return adminService.getWashMachineInfo();
+    }
+    @GetMapping("/adminmachine/dry")
+    @ResponseBody
+    public List<MachineDTO> getDryMachineData() {
+
+        return adminService.getDryMachineInfo();
+    }
+    @PostMapping("/adminmachine/changeStatus")
+    @ResponseBody
+    public ResponseEntity<Void> changeMachineStatus(@RequestBody List<Integer> machineNos) {
+        adminService.changeMachineStatus(machineNos);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/admininquiry")
     public String adminInquiry(Model model) {
 
