@@ -1,0 +1,174 @@
+.bg{
+    position: absolute;
+    left: -1px;
+    top: -1px;
+}
+
+.pwdLogo{
+    /* 약관 동의 */
+
+    position: absolute;
+    width: 327px;
+    height: 148px;
+    left: 796px;
+    top: 160px;
+
+    font-family: 'BM Dohyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 60px;
+    line-height: 74px;
+
+    color: #000000;
+
+    white-space: nowrap;
+
+}
+
+.pwdDetail{
+    /* 회원가입을 위해 이메일 인증을 진행합니다. */
+
+    position: absolute;
+    width: 1108px;
+    height: 40.81px;
+    left: 687px;
+    top: 335px;
+
+    font-family: 'BM Dohyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 37px;
+
+    color: #000000;
+
+
+
+
+}
+
+.emailBox{
+    position: absolute;
+    top: 483px;
+    left: 248px;
+    font-size: 30px;
+    font-family: "Do Hyeon";
+}
+
+#emailinput{
+    /* Rectangle 274 */
+    width: 381px;
+    height: 59px;
+    left: 384px;
+    top: 472px;
+
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    border : none;
+
+    font-family: "Do Hyeon";
+    font-size: 30px;
+
+    padding-left: 20px;
+}
+
+#emailDomain {
+    /* Rectangle 274 */
+    width: 381px;
+    height: 59px;
+    left: 803px;
+    top: 472px;
+
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    border : none;
+
+    font-family: "Do Hyeon";
+    font-size: 30px;
+
+    padding-left: 20px;
+}
+
+#customDomain {
+    /* Rectangle 274 */
+    width: 381px;
+    height: 59px;
+    left: 803px;
+    top: 472px;
+
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    border : none;
+
+    font-family: "Do Hyeon";
+    font-size: 30px;
+
+    padding-left: 20px;
+}
+
+.idBox{
+    position: absolute;
+    top: 653px;
+    left: 248px;
+    font-size: 30px;
+    font-family: "Do Hyeon";
+}
+
+#idInput{
+    /* Rectangle 276 */
+
+
+    width: 825px;
+    height: 59px;
+    left: calc(50% - 800px/2 - 176px);
+    top: 620px;
+
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+
+    border : none;
+
+    font-family: "Do Hyeon";
+    font-size: 30px;
+
+    padding-left: 20px;
+
+}
+
+.nextBtn {
+
+    /* Rectangle 276 */
+
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 209px;
+    height: 59px;
+    left: 1550px;
+    top: 860px;
+
+    background: #42A5F5;
+    border: 1px solid #FFFFFF;
+    border-radius: 50px;
+
+    /* 다음 */
+
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 50px;
+
+    color : #FFFFFF;
+
+    cursor : pointer;
+}
+
+.nextBtn:active {
+    background: #0056B3;
+}

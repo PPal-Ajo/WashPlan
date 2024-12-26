@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>비밀번호 찾기</title>
+  <link th:href="@{/css/base/nav.css}" rel="stylesheet">
+  <link th:href="@{/css/auth/findpwd.css}" rel="stylesheet">
+</head>
+<body>
+<!-- 배경 이미지 -->
+<img th:src="@{/images/signup/Signup.png}" alt="mainpage" class="bg">
+
+<header>
+  <nav>
+    <span>WashPlan</span>
+    <span>예약</span>
+    <span>FAQ</span>
+    <span style="color: #FFFF00">회원가입</span>
+    <span>로그인</span>
+  </nav>
+</header>
+
+<main>
+  <span class="pwdLogo">비밀번호 찾기</span>
+  <span class="pwdDetail">회원가입 시 사용하신 이메일과 아이디를 입력해주세요.</span>
+
+  <div class="emailBox">
+    <label for="emailinput">이메일 : </label>
+    <input type="text" id="emailinput" placeholder="아이디">
+    @
+    <input type="text" id="customDomain" placeholder="도메인 입력">
+    <select id="emailDomain">
+      <option value="custom" selected>직접 입력</option>
+      <option value="naver.com">naver.com</option>
+      <option value="gmail.com">gmail.com</option>
+      <option value="daum.net">daum.net</option>
+    </select>
+  </div>
+
+  <div class="idBox">
+    <label for="idInput">아이디 : </label>
+    <input type="text" id="idInput">
+  </div>
+
+
+
+  <button class="nextBtn">다음</button>
+
+
+
+
+
+  <script>
+    const emailDomain = document.getElementById('emailDomain');
+    const customDomain = document.getElementById('customDomain');
+
+    // 도메인 선택 변경 이벤트
+    emailDomain.addEventListener('change', () => {
+      if (emailDomain.value === 'custom') {
+        customDomain.disabled = false;
+        customDomain.value = '';
+        customDomain.focus();
+      } else {
+        customDomain.disabled = true;
+        customDomain.value = emailDomain.value;
+      }
+    });
+
+    document.getElementById('sendAuthCode').addEventListener('click', () => {
+      const emailInput = document.getElementById('emailinput').value;
+      const domain = emailDomain.value === 'custom' ? customDomain.value : emailDomain.value;
+      const email = `${emailInput}@${domain}`;
+      const message = document.getElementById('message');
+      const loading = document.getElementById('loading');
+
+      // 이메일 유효성 검사
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        message.textContent = "유효하지 않은 이메일 형식입니다.";
+        message.style.color = "red";
+        message.style.display = "block";
+        return;
+      }
+
+      // 로딩 시작
+      loading.style.display = 'block';
+
+      // 이메일 존재 여부 확인 및 인증번호 전송
+      fetch('/email/find-id/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      })
+              .then(response => response.json())
+              .then(data => {
+                loading.style.display = 'none';
+                if (!data.exists) {
+                  message.textContent = "존재하지 않는 이메일입니다.";
+                  message.style.color = "red";
+                  message.style.display = "block";
+                } else {
+                  message.textContent = "인증번호가 발송되었습니다.";
+                  message.style.color = "#0062FF";
+                  message.style.display = "block";
+                }
+              })
+              .catch(error => {
+                loading.style.display = 'none';
+                message.textContent = "서버 오류가 발생했습니다.";
+                message.style.color = "red";
+                message.style.display = "block";
+              });
+    });
+  </script>
+</main>
+</body>
+</html>

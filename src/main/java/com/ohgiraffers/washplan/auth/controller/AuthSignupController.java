@@ -78,4 +78,7 @@ public class AuthSignupController {
 
     @GetMapping("/findid")
     public String findIdPage() { return "auth/findid";}
+
+    @GetMapping("/findpwd")
+    public String findPwdPage() { return "auth/findpwd";}
 }
