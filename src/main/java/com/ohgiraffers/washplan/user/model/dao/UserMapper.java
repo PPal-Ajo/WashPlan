@@ -24,6 +24,9 @@ public interface UserMapper {
     @Select("SELECT USER_ID FROM TBL_USER WHERE EMAIL = #{email}")
     String getUserIdByEmail(@Param("email") String email);
 
+    @Select("SELECT COUNT(*) > 0 FROM TBL_USER WHERE EMAIL = #{email} AND USER_ID = #{userId}")
+    boolean existsByEmailAndId(@Param("email") String email, @Param("userId") String userId);
+
 
 
 }

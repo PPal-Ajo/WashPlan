@@ -27,4 +27,7 @@ public class UserService {
         return userMapper.getUserIdByEmail(email);
     }
 
+    public boolean checkEmailAndId(String email, String userId) {
+        return userMapper.existsByEmailAndId(email, userId);
+    }
 }
