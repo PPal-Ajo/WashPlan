@@ -13,10 +13,18 @@
         <result column="CANCEL_COUNT" property="cancelCount"/>
     </resultMap>
 
-    <resultMap id="machineResultMap" type="com.ohgiraffers.washplan.admin.model.dto.MachineDTO">
+    <resultMap id="machineResultMap" type="com.ohgiraffers.washplan.admin.model.dto.AdminMachineDTO">
         <result column="MACHINE_NO" property="machineNo"/>
         <result column="MACHINE_TYPE" property="machineType"/>
         <result column="MACHINE_STATUS" property="machineStatus"/>
+    </resultMap>
+
+    <resultMap id="inquiryResultMap" type="com.ohgiraffers.washplan.admin.model.dto.AdminInquiryDTO">
+        <result column="INQUIRY_NO" property="inquiryNo"/>
+        <result column="USER_ID" property="userId"/>
+        <result column="INQUIRY_TITLE" property="inquiryTitle"/>
+        <result column="INQUIRY_DATE" property="inquiryDate"/>
+        <result column="REPLY_STATUS" property="replyStatus"/>
     </resultMap>
 
     <select id="findUserInfo" resultMap="adminResultMap">
@@ -77,6 +85,16 @@
             END
         WHERE MACHINE_NO = #{machineNo}
     </update>
+
+    <select id="findInquiryInfo" resultMap="inquiryResultMap">
+        SELECT i.INQUIRY_NO,
+                u.USER_ID,
+                i.INQUIRY_TITLE,
+                i.INQUIRY_DATE,
+                i.REPLY_STATUS
+        FROM TBL_INQUIRY i
+        JOIN TBL_USER u ON i.USER_NO = u.USER_NO
+    </select>
 
 
 

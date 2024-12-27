@@ -23,9 +23,9 @@
 
 <!-- 관리자 메뉴 -->
 <div class="admin-menu" id="adminMenu">
-    <button onclick="location.href='/adminuser'" class="adminUser">사용자 관리</button>
-    <button onclick="location.href='/adminmachine'" class="adminMachine">세탁기/건조기 관리</button>
-    <button onclick="location.href='/admininquiry'" class="adminInquiry">문의사항 관리</button>
+    <button onclick="location.href='/admin/adminuser'" class="adminUser">사용자 관리</button>
+    <button onclick="location.href='/admin/adminmachine'" class="adminMachine">세탁기/건조기 관리</button>
+    <button onclick="location.href='/admin/admininquiry'" class="adminInquiry">문의사항 관리</button>
 </div>
 
 <img class="adminimage" th:src="@{/images/admin/Admin.png}" alt="관리자문의배경">
@@ -48,6 +48,14 @@
 <span class="inquiryTitle">문의제목</span>
 <span class="inquiryDate">문의날짜</span>
 <span class="inquiryAnswer">답변</span>
+
+<!--문의 정보 불러오기 -->
+<div id="inquiryContainer" class="inquiryInfo">
+    <div id="inquiryContent" class="inquiryInfo2">
+
+    </div>
+</div>
+
 
 <button class="delete" id="deleteButton">삭제</button>
 <!-- 모달창 -->
@@ -184,6 +192,56 @@
 
 
     });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const inquiryContainer = document.getElementById("inquiryContent");
+
+        if (!inquiryContainer) {
+            console.error("inquiryContent 요소를 찾을 수 없습니다.");
+            return;
+        }
+
+        // 서버에서 문의사항 데이터를 가져오는 함수
+        async function fetchInquiries() {
+            try {
+                const response = await fetch("/admininquiry/inquiries"); // JSON 데이터 요청
+                if (!response.ok) {
+                    throw new Error("문의사항 데이터를 가져오는 데 실패했습니다.");
+                }
+                const inquiries = await response.json(); // JSON 데이터 파싱
+                renderInquiries(inquiries);
+            } catch (error) {
+                console.error("문의사항 데이터를 가져오는 중 오류 발생:", error);
+            }
+        }
+
+        // 데이터를 화면에 추가하는 함수
+        function renderInquiries(inquiries) {
+            inquiryContainer.innerHTML = ""; // 기존 내용을 비웁니다.
+
+            inquiries.forEach(inquiry => {
+                const inquiryContent = document.createElement("div");
+                inquiryContent.classList.add("inquiryInfo2");
+
+                inquiryContent.innerHTML = `
+                <input type="checkbox" class="inquiryCheckbox" name="inquiryCheckBox" value="${inquiry.inquiryNo}">
+                <span class="inquiryNoValue">${inquiry.inquiryNo}</span>
+                <span class="inquiryIdValue">${inquiry.userId}</span>
+                <span class="inquiryTitleValue">${inquiry.inquiryTitle}</span>
+                <span class="inquiryDateValue">${inquiry.inquiryDate}</span>
+                <span class="replyStatusValue">${inquiry.replyStatus}</span>
+            `;
+
+                inquiryContainer.appendChild(inquiryContent);
+            });
+        }
+
+        // 초기 데이터 로드
+        fetchInquiries();
+    });
+
 </script>
 </body>
 </html>

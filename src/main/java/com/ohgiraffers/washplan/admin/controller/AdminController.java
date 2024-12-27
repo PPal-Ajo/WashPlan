@@ -2,7 +2,8 @@ package com.ohgiraffers.washplan.admin.controller;
 
 
 import com.ohgiraffers.washplan.admin.model.dto.AdminDTO;
-import com.ohgiraffers.washplan.admin.model.dto.MachineDTO;
+import com.ohgiraffers.washplan.admin.model.dto.AdminInquiryDTO;
+import com.ohgiraffers.washplan.admin.model.dto.AdminMachineDTO;
 import com.ohgiraffers.washplan.admin.model.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ public class AdminController {
         return "admin/admin";
     }
 
-    @GetMapping("/adminuser")
+    @GetMapping("/admin/adminuser")
     public String adminuser(Model model) {
 
         return "admin/adminuser";
@@ -76,7 +77,7 @@ public class AdminController {
     }
 
 
-    @GetMapping("/adminmachine")
+    @GetMapping("/admin/adminmachine")
     public String adminMachine(Model model) {
 
 
@@ -85,13 +86,13 @@ public class AdminController {
 
     @GetMapping("/adminmachine/wash")
     @ResponseBody
-    public List<MachineDTO> getWashMachineData() {
+    public List<AdminMachineDTO> getWashMachineData() {
 
         return adminService.getWashMachineInfo();
     }
     @GetMapping("/adminmachine/dry")
     @ResponseBody
-    public List<MachineDTO> getDryMachineData() {
+    public List<AdminMachineDTO> getDryMachineData() {
 
         return adminService.getDryMachineInfo();
     }
@@ -102,9 +103,19 @@ public class AdminController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/admininquiry")
+    @GetMapping("/admin/admininquiry")
     public String adminInquiry(Model model) {
 
         return "admin/admininquiry";
     }
+
+    // 문의사항 데이터를 JSON 형태로 반환하는 API
+    @GetMapping("/admininquiry/inquiries")
+    @ResponseBody
+    public ResponseEntity<List<AdminInquiryDTO>> getInquiries() {
+        List<AdminInquiryDTO> inquiries = adminService.getAllInquiries();
+        return ResponseEntity.ok(inquiries);
+    }
+
+
 }
