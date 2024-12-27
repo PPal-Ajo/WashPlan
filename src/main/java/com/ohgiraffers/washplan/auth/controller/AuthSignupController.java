@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -83,5 +84,18 @@ public class AuthSignupController {
     public String findPwdPage() { return "auth/findpwd";}
 
     @GetMapping("/resetpwd")
-    public String resetPwdPage() { return "auth/reset";}
+    public String showResetPasswordPage(HttpSession session) {
+        String resetEmail = (String) session.getAttribute("resetEmail");
+        String resetUserId = (String) session.getAttribute("resetUserId");
+
+        // 콘솔에 로그 출력
+        System.out.println("resetEmail: " + resetEmail);
+        System.out.println("resetUserId: " + resetUserId);
+
+        if (resetEmail == null || resetUserId == null) {
+            return "redirect:/findpwd"; // 세션 데이터가 없으면 되돌리기
+        }
+
+        return "auth/reset"; // 데이터가 있으면 페이지 반환
+    }
 }

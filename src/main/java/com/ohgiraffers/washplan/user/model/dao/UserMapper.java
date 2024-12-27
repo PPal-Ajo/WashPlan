@@ -2,10 +2,7 @@ package com.ohgiraffers.washplan.user.model.dao;
 
 
 import com.ohgiraffers.washplan.user.model.dto.UserDTO;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface UserMapper {
@@ -26,6 +23,10 @@ public interface UserMapper {
 
     @Select("SELECT COUNT(*) > 0 FROM TBL_USER WHERE EMAIL = #{email} AND USER_ID = #{userId}")
     boolean existsByEmailAndId(@Param("email") String email, @Param("userId") String userId);
+
+
+    @Update("UPDATE TBL_USER SET USER_PWD = #{password} WHERE EMAIL = #{email} AND USER_ID = #{userId}")
+    int updatePasswordByEmailAndId(@Param("email") String email, @Param("userId") String userId, @Param("password") String password);
 
 
 
