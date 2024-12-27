@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" th:href="@{/css/base/nav.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/adminInquiry.css}">
+</head>
+<body>
+<header>
+    <nav>
+        <!--네비바-->
+        <span onclick="location.href='/main'">WashPlan</span>
+        <span onclick="location.href='/reservation'">예약</span>
+        <span>FAQ</span>
+        <span id="adminTab" class="admin">관리자</span>
+        <span>로그인</span>
+    </nav>
+</header>
+
+<!-- 관리자 메뉴 -->
+<div class="admin-menu" id="adminMenu">
+    <button onclick="location.href='/adminuser'" class="adminUser">사용자 관리</button>
+    <button onclick="location.href='/adminmachine'" class="adminMachine">세탁기/건조기 관리</button>
+    <button onclick="location.href='/admininquiry'" class="adminInquiry">문의사항 관리</button>
+</div>
+
+<img class="adminimage" th:src="@{/images/admin/Admin.png}" alt="관리자문의배경">
+<span class="inquiryManagement">문의사항 관리</span>
+<div class="dropdown">
+    <button id="categoryButton" class="category">전체</button>
+    <div id="dropdownMenu" class="dropdown-menu">
+        <div class="dropdown-item" data-value="전체">전체</div>
+        <div class="dropdown-item2" data-value="답변">답변</div>
+    </div>
+</div>
+
+<input id="searchInput" class="searchInput" type="search" placeholder="검색어를 입력하세요">
+<label>
+    <img id="searchButton" class="searchImage" th:src="@{/images/admin/Search.png}" alt="검색 버튼">
+</label>
+
+<span class="inquiryNo">문의번호</span>
+<span class="userId">아이디</span>
+<span class="inquiryTitle">문의제목</span>
+<span class="inquiryDate">문의날짜</span>
+<span class="inquiryAnswer">답변</span>
+
+<button class="delete" id="deleteButton">삭제</button>
+<!-- 모달창 -->
+<div id="modal" class="modal">
+    <div class="modal-content" id="modal-content">
+        <p class="modal-text">
+            선택한 문의내역을 삭제하시겠습니까?
+        </p>
+
+        <button id="cancelButton" class="cancel">취소</button>
+        <button id="confirmButton" class="confirm">확인</button>
+
+    </div>
+</div>
+<div class="modal-content2" id="modal-content2">
+    <span class="deleteConfirm">삭제가 완료되었습니다 !</span>
+    <button id="confirmButton2" class="confirm2">확인</button>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const adminTab = document.getElementById("adminTab");
+        const adminMenu = document.getElementById("adminMenu");
+
+        // 관리자 탭 클릭 시 메뉴 표시/숨김 토글
+        adminTab.addEventListener("click", function () {
+            if (adminMenu.style.display === "block") {
+                adminMenu.style.display = "none"; // 숨김
+                adminTab.classList.remove("active");
+
+            } else {
+                adminMenu.style.display = "block"; // 표시
+                adminTab.classList.add("active");
+            }
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const dropdownMenu = document.getElementById("dropdownMenu");
+        const dropdownItems = document.querySelectorAll(".dropdown-item, .dropdown-item2");
+
+        // 드롭다운 메뉴 표시/숨김
+        categoryButton.addEventListener("click", () => {
+            dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
+        });
+
+        // 카테고리 선택
+        dropdownItems.forEach(item => {
+            item.addEventListener("click", () => {
+                selectedCategory = item.getAttribute("data-value");
+                categoryButton.textContent = selectedCategory; // 버튼 텍스트 변경
+                dropdownMenu.style.display = "none"; // 메뉴 숨김
+
+            });
+        });
+
+        // 메뉴 외부 클릭 시 드롭다운 메뉴 숨김
+        document.addEventListener("click", (event) => {
+            if (!event.target.closest(".dropdown")) {
+                dropdownMenu.style.display = "none";
+            }
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const deleteButton = document.getElementById("deleteButton");
+        const modal = document.getElementById("modal");
+        const modal1= document.getElementById("modal-content");
+        const modal2= document.getElementById("modal-content2");
+        const cancelButton = document.getElementById("cancelButton");
+        const confirmButton = document.getElementById("confirmButton");
+        const confirmButton2 = document.getElementById("confirmButton2");
+
+
+        // 선택된 체크박스에서 userNo 값을 가져오는 함수
+        function getSelectedUserNos() {
+            const checkboxes = document.querySelectorAll("input[name='userCheckBox']:checked");
+            return Array.from(checkboxes).map(checkbox => checkbox.value);
+
+        }
+
+
+        // 일시정지 버튼 클릭 시 모달 열기
+        deleteButton.addEventListener("click", () => {
+            modal.style.display = "block"; // 모달 표시
+            modal1.style.display= "block";
+            document.body.classList.add("no-scroll"); // 스크롤 비활성화
+
+        });
+
+        // 취소 버튼 클릭 시 모달 닫기
+        cancelButton.addEventListener("click", () => {
+            modal.style.display = "none";
+            modal1.style.display="none";
+            document.body.classList.remove("no-scroll"); // 스크롤 활성화
+        });
+
+        confirmButton.addEventListener("click", async () => {
+
+            modal.style.display = "block"
+            modal1.style.display = "none";
+            modal2.style.display = "block";
+
+        });
+
+
+        confirmButton2.addEventListener("click", () => {
+            modal.style.display="none";
+            modal2.style.display="none";
+            document.body.classList.remove("no-scroll"); // 스크롤 활성화
+
+        })
+
+        // 외부 클릭 차단 (모든 모달)
+        modal.addEventListener("click", (event) => {
+            if (!event.target.closest(".modal-content") && !event.target.closest(".modal-content2")) {
+                event.stopPropagation(); // 외부 클릭 차단
+            }
+        });
+
+        // 모달 외부의 다른 버튼 클릭 차단
+        document.addEventListener("click", function (event) {
+            if (modal.style.display === "block") {
+                const isModalContent = event.target.closest(".modal-content") || event.target.closest(".modal-content2");
+                if (!isModalContent) {
+                    event.stopPropagation();
+                }
+            }
+        }, true);
+
+
+    });
+</script>
+</body>
+</html>
