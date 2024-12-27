@@ -28,7 +28,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // 운영 환경에서 활성화 필요
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // 정적 리소스 허용
-                        .requestMatchers("/login", "/api/user/**", "/main", "/signup/**", "/email/**", "/reservation/**", "/auth/**", "/admin/**","/adminUser/**","/adminMachine/**","/adminInquiry/**", "/forget/**", "/findid/**", "/findpwd/**").permitAll()
+                        .requestMatchers("/login", "/api/user/**", "/main", "/signup/**", "/email/**", "/reservation/**", "/auth/**", "/admin/**","/adminuser/**","/adminmachine/**","/admininquiry/**", "/forget/**", "/findid/**", "/findpwd/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->
