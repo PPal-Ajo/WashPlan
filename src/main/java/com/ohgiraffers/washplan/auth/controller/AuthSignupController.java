@@ -81,4 +81,7 @@ public class AuthSignupController {
 
     @GetMapping("/findpwd")
     public String findPwdPage() { return "auth/findpwd";}
+
+    @GetMapping("/resetpwd")
+    public String resetPwdPage() { return "auth/reset";}
 }
