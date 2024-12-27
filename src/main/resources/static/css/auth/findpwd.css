@@ -152,7 +152,7 @@
     top: 860px;
 
     background: #42A5F5;
-    border: 1px solid #FFFFFF;
+    border: none;
     border-radius: 50px;
 
     /* 다음 */
@@ -171,4 +171,34 @@
 
 .nextBtn:active {
     background: #0056B3;
+}
+
+.nextBtn.disabled {
+    background-color: #d3d3d3; /* 회색 */
+    cursor: not-allowed;
+    border: none;
+    border-radius: 50px;
+}
+
+#message {
+    /* 존재하지 않는 아이디입니다. */
+
+    position: absolute;
+    width: 301px;
+    height: 38px;
+    left: 360px;
+    top: 725px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #FD3C3C;
+
+    white-space: nowrap;
+
+
 }
