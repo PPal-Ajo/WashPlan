@@ -1,13 +1,13 @@
 package com.ohgiraffers.washplan.admin.model.dto;
 
-public class MachineDTO {
+public class AdminMachineDTO {
     private int machineNo;
     private String machineType;
     private String machineStatus;
 
-    public MachineDTO() {};
+    public AdminMachineDTO() {};
 
-    public MachineDTO(int machineNo, String machineType, String machineStatus) {
+    public AdminMachineDTO(int machineNo, String machineType, String machineStatus) {
         this.machineNo = machineNo;
         this.machineType = machineType;
         this.machineStatus = machineStatus;

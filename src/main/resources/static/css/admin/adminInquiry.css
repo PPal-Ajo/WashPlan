@@ -184,6 +184,7 @@ button:active {
     position: relative;
     width: 186px;
     height: 53px;
+    z-index: 99;
 
     background: #42A5F5;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -554,6 +555,51 @@ button:active {
     line-height: 50px;
 
     color: #FFFFFF;
+
+}
+
+.inquiryInfo{
+    position: absolute;
+    top:480px;
+    left:300px;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #000000;
+}
+
+.inquiryIdValue{
+    position: absolute;
+    left:230px;
+}
+
+.inquiryTitleValue{
+    position: absolute;
+    width: 200px;
+    left:550px;
+}
+
+.inquiryDateValue{
+    position: absolute;
+    left:990px;
+    width:300px;
+}
+.replyStatusValue{
+    position: absolute;
+    left:1195px;
+    width:300px;
+    text-align: center;
+}
+
+.inquiryCheckbox{
+    position: absolute;
+    left:-120px;
+    width:25px;
+    height: 25px;
 
 }
 
