@@ -1,0 +1,166 @@
+.bg{
+    position: absolute;
+    left: -1px;
+    top: -1px;
+}
+
+.resetLogo{
+    /* 약관 동의 */
+
+    position: absolute;
+    width: 327px;
+    height: 148px;
+    left: 796px;
+    top: 160px;
+
+    font-family: 'BM Dohyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 60px;
+    line-height: 74px;
+
+    color: #000000;
+
+    white-space: nowrap;
+
+}
+
+.resetDetail{
+    /* 회원가입을 위해 이메일 인증을 진행합니다. */
+
+    position: absolute;
+    width: 1108px;
+    height: 40.81px;
+    left: 825px;
+    top: 335px;
+
+    font-family: 'BM Dohyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 37px;
+
+    color: #000000;
+}
+
+.pwdBox{
+    /* 비밀번호 : */
+
+    position: absolute;
+    width: 134px;
+    height: 37px;
+    left: 434px;
+    top: 472px;
+
+    font-family: 'BM Dohyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 37px;
+    /* identical to box height */
+
+    color: #000000;
+
+}
+
+#pwdInput{
+    /* Rectangle 274 */
+
+
+    box-sizing: border-box;
+
+    position: fixed;
+    width: 500px;
+    height: 59px;
+    left: 700px;
+    top: 461px;
+
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    border : none;
+
+    font-family: "Do Hyeon";
+    font-size: 30px;
+
+    padding-left: 20px;
+}
+
+.pwdRepeatBox{
+
+    /* 비밀번호 재확인: : */
+
+    position: absolute;
+    width: 238px;
+    height: 37.16px;
+    left: 390px;
+    top: 614.58px;
+
+    font-family: 'BM Dohyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 37px;
+
+    color: #000000;
+
+
+
+}
+
+
+#pwdRepeatInput{
+    box-sizing: border-box;
+
+    position: fixed;
+    width: 500px;
+    height: 59px;
+    left: 700px;
+    top: 600px;
+
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    border : none;
+
+    font-family: "Do Hyeon";
+    font-size: 30px;
+
+    padding-left: 20px;
+}
+
+.completeBtn{
+    /* Rectangle 276 */
+
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 209px;
+    height: 59.25px;
+    left: 856px;
+    top: 785.31px;
+
+    background: #42A5F5;
+    border: none;
+    border-radius: 50px;
+
+
+    /* 완료 */
+
+
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 50px;
+
+   color: #FFFFFF;
+
+    cursor: pointer;
+
+}
+
+.completeBtn:active {
+    background: #0056B3;
+}
