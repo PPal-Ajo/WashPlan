@@ -42,17 +42,17 @@
     <input type="text" id="idInput">
   </div>
 
+  <button class="nextBtn disabled" id="nextBtn" disabled onclick="location.href='/resetpwd'">다음</button>
 
-
-  <button class="nextBtn">다음</button>
-
-
-
-
+  <div id="message" style="display: none; color: red;"></div>
 
   <script>
     const emailDomain = document.getElementById('emailDomain');
     const customDomain = document.getElementById('customDomain');
+    const emailInput = document.getElementById('emailinput');
+    const idInput = document.getElementById('idInput');
+    const nextBtn = document.getElementById('nextBtn');
+    const message = document.getElementById('message');
 
     // 도메인 선택 변경 이벤트
     emailDomain.addEventListener('change', () => {
@@ -66,51 +66,60 @@
       }
     });
 
-    document.getElementById('sendAuthCode').addEventListener('click', () => {
-      const emailInput = document.getElementById('emailinput').value;
-      const domain = emailDomain.value === 'custom' ? customDomain.value : emailDomain.value;
-      const email = `${emailInput}@${domain}`;
-      const message = document.getElementById('message');
-      const loading = document.getElementById('loading');
+    // 이메일과 아이디가 데이터베이스와 일치하는지 확인하는 함수
+    function checkCredentials() {
+      const email = `${emailInput.value}@${emailDomain.value === 'custom' ? customDomain.value : emailDomain.value}`;
+      const userId = idInput.value;
 
-      // 이메일 유효성 검사
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        message.textContent = "유효하지 않은 이메일 형식입니다.";
-        message.style.color = "red";
+      // 입력 값 검증
+      if (!email || !userId) {
+        message.textContent = "이메일과 아이디를 모두 입력해주세요.";
         message.style.display = "block";
+        disableNextButton();
         return;
       }
 
-      // 로딩 시작
-      loading.style.display = 'block';
-
-      // 이메일 존재 여부 확인 및 인증번호 전송
-      fetch('/email/find-id/send', {
+      // 서버에 요청 보내기
+      fetch('/auth/check-credentials', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email })
+        body: JSON.stringify({ email, userId })
       })
               .then(response => response.json())
               .then(data => {
-                loading.style.display = 'none';
-                if (!data.exists) {
-                  message.textContent = "존재하지 않는 이메일입니다.";
-                  message.style.color = "red";
-                  message.style.display = "block";
+                if (data.success) {
+                  message.style.display = "none";
+                  enableNextButton(); // 버튼 활성화
                 } else {
-                  message.textContent = "인증번호가 발송되었습니다.";
-                  message.style.color = "#0062FF";
+                  message.textContent = "이메일과 아이디가 일치하지 않습니다.";
                   message.style.display = "block";
+                  disableNextButton(); // 버튼 비활성화
                 }
               })
               .catch(error => {
-                loading.style.display = 'none';
+                console.error('Error:', error);
                 message.textContent = "서버 오류가 발생했습니다.";
-                message.style.color = "red";
                 message.style.display = "block";
+                disableNextButton(); // 버튼 비활성화
               });
-    });
+    }
+
+    // 버튼 활성화 함수
+    function enableNextButton() {
+      nextBtn.disabled = false;
+      nextBtn.classList.remove('disabled');
+    }
+
+    // 버튼 비활성화 함수
+    function disableNextButton() {
+      nextBtn.disabled = true;
+      nextBtn.classList.add('disabled');
+    }
+
+    // 입력 필드 변경 시마다 검증 수행
+    emailInput.addEventListener('input', checkCredentials);
+    customDomain.addEventListener('input', checkCredentials);
+    idInput.addEventListener('input', checkCredentials);
   </script>
 </main>
 </body>
