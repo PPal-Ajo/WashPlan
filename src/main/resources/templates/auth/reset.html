@@ -36,31 +36,39 @@
 
   <button class="completeBtn" id="completeBtn">완료</button>
 
-  <div id="message" style="display: none; color: red;"></div>
+  <p id="errorMsg" style="display: none; color: red; margin-top: 10px; font-size: 14px;">
+    에러 메시지가 표시될 공간입니다.
+  </p>
 </main>
 
 <script>
   document.getElementById("completeBtn").addEventListener("click", () => {
     const password = document.getElementById("pwdInput").value;
     const confirmPassword = document.getElementById("pwdRepeatInput").value;
-    const message = document.getElementById("message");
+    const errorMsg = document.getElementById("errorMsg");
+
+    // 초기화: 메시지를 숨김
+    errorMsg.style.display = "none";
+    errorMsg.textContent = "";
 
     // 비밀번호 유효성 검사
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+
     if (!password || !confirmPassword) {
-      message.textContent = "비밀번호를 입력해주세요.";
-      message.style.display = "block";
+      errorMsg.textContent = "비밀번호를 입력해주세요.";
+      errorMsg.style.display = "block";
+      return;
+    }
+
+    if (!passwordRegex.test(password)) {
+      errorMsg.textContent = "비밀번호는 8자 이상이어야 하며, 영문, 숫자, 특수문자를 포함해야 합니다.";
+      errorMsg.style.display = "block";
       return;
     }
 
     if (password !== confirmPassword) {
-      message.textContent = "비밀번호가 일치하지 않습니다.";
-      message.style.display = "block";
-      return;
-    }
-
-    if (password.length < 8) {
-      message.textContent = "비밀번호는 최소 8자 이상이어야 합니다.";
-      message.style.display = "block";
+      errorMsg.textContent = "비밀번호가 일치하지 않습니다.";
+      errorMsg.style.display = "block";
       return;
     }
 
@@ -78,14 +86,14 @@
                 alert("비밀번호가 성공적으로 변경되었습니다.");
                 window.location.href = "/login"; // 로그인 페이지로 이동
               } else {
-                message.textContent = data.message || "비밀번호 재설정에 실패했습니다.";
-                message.style.display = "block";
+                errorMsg.textContent = data.message || "비밀번호 재설정에 실패했습니다.";
+                errorMsg.style.display = "block";
               }
             })
             .catch(error => {
               console.error('Error:', error);
-              message.textContent = "서버 오류가 발생했습니다.";
-              message.style.display = "block";
+              errorMsg.textContent = "서버 오류가 발생했습니다.";
+              errorMsg.style.display = "block";
             });
   });
 </script>

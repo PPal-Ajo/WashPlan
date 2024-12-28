@@ -164,3 +164,30 @@
 .completeBtn:active {
     background: #0056B3;
 }
+
+.errorMsg {
+    /* 사용불가능한 비밀번호입니다. */
+
+    position: absolute;
+    width: 315px;
+    height: 38.11px;
+    left: 710px;
+    top: 505px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+
+    color: #FD3C3C;
+
+
+}
+
+#errorMsg {
+    color: red;
+    display: none;
+    margin-top: 10px;
+    font-size: 14px; /* 크기를 명확히 지정 */
+}
