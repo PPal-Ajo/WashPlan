@@ -117,5 +117,31 @@ public class AdminController {
         return ResponseEntity.ok(inquiries);
     }
 
+    @GetMapping("/admininquiry/search")
+    @ResponseBody
+    public ResponseEntity<List<AdminInquiryDTO>> searchInquiries(
+            @RequestParam String category,
+            @RequestParam String query) {
+
+        List<AdminInquiryDTO> inquiries;
+
+        if (category.equals("전체")) {
+            inquiries = adminService.searchInquiriesByUserIdOrTitle(query);
+        } else if (category.equals("답변")) {
+            inquiries = adminService.searchInquiriesByReplyStatus(query);
+        } else {
+            inquiries = new ArrayList<>();
+        }
+
+        return ResponseEntity.ok(inquiries);
+    }
+
+    @PostMapping("/admininquiry/delete")
+    @ResponseBody
+    public ResponseEntity<Void> deleteInquiries(@RequestBody List<Integer> inquiryNos) {
+        adminService.deleteInquiries(inquiryNos);
+        return ResponseEntity.ok().build();
+    }
+
 
 }

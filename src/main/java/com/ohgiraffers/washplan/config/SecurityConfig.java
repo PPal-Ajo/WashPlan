@@ -29,7 +29,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // 정적 리소스 허용
                     
-                        .requestMatchers("/login", "/api/user/**", "/main", "/signup/**", "/email/**", "/reservation/**", "/auth/**", "/admin/**","/adminUser/**","/adminMachine/**","/adminInquiry/**", "/forget/**", "/findid/**", "/findpwd/**","/resetpwd/**").permitAll()
+                        .requestMatchers("/login", "/api/user/**", "/main", "/signup/**", "/email/**", "/reservation/**", "/auth/**", "/admin/**","/adminuser/**","/adminmachine/**","/admininquiry/**", "/forget/**", "/findid/**", "/findpwd/**","/resetpwd/**").permitAll()
 
                         .anyRequest().authenticated()
                 )

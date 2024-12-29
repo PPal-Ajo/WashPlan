@@ -59,4 +59,16 @@ public class AdminService {
     public List<AdminInquiryDTO> getAllInquiries() {
         return adminMapper.findInquiryInfo();
     }
+
+    public List<AdminInquiryDTO> searchInquiriesByUserIdOrTitle(String query) {
+        return adminMapper.findInquiriesByUserIdOrTitle(query);
+    }
+
+    public List<AdminInquiryDTO> searchInquiriesByReplyStatus(String status) {
+        return adminMapper.findInquiriesByReplyStatus(status);
+    }
+
+    public void deleteInquiries(List<Integer> inquiryNos) {
+        adminMapper.deleteInquiries(inquiryNos);
+    }
 }

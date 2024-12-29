@@ -96,6 +96,29 @@
         JOIN TBL_USER u ON i.USER_NO = u.USER_NO
     </select>
 
+    <select id="findInquiriesByUserIdOrTitle" resultMap="inquiryResultMap">
+        SELECT i.INQUIRY_NO, u.USER_ID, i.INQUIRY_TITLE, i.INQUIRY_DATE, i.REPLY_STATUS
+        FROM TBL_INQUIRY i
+        JOIN TBL_USER u ON i.USER_NO = u.USER_NO
+        WHERE u.USER_ID LIKE CONCAT('%', #{query}, '%')
+        OR i.INQUIRY_TITLE LIKE CONCAT('%', #{query}, '%')
+    </select>
+
+    <select id="findInquiriesByReplyStatus" resultMap="inquiryResultMap">
+        SELECT i.INQUIRY_NO, u.USER_ID, i.INQUIRY_TITLE, i.INQUIRY_DATE, i.REPLY_STATUS
+        FROM TBL_INQUIRY i
+        JOIN TBL_USER u ON i.USER_NO = u.USER_NO
+        WHERE i.REPLY_STATUS = #{status}
+    </select>
+
+    <delete id="deleteInquiries">
+        DELETE FROM TBL_INQUIRY
+        WHERE INQUIRY_NO IN
+        <foreach collection="list" item="inquiryNo" open="(" separator="," close=")">
+            #{inquiryNo}
+        </foreach>
+    </delete>
+
 
 
 </mapper>
