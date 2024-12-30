@@ -56,6 +56,41 @@
     </div>
 </div>
 
+<!-- 상세 조회 팝업 -->
+<div id="detailModal" class="modal" style="display: none;">
+    <div class="modal-replyContent">
+        <span id="modalTitle" class="modalTitle">문의 제목</span>
+        <div class="titleContent">
+
+        </div>
+        <span id="modalContent" class="modalContentInquiry">문의 내용</span>
+        <div class="inquiryContent">
+
+        </div>
+        <span id="modalReply" class="modalReply">답변</span>
+        <textarea class="reply" id="replyInput" placeholder="답변을 입력하세요"></textarea>
+        <button id="replyCancelButton" class="cancelReply">취소</button>
+        <button id="sendReplyButton" class="sendReply">답변</button>
+    </div>
+</div>
+
+<!-- 모달창 -->
+<div id="modal1" class="modal">
+    <div class="modal-content" id="modal-content1">
+        <p class="modal-text">
+            선택한 문의내역을 답변하시겠습니까?
+        </p>
+
+        <button id="cancelButton1" class="cancel">취소</button>
+        <button id="confirmButton1" class="confirm">확인</button>
+
+    </div>
+</div>
+<div class="modal-content2" id="modal-content3">
+    <span class="deleteConfirm">답변이 완료되었습니다 !</span>
+    <button id="confirmButton3" class="confirm2">확인</button>
+</div>
+
 
 
 <div id="pagination" class="pagination">
@@ -381,6 +416,134 @@
 
         // 초기 데이터 로드
         fetchInquiries();
+    });
+
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const detailModal = document.getElementById("detailModal");
+        const modal1 = document.getElementById("modal1");
+        const modal3 = document.getElementById("modal-content1");
+        const modal2 = document.getElementById("modal-content3");
+        const titleContent = document.querySelector(".titleContent");
+        const inquiryContent = document.querySelector(".inquiryContent");
+        const replyInput = document.getElementById("replyInput");
+        const replyCancelButton = document.getElementById("replyCancelButton");
+        const sendReplyButton = document.getElementById("sendReplyButton");
+        const cancelButton = document.getElementById("cancelButton1");
+        const confirmButton = document.getElementById("confirmButton1");
+        const confirmButton2 = document.getElementById("confirmButton3");
+
+        let selectedInquiryNo = null; // 선택된 문의 번호 저장
+
+        // 문의 제목 클릭 시 상세 데이터 가져오기
+        document.getElementById("inquiryContent").addEventListener("click", async (event) => {
+            const target = event.target;
+
+            if (target.classList.contains("inquiryTitleValue")) {
+                const inquiryNo = target.parentElement.querySelector(".inquiryCheckbox").value;
+                selectedInquiryNo = inquiryNo; // 선택된 문의 번호 저장
+
+                try {
+                    // 문의 상세 데이터 요청
+                    const response = await fetch(`/admininquiry/detail/${inquiryNo}`);
+                    if (!response.ok) {
+                        throw new Error("문의 상세 데이터를 가져오는 데 실패했습니다.");
+                    }
+
+                    const detail = await response.json();
+                    const inquiryDetail = detail.inquiryDetail;
+                    const replyComment = detail.replyComment;
+
+                    // 팝업창에 데이터 표시
+                    titleContent.textContent = inquiryDetail.inquiryTitle;
+                    inquiryContent.textContent = inquiryDetail.inquiryContent;
+
+                    if (replyComment) {
+                        replyInput.value = replyComment;
+                        replyInput.disabled = true;
+                        sendReplyButton.disabled = true;
+                        sendReplyButton.style.cursor = "not-allowed";
+                        sendReplyButton.style.backgroundColor = "#ccc"; // 비활성화 버튼 스타일
+                    } else {
+                        replyInput.value = "";
+                        replyInput.disabled = false;
+                        sendReplyButton.disabled = false;
+                        sendReplyButton.style.cursor = "pointer";
+                        sendReplyButton.style.backgroundColor = ""; // 활성화 버튼 스타일
+                    }
+
+                    // 팝업창 표시
+                    detailModal.style.display = "block";
+                } catch (error) {
+                    console.error("문의 상세 데이터를 가져오는 중 오류 발생:", error);
+                }
+            }
+        });
+
+        // 취소 버튼 클릭 시 팝업창 닫기
+        replyCancelButton.addEventListener("click", () => {
+            detailModal.style.display = "none";
+            replyInput.value = ""; // 답변 입력 필드 초기화
+        });
+
+        // 답변 버튼 클릭 시 "답변하시겠습니까?" 모달 표시
+        sendReplyButton.addEventListener("click", () => {
+            modal1.style.display = "block";
+        });
+
+        // "답변하시겠습니까?" 모달의 취소 버튼 클릭 시
+        cancelButton.addEventListener("click", () => {
+            modal1.style.display = "none"; // 답변 모달 닫기
+        });
+
+        // "답변하시겠습니까?" 모달의 확인 버튼 클릭 시
+        confirmButton.addEventListener("click", async () => {
+            const replyContent = replyInput.value.trim();
+            if (!replyContent) {
+                alert("답변 내용을 입력하세요.");
+                return;
+            }
+
+            try {
+                const response = await fetch(`/admininquiry/reply`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        inquiryNo: selectedInquiryNo,
+                        replyComment: replyContent
+                    }),
+                });
+
+                if (response.ok) {
+                    modal1.style.display = "block"; // 답변 확인 모달 닫기
+                    modal2.style.display = "block"; // 답변 완료 모달 표시
+                    modal3.style.display = "none";
+
+                    const statusElement = document.querySelector(`.inquiryCheckbox[value="${selectedInquiryNo}"]`)
+                        .parentElement.querySelector(".replyStatusValue");
+                    statusElement.textContent = "완료";
+
+                    replyInput.disabled = true;
+                    sendReplyButton.disabled = true;
+                    sendReplyButton.style.cursor = "not-allowed";
+                    sendReplyButton.style.backgroundColor = "#ccc"; // 비활성화 버튼 스타일
+                } else {
+                    throw new Error("답변 전송에 실패했습니다.");
+                }
+            } catch (error) {
+                console.error("답변 전송 중 오류 발생:", error);
+            }
+        });
+
+        // "답변 완료" 모달의 확인 버튼 클릭 시
+        confirmButton2.addEventListener("click", () => {
+            modal1.style.display = "none";
+            modal2.style.display = "none"; // 답변 완료 모달 닫기
+            detailModal.style.display = "none"; // 상세 조회 팝업 닫기
+            replyInput.value = ""; // 답변 입력 필드 초기화
+        });
     });
 
 </script>

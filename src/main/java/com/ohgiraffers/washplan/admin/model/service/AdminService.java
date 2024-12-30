@@ -3,6 +3,7 @@ package com.ohgiraffers.washplan.admin.model.service;
 import com.ohgiraffers.washplan.admin.model.dao.AdminMapper;
 import com.ohgiraffers.washplan.admin.model.dto.AdminDTO;
 import com.ohgiraffers.washplan.admin.model.dto.AdminInquiryDTO;
+import com.ohgiraffers.washplan.admin.model.dto.AdminInquiryReplyDTO;
 import com.ohgiraffers.washplan.admin.model.dto.AdminMachineDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,5 +71,24 @@ public class AdminService {
 
     public void deleteInquiries(List<Integer> inquiryNos) {
         adminMapper.deleteInquiries(inquiryNos);
+    }
+
+    public AdminInquiryDTO findInquiryDetailByNo(int inquiryNo) {
+        return adminMapper.findInquiryDetail(inquiryNo);
+    }
+
+    public void saveReply(AdminInquiryReplyDTO replyDTO) {
+        replyDTO.setAdminNo(2);
+        System.out.println("Reply Comment: " + replyDTO.getReplyComment()); // 디버깅용
+        adminMapper.insertInquiryReply(replyDTO);
+    }
+
+    public String getReplyCommentByInquiryNo(int inquiryNo) {
+        return adminMapper.getReplyCommentByInquiryNo(inquiryNo);
+    }
+
+    public void updateReplyStatus(int inquiryNo, String replyStatus) {
+        adminMapper.updateReplyStatus(inquiryNo, replyStatus);
+
     }
 }

@@ -8,15 +8,17 @@ public class AdminInquiryDTO {
     private String inquiryTitle;
     private LocalDate inquiryDate;
     private String replyStatus;
+    private String inquiryContent;
 
     public AdminInquiryDTO() {}
 
-    public AdminInquiryDTO(int inquiryNo, String userId, String inquiryTitle, LocalDate inquiryDate, String replyStatus) {
+    public AdminInquiryDTO(int inquiryNo, String userId, String inquiryTitle, LocalDate inquiryDate, String replyStatus, String inquiryContent) {
         this.inquiryNo = inquiryNo;
         this.userId = userId;
         this.inquiryTitle = inquiryTitle;
         this.inquiryDate = inquiryDate;
         this.replyStatus = replyStatus;
+        this.inquiryContent = inquiryContent;
     }
 
     public int getInquiryNo() {
@@ -59,6 +61,14 @@ public class AdminInquiryDTO {
         this.replyStatus = replyStatus;
     }
 
+    public String getInquiryContent() {
+        return inquiryContent;
+    }
+
+    public void setInquiryContent(String inquiryContent) {
+        this.inquiryContent = inquiryContent;
+    }
+
     @Override
     public String toString() {
         return "AdminInquiryDTO{" +
@@ -67,6 +77,7 @@ public class AdminInquiryDTO {
                 ", inquiryTitle='" + inquiryTitle + '\'' +
                 ", inquiryDate=" + inquiryDate +
                 ", replyStatus='" + replyStatus + '\'' +
+                ", inquiryContent='" + inquiryContent + '\'' +
                 '}';
     }
 }

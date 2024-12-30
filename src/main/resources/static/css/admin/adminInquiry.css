@@ -581,6 +581,7 @@ button:active {
     position: absolute;
     width: 200px;
     left:550px;
+    cursor: pointer;
 }
 
 .inquiryDateValue{
@@ -656,4 +657,240 @@ button:active {
     color: white;
     font-weight: bold;
 }
+
+.modal-replyContent{
+
+    position: absolute;
+    width: 1106px;
+    height: 882px;
+    left: calc(50% - 1106px/2 + 1px);
+    top: 109px;
+
+    background: #E3F2FD;
+    box-shadow: 0px 7px 24.4px 7px rgba(0, 0, 0, 0.25);
+    border-radius: 70px;
+}
+
+.modalTitle{
+    /* 문의 제목 */
+
+    position: absolute;
+    width: 102px;
+    height: 38px;
+    left: 91px;
+    top: 65px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: #000000;
+
+
+}
+.titleContent{
+    /* Rectangle 333 */
+
+    position: absolute;
+    width: 897px;
+    height: 50px;
+    left: 91px;
+    top: 109px;
+
+    padding-top: 20px;
+    padding-left: 30px;
+
+    background: #FFFFFF;
+    border-radius: 10px;
+
+
+    /* 예약하기 싫어요 */
+
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 25px;
+    /* identical to box height */
+
+    color: #000000;
+
+
+}
+.modalContentInquiry{
+    /* 문의 내용 */
+
+    position: absolute;
+    width: 102px;
+    height: 38px;
+    left: 91px;
+    top: 229px;
+
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #000000;
+
+
+}
+
+.inquiryContent{
+    /* Rectangle 334 */
+
+    position: absolute;
+    width: 897px;
+    height: 205px;
+    left: 91px;
+    top: 269px;
+
+    padding-top: 30px;
+    padding-left: 30px;
+
+    background: #FFFFFF;
+    border-radius: 10px;
+
+
+    /* 예약하기 너무너무너무너무너무너무너무 싫어요 예약하기 너무너무너무너무너무너무너무 싫어요 예약하기 너무너무너무너무너무너무너무 싫어요 예약하기 너무너무너무너무너무너무너무 싫어요 예약하기 너무너무너무너무너무너무너무 싫어요 예약하기 너무너무너무너무너무너무너무 싫어요 예약하기 너무너무너무너무너무너무너무 싫어요 */
+
+
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 25px;
+
+    color: #000000;
+
+
+}
+
+.modalReply{
+    /* 답변 */
+
+    position: absolute;
+    width: 47px;
+    height: 38px;
+    left: 91px;
+    top: 532px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #000000;
+
+
+}
+
+.reply{
+    /* Rectangle 335 */
+
+    position: absolute;
+    width: 897px;
+    height: 146px;
+    left: 91px;
+    top: 570px;
+
+    padding-top: 30px;
+    padding-left: 30px;
+
+    background: #FFFFFF;
+    border-radius: 10px;
+    border:none;
+
+
+
+
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 25px;
+
+    color: #000000;
+
+
+}
+
+.cancelReply{
+    /* Rectangle 276 */
+
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 209px;
+    height: 70.38px;
+    left:198px;
+    top: 772px;
+
+    background: #0056B3;
+    border:none;
+    border-radius: 50px;
+
+
+    /* 취소 */
+
+    box-sizing: border-box;
+
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 50px;
+
+   color:#FFFFFF;
+
+}
+
+.sendReply{
+    /* Rectangle 276 */
+
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 209px;
+    height: 70.38px;
+    left: 678px;
+    top: 772px;
+
+    background: #42A5F5;
+    border:none;
+    border-radius: 50px;
+
+
+    /* 답변 */
+
+    box-sizing: border-box;
+
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 50px;
+
+    color:#FFFFFF;
+
+}
+
+
+
+
+
+
 
