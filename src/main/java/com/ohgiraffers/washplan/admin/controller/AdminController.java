@@ -3,6 +3,7 @@ package com.ohgiraffers.washplan.admin.controller;
 
 import com.ohgiraffers.washplan.admin.model.dto.AdminDTO;
 import com.ohgiraffers.washplan.admin.model.dto.AdminInquiryDTO;
+import com.ohgiraffers.washplan.admin.model.dto.AdminInquiryReplyDTO;
 import com.ohgiraffers.washplan.admin.model.dto.AdminMachineDTO;
 import com.ohgiraffers.washplan.admin.model.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -140,6 +142,27 @@ public class AdminController {
     @ResponseBody
     public ResponseEntity<Void> deleteInquiries(@RequestBody List<Integer> inquiryNos) {
         adminService.deleteInquiries(inquiryNos);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/admininquiry/detail/{inquiryNo}")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> getInquiryDetail(@PathVariable int inquiryNo) {
+        AdminInquiryDTO inquiryDetail = adminService.findInquiryDetailByNo(inquiryNo);
+        String replyComment = adminService.getReplyCommentByInquiryNo(inquiryNo);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("inquiryDetail", inquiryDetail);
+        response.put("replyComment", replyComment); // 답변 내용 포함
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/admininquiry/reply")
+    @ResponseBody
+    public ResponseEntity<Void> saveReply(@RequestBody AdminInquiryReplyDTO replyDTO) {
+        adminService.saveReply(replyDTO);
+        adminService.updateReplyStatus(replyDTO.getInquiryNo(), "완료"); // 상태 업데이트
         return ResponseEntity.ok().build();
     }
 
