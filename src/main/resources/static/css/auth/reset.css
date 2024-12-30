@@ -164,3 +164,125 @@
 .completeBtn:active {
     background: #0056B3;
 }
+
+#errorMsg {
+    position: absolute;
+    width: 600px;
+    height: 38.11px;
+    left: 710px;
+    top: 505px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+
+    color: #FD3C3C;
+
+    display: none; /* 기본적으로 숨김 */
+}
+
+.disabled {
+    background-color: #D3D3D3; /* 회색 */
+    cursor: not-allowed;
+}
+
+/* 모달 창 스타일 */
+#successModal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+}
+
+.modal-content {
+    /* Group 19 */
+
+    /* Rectangle 224 */
+
+    position: absolute;
+    width: 1106px;
+    height: 326px;
+    left: 404px;
+    top: 379px;
+
+    background: #E3F2FD;
+    box-shadow: 0px 7px 24.4px 7px rgba(0, 0, 0, 0.25);
+    border-radius: 70px;
+    border: none;
+}
+
+/* 모달 창 내 버튼 스타일 */
+#successModal button {
+    box-sizing: border-box;
+
+    position: fixed;
+    width: 209px;
+    height: 59px;
+    left: 856px;
+    top: 611px;
+
+    background: #42A5F5;
+    border: 1px solid #E3F2FD;
+    border-radius: 50px;
+
+    font-size: 40px;
+    color: #FFFFFF;
+    font-family: "Do Hyeon";
+
+    cursor: pointer;
+}
+
+#successModal button:hover {
+    background-color: #004BB7;
+}
+
+.modal-content p {
+    /* 모든 약관에 동의하셔야 회원가입이 가능합니다. */
+
+    position: fixed;
+    width: 1108px;
+    height: 39px;
+    left: 725px;
+    top: 475px;
+
+    font-family: 'BM Dohyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 37px;
+
+    color: #000000;
+
+
+}
+
+.ivs1  {
+    /* Invisible */
+
+    position: absolute;
+    width: 75px;
+    height: 53px;
+    left: 1125px;
+    top: 465px;
+
+    cursor: pointer;
+}
+
+.ivs2 {
+
+    position: absolute;
+    width: 75px;
+    height: 53px;
+    left: 1125px;
+    top: 605px;
+
+    cursor: pointer;
+}
+
+

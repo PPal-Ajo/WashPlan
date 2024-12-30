@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>비밀번호 재설정</title>
   <link th:href="@{/css/base/nav.css}" rel="stylesheet">
-  <link th:href="@{/css/auth/reset.css}" rel="stylesheet">
+  <link th:href="@{/css/auth/reset.css}" rel="stylesheet">/
 </head>
 <body>
 <!-- 배경 이미지 -->
@@ -28,65 +28,128 @@
     <label for="pwdInput">비밀번호 : </label>
     <input type="password" id="pwdInput" placeholder="새 비밀번호">
   </div>
+  <img th:src="@{/images/login/Invisible.png}" alt="Invisible" class="ivs1">
 
   <div class="pwdRepeatBox">
     <label for="pwdRepeatInput">비밀번호 재확인 : </label>
     <input type="password" id="pwdRepeatInput" placeholder="비밀번호 재확인">
   </div>
+  <img th:src="@{/images/login/Invisible.png}" alt="Invisible" class="ivs2">
 
-  <button class="completeBtn" id="completeBtn">완료</button>
+  <button class="completeBtn disabled" id="completeBtn" disabled>완료</button>
 
-  <div id="message" style="display: none; color: red;"></div>
+  <p id="errorMsg"></p>
 </main>
 
+<!-- 모달 -->
+<div id="successModal" class="modal">
+  <div class="modal-content">
+    <p>비밀번호가 성공적으로 변경되었습니다.</p>
+    <button id="closeModal">확인</button>
+  </div>
+</div>
+
 <script>
-  document.getElementById("completeBtn").addEventListener("click", () => {
-    const password = document.getElementById("pwdInput").value;
-    const confirmPassword = document.getElementById("pwdRepeatInput").value;
-    const message = document.getElementById("message");
+  const passwordInput = document.getElementById("pwdInput");
+  const confirmPasswordInput = document.getElementById("pwdRepeatInput");
+  const completeBtn = document.getElementById("completeBtn");
+  const errorMsg = document.getElementById("errorMsg");
+  const successModal = document.getElementById("successModal");
+  const closeModal = document.getElementById("closeModal");
 
-    // 비밀번호 유효성 검사
-    if (!password || !confirmPassword) {
-      message.textContent = "비밀번호를 입력해주세요.";
-      message.style.display = "block";
+  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+
+  // 비밀번호 입력 시 유효성 검사
+  passwordInput.addEventListener("input", validatePassword);
+  confirmPasswordInput.addEventListener("input", validatePassword);
+
+  function validatePassword() {
+    const password = passwordInput.value;
+    const confirmPassword = confirmPasswordInput.value;
+
+    errorMsg.style.display = "none";
+    errorMsg.textContent = "";
+
+    if (!passwordRegex.test(password)) {
+      errorMsg.textContent = "비밀번호는 영문자, 숫자, 특수문자를 포함해야 합니다.";
+      errorMsg.style.display = "block";
+      disableButton();
       return;
     }
 
-    if (password !== confirmPassword) {
-      message.textContent = "비밀번호가 일치하지 않습니다.";
-      message.style.display = "block";
+    if (confirmPassword && password !== confirmPassword) {
+      errorMsg.textContent = "비밀번호가 일치하지 않습니다.";
+      errorMsg.style.display = "block";
+      disableButton();
       return;
     }
 
-    if (password.length < 8) {
-      message.textContent = "비밀번호는 최소 8자 이상이어야 합니다.";
-      message.style.display = "block";
-      return;
-    }
+    enableButton();
+  }
 
-    // 서버에 요청 보내기
+  function enableButton() {
+    completeBtn.disabled = false;
+    completeBtn.classList.remove("disabled");
+  }
+
+  function disableButton() {
+    completeBtn.disabled = true;
+    completeBtn.classList.add("disabled");
+  }
+
+  // 완료 버튼 클릭 시 서버 요청
+  completeBtn.addEventListener("click", () => {
+    const password = passwordInput.value;
+
     fetch('/auth/reset-password', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ newPassword: password })
     })
             .then(response => response.json())
             .then(data => {
               if (data.success) {
-                alert("비밀번호가 성공적으로 변경되었습니다.");
-                window.location.href = "/login"; // 로그인 페이지로 이동
+                showModal(); // 성공 모달 표시
               } else {
-                message.textContent = data.message || "비밀번호 재설정에 실패했습니다.";
-                message.style.display = "block";
+                errorMsg.textContent = data.message || "비밀번호 재설정에 실패했습니다.";
+                errorMsg.style.display = "block";
               }
             })
             .catch(error => {
               console.error('Error:', error);
-              message.textContent = "서버 오류가 발생했습니다.";
-              message.style.display = "block";
+              errorMsg.textContent = "서버 오류가 발생했습니다.";
+              errorMsg.style.display = "block";
             });
+  });
+
+  // 모달 표시 함수
+  function showModal() {
+    successModal.style.display = "block";
+  }
+
+  // 모달 닫기 버튼 클릭 시
+  closeModal.addEventListener("click", () => {
+    successModal.style.display = "none";
+    window.location.href = "/login"; // 로그인 페이지로 이동
+  });
+
+  const ivs1 = document.querySelector('.ivs1');
+  const ivs2 = document.querySelector('.ivs2');
+
+  // 비밀번호 표시 여부 상태
+  let isPasswordVisible = false;
+  let isPasswordRepeatVisible = false;
+
+  // ivs1 클릭 시 비밀번호 입력칸 토글
+  ivs1.addEventListener('click', () => {
+    isPasswordVisible = !isPasswordVisible;
+    passwordInput.type = isPasswordVisible ? 'text' : 'password';
+  });
+
+  // ivs2 클릭 시 비밀번호 재입력칸 토글
+  ivs2.addEventListener('click', () => {
+    isPasswordRepeatVisible = !isPasswordRepeatVisible;
+    confirmPasswordInput.type = isPasswordRepeatVisible ? 'text' : 'password'; // 수정된 부분
   });
 </script>
 </body>
