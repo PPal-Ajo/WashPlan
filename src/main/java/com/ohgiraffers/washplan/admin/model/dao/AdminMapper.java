@@ -27,4 +27,10 @@ public interface AdminMapper {
     void toggleMachineStatus(Integer integer);
 
     List<AdminInquiryDTO> findInquiryInfo();
+
+    List<AdminInquiryDTO> findInquiriesByUserIdOrTitle(String query);
+
+    List<AdminInquiryDTO> findInquiriesByReplyStatus(String status);
+
+    void deleteInquiries(List<Integer> inquiryNos);
 }
