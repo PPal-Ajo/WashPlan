@@ -28,25 +28,41 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // 운영 환경에서 활성화 필요
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // 정적 리소스 허용
-                    
-                        .requestMatchers("/login", "/api/user/**", "/main", "/signup/**", "/email/**", "/reservation/**", "/auth/**", "/admin/**","/adminuser/**","/adminmachine/**","/admininquiry/**", "/forget/**", "/findid/**", "/findpwd/**","/resetpwd/**").permitAll()
-
-                        .anyRequest().authenticated()
+                        .requestMatchers("/login", "/signup/**", "/email/**", "/forget/**", "/findid/**", "/findpwd/**", "/resetpwd/**", "/auth/**").permitAll() // 비회원 허용 경로
+                        .requestMatchers("/reservation/**").hasRole("USER") //  예약 페이지는 USER 권한 필요
+                        .requestMatchers("/admin/**", "/adminUser/**", "/adminMachine/**", "/adminInquiry/**").hasRole("ADMIN") // 관리자 페이지는 ADMIN 권한 필요
+                        .anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
                 )
                 .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // 필요 시 생성
+                        session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // 필요 시 세션 생성
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/main")
+                        .defaultSuccessUrl("/main") // 기본 성공 URL
                         .successHandler((request, response, authentication) -> {
-                            System.out.println("로그인 성공: " + authentication.getName());
-                            response.sendRedirect("/main");
+                            // 로그인 성공 후 처리
+                            String role = authentication.getAuthorities().iterator().next().getAuthority();
+                            if ("ROLE_ADMIN".equals(role)) {
+                                // 어드민 권한일 경우 관리자 페이지로 리다이렉트
+                                response.sendRedirect("/admin");
+                            } else if ("ROLE_USER".equals(role)) {
+                                // 유저 권한일 경우 메인 페이지로 리다이렉트
+                                response.sendRedirect("/main");
+                            } else {
+                                response.sendRedirect("/login?error");
+                            }
                         })
                         .failureHandler((request, response, exception) -> {
                             System.out.println("로그인 실패: " + exception.getMessage());
                             response.sendRedirect("/login?error");
                         })
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login?logout")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
                         .permitAll()
                 );
         return http.build();

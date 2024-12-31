@@ -1,29 +1,29 @@
 package com.ohgiraffers.washplan.auth.model.dto;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 public class CustomUserDetails implements UserDetails {
     private int userNo;
     private String userId;
     private String password;
     private String email;
+    private String role;
 
-    public CustomUserDetails(int userNo, String userId, String password, String email) {
+    public CustomUserDetails(int userNo, String userId, String password, String email, String role) {
         this.userNo = userNo;
         this.userId = userId;
         this.password = password;
         this.email = email;
+        this.role = role;
     }
 
-    // Spring Security가 권한 정보를 사용할 때 호출
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        // 권한 정보를 반환 (예: ROLE_USER, ROLE_ADMIN 등)
-        return null; // 필요에 따라 구현
-    }
+
 
     public int getUserNo() {
         return userNo;
@@ -69,4 +69,18 @@ public class CustomUserDetails implements UserDetails {
     public String getEmail() {
         return email; // 이메일 추가
     }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role)); // ROLE_USER 또는 ROLE_ADMIN 반환
+    }
+
 }
