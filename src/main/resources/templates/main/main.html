@@ -19,11 +19,15 @@
         <span>FAQ</span>
 
         <!-- 로그인 여부에 따라 네비게이션 바 표시 -->
-        <span th:if="${#authentication.name == 'anonymous'}" onclick="location.href='/signup'">회원가입</span>
-        <span th:if="${#authentication.name != 'anonymous'}" onclick="location.href='/mypage'">마이페이지</span>
-
-        <span th:if="${#authentication.name == 'anonymous'}" onclick="location.href='/login'">로그인</span>
-        <span th:if="${#authentication.name != 'anonymous'}" onclick="location.href='/logout'">로그아웃</span>
+        <!-- 로그인 상태 -->
+        <span th:if="${#authentication.principal != null and #authentication.principal instanceof T(com.ohgiraffers.washplan.auth.model.dto.CustomUserDetails)}"
+              onclick="location.href='/mypage'">마이페이지</span>
+        <span th:if="${#authentication.principal != null and #authentication.principal instanceof T(com.ohgiraffers.washplan.auth.model.dto.CustomUserDetails)}"
+              onclick="location.href='/logout'">로그아웃</span>
+        <span th:if="${#authentication.principal == null or #authentication.principal == 'anonymousUser'}"
+              onclick="location.href='/signup/agree'">회원가입</span>
+        <span th:if="${#authentication.principal == null or #authentication.principal == 'anonymousUser'}"
+              onclick="location.href='/login'">로그인</span>
     </nav>
 </header>
 
