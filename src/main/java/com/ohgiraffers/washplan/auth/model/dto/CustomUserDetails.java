@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 public class CustomUserDetails implements UserDetails {
     private int userNo;
@@ -79,8 +80,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // 역할을 SimpleGrantedAuthority로 변환하여 반환
-        return Collections.singletonList(new SimpleGrantedAuthority(role));
+        return List.of(new SimpleGrantedAuthority(role)); // ROLE_USER 또는 ROLE_ADMIN 반환
     }
 
 }

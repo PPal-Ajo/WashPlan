@@ -38,10 +38,19 @@ public class SecurityConfig {
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/main")
+                        .defaultSuccessUrl("/main") // 기본 성공 URL
                         .successHandler((request, response, authentication) -> {
-                            System.out.println("로그인 성공: " + authentication.getName());
-                            response.sendRedirect("/main");
+                            // 로그인 성공 후 처리
+                            String role = authentication.getAuthorities().iterator().next().getAuthority();
+                            if ("ROLE_ADMIN".equals(role)) {
+                                // 어드민 권한일 경우 관리자 페이지로 리다이렉트
+                                response.sendRedirect("/admin");
+                            } else if ("ROLE_USER".equals(role)) {
+                                // 유저 권한일 경우 메인 페이지로 리다이렉트
+                                response.sendRedirect("/main");
+                            } else {
+                                response.sendRedirect("/login?error");
+                            }
                         })
                         .failureHandler((request, response, exception) -> {
                             System.out.println("로그인 실패: " + exception.getMessage());
