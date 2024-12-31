@@ -166,5 +166,11 @@ public class AdminController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/admin/adminnotice")
+    public String adminNotice(Model model) {
+
+        return "admin/adminnotice";
+    }
+
 
 }
