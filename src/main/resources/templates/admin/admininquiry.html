@@ -1,0 +1,551 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" th:href="@{/css/base/nav.css}">
+    <link rel="stylesheet" th:href="@{/css/admin/adminInquiry.css}">
+</head>
+<body>
+<header>
+    <nav>
+        <!--네비바-->
+        <span onclick="location.href='/main'">WashPlan</span>
+        <span onclick="location.href='/reservation'">예약</span>
+        <span>FAQ</span>
+        <span id="adminTab" class="admin">관리자</span>
+        <span>로그인</span>
+    </nav>
+</header>
+
+<!-- 관리자 메뉴 -->
+<div class="admin-menu" id="adminMenu">
+    <button onclick="location.href='/admin/adminuser'" class="adminUser">사용자 관리</button>
+    <button onclick="location.href='/admin/adminmachine'" class="adminMachine">세탁기/건조기 관리</button>
+    <button onclick="location.href='/admin/admininquiry'" class="adminInquiry">문의사항 관리</button>
+</div>
+
+<img class="adminimage" th:src="@{/images/admin/Admin.png}" alt="관리자문의배경">
+<span class="inquiryManagement">문의사항 관리</span>
+<div class="dropdown">
+    <button id="categoryButton" class="category">전체</button>
+    <div id="dropdownMenu" class="dropdown-menu">
+        <div class="dropdown-item" data-value="전체">전체</div>
+        <div class="dropdown-item2" data-value="답변">답변</div>
+    </div>
+</div>
+
+<input id="searchInput" class="searchInput" type="search" placeholder="검색어를 입력하세요">
+<label>
+    <img id="searchButton" class="searchImage" th:src="@{/images/admin/Search.png}" alt="검색 버튼">
+</label>
+
+<span class="inquiryNo">문의번호</span>
+<span class="userId">아이디</span>
+<span class="inquiryTitle">문의제목</span>
+<span class="inquiryDate">문의날짜</span>
+<span class="inquiryAnswer">답변</span>
+
+<!--문의 정보 불러오기 -->
+<div id="inquiryContainer" class="inquiryInfo">
+    <div id="inquiryContent" class="inquiryInfo2">
+
+    </div>
+</div>
+
+<!-- 상세 조회 팝업 -->
+<div id="detailModal" class="modal" style="display: none;">
+    <div class="modal-replyContent">
+        <span id="modalTitle" class="modalTitle">문의 제목</span>
+        <div class="titleContent">
+
+        </div>
+        <span id="modalContent" class="modalContentInquiry">문의 내용</span>
+        <div class="inquiryContent">
+
+        </div>
+        <span id="modalReply" class="modalReply">답변</span>
+        <textarea class="reply" id="replyInput" placeholder="답변을 입력하세요"></textarea>
+        <button id="replyCancelButton" class="cancelReply">취소</button>
+        <button id="sendReplyButton" class="sendReply">답변</button>
+    </div>
+</div>
+
+<!-- 모달창 -->
+<div id="modal1" class="modal">
+    <div class="modal-content" id="modal-content1">
+        <p class="modal-text">
+            선택한 문의내역을 답변하시겠습니까?
+        </p>
+
+        <button id="cancelButton1" class="cancel">취소</button>
+        <button id="confirmButton1" class="confirm">확인</button>
+
+    </div>
+</div>
+<div class="modal-content2" id="modal-content3">
+    <span class="deleteConfirm">답변이 완료되었습니다 !</span>
+    <button id="confirmButton3" class="confirm2">확인</button>
+</div>
+
+
+
+<div id="pagination" class="pagination">
+    <button id="prevPage" disabled>◀︎</button>
+    <div id="pageNumbers"></div> <!-- 페이지 번호를 표시하는 컨테이너 -->
+    <button id="nextPage" disabled>►</button>
+</div>
+
+
+<button class="delete" id="deleteButton">삭제</button>
+<!-- 모달창 -->
+<div id="modal" class="modal">
+    <div class="modal-content" id="modal-content">
+        <p class="modal-text">
+            선택한 문의내역을 삭제하시겠습니까?
+        </p>
+
+        <button id="cancelButton" class="cancel">취소</button>
+        <button id="confirmButton" class="confirm">확인</button>
+
+    </div>
+</div>
+<div class="modal-content2" id="modal-content2">
+    <span class="deleteConfirm">삭제가 완료되었습니다 !</span>
+    <button id="confirmButton2" class="confirm2">확인</button>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const adminTab = document.getElementById("adminTab");
+        const adminMenu = document.getElementById("adminMenu");
+
+        // 관리자 탭 클릭 시 메뉴 표시/숨김 토글
+        adminTab.addEventListener("click", function () {
+            if (adminMenu.style.display === "block") {
+                adminMenu.style.display = "none"; // 숨김
+                adminTab.classList.remove("active");
+
+            } else {
+                adminMenu.style.display = "block"; // 표시
+                adminTab.classList.add("active");
+            }
+        });
+    });
+</script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const deleteButton = document.getElementById("deleteButton");
+        const modal = document.getElementById("modal");
+        const modal1= document.getElementById("modal-content");
+        const modal2= document.getElementById("modal-content2");
+        const cancelButton = document.getElementById("cancelButton");
+        const confirmButton = document.getElementById("confirmButton");
+        const confirmButton2 = document.getElementById("confirmButton2");
+
+        let selectedInquiryNos = []; // 선택된 문의 번호 배열
+
+        // 체크된 문의 번호 가져오기
+        function getSelectedInquiryNos() {
+            const checkboxes = document.querySelectorAll("input[name='inquiryCheckBox']:checked");
+            return Array.from(checkboxes).map(checkbox => parseInt(checkbox.value));
+        }
+
+
+        // 삭제 버튼 클릭 시 모달 열기
+        deleteButton.addEventListener("click", () => {
+            modal.style.display = "block"; // 모달 표시
+            modal1.style.display= "block";
+            document.body.classList.add("no-scroll"); // 스크롤 비활성화
+
+        });
+
+        // 취소 버튼 클릭 시 모달 닫기
+        cancelButton.addEventListener("click", () => {
+            modal.style.display = "none";
+            modal1.style.display="none";
+            document.body.classList.remove("no-scroll"); // 스크롤 활성화
+        });
+
+        confirmButton.addEventListener("click", async () => {
+
+            selectedInquiryNos = getSelectedInquiryNos();
+
+            if (selectedInquiryNos.length === 0) {
+                alert("삭제할 문의 내역을 선택하세요.");
+                return;
+            }
+
+            try {
+                const response = await fetch("/admininquiry/delete", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(selectedInquiryNos),
+                });
+
+                if (response.ok) {
+                    // 삭제 성공 시 화면에서 삭제
+                    selectedInquiryNos.forEach(inquiryNo => {
+                        const inquiryRow = document.querySelector(
+                            `input[name='inquiryCheckBox'][value='${inquiryNo}']`
+                        ).closest(".inquiryInfo2");
+                        if (inquiryRow) {
+                            inquiryRow.remove();
+                        }
+                    });
+
+                    modal1.style.display = "none";
+                    modal2.style.display = "block";
+                } else {
+                    alert("삭제에 실패했습니다.");
+                }
+            } catch (error) {
+                console.error("문의 삭제 중 오류 발생:", error);
+            }
+
+        });
+
+
+        confirmButton2.addEventListener("click", () => {
+            modal.style.display="none";
+            modal2.style.display="none";
+            document.body.classList.remove("no-scroll"); // 스크롤 활성화
+
+        })
+
+        // 외부 클릭 차단 (모든 모달)
+        modal.addEventListener("click", (event) => {
+            if (!event.target.closest(".modal-content") && !event.target.closest(".modal-content2")) {
+                event.stopPropagation(); // 외부 클릭 차단
+            }
+        });
+
+        // 모달 외부의 다른 버튼 클릭 차단
+        document.addEventListener("click", function (event) {
+            if (modal.style.display === "block") {
+                const isModalContent = event.target.closest(".modal-content") || event.target.closest(".modal-content2");
+                if (!isModalContent) {
+                    event.stopPropagation();
+                }
+            }
+        }, true);
+
+
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const inquiryContainer = document.getElementById("inquiryContent");
+        const prevPageButton = document.getElementById("prevPage");
+        const nextPageButton = document.getElementById("nextPage");
+        const pageNumbersDiv = document.getElementById("pageNumbers");
+        const categoryButton = document.getElementById("categoryButton");
+        const dropdownMenu = document.getElementById("dropdownMenu");
+        const dropdownItems = document.querySelectorAll(".dropdown-item, .dropdown-item2");
+        const searchInput = document.getElementById("searchInput");
+
+        let currentPage = 1; // 현재 페이지
+        let totalPages = 1; // 전체 페이지 수
+        const itemsPerPage = 6; // 한 페이지에 표시할 항목 수
+        let inquiries = []; // 전역 변수로 선언
+        let selectedCategory = "전체"; // 기본 카테고리
+
+        // 드롭다운 메뉴 표시/숨김
+        categoryButton.addEventListener("click", () => {
+            dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
+        });
+
+        // 카테고리 선택
+        dropdownItems.forEach(item => {
+            item.addEventListener("click", () => {
+                selectedCategory = item.getAttribute("data-value");
+                categoryButton.textContent = selectedCategory; // 버튼 텍스트 변경
+                dropdownMenu.style.display = "none"; // 메뉴 숨김
+
+                // 전체 선택 시 모든 데이터를 조회
+                if (selectedCategory === "전체") {
+                    fetchAllInquiries();// 모든 데이터 조회
+                }
+
+            });
+        });
+
+        // 메뉴 외부 클릭 시 드롭다운 메뉴 숨김
+        document.addEventListener("click", (event) => {
+            if (!event.target.closest(".dropdown")) {
+                dropdownMenu.style.display = "none";
+            }
+        });
+
+        if (!inquiryContainer) {
+            console.error("inquiryContent 요소를 찾을 수 없습니다.");
+            return;
+        }
+
+        // 검색 버튼 클릭 시 데이터 요청
+        document.getElementById("searchButton").addEventListener("click", fetchInquiries);
+
+        // Enter 키로 검색
+        searchInput.addEventListener("keypress", (event) => {
+            if (event.key === "Enter") {
+                fetchInquiries();
+            }
+        });
+
+        // 모든 데이터를 가져오는 함수
+        async function fetchAllInquiries() {
+            try {
+                const response = await fetch("/admininquiry/inquiries"); // 모든 데이터를 가져오는 API
+                if (!response.ok) {
+                    throw new Error("문의사항 데이터를 가져오는 데 실패했습니다.");
+                }
+                inquiries = await response.json(); // JSON 데이터 파싱
+                totalPages = Math.ceil(inquiries.length / itemsPerPage); // 전체 페이지 계산
+                renderPage(1); // 첫 번째 페이지 렌더링
+                renderPageNumbers(); // 페이지 번호 렌더링
+            } catch (error) {
+                console.error("전체 데이터를 가져오는 중 오류 발생:", error);
+            }
+        }
+
+        // 서버에서 문의사항 데이터를 가져오는 함수
+        async function fetchInquiries() {
+            const query = searchInput.value.trim();
+            const url = `/admininquiry/search?category=${encodeURIComponent(
+                selectedCategory
+            )}&query=${encodeURIComponent(query)}`;
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error("문의사항 데이터를 가져오는 데 실패했습니다.");
+                }
+                inquiries = await response.json(); // JSON 데이터 파싱
+                totalPages = Math.ceil(inquiries.length / itemsPerPage); // 전체 페이지 계산
+                renderPage(currentPage); // 첫 번째 페이지 렌더링
+                renderPageNumbers(); // 페이지 번호 렌더링
+            } catch (error) {
+                console.error("문의사항 데이터를 가져오는 중 오류 발생:", error);
+            }
+        }
+
+        // 데이터를 화면에 추가하는 함수
+        function renderPage(page)  {
+            inquiryContainer.innerHTML = ""; // 기존 내용을 비웁니다.
+
+            // 현재 페이지에 해당하는 데이터 가져오기
+            const startIndex = (page - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const pageData = inquiries.slice(startIndex, endIndex);
+
+            pageData.forEach(inquiry => {
+                const inquiryContent = document.createElement("div");
+                inquiryContent.classList.add("inquiryInfo2");
+                inquiryContent.style.marginBottom= "35px";
+
+                inquiryContent.innerHTML = `
+                <input type="checkbox" class="inquiryCheckbox" name="inquiryCheckBox" value="${inquiry.inquiryNo}">
+                <span class="inquiryNoValue">${inquiry.inquiryNo}</span>
+                <span class="inquiryIdValue">${inquiry.userId}</span>
+                <span class="inquiryTitleValue">${inquiry.inquiryTitle}</span>
+                <span class="inquiryDateValue">${inquiry.inquiryDate}</span>
+                <span class="replyStatusValue">${inquiry.replyStatus}</span>
+            `;
+
+                inquiryContainer.appendChild(inquiryContent);
+            });
+            // 페이지네이션 상태 업데이트
+            updatePagination(page);
+        }
+        // 페이지네이션 상태 업데이트
+        function updatePagination(page) {
+            currentPage = page;
+
+            // 이전, 다음 버튼 활성화/비활성화
+            prevPageButton.disabled = page === 1;
+            nextPageButton.disabled = page === totalPages;
+
+            // 현재 페이지 강조
+            const pageButtons = document.querySelectorAll(".page-number");
+            pageButtons.forEach(button => {
+                button.classList.remove("active");
+                if (parseInt(button.dataset.page) === page) {
+                    button.classList.add("active");
+                }
+            });
+        }
+
+        // 페이지 번호 렌더링 함수
+        function renderPageNumbers() {
+            pageNumbersDiv.innerHTML = ""; // 기존 페이지 번호를 초기화
+
+            for (let i = 1; i <= totalPages; i++) {
+                const pageButton = document.createElement("button");
+                pageButton.textContent = i;
+                pageButton.classList.add("page-number");
+                pageButton.dataset.page = i;
+                if (i === currentPage) {
+                    pageButton.classList.add("active"); // 현재 페이지 강조
+                }
+                pageButton.addEventListener("click", () => {
+                    renderPage(i);
+                });
+
+                pageNumbersDiv.appendChild(pageButton);
+            }
+        }
+        // 이전 페이지 버튼 클릭 이벤트
+        prevPageButton.addEventListener("click", () => {
+            if (currentPage > 1) {
+                renderPage(currentPage - 1);
+            }
+        });
+
+        // 다음 페이지 버튼 클릭 이벤트
+        nextPageButton.addEventListener("click", () => {
+            if (currentPage < totalPages) {
+                renderPage(currentPage + 1);
+            }
+        });
+
+        // 초기 데이터 로드
+        fetchInquiries();
+    });
+
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const detailModal = document.getElementById("detailModal");
+        const modal1 = document.getElementById("modal1");
+        const modal3 = document.getElementById("modal-content1");
+        const modal2 = document.getElementById("modal-content3");
+        const titleContent = document.querySelector(".titleContent");
+        const inquiryContent = document.querySelector(".inquiryContent");
+        const replyInput = document.getElementById("replyInput");
+        const replyCancelButton = document.getElementById("replyCancelButton");
+        const sendReplyButton = document.getElementById("sendReplyButton");
+        const cancelButton = document.getElementById("cancelButton1");
+        const confirmButton = document.getElementById("confirmButton1");
+        const confirmButton2 = document.getElementById("confirmButton3");
+
+        let selectedInquiryNo = null; // 선택된 문의 번호 저장
+
+        // 문의 제목 클릭 시 상세 데이터 가져오기
+        document.getElementById("inquiryContent").addEventListener("click", async (event) => {
+            const target = event.target;
+
+            if (target.classList.contains("inquiryTitleValue")) {
+                const inquiryNo = target.parentElement.querySelector(".inquiryCheckbox").value;
+                selectedInquiryNo = inquiryNo; // 선택된 문의 번호 저장
+
+                try {
+                    // 문의 상세 데이터 요청
+                    const response = await fetch(`/admininquiry/detail/${inquiryNo}`);
+                    if (!response.ok) {
+                        throw new Error("문의 상세 데이터를 가져오는 데 실패했습니다.");
+                    }
+
+                    const detail = await response.json();
+                    const inquiryDetail = detail.inquiryDetail;
+                    const replyComment = detail.replyComment;
+
+                    // 팝업창에 데이터 표시
+                    titleContent.textContent = inquiryDetail.inquiryTitle;
+                    inquiryContent.textContent = inquiryDetail.inquiryContent;
+
+                    if (replyComment) {
+                        replyInput.value = replyComment;
+                        replyInput.disabled = true;
+                        sendReplyButton.disabled = true;
+                        sendReplyButton.style.cursor = "not-allowed";
+                        sendReplyButton.style.backgroundColor = "#ccc"; // 비활성화 버튼 스타일
+                    } else {
+                        replyInput.value = "";
+                        replyInput.disabled = false;
+                        sendReplyButton.disabled = false;
+                        sendReplyButton.style.cursor = "pointer";
+                        sendReplyButton.style.backgroundColor = ""; // 활성화 버튼 스타일
+                    }
+
+                    // 팝업창 표시
+                    detailModal.style.display = "block";
+                } catch (error) {
+                    console.error("문의 상세 데이터를 가져오는 중 오류 발생:", error);
+                }
+            }
+        });
+
+        // 취소 버튼 클릭 시 팝업창 닫기
+        replyCancelButton.addEventListener("click", () => {
+            detailModal.style.display = "none";
+            replyInput.value = ""; // 답변 입력 필드 초기화
+        });
+
+        // 답변 버튼 클릭 시 "답변하시겠습니까?" 모달 표시
+        sendReplyButton.addEventListener("click", () => {
+            modal1.style.display = "block";
+        });
+
+        // "답변하시겠습니까?" 모달의 취소 버튼 클릭 시
+        cancelButton.addEventListener("click", () => {
+            modal1.style.display = "none"; // 답변 모달 닫기
+        });
+
+        // "답변하시겠습니까?" 모달의 확인 버튼 클릭 시
+        confirmButton.addEventListener("click", async () => {
+            const replyContent = replyInput.value.trim();
+            if (!replyContent) {
+                alert("답변 내용을 입력하세요.");
+                return;
+            }
+
+            try {
+                const response = await fetch(`/admininquiry/reply`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        inquiryNo: selectedInquiryNo,
+                        replyComment: replyContent
+                    }),
+                });
+
+                if (response.ok) {
+                    modal1.style.display = "block"; // 답변 확인 모달 닫기
+                    modal2.style.display = "block"; // 답변 완료 모달 표시
+                    modal3.style.display = "none";
+
+                    const statusElement = document.querySelector(`.inquiryCheckbox[value="${selectedInquiryNo}"]`)
+                        .parentElement.querySelector(".replyStatusValue");
+                    statusElement.textContent = "완료";
+
+                    replyInput.disabled = true;
+                    sendReplyButton.disabled = true;
+                    sendReplyButton.style.cursor = "not-allowed";
+                    sendReplyButton.style.backgroundColor = "#ccc"; // 비활성화 버튼 스타일
+                } else {
+                    throw new Error("답변 전송에 실패했습니다.");
+                }
+            } catch (error) {
+                console.error("답변 전송 중 오류 발생:", error);
+            }
+        });
+
+        // "답변 완료" 모달의 확인 버튼 클릭 시
+        confirmButton2.addEventListener("click", () => {
+            modal1.style.display = "none";
+            modal2.style.display = "none"; // 답변 완료 모달 닫기
+            detailModal.style.display = "none"; // 상세 조회 팝업 닫기
+            replyInput.value = ""; // 답변 입력 필드 초기화
+        });
+    });
+
+</script>
+</body>
+</html>
