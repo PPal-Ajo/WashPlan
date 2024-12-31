@@ -13,10 +13,25 @@
         <result column="CANCEL_COUNT" property="cancelCount"/>
     </resultMap>
 
-    <resultMap id="machineResultMap" type="com.ohgiraffers.washplan.admin.model.dto.MachineDTO">
+    <resultMap id="machineResultMap" type="com.ohgiraffers.washplan.admin.model.dto.AdminMachineDTO">
         <result column="MACHINE_NO" property="machineNo"/>
         <result column="MACHINE_TYPE" property="machineType"/>
         <result column="MACHINE_STATUS" property="machineStatus"/>
+    </resultMap>
+
+    <resultMap id="inquiryResultMap" type="com.ohgiraffers.washplan.admin.model.dto.AdminInquiryDTO">
+        <result column="INQUIRY_NO" property="inquiryNo"/>
+        <result column="USER_ID" property="userId"/>
+        <result column="INQUIRY_TITLE" property="inquiryTitle"/>
+        <result column="INQUIRY_DATE" property="inquiryDate"/>
+        <result column="REPLY_STATUS" property="replyStatus"/>
+        <result column="INQUIRY_CONTENT" property="inquiryContent"/>
+    </resultMap>
+
+    <resultMap id="inquiryReplyResultMap" type="com.ohgiraffers.washplan.admin.model.dto.AdminInquiryReplyDTO">
+        <result column="INQUIRY_NO" property="inquiryNo"/>
+        <result column="ADMIN_NO" property="adminNo"/>
+        <result column="REPLY_COMMENT" property="replyComment"/>
     </resultMap>
 
     <select id="findUserInfo" resultMap="adminResultMap">
@@ -77,6 +92,64 @@
             END
         WHERE MACHINE_NO = #{machineNo}
     </update>
+
+    <select id="findInquiryInfo" resultMap="inquiryResultMap">
+        SELECT i.INQUIRY_NO,
+                u.USER_ID,
+                i.INQUIRY_TITLE,
+                i.INQUIRY_DATE,
+                i.REPLY_STATUS
+        FROM TBL_INQUIRY i
+        JOIN TBL_USER u ON i.USER_NO = u.USER_NO
+    </select>
+
+    <select id="findInquiriesByUserIdOrTitle" resultMap="inquiryResultMap">
+        SELECT i.INQUIRY_NO, u.USER_ID, i.INQUIRY_TITLE, i.INQUIRY_DATE, i.REPLY_STATUS
+        FROM TBL_INQUIRY i
+        JOIN TBL_USER u ON i.USER_NO = u.USER_NO
+        WHERE u.USER_ID LIKE CONCAT('%', #{query}, '%')
+        OR i.INQUIRY_TITLE LIKE CONCAT('%', #{query}, '%')
+    </select>
+
+    <select id="findInquiriesByReplyStatus" resultMap="inquiryResultMap">
+        SELECT i.INQUIRY_NO, u.USER_ID, i.INQUIRY_TITLE, i.INQUIRY_DATE, i.REPLY_STATUS
+        FROM TBL_INQUIRY i
+        JOIN TBL_USER u ON i.USER_NO = u.USER_NO
+        WHERE i.REPLY_STATUS = #{status}
+    </select>
+
+    <delete id="deleteInquiries">
+        DELETE FROM TBL_INQUIRY
+        WHERE INQUIRY_NO IN
+        <foreach collection="list" item="inquiryNo" open="(" separator="," close=")">
+            #{inquiryNo}
+        </foreach>
+    </delete>
+
+    <select id="findInquiryDetail" resultMap="inquiryResultMap">
+        SELECT INQUIRY_NO, INQUIRY_TITLE, INQUIRY_CONTENT
+        FROM TBL_INQUIRY
+        WHERE INQUIRY_NO = #{inquiryNo}
+    </select>
+
+    <insert id="insertInquiryReply">
+        INSERT INTO TBL_INQUIRY_REPLY (ADMIN_NO,INQUIRY_NO,REPLY_COMMENT)
+        VALUES  (#{adminNo}, #{inquiryNo}, #{replyComment})
+    </insert>
+
+    <update id="updateReplyStatus">
+        UPDATE TBL_INQUIRY
+        SET REPLY_STATUS = #{replyStatus}
+        WHERE INQUIRY_NO = #{inquiryNo}
+    </update>
+
+    <!-- 답변 내용 조회 -->
+    <select id="getReplyCommentByInquiryNo" resultType="String">
+        SELECT REPLY_COMMENT
+        FROM TBL_INQUIRY_REPLY
+        WHERE INQUIRY_NO = #{inquiryNo}
+        LIMIT 1
+    </select>
 
 
 

@@ -21,10 +21,11 @@
     </nav>
 </header>
 
+<!-- 관리자 메뉴 -->
 <div class="admin-menu" id="adminMenu">
-    <button onclick="location.href='/adminuser'" class="adminUser">사용자 관리</button>
-    <button onclick="location.href='/adminmachine'" class="adminMachine">세탁기/건조기 관리</button>
-    <button onclick="location.href='/admininquiry'" class="adminInquiry">문의사항 관리</button>
+    <button onclick="location.href='/admin/adminuser'" class="adminUser">사용자 관리</button>
+    <button onclick="location.href='/admin/adminmachine'" class="adminMachine">세탁기/건조기 관리</button>
+    <button onclick="location.href='/admin/admininquiry'" class="adminInquiry">문의사항 관리</button>
 </div>
 
 <img class="adminimage" th:src="@{/images/admin/Machine.png}" alt="관리자기기배경">
@@ -99,7 +100,8 @@
     document.addEventListener("DOMContentLoaded", function () {
         const statusButton = document.getElementById("statusChange");
         const modal = document.getElementById("modal");
-        const modal1= document.getElementById("modal-content");
+        const modal1 = document.getElementById("modal-content");
+        const modalText = document.querySelector(".modal-text");
         const modal2= document.getElementById("modal-content2");
         const cancelButton = document.getElementById("cancelButton");
         const confirmButton = document.getElementById("confirmButton");
@@ -108,11 +110,33 @@
 
 
 
-        // 일시정지 버튼 클릭 시 모달 열기
+
         statusButton.addEventListener("click", () => {
-            modal.style.display = "block"; // 모달 표시
-            modal1.style.display= "block";
-            document.body.classList.add("no-scroll"); // 스크롤 비활성화
+            const selectedMachine = getSelectedMachineNos();
+
+            if (!selectedMachine) {
+                alert("상태를 변경할 기기를 선택하세요.");
+                return;
+            }
+
+            // 선택된 첫 번째 기기의 상태에 따라 모달 텍스트 변경
+            const { machineNo, machineStatus } = selectedMachine[0];
+            if (machineStatus === "사용가능") {
+                modalText.innerHTML = `
+            <span>${machineNo}호 기기를&nbsp;</span>
+            <span style="color: #A500FF;">고장</span>으로 변경하시겠습니까?
+        `;
+            } else if (machineStatus === "고장") {
+                modalText.innerHTML = `
+            <span>${machineNo}호 기기를&nbsp;</span>
+            <span style="color: #0062FF;">사용가능 </span>으로 변경하시겠습니까?
+        `;
+            }
+
+            // 모달 표시
+            modal.style.display = "block";
+            modal1.style.display = "block";
+            document.body.classList.add("no-scroll");
 
         });
 
@@ -124,29 +148,30 @@
         });
 
         confirmButton.addEventListener("click", async () => {
-            selectedMachineNos = getSelectedMachineNos();
+            const selectedMachineNos = getSelectedMachineNos();
 
             if (selectedMachineNos.length === 0) {
                 alert("상태를 변경할 기기를 선택하세요.");
                 return;
             }
+
             try {
                 const response = await fetch("/adminmachine/changeStatus", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(selectedMachineNos),
+                    body: JSON.stringify(selectedMachineNos.map(machine => machine.machineNo)), // 기기 번호만 전송
                 });
 
                 if (response.ok) {
-                    // 상태 변경 성공 시
-                    selectedMachineNos.forEach(machineNo => {
+                    // 상태 변경 성공 시 클라이언트에서 DOM 업데이트
+                    selectedMachineNos.forEach(({ machineNo, machineStatus }) => {
                         const machineRow = Array.from(document.querySelectorAll(".washMachineNoValue, .dryMachineNoValue"))
                             .find(element => element.textContent.replace("호", "").trim() === machineNo);
 
                         if (machineRow) {
                             const statusElement = machineRow.closest("div").querySelector(".washMachineStatusValue, .dryMachineStatusValue");
                             if (statusElement) {
-                                if (statusElement.textContent === "사용가능") {
+                                if (machineStatus === "사용가능") {
                                     statusElement.textContent = "고장";
                                     statusElement.style.color = "#A500FF"; // 보라색
                                 } else {
@@ -158,7 +183,7 @@
                     });
 
                     modal1.style.display = "none";
-                    modal2.style.display = "block";
+                    modal2.style.display = "block"; // 완료 메시지 모달 표시
                 } else {
                     alert("상태 변경에 실패했습니다.");
                 }
@@ -286,7 +311,16 @@
     // 체크된 기기 번호 가져오기
     function getSelectedMachineNos() {
         const checkboxes = document.querySelectorAll("input[name='machineCheckBox']:checked");
-        return Array.from(checkboxes).map(checkbox => checkbox.value);
+        return Array.from(checkboxes).map(checkbox => ({
+            machineNo: checkbox.value,
+            machineStatus: checkbox.parentElement.querySelector(".washMachineStatusValue, .dryMachineStatusValue").textContent.trim()
+        }));
+    }
+
+    // 체크된 기기 번호 가져오기
+    function getSelectedMachineNo() {
+        const checkboxes = document.querySelectorAll("input[name='machineCheckBox']:checked");
+        return Array.from(checkboxes).map(checkbox => parseInt(checkbox.value)); // 기기 번호만 배열로 반환
     }
 
 </script>
