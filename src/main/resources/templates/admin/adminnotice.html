@@ -40,6 +40,19 @@
 <span class="noticeTitle">공지제목</span>
 <span class="noticeDate">등록날짜</span>
 
+<!--공지사항 정보 불러오기 -->
+<div id="noticeContainer" class="noticeInfo">
+    <div id="noticeInfo" class="noticeInfo2">
+
+    </div>
+</div>
+
+<div id="pagination" class="pagination">
+    <button id="prevPage" disabled>◀︎</button>
+    <div id="pageNumbers"></div> <!-- 페이지 번호를 표시하는 컨테이너 -->
+    <button id="nextPage" disabled>►</button>
+</div>
+
 <button class="delete" id="deleteButton">삭제</button>
 
 <!-- 모달창 -->
@@ -122,17 +135,23 @@
         const confirmButton = document.getElementById("confirmButton");
         const confirmButton2 = document.getElementById("confirmButton2");
 
-        let selectedInquiryNos = []; // 선택된 문의 번호 배열
+        let selectedNoticeNos = []; // 선택된 문의 번호 배열
 
-        // 체크된 문의 번호 가져오기
-        function getSelectedInquiryNos() {
-            const checkboxes = document.querySelectorAll("input[name='inquiryCheckBox']:checked");
+        // 체크된 공지 번호 가져오기
+        function getSelectedNoticeNos() {
+            const checkboxes = document.querySelectorAll("input[name='noticeCheckBox']:checked");
             return Array.from(checkboxes).map(checkbox => parseInt(checkbox.value));
         }
 
 
         // 삭제 버튼 클릭 시 모달 열기
         deleteButton.addEventListener("click", () => {
+            const selectedNoticeNos = getSelectedNoticeNos();
+
+            if (selectedNoticeNos.length === 0) {
+                alert("삭제할 공지사항을 선택하세요.");
+                return;
+            }
             modal.style.display = "block"; // 모달 표시
             modal1.style.display= "block";
             document.body.classList.add("no-scroll"); // 스크롤 비활성화
@@ -147,10 +166,32 @@
         });
 
         confirmButton.addEventListener("click", async () => {
-                    modal.style.display ="block"
-                    modal1.style.display = "none";
-                    modal2.style.display = "block";
+            const selectedNoticeNos = getSelectedNoticeNos();
 
+            try {
+                const response = await fetch("/adminnotice/delete", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(selectedNoticeNos),
+                });
+
+                if (response.ok) {
+                    // 성공적으로 삭제 후 UI 업데이트
+                    selectedNoticeNos.forEach(noticeNo => {
+                        const noticeElement = document.querySelector(`input[value="${noticeNo}"]`).parentElement;
+                        if (noticeElement) {
+                            noticeElement.remove();
+                        }
+                    });
+
+                    modal1.style.display = "none";
+                    modal2.style.display = "block"; // 완료 모달 표시
+                } else {
+                    throw new Error("공지사항 삭제에 실패했습니다.");
+                }
+            } catch (error) {
+                console.error("공지사항 삭제 중 오류 발생:", error);
+            }
         });
 
 
@@ -238,6 +279,150 @@
 
 
     });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const noticeContainer = document.getElementById("noticeInfo");
+        const prevPageButton = document.getElementById("prevPage");
+        const nextPageButton = document.getElementById("nextPage");
+        const pageNumbersDiv = document.getElementById("pageNumbers");
+        const searchInput = document.getElementById("searchInput");
+        const searchButton = document.getElementById("searchButton");
+
+        let currentPage = 1; // 현재 페이지
+        let totalPages = 1; // 전체 페이지 수
+        const itemsPerPage = 6; // 한 페이지에 표시할 항목 수
+        let notices =[];
+
+
+
+        // 공지사항 데이터를 서버에서 가져오는 함수
+        async function fetchNotices() {
+            try {
+                const response = await fetch("/adminnotice/notices");
+                if (!response.ok) {
+                    throw new Error("공지사항 데이터를 가져오는 데 실패했습니다.");
+                }
+                notices = await response.json();
+                totalPages = Math.ceil(notices.length / itemsPerPage); // 전체 페이지 계산
+                renderPage(1); // 첫 번째 페이지 렌더링
+                renderPageNumbers(); // 페이지 번호 렌더링
+            } catch (error) {
+                console.error("공지사항 데이터를 가져오는 중 오류 발생:", error);
+            }
+        }
+
+        async function searchNotices() {
+            const title = searchInput.value.trim();
+            if (!title) {
+                fetchNotices(); // 검색어가 없으면 전체 공지 불러오기
+                return;
+            }
+
+            try {
+                const response = await fetch(`/adminnotice/search?title=${encodeURIComponent(title)}`);
+                if (!response.ok) {
+                    throw new Error("검색 결과를 가져오는 데 실패했습니다.");
+                }
+                notices = await response.json();
+                totalPages = Math.ceil(notices.length / itemsPerPage);
+                renderPage(1);
+                renderPageNumbers();
+            } catch (error) {
+                console.error("검색 결과를 가져오는 중 오류 발생:", error);
+            }
+        }
+
+        // 데이터를 화면에 추가하는 함수
+        function renderPage(page) {
+            noticeContainer.innerHTML = ""; // 기존 내용을 비웁니다.
+
+            // 현재 페이지에 해당하는 데이터 가져오기
+            const startIndex = (page - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const pageData = notices.slice(startIndex, endIndex);
+
+            pageData.forEach(notice => {
+                const noticeContent = document.createElement("div");
+                noticeContent.classList.add("noticeInfo2");
+                noticeContent.style.marginBottom= "35px";
+
+
+                noticeContent.innerHTML = `
+                <input type="checkbox" class="noticeCheckbox" name="noticeCheckBox" value="${notice.noticeNo}">
+                <span class="noticeNoValue">${notice.noticeNo}</span>
+                <span class="noticeTitleValue">${notice.noticeTitle}</span>
+                <span class="noticeDateValue">${notice.noticeDate}</span>
+            `;
+
+                noticeContainer.appendChild(noticeContent);
+            });
+            // 페이지네이션 상태 업데이트
+            updatePagination(page);
+        }
+        // 페이지네이션 상태 업데이트
+        function updatePagination(page) {
+            currentPage = page;
+
+            // 이전, 다음 버튼 활성화/비활성화
+            prevPageButton.disabled = page === 1;
+            nextPageButton.disabled = page === totalPages;
+
+            // 현재 페이지 강조
+            const pageButtons = document.querySelectorAll(".page-number");
+            pageButtons.forEach(button => {
+                button.classList.remove("active");
+                if (parseInt(button.dataset.page) === page) {
+                    button.classList.add("active");
+                }
+            });
+        }
+        // 페이지 번호 렌더링 함수
+        function renderPageNumbers() {
+            pageNumbersDiv.innerHTML = ""; // 기존 페이지 번호를 초기화
+
+            for (let i = 1; i <= totalPages; i++) {
+                const pageButton = document.createElement("button");
+                pageButton.textContent = i;
+                pageButton.classList.add("page-number");
+                pageButton.dataset.page = i;
+                if (i === currentPage) {
+                    pageButton.classList.add("active"); // 현재 페이지 강조
+                }
+                pageButton.addEventListener("click", () => {
+                    renderPage(i);
+                });
+
+                pageNumbersDiv.appendChild(pageButton);
+            }
+        }
+        // 이전 페이지 버튼 클릭 이벤트
+        prevPageButton.addEventListener("click", () => {
+            if (currentPage > 1) {
+                renderPage(currentPage - 1);
+            }
+        });
+
+        // 다음 페이지 버튼 클릭 이벤트
+        nextPageButton.addEventListener("click", () => {
+            if (currentPage < totalPages) {
+                renderPage(currentPage + 1);
+            }
+        });
+
+        searchButton.addEventListener("click", searchNotices);
+
+        searchInput.addEventListener("keypress", (event) => {
+            if (event.key === "Enter") {
+                searchNotices();
+            }
+        });
+
+        // 데이터 로드
+        fetchNotices();
+    });
+
 </script>
 </body>
 </html>
