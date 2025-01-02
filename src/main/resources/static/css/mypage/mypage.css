@@ -1,0 +1,44 @@
+.bg{
+    position: absolute;
+    left: -1px;
+    top: -1px;
+}
+
+footer{
+    position: absolute;
+    width: 1920px;
+    height: 147px;
+    left:-1px;
+    top:933px;
+    background: #1A73E8;
+}
+footer span:nth-child(1){
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 25px;
+    color: #FFFFFF;
+    position: absolute;
+    left:350px;
+    top:30px;
+}
+footer span:nth-child(2){
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 25px;
+    color: #FFFFFF;
+    position: absolute;
+    left:970px;
+    top:30px;
+}
+footer span:nth-child(3){
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 25px;
+    color: #FFFFFF;
+    position: absolute;
+    left:500px;
+    top:90px;
+}
