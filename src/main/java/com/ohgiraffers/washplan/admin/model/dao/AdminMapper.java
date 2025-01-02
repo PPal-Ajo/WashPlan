@@ -1,9 +1,6 @@
 package com.ohgiraffers.washplan.admin.model.dao;
 
-import com.ohgiraffers.washplan.admin.model.dto.AdminDTO;
-import com.ohgiraffers.washplan.admin.model.dto.AdminInquiryDTO;
-import com.ohgiraffers.washplan.admin.model.dto.AdminInquiryReplyDTO;
-import com.ohgiraffers.washplan.admin.model.dto.AdminMachineDTO;
+import com.ohgiraffers.washplan.admin.model.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -42,4 +39,10 @@ public interface AdminMapper {
     String getReplyCommentByInquiryNo(int inquiryNo);
 
     void updateReplyStatus(int inquiryNo, String replyStatus);
+
+    List<AdminNoticeDTO> findNoticeInfo();
+
+    List<AdminNoticeDTO> findNoticesByTitle(String title);
+
+    void deleteNotices(List<Integer> noticeNos);
 }

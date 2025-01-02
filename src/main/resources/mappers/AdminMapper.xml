@@ -34,6 +34,13 @@
         <result column="REPLY_COMMENT" property="replyComment"/>
     </resultMap>
 
+    <resultMap id="noticeResultMap" type="com.ohgiraffers.washplan.admin.model.dto.AdminNoticeDTO">
+        <result column="NOTICE_NO" property="noticeNo"/>
+        <result column="NOTICE_TITLE" property="noticeTitle"/>
+        <result column="NOTICE_DATE" property="noticeDate"/>
+        <result column="NOTICE_CONTENT" property="noticeContent"/>
+    </resultMap>
+
     <select id="findUserInfo" resultMap="adminResultMap">
         SELECT USER_NO,
                 USER_ID,
@@ -150,6 +157,30 @@
         WHERE INQUIRY_NO = #{inquiryNo}
         LIMIT 1
     </select>
+
+    <select id="findNoticeInfo" resultMap="noticeResultMap">
+        SELECT NOTICE_NO,
+                NOTICE_TITLE,
+                NOTICE_DATE
+            FROM TBL_NOTICE
+    </select>
+
+    <select id="findNoticesByTitle" resultMap="noticeResultMap">
+        SELECT NOTICE_NO,
+        NOTICE_TITLE,
+        NOTICE_DATE
+        FROM TBL_NOTICE
+        WHERE NOTICE_TITLE LIKE CONCAT('%', #{title}, '%')
+    </select>
+
+    <delete id="deleteNotices">
+        DELETE FROM TBL_NOTICE
+        WHERE NOTICE_NO IN
+        <foreach item="noticeNo" collection="noticeNos" open="(" separator="," close=")">
+            #{noticeNo}
+        </foreach>
+    </delete>
+
 
 
 

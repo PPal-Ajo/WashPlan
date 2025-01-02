@@ -1,10 +1,7 @@
 package com.ohgiraffers.washplan.admin.model.service;
 
 import com.ohgiraffers.washplan.admin.model.dao.AdminMapper;
-import com.ohgiraffers.washplan.admin.model.dto.AdminDTO;
-import com.ohgiraffers.washplan.admin.model.dto.AdminInquiryDTO;
-import com.ohgiraffers.washplan.admin.model.dto.AdminInquiryReplyDTO;
-import com.ohgiraffers.washplan.admin.model.dto.AdminMachineDTO;
+import com.ohgiraffers.washplan.admin.model.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -90,5 +87,19 @@ public class AdminService {
     public void updateReplyStatus(int inquiryNo, String replyStatus) {
         adminMapper.updateReplyStatus(inquiryNo, replyStatus);
 
+    }
+
+    public List<AdminNoticeDTO> getAllNotices() {
+        return adminMapper.findNoticeInfo();
+    }
+
+    public List<AdminNoticeDTO> searchNoticesByTitle(String title) {
+        return adminMapper.findNoticesByTitle(title);
+    }
+
+    public void deleteNotices(List<Integer> noticeNos) {
+        if (noticeNos != null && !noticeNos.isEmpty()) {
+            adminMapper.deleteNotices(noticeNos);
+        }
     }
 }

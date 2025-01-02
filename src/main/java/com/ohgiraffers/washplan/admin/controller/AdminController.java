@@ -1,10 +1,7 @@
 package com.ohgiraffers.washplan.admin.controller;
 
 
-import com.ohgiraffers.washplan.admin.model.dto.AdminDTO;
-import com.ohgiraffers.washplan.admin.model.dto.AdminInquiryDTO;
-import com.ohgiraffers.washplan.admin.model.dto.AdminInquiryReplyDTO;
-import com.ohgiraffers.washplan.admin.model.dto.AdminMachineDTO;
+import com.ohgiraffers.washplan.admin.model.dto.*;
 import com.ohgiraffers.washplan.admin.model.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -171,6 +168,28 @@ public class AdminController {
 
         return "admin/adminnotice";
     }
+
+    @GetMapping("/adminnotice/notices")
+    @ResponseBody
+    public ResponseEntity<List<AdminNoticeDTO>> getNotices() {
+        List<AdminNoticeDTO> notices = adminService.getAllNotices();
+        return ResponseEntity.ok(notices);
+    }
+
+    @GetMapping("/adminnotice/search")
+    @ResponseBody
+    public ResponseEntity<List<AdminNoticeDTO>> searchNotices(@RequestParam String title) {
+        List<AdminNoticeDTO> notices = adminService.searchNoticesByTitle(title);
+        return ResponseEntity.ok(notices);
+    }
+
+    @PostMapping("/adminnotice/delete")
+    @ResponseBody
+    public ResponseEntity<Void> deleteNotices(@RequestBody List<Integer> noticeNos) {
+        adminService.deleteNotices(noticeNos);
+        return ResponseEntity.ok().build();
+    }
+
 
 
 }
