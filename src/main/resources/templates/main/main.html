@@ -11,15 +11,14 @@
 
 </head>
 <body>
+<p th:text="${#authentication.principal}">인증 객체</p>
+<p th:text="${#authentication.authorities}">권한</p>
 <header>
     <nav>
         <!-- 네비게이션 바 -->
         <span>WashPlan</span>
         <span onclick="location.href='/reservation'">예약</span>
         <span>FAQ</span>
-
-        <!-- 로그인 여부에 따라 네비게이션 바 표시 -->
-        <!-- 로그인 상태 -->
         <span th:if="${#authentication.principal != null and #authentication.principal instanceof T(com.ohgiraffers.washplan.auth.model.dto.CustomUserDetails)}"
               onclick="location.href='/mypage'">마이페이지</span>
         <span th:if="${#authentication.principal != null and #authentication.principal instanceof T(com.ohgiraffers.washplan.auth.model.dto.CustomUserDetails)}"
@@ -139,6 +138,8 @@
                 infowindow.close(); // 인포윈도우 닫기
             });
         });
+
+
     </script>
 
 

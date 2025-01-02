@@ -28,11 +28,14 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // 운영 환경에서 활성화 필요
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // 정적 리소스 허용
-                        .requestMatchers("/login", "/signup/**", "/email/**", "/forget/**", "/findid/**", "/findpwd/**", "/resetpwd/**", "/auth/**", "/main", "/", "api/**").permitAll() // 비회원 허용 경로
-                        .requestMatchers("/reservation/**").hasRole("USER") // 예약 페이지는 USER 권한 필요            
+                        .requestMatchers("/login", "/signup/**", "/email/**", "/forget/**", "/findid/**", "/findpwd/**", "/resetpwd/**", "/auth/**", "/main", "/","/api/**").permitAll() // 비회원 허용 경로
+                        .requestMatchers("/reservation/**", "/mypage/**").hasRole("USER") // 예약 페이지는 USER 권한 필요
                         .requestMatchers("/admin/**", "/adminUser/**", "/adminMachine/**", "/adminInquiry/**").hasRole("ADMIN") // 관리자 페이지는 ADMIN 권한 필요
                         .anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
                 )
+                .anonymous(anonymous -> anonymous
+                        .authorities("ROLE_ANONYMOUS")
+                )// 익명 사용자 권한 지정
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // 필요 시 세션 생성
                 )

@@ -1,0 +1,332 @@
+.bg{
+    position: absolute;
+    left: -1px;
+    top: -1px;
+}
+
+footer{
+    position: absolute;
+    width: 1920px;
+    height: 147px;
+    left:-1px;
+    top: 1044px;
+    background: #1A73E8;
+}
+footer span:nth-child(1){
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 25px;
+    color: #FFFFFF;
+    position: absolute;
+    left:350px;
+    top:30px;
+}
+footer span:nth-child(2){
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 25px;
+    color: #FFFFFF;
+    position: absolute;
+    left:970px;
+    top:30px;
+}
+footer span:nth-child(3){
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 25px;
+    color: #FFFFFF;
+    position: absolute;
+    left:500px;
+    top:90px;
+}
+
+.info {
+    /* Rectangle 314 */
+
+    position: absolute;
+    width: 190px;
+    height: 73px;
+    left: 191px;
+    top: 148px;
+
+    background: #0056B3;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    border : none;
+
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #FFFFFF;
+
+    cursor: pointer;
+
+}
+
+.reservation {
+    /* Rectangle 315 */
+
+    position: absolute;
+    width: 190px;
+    height: 73px;
+    left: 441px;
+    top: 148px;
+
+    background: #42A5F5;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    border : none;
+
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #FFFFFF;
+    
+    cursor: pointer;
+
+}
+
+.inquiry {
+    /* Rectangle 316 */
+
+    position: absolute;
+    width: 190px;
+    height: 73px;
+    left: 691px;
+    top: 148px;
+
+    background: #42A5F5;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    border : none;
+
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #FFFFFF;
+
+    cursor: pointer;
+
+}
+
+.secession {
+    /* Rectangle 321 */
+
+    position: absolute;
+    width: 168px;
+    height: 55px;
+    left: 1468px;
+    top: 260px;
+
+    background: #42A5F5;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    border: none;
+
+    cursor: pointer;
+
+    /* 회원탈퇴 */
+
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 31px;
+
+    color: #FFFFFF;
+}
+
+.id{
+    /* 아이디 */
+
+    position: absolute;
+    width: 70px;
+    height: 38px;
+    left: 289px;
+    top: 297px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #000000;
+
+
+}
+
+
+.idInput{
+    /* Rectangle 317 */
+
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 1362px;
+    height: 77px;
+    left: 279px;
+    top: 374px;
+
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    border-radius: 10px;
+
+
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 25px;
+    /* identical to box height */
+
+    color: #000000;
+
+    padding-left: 20px;
+
+
+}
+
+.pwd{
+    /* 비밀번호 */
+
+    position: absolute;
+    width: 93px;
+    height: 38px;
+    left: 289px;
+    top: 462px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #000000;
+
+
+}
+
+.pwdInput {
+    /* Rectangle 318 */
+
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 1053px;
+    height: 77px;
+    left: 279px;
+    top: 535px;
+
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    border-radius: 10px;
+
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 25px;
+    /* identical to box height */
+
+    color: #000000;
+
+    padding-left: 20px;
+
+}
+
+.change {
+    /* Rectangle 320 */
+
+    position: absolute;
+    width: 190px;
+    height: 73px;
+    left: 1400px;
+    top: 537px;
+
+    background: #42A5F5;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+
+    /* 변경 */
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #FFFFFF;
+}
+
+.email {
+    /* 이메일 */
+
+    position: absolute;
+    width: 70px;
+    height: 38px;
+    left: 289px;
+    top: 658px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #000000;
+
+}
+
+.emailInput {
+    /* Rectangle 319 */
+
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 1362px;
+    height: 77px;
+    left: 279px;
+    top: 726px;
+
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    border-radius: 10px;
+
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 25px;
+    /* identical to box height */
+
+    color: #000000;
+
+    padding-left: 20px;
+
+}
