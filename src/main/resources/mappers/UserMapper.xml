@@ -18,6 +18,11 @@
     </select>
 
 
+    <update id="updatePassword" parameterType="map">
+        UPDATE TBL_USER
+        SET USER_PWD = #{password}
+        WHERE USER_ID = #{userId}
+    </update>
 
 
 

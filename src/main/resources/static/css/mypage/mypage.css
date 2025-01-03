@@ -330,3 +330,25 @@ footer span:nth-child(3){
     padding-left: 20px;
 
 }
+
+
+#changePasswordMessage {
+    /* 사용 불가능한 비밀번호입니다. */
+
+    position: absolute;
+    width: 334px;
+    height: 25px;
+    left: 289px;
+    top: 600px;
+
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 25px;
+    /* identical to box height */
+
+    color: #FD3C3C;
+
+
+}
