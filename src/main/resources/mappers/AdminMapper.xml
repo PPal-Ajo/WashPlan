@@ -163,6 +163,7 @@
                 NOTICE_TITLE,
                 NOTICE_DATE
             FROM TBL_NOTICE
+        ORDER BY NOTICE_NO DESC
     </select>
 
     <select id="findNoticesByTitle" resultMap="noticeResultMap">
@@ -180,6 +181,19 @@
             #{noticeNo}
         </foreach>
     </delete>
+
+    <insert id="insertNotice">
+        INSERT INTO TBL_NOTICE (NOTICE_TITLE, NOTICE_CONTENT, NOTICE_DATE, ADMIN_NO)
+        VALUES (#{noticeTitle}, #{noticeContent}, NOW(), #{adminNo})
+    </insert>
+
+    <select id="findLastAddedNotice" resultMap="noticeResultMap">
+        SELECT NOTICE_NO, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_DATE, ADMIN_NO
+        FROM TBL_NOTICE
+        ORDER BY NOTICE_NO DESC
+        LIMIT 1
+    </select>
+
 
 
 

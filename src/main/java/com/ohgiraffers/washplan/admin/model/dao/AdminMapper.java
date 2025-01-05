@@ -45,4 +45,9 @@ public interface AdminMapper {
     List<AdminNoticeDTO> findNoticesByTitle(String title);
 
     void deleteNotices(List<Integer> noticeNos);
+
+    void insertNotice(AdminNoticeDTO noticeDTO);
+
+
+    AdminNoticeDTO findLastAddedNotice(int adminNo);
 }

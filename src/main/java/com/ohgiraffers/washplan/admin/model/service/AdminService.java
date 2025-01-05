@@ -102,4 +102,13 @@ public class AdminService {
             adminMapper.deleteNotices(noticeNos);
         }
     }
+
+    public void insertNotice(AdminNoticeDTO noticeDTO) {
+        adminMapper.insertNotice(noticeDTO);
+
+    }
+
+    public AdminNoticeDTO findLastAddedNotice(AdminNoticeDTO noticeDTO) {
+        return adminMapper.findLastAddedNotice(noticeDTO.getAdminNo());
+    }
 }
