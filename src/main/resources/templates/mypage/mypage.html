@@ -41,8 +41,25 @@
     <p class="email">이메일</p>
     <input class="emailInput" th:value="${email}" readonly>
 
-    <!-- 비밀번호 변경 성공/실패 메시지 -->
+    <!-- 비밀번호 변경 실패 메시지 -->
     <p id="changePasswordMessage" style="display: none; color: red;"></p>
+
+    <!-- 비밀번호 변경 확인 모달 -->
+    <div id="confirmModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <p id="changeP">비밀번호를 변경하시겠습니까?</p>
+            <button id="cancelButton" class="modal-btn">취소</button>
+            <button id="confirmButton" class="modal-btn">확인</button>
+        </div>
+    </div>
+
+    <!-- 비밀번호 변경 완료 모달 -->
+    <div id="successModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <p class="doneP">비밀번호가 성공적으로 변경되었습니다.</p>
+            <button id="closeButton" class="modal-btn">닫기</button>
+        </div>
+    </div>
 </main>
 
 <footer>
@@ -56,6 +73,11 @@
         const changePasswordButton = document.getElementById("changePasswordButton");
         const passwordInput = document.getElementById("passwordInput");
         const changePasswordMessage = document.getElementById("changePasswordMessage");
+        const confirmModal = document.getElementById("confirmModal");
+        const successModal = document.getElementById("successModal");
+        const confirmButton = document.getElementById("confirmButton");
+        const cancelButton = document.getElementById("cancelButton");
+        const closeButton = document.getElementById("closeButton");
 
         changePasswordButton.addEventListener("click", function () {
             const newPassword = passwordInput.value;
@@ -68,31 +90,51 @@
                 return;
             }
 
-            // 서버에 비밀번호 변경 요청 (AJAX)
-            fetch('/change-password', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ password: newPassword })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        changePasswordMessage.style.color = "green";
-                        changePasswordMessage.style.display = "block";
-                        changePasswordMessage.innerText = "비밀번호가 성공적으로 변경되었습니다.";
-                    } else {
-                        changePasswordMessage.style.color = "red";
-                        changePasswordMessage.style.display = "block";
-                        changePasswordMessage.innerText = data.message || "비밀번호 변경에 실패했습니다.";
-                    }
+            // 모달 창 열기
+            confirmModal.style.display = "flex";
+
+            // 확인 버튼 클릭 이벤트
+            confirmButton.addEventListener("click", function () {
+                confirmModal.style.display = "none";
+
+                // 서버에 비밀번호 변경 요청
+                fetch('/change-password', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ password: newPassword })
                 })
-                .catch(error => {
-                    changePasswordMessage.style.color = "red";
-                    changePasswordMessage.style.display = "block";
-                    changePasswordMessage.innerText = "오류가 발생했습니다. 다시 시도해주세요.";
-                });
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // 성공 모달 열기
+                            successModal.style.display = "flex";
+                        } else {
+                            alert(data.message || "비밀번호 변경에 실패했습니다.");
+                        }
+                    })
+                    .catch(error => {
+                        alert("오류가 발생했습니다. 다시 시도해주세요.");
+                    });
+            });
+
+            // 취소 버튼 클릭 이벤트
+            cancelButton.addEventListener("click", function () {
+                confirmModal.style.display = "none";
+            });
+        });
+
+        // 성공 모달 닫기 버튼 클릭 이벤트
+        closeButton.addEventListener("click", function () {
+            successModal.style.display = "none";
+
+            // 비밀번호 입력 칸 초기화
+            passwordInput.value = "";
+            passwordInput.placeholder = "비밀번호는 8자리 이상 영문, 숫자, 특수문자가 각 하나씩 포함되어야 합니다.";
+
+            // 에러 메시지 숨기기
+            changePasswordMessage.style.display = "none";
         });
     });
 </script>
