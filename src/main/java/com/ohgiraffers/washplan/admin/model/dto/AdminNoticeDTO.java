@@ -7,14 +7,16 @@ public class AdminNoticeDTO {
     private String noticeTitle;
     private LocalDate noticeDate;
     private String noticeContent;
+    private int adminNo;
 
     public AdminNoticeDTO() {}
 
-    public AdminNoticeDTO(int noticeNo, String noticeTitle, LocalDate noticeDate, String noticeContent) {
+    public AdminNoticeDTO(int noticeNo, String noticeTitle, LocalDate noticeDate, String noticeContent, int adminNo) {
         this.noticeNo = noticeNo;
         this.noticeTitle = noticeTitle;
         this.noticeDate = noticeDate;
         this.noticeContent = noticeContent;
+        this.adminNo = adminNo;
     }
 
     public int getNoticeNo() {
@@ -49,6 +51,14 @@ public class AdminNoticeDTO {
         this.noticeContent = noticeContent;
     }
 
+    public int getAdminNo() {
+        return adminNo;
+    }
+
+    public void setAdminNo(int adminNo) {
+        this.adminNo = adminNo;
+    }
+
     @Override
     public String toString() {
         return "AdminNoticeDTO{" +
@@ -56,6 +66,7 @@ public class AdminNoticeDTO {
                 ", noticeTitle='" + noticeTitle + '\'' +
                 ", noticeDate=" + noticeDate +
                 ", noticeContent='" + noticeContent + '\'' +
+                ", adminNo=" + adminNo +
                 '}';
     }
 }
