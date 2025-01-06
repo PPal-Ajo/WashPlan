@@ -3,4 +3,25 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.ohgiraffers.washplan.user.model.dao.MyPageMapper"></mapper>
+<mapper namespace="com.ohgiraffers.washplan.user.model.dao.MyPageMapper">
+
+    <!-- 사용자 ID를 기반으로 예약 삭제 -->
+    <delete id="deleteReservationsByUserId">
+        DELETE FROM TBL_RESERVATION
+        WHERE USER_NO = (SELECT USER_NO FROM TBL_USER WHERE USER_ID = #{userId})
+    </delete>
+
+    <!-- 사용자 ID를 기반으로 문의 삭제 -->
+    <delete id="deleteInquiriesByUserId">
+        DELETE FROM TBL_INQUIRY
+        WHERE USER_NO = (SELECT USER_NO FROM TBL_USER WHERE USER_ID = #{userId})
+    </delete>
+
+    <!-- 사용자 ID를 기반으로 회원 삭제 -->
+    <delete id="deleteUserById">
+        DELETE FROM TBL_USER
+        WHERE USER_ID = #{userId}
+    </delete>
+
+
+</mapper>
