@@ -2,10 +2,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>이메일 인증</title>
+    <title>마이페이지</title>
     <link th:href="@{/css/base/nav.css}" rel="stylesheet">
     <link th:href="@{/css/mypage/mypage.css}" rel="stylesheet">
-
 </head>
 <body>
 <!-- 배경 이미지 -->
@@ -22,11 +21,11 @@
 </header>
 
 <main>
- <button class="info">회원정보</button>
- <button class="reservation">예약현황</button>
- <button class="inquiry">문의내역</button>
+    <button class="info">회원정보</button>
+    <button class="reservation">예약현황</button>
+    <button class="inquiry">문의내역</button>
 
- <button class="secession">회원탈퇴</button>
+    <button class="secession">회원탈퇴</button>
 
     <!-- 아이디 -->
     <p class="id">아이디</p>
@@ -34,15 +33,33 @@
 
     <!-- 비밀번호 -->
     <p class="pwd">비밀번호</p>
-    <input class="pwdInput" type="password" placeholder="비밀번호는 8자리 이상 영문, 숫자, 특수문자가 각 하나씩 포함되어야 합니다." >
+    <input id="passwordInput" class="pwdInput" type="password" placeholder="비밀번호는 8자리 이상 영문, 숫자, 특수문자가 각 하나씩 포함되어야 합니다." required>
 
-    <button class="change">변경</button>
+    <button id="changePasswordButton" class="change">변경</button>
 
     <!-- 이메일 -->
     <p class="email">이메일</p>
     <input class="emailInput" th:value="${email}" readonly>
 
+    <!-- 비밀번호 변경 실패 메시지 -->
+    <p id="changePasswordMessage" style="display: none; color: red;"></p>
 
+    <!-- 비밀번호 변경 확인 모달 -->
+    <div id="confirmModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <p id="changeP">비밀번호를 변경하시겠습니까?</p>
+            <button id="cancelButton" class="modal-btn">취소</button>
+            <button id="confirmButton" class="modal-btn">확인</button>
+        </div>
+    </div>
+
+    <!-- 비밀번호 변경 완료 모달 -->
+    <div id="successModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <p class="doneP">비밀번호가 성공적으로 변경되었습니다.</p>
+            <button id="closeButton" class="modal-btn">닫기</button>
+        </div>
+    </div>
 </main>
 
 <footer>
@@ -50,5 +67,76 @@
     <span>🚩경기 하남시 미사강변동로 85 힐스테이트 에코 3층</span>
     <span>ⓒ 2024 PPal-AjoㅣAll rights reserved.Designed for your convenience.</span>
 </footer>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const changePasswordButton = document.getElementById("changePasswordButton");
+        const passwordInput = document.getElementById("passwordInput");
+        const changePasswordMessage = document.getElementById("changePasswordMessage");
+        const confirmModal = document.getElementById("confirmModal");
+        const successModal = document.getElementById("successModal");
+        const confirmButton = document.getElementById("confirmButton");
+        const cancelButton = document.getElementById("cancelButton");
+        const closeButton = document.getElementById("closeButton");
+
+        changePasswordButton.addEventListener("click", function () {
+            const newPassword = passwordInput.value;
+
+            // 클라이언트 측 유효성 검사
+            if (newPassword.length < 8 || !/\d/.test(newPassword) || !/[!@#$%^&*]/.test(newPassword)) {
+                changePasswordMessage.style.color = "red";
+                changePasswordMessage.style.display = "block";
+                changePasswordMessage.innerText = "사용 불가능한 비밀번호입니다.";
+                return;
+            }
+
+            // 모달 창 열기
+            confirmModal.style.display = "flex";
+
+            // 확인 버튼 클릭 이벤트
+            confirmButton.addEventListener("click", function () {
+                confirmModal.style.display = "none";
+
+                // 서버에 비밀번호 변경 요청
+                fetch('/change-password', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ password: newPassword })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // 성공 모달 열기
+                            successModal.style.display = "flex";
+                        } else {
+                            alert(data.message || "비밀번호 변경에 실패했습니다.");
+                        }
+                    })
+                    .catch(error => {
+                        alert("오류가 발생했습니다. 다시 시도해주세요.");
+                    });
+            });
+
+            // 취소 버튼 클릭 이벤트
+            cancelButton.addEventListener("click", function () {
+                confirmModal.style.display = "none";
+            });
+        });
+
+        // 성공 모달 닫기 버튼 클릭 이벤트
+        closeButton.addEventListener("click", function () {
+            successModal.style.display = "none";
+
+            // 비밀번호 입력 칸 초기화
+            passwordInput.value = "";
+            passwordInput.placeholder = "비밀번호는 8자리 이상 영문, 숫자, 특수문자가 각 하나씩 포함되어야 합니다.";
+
+            // 에러 메시지 숨기기
+            changePasswordMessage.style.display = "none";
+        });
+    });
+</script>
 </body>
 </html>
