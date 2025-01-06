@@ -862,3 +862,94 @@ footer span:nth-child(3){
 }
 
 
+.secessionP{
+    width: 921px;
+    margin: 90px auto; /* 텍스트를 가운데로 정렬 */
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 35px;
+    line-height: 44px;
+    text-align: center;
+}
+
+#modalCancelButton {
+    position: absolute;
+    width: 209px;
+    height: 59px;
+    left: calc(50% - 209px / 2 - 215.5px);
+    top: 240px;
+    background: #0056B3;
+    border-radius: 50px;
+    border: none;
+    text-align: center;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 50px;
+    color: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+    cursor: pointer;
+}
+
+#modalConfirmButton {
+    position: absolute;
+    width: 209px;
+    height: 59px;
+    left: calc(50% - 209px / 2 + 214.5px);
+    top: 240px;
+    background: #42A5F5;
+    border-radius: 50px;
+    border: none;
+    text-align: center;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 50px;
+    color: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+}
+
+.doneP2 {
+    width: 921px;
+    margin: 90px auto; /* 텍스트를 가운데로 정렬 */
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 35px;
+    line-height: 44px;
+    text-align: center;
+}
+
+#secessionConfirmButton {
+
+    position: absolute;
+    width: 209px;
+    height: 59px;
+    left: calc(50% - 209px/2 + 2.5px);
+    top: 200px;
+
+    background: #42A5F5;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    border:none;
+
+    /* 확인 */
+
+    box-sizing: border-box;
+    text-align: center;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 50px;
+
+    color: #FFFFFF;
+
+    cursor: pointer;
+}
