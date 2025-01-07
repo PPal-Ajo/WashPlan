@@ -715,8 +715,9 @@ button:active {
 
 .noticeTitleValue{
     position: absolute;
-    left:410px;
+    left:430px;
     width:200px;
+    cursor: pointer;
 }
 
 .pagination{

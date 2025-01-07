@@ -47,6 +47,36 @@
     </div>
 </div>
 
+
+<div id="noticeModal2" class="modal" style="display: none;">
+    <div class="modal-noticeContent">
+        <span id="noticeTitle2" class="noticeTitle2">공지 제목</span>
+        <input class="titleContentInput">
+
+        <span id="noticeContent2" class="noticeContent">공지 내용</span>
+        <textarea class="noticeContentInput"></textarea>
+
+        <button id="writeCancelButton2" class="cancelWrite">취소</button>
+        <button id="writeNoticeButton2" class="writeNotice">수정</button>
+    </div>
+</div>
+
+<div id="modal5" class="modal">
+    <div class="modal-content" id="modal-content5">
+        <p class="modal-text">
+            공지사항을 수정하시겠습니까?
+        </p>
+
+        <button id="cancelButton5" class="cancel">취소</button>
+        <button id="confirmButton5" class="confirm">확인</button>
+
+    </div>
+</div>
+<div class="modal-content2" id="modal-content6">
+    <span class="deleteConfirm">수정이 완료되었습니다 !</span>
+    <button id="confirmButton6" class="confirm2">확인</button>
+</div>
+
 <div id="pagination" class="pagination">
     <button id="prevPage" disabled>◀︎</button>
     <div id="pageNumbers"></div> <!-- 페이지 번호를 표시하는 컨테이너 -->
@@ -459,6 +489,119 @@
         // 데이터 로드
         fetchNotices();
     });
+
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const noticeModal = document.getElementById("noticeModal2");
+        const confirmModal = document.getElementById("modal5");  // "수정하시겠습니까?" 모달
+        const successModal = document.getElementById("modal-content6"); // "수정이 완료되었습니다" 모달
+        const modalcontent5 = document.getElementById("modal-content5");
+        const titleContentInput = document.querySelector(".titleContentInput");
+        const contentInput = document.querySelector(".noticeContentInput");
+        const writeCancelButton = document.getElementById("writeCancelButton2");
+        const writeNoticeButton = document.getElementById("writeNoticeButton2");
+        const cancelButton5 = document.getElementById("cancelButton5");  // 취소 버튼
+        const confirmButton5 = document.getElementById("confirmButton5"); // 확인 버튼
+        const confirmButton6 = document.getElementById("confirmButton6"); // 수정 완료 확인 버튼
+
+        let selectedNoticeNo = null; // 선택된 공지사항 번호 저장
+
+        // 공지사항 제목 클릭 시 상세 데이터 가져오기
+        document.getElementById("noticeContainer").addEventListener("click", async (event) => {
+            const target = event.target;
+
+            if (target.classList.contains("noticeTitleValue")) {
+                const noticeNo = target.parentElement.querySelector(".noticeCheckbox").value;
+                selectedNoticeNo = noticeNo; // 선택된 공지사항 번호 저장
+
+                try {
+                    // 공지사항 상세 데이터 요청
+                    const response = await fetch(`/adminnotice/${noticeNo}`);
+                    if (!response.ok) {
+                        throw new Error("공지사항 상세 데이터를 가져오는 데 실패했습니다.");
+                    }
+
+                    const detail = await response.json();
+                    const noticeDetail = detail.noticeDetail;
+
+
+                    titleContentInput.value = noticeDetail.noticeTitle;
+                    contentInput.value = noticeDetail.noticeContent;
+
+                    // 모달창 표시
+                    noticeModal.style.display = "block";
+                } catch (error) {
+                    console.error("공지사항 상세 데이터를 가져오는 중 오류 발생:", error);
+                }
+            }
+        });
+
+        // 취소 버튼 클릭 시 모달창 닫기
+        writeCancelButton.addEventListener("click", () => {
+            noticeModal.style.display = "none";
+        });
+        // 공지사항 수정 버튼 클릭 시
+        writeNoticeButton.addEventListener("click", () => {
+            confirmModal.style.display = "block";  // 수정 확인 모달창 띄우기
+        });
+        // "수정하시겠습니까?" 모달에서 취소 버튼 클릭 시
+        cancelButton5.addEventListener("click", () => {
+            confirmModal.style.display = "none";  // 수정 확인 모달 닫기
+        });
+
+        // 공지사항 수정 버튼 클릭 시
+        confirmButton5.addEventListener("click", async () => {
+            const updatedTitle = titleContentInput.value.trim();
+            const updatedContent = contentInput.value.trim();
+
+            if (!updatedTitle || !updatedContent) {
+                alert("제목과 내용을 모두 입력해주세요.");
+                return;
+            }
+
+            try {
+                // 공지사항 수정 요청
+                const response = await fetch(`/adminnotice/update`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        noticeNo: selectedNoticeNo,
+                        noticeTitle: updatedTitle,
+                        noticeContent: updatedContent
+                    }),
+                });
+
+                if (response.ok) {
+                    // 수정 완료 후 "수정이 완료되었습니다" 모달 표시
+                    modalcontent5.style.display = "none";
+                    confirmModal.style.display = "block";
+                    successModal.style.display = "block";  // 수정 완료 모달 표시
+
+                    // 수정된 내용으로 화면 업데이트
+                    const noticeTitleSpan = document.querySelector(`.noticeCheckbox[value="${selectedNoticeNo}"]`)
+                        .parentElement.querySelector(".noticeTitleValue");
+                    noticeTitleSpan.textContent = updatedTitle;
+
+                } else {
+                    throw new Error("공지사항 수정에 실패했습니다.");
+                }
+            } catch (error) {
+                console.error("공지사항 수정 중 오류 발생:", error);
+            }
+        });
+        // "수정 완료되었습니다!" 모달에서 확인 버튼 클릭 시
+        confirmButton6.addEventListener("click", () => {
+            confirmModal.style.display="none";
+            successModal.style.display = "none";  // 수정 완료 모달 닫기
+            noticeModal.style.display = "none";
+
+        });
+    });
+
+
+
 
 </script>
 </body>
