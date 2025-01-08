@@ -136,6 +136,29 @@
             // 에러 메시지 숨기기
             changePasswordMessage.style.display = "none";
         });
+
+        document.querySelector(".secession").addEventListener("click", function () {
+            if (confirm("정말 회원 탈퇴를 하시겠습니까? 이 작업은 되돌릴 수 없습니다.")) {
+                fetch('/delete-account', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            alert("회원 탈퇴가 완료되었습니다.");
+                            window.location.href = '/'; // 메인 페이지로 이동
+                        } else {
+                            alert("회원 탈퇴 중 문제가 발생했습니다. 다시 시도해주세요.");
+                        }
+                    })
+                    .catch(error => {
+                        alert("오류가 발생했습니다. 다시 시도해주세요.");
+                        console.error(error);
+                    });
+            }
+        });
     });
 </script>
 </body>
