@@ -7,6 +7,8 @@ import java.util.List;
 
 @Mapper
 public interface AdminMapper {
+
+
     List<AdminDTO> findUserInfo();
     
 
@@ -50,4 +52,8 @@ public interface AdminMapper {
 
 
     AdminNoticeDTO findLastAddedNotice(int adminNo);
+
+    AdminNoticeDTO getNoticeById(int noticeNo);
+
+    void updateNotice(AdminNoticeDTO noticeDTO);
 }

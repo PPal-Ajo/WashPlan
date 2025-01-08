@@ -16,6 +16,7 @@ public class AdminService {
         this.adminMapper = adminMapper;
     }
 
+
     public List<AdminDTO> getAllUsers() {
        return adminMapper.findUserInfo();
 
@@ -110,5 +111,15 @@ public class AdminService {
 
     public AdminNoticeDTO findLastAddedNotice(AdminNoticeDTO noticeDTO) {
         return adminMapper.findLastAddedNotice(noticeDTO.getAdminNo());
+    }
+
+
+
+    public void updateNotice(AdminNoticeDTO noticeDTO) {
+        adminMapper.updateNotice(noticeDTO);
+    }
+
+    public AdminNoticeDTO getNoticeById(int noticeNo) {
+        return adminMapper.getNoticeById(noticeNo);
     }
 }
