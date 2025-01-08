@@ -1,6 +1,8 @@
 package com.ohgiraffers.washplan.user.controller;
 
 import com.ohgiraffers.washplan.auth.model.dto.CustomUserDetails;
+import com.ohgiraffers.washplan.reservation.model.dto.ReservationDTO;
+import com.ohgiraffers.washplan.reservation.model.service.ReservationService;
 import com.ohgiraffers.washplan.user.model.service.MyPageService;
 import com.ohgiraffers.washplan.user.model.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -19,10 +22,12 @@ public class MyPageController {
 
     private final UserService userService;
     private final MyPageService myPageService;
+    private final ReservationService reservationService;
 
-    public MyPageController(UserService userService, MyPageService myPageService) {
+    public MyPageController(UserService userService, MyPageService myPageService, ReservationService reservationService) {
         this.userService = userService;
         this.myPageService = myPageService;
+        this.reservationService = reservationService;
     }
 
     @GetMapping("/mypage")
@@ -77,5 +82,12 @@ public class MyPageController {
         } catch (Exception e) {
             return ResponseEntity.status(500).body("회원 탈퇴 중 문제가 발생했습니다.");
         }
+    }
+
+    @GetMapping("/mypage/reservation")
+    public String showReservations(@AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
+        List<ReservationDTO> reservations = reservationService.getUserReservations(userDetails.getUsername());
+        model.addAttribute("reservations", reservations);
+        return "mypage/reservation";
     }
 }

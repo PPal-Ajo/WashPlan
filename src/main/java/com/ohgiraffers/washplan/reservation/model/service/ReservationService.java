@@ -84,4 +84,8 @@ public class ReservationService {
     public String getMachineStatus(int machineNo) {
         return reservationMapper.getMachineStatus(machineNo);
     }
+
+    public List<ReservationDTO> getUserReservations(String username) {
+        return reservationMapper.findReservationsByUsername(username);
+    }
 }
