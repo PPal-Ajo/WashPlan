@@ -40,15 +40,13 @@
         WHERE MACHINE_NO = 203
     </select>
 
-    <insert id="insertReservation" parameterType="com.ohgiraffers.washplan.reservation.model.dto.ReservationDTO">
+    <insert id="insertReservation" parameterType="com.ohgiraffers.washplan.reservation.model.dto.ReservationDTO" useGeneratedKeys="true" keyProperty="reserveNo">
         INSERT INTO TBL_RESERVATION(
             USER_NO, MACHINE_NO, RESERVE_DATE, START_TIME, END_TIME, RESERVE_OPTION, RESERVE_PRICE, RESERVE_STATUS
         )
         VALUES (
             #{userNo}, #{machineNo}, #{reserveDate}, #{startTime}, #{endTime}, #{reserveOption}, #{reservePrice}, '예약중'
         )
-
-
     </insert>
 
 

@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class ReservationDTO {
+    private int reserveNo;
     private int machineNo;
     private int userNo;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
@@ -20,7 +21,8 @@ public class ReservationDTO {
 
     public ReservationDTO() {}
 
-    public ReservationDTO(int machineNo, int userNo, LocalDate reserveDate, LocalTime startTime, LocalTime endTime, String reserveOption, int reservePrice, String reserveStatus) {
+    public ReservationDTO(int reserveNo, int machineNo, int userNo, LocalDate reserveDate, LocalTime startTime, LocalTime endTime, String reserveOption, int reservePrice, String reserveStatus) {
+        this.reserveNo = reserveNo;
         this.machineNo = machineNo;
         this.userNo = userNo;
         this.reserveDate = reserveDate;
@@ -95,10 +97,19 @@ public class ReservationDTO {
         this.reserveStatus = reserveStatus;
     }
 
+    public int getReserveNo() {
+        return reserveNo;
+    }
+
+    public void setReserveNo(int reserveNo) {
+        this.reserveNo = reserveNo;
+    }
+
     @Override
     public String toString() {
         return "ReservationDTO{" +
-                "machineNo=" + machineNo +
+                "reserveNo=" + reserveNo +
+                ", machineNo=" + machineNo +
                 ", userNo=" + userNo +
                 ", reserveDate=" + reserveDate +
                 ", StartTime=" + StartTime +

@@ -3,6 +3,7 @@ package com.ohgiraffers.washplan.admin.model.service;
 import com.ohgiraffers.washplan.admin.model.dao.AdminMapper;
 import com.ohgiraffers.washplan.admin.model.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,12 +27,14 @@ public class AdminService {
     public void pauseUsers(List<Integer> userNos) {
         for (int userNo : userNos) {
             adminMapper.pauseUser(userNo);
+            adminMapper.insertPenalty(userNo, 1, false);
         }
     }
 
     public void deleteUsers(List<Integer> userNos) {
         for (int userNo : userNos) {
             adminMapper.deleteUser(userNo);
+            adminMapper.insertPenalty(userNo, 1, true);
         }
     }
 
@@ -121,5 +124,10 @@ public class AdminService {
 
     public AdminNoticeDTO getNoticeById(int noticeNo) {
         return adminMapper.getNoticeById(noticeNo);
+    }
+
+    @Scheduled(cron = "0 0 0 * * *")
+    public void checkExpiredPenalties() {
+        adminMapper.updateExpiredPenalties();
     }
 }
