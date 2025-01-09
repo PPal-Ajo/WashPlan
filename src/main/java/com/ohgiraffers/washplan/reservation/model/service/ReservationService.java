@@ -85,7 +85,4 @@ public class ReservationService {
         return reservationMapper.getMachineStatus(machineNo);
     }
 
-    public List<ReservationDTO> getUserReservations(String username) {
-        return reservationMapper.findReservationsByUsername(username);
-    }
 }

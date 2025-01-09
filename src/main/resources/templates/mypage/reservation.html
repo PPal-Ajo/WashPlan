@@ -23,14 +23,42 @@
 <main>
   <button class="info" onclick="location.href='/mypage'">회원정보</button>
   <button class="reservation">예약현황</button>
-  <button class="inquiry">문의내역</button>
+  <button class="inquiry" onclick="location.href='/mypage/inquiry'">문의내역</button>
 
+  <div class="nav-header">
+    <p class="machineNav">기기</p>
+    <p class="timeNav">예약시간</p>
+    <p class="optionNav">옵션</p>
+    <p class="priceNav">가격</p>
+  </div>
+  <hr>
 
+  <div class="content-container">
+    <div th:if="${#lists.isEmpty(reservations)}">
+      <p class="noReservation">현재 예약 내역이 없습니다.</p>
+    </div>
+    <div th:if="${!#lists.isEmpty(reservations)}" class="reservation-list">
+      <div th:each="reservation : ${reservations}" class="reservation-row">
+        <span class="machine-col" th:text="${reservation.machineNo}"></span>
+        <span class="time-col">
+          <span th:text="${#temporals.format(reservation.reserveDate, 'MM/dd(E)')}"></span>
+          <span th:text="${#temporals.format(reservation.startTime, 'HH:mm')}"></span>
+        </span>
+        <span class="option-col" th:text="${reservation.reserveOption}"></span>
+        <span class="price-col" th:text="${reservation.reservePrice + '원'}"></span>
+        <div class="button-container">
+        <button class="cancel-btn">취소</button>
+        <button class="qr-btn">QR</button>
+      </div>
+      </div>
+    </div>
+  </div>
 
-
-
-
-
+  <div id="pagination" class="pagination">
+    <button id="prevPage" disabled>◀︎</button>
+    <div id="pageNumbers"></div>
+    <button id="nextPage" disabled>►</button>
+  </div>
 </main>
 
 <footer>
@@ -40,7 +68,74 @@
 </footer>
 
 <script>
-
+document.addEventListener("DOMContentLoaded", function() {
+    const itemsPerPage = 4; // 페이지당 표시할 항목 수
+    let currentPage = 1;
+    let totalPages = 1;
+    
+    function updatePagination() {
+        const reservationItems = document.querySelectorAll('.reservation-row');
+        totalPages = Math.ceil(reservationItems.length / itemsPerPage);
+        
+        // 페이지 번호 생성
+        const pageNumbersDiv = document.getElementById('pageNumbers');
+        pageNumbersDiv.innerHTML = '';
+        
+        for (let i = 1; i <= totalPages; i++) {
+            const pageButton = document.createElement('button');
+            pageButton.textContent = i;
+            pageButton.classList.add('page-number');
+            if (i === currentPage) {
+                pageButton.classList.add('active');
+            }
+            pageButton.addEventListener('click', () => goToPage(i));
+            pageNumbersDiv.appendChild(pageButton);
+        }
+        
+        // 이전/다음 버튼 상태 업데이트
+        document.getElementById('prevPage').disabled = currentPage === 1;
+        document.getElementById('nextPage').disabled = currentPage === totalPages;
+        
+        // 항목 표시/숨김 처리
+        reservationItems.forEach((item, index) => {
+            if (index >= (currentPage - 1) * itemsPerPage && index < currentPage * itemsPerPage) {
+                item.style.display = '';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    }
+    
+    function goToPage(page) {
+        currentPage = page;
+        updatePagination();
+        
+        // 현재 페이지 버튼 활성화
+        document.querySelectorAll('.page-number').forEach(btn => {
+            btn.classList.remove('active');
+            if (parseInt(btn.textContent) === page) {
+                btn.classList.add('active');
+            }
+        });
+    }
+    
+    // 이전 페이지 버튼
+    document.getElementById('prevPage').addEventListener('click', () => {
+        if (currentPage > 1) {
+            goToPage(currentPage - 1);
+        }
+    });
+    
+    // 다음 페이지 버튼
+    document.getElementById('nextPage').addEventListener('click', () => {
+        if (currentPage < totalPages) {
+            goToPage(currentPage + 1);
+        }
+    });
+    
+    // 초기 페이지네이션 설정
+    updatePagination();
+});
 </script>
 </body>
 </html>

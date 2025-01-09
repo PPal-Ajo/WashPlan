@@ -23,5 +23,17 @@
         WHERE USER_ID = #{userId}
     </delete>
 
+    <select id="findReservationsByUser" resultType="com.ohgiraffers.washplan.user.model.dto.ReservationDetailsDTO">
+        SELECT
+        MACHINE_NO AS machineNo,
+        RESERVE_DATE AS reserveDate,
+        START_TIME AS startTime,
+        RESERVE_OPTION AS reserveOption,
+        RESERVE_PRICE AS reservePrice
+        FROM TBL_RESERVATION
+        WHERE USER_NO = #{userNo};
+    </select>
+
+
 
 </mapper>

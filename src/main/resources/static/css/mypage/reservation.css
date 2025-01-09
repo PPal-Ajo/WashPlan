@@ -97,7 +97,6 @@ footer span:nth-child(3){
     color: #FFFFFF;
 
 
-
 }
 
 .inquiry {
@@ -126,4 +125,281 @@ footer span:nth-child(3){
 
     cursor: pointer;
 
+}
+
+
+.noReservation {
+    position: absolute;
+    width: 300px;
+    height: 25px;
+    left: 303px;
+    top: 403px;
+
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 25px;
+    /* identical to box height */
+
+    color: #000000;
+}
+
+.machineNav {
+    position: absolute;
+    width: 150px;
+    left: 350px;
+    top: 270px;
+    text-align: center;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    color: #000000;
+}
+
+.timeNav {
+    position: absolute;
+    width: 200px;
+    left: 630px;
+    top: 270px;
+    text-align: center;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    color: #000000;
+}
+
+.optionNav {
+    position: absolute;
+    width: 150px;
+    left: 980px;
+    top: 270px;
+    text-align: center;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    color: #000000;
+}
+
+.priceNav {
+    position: absolute;
+    width: 150px;
+    left: 1250px;
+    top: 270px;
+    text-align: center;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    color: #000000;
+}
+
+hr {
+    position: absolute;
+    width: 1371px;
+    height: 0px;
+    left: 300px;
+    top: 355px;
+    border: 2px solid #000000;
+    transform: rotate(-0.04deg);
+}
+
+.content-container {
+    position: absolute;
+    top: 400px; /* 컨테이너의 Y축 위치 */
+    left: 282px; /* 컨테이너의 X축 위치 */
+    width: 1371px; /* 컨테이너 너비 */
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.reservation-list {
+    position: relative;
+    display: flex;
+    flex-direction: column; /* 세로 방향 정렬 */
+    gap: 20px; /* 리스트 항목 사이 간격 */
+}
+
+.reservation-row {
+    position: relative; /* 개별 위치 설정 */
+    width: 1371px; /* 행의 너비 */
+    height: 60px; /* 행의 높이 */
+    font-family: 'Gmarket Sans'; /* 폰트 설정 */
+    font-size: 25px; /* 글자 크기 */
+    margin-bottom: 20px;
+}
+
+/* 리스트의 첫 번째 항목 위치 */
+.reservation-row:nth-child(1) {
+    top: 5px; /* 첫 번째 항목의 Y축 위치 */
+    left: 0; /* 첫 번째 항목의 X축 위치 */
+}
+
+/* 두 번째 항목 */
+.reservation-row:nth-child(2) {
+    top: 15px; /* 두 번째 항목의 Y축 위치 */
+    left: 0;
+}
+
+/* 세 번째 항목 */
+.reservation-row:nth-child(3) {
+    top: 10px; /* 세 번째 항목의 Y축 위치 */
+    left: 0;
+}
+
+.reservation-row:nth-child(4) {
+    top: 10px;
+    left: 0;
+}
+.reservation-row:nth-child(5) {
+    top: 5px; /* 첫 번째 항목의 Y축 위치 */
+    left: 0; /* 첫 번째 항목의 X축 위치 */
+}
+
+/* 두 번째 항목 */
+.reservation-row:nth-child(6) {
+    top: 15px; /* 두 번째 항목의 Y축 위치 */
+    left: 0;
+}
+
+/* 세 번째 항목 */
+.reservation-row:nth-child(7) {
+    top: 10px; /* 세 번째 항목의 Y축 위치 */
+    left: 0;
+}
+
+.reservation-row:nth-child(8) {
+    top: 10px;
+    left: 0;
+}
+
+.machine-col {
+    position: absolute;
+    left: 50px; /* 기기 번호 컬럼의 X축 위치 */
+    text-align: center;
+    width: 150px; /* 컬럼 너비 */
+}
+
+.time-col {
+    position: absolute;
+    left: 340px; /* 예약 시간 컬럼의 X축 위치 */
+    text-align: center;
+    width: 200px;
+}
+
+.option-col {
+    position: absolute;
+    left: 675px; /* 옵션 컬럼의 X축 위치 */
+    text-align: center;
+    width: 150px;
+}
+
+.price-col {
+    position: absolute;
+    left: 950px; /* 가격 컬럼의 X축 위치 */
+    text-align: center;
+    width: 150px;
+}
+
+.nav-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    margin-bottom: 10px;
+}
+
+.machineNav, .timeNav, .optionNav, .priceNav {
+    flex: 1;
+    text-align: center;
+}
+
+.button-container {
+    position: absolute;
+    right: 40px;
+    display: flex;
+    gap: 10px;
+
+}
+
+.cancel-btn, .qr-btn {
+    padding: 10px 20px; /* 버튼의 내부 여백을 키웁니다 */
+    font-size: 16px; /* 버튼 텍스트 크기를 키웁니다 */
+    border: none;
+    border-radius: 8px; /* 모서리 둥글기를 약간 키웁니다 */
+    cursor: pointer;
+    width: 100px; /* 버튼의 너비를 지정합니다 */
+    height: 40px; /* 버튼의 높이를 지정합니다 */
+}
+
+.cancel-btn {
+    background-color: #FF5555;
+    color: white;
+}
+
+.qr-btn {
+    background-color: #42A5F5;
+    color: white;
+}
+
+
+.pagination{
+    position: absolute;
+    top:820px;
+    left:925px;
+
+    width: auto; /* 가로 크기를 자동으로 조정 */
+    display: flex; /* 플렉스 박스 사용 */
+    justify-content: center; /* 가운데 정렬 */
+    align-items: center; /* 수직 가운데 정렬 */
+    gap: 10px; /* 버튼 간 간격 추가 */
+
+}
+
+#prevPage, #nextPage {
+    background-color: #42A5F5;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+
+    text-align: center;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+
+
+.page-number {
+    background-color: #f0f0f0;
+    color: black;
+    border: none;
+    border-radius: 4px;
+    width: 40px;
+    height: 40px;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #000000;
+    cursor: pointer;
+    margin: 0 10px; /* 페이지 번호 간 간격 추가 */
+
+}
+
+.page-number.active {
+    background-color: #42A5F5;
+    color: white;
+    font-weight: bold;
 }
