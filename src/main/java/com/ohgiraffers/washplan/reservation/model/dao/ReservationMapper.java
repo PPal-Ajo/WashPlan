@@ -44,4 +44,6 @@ public interface ReservationMapper {
 
     List<ReservationDTO> findReservationsByUsername(@Param("username") String username);
 
+    List<ReservationDTO> findReservationsByUser(String username);
+
 }

@@ -3,16 +3,19 @@ package com.ohgiraffers.washplan.user.controller;
 import com.ohgiraffers.washplan.auth.model.dto.CustomUserDetails;
 import com.ohgiraffers.washplan.reservation.model.dto.ReservationDTO;
 import com.ohgiraffers.washplan.reservation.model.service.ReservationService;
+import com.ohgiraffers.washplan.user.model.dto.ReservationDetailsDTO;
 import com.ohgiraffers.washplan.user.model.service.MyPageService;
 import com.ohgiraffers.washplan.user.model.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,12 +25,11 @@ public class MyPageController {
 
     private final UserService userService;
     private final MyPageService myPageService;
-    private final ReservationService reservationService;
 
-    public MyPageController(UserService userService, MyPageService myPageService, ReservationService reservationService) {
+
+    public MyPageController(UserService userService, MyPageService myPageService) {
         this.userService = userService;
         this.myPageService = myPageService;
-        this.reservationService = reservationService;
     }
 
     @GetMapping("/mypage")
@@ -84,10 +86,15 @@ public class MyPageController {
         }
     }
 
-    @GetMapping("/mypage/reservation")
-    public String showReservations(@AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
-        List<ReservationDTO> reservations = reservationService.getUserReservations(userDetails.getUsername());
+    @GetMapping("/mypage/reservations")
+    public String reservationsPage(@AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
+        int userNo = userDetails.getUserNo(); // 사용자 번호 가져오기
+        List<ReservationDetailsDTO> reservations = myPageService.getUserReservations(userNo);
+
+        // 예약 정보를 Model에 추가
         model.addAttribute("reservations", reservations);
+
+        // reservations.html로 이동
         return "mypage/reservation";
     }
 }
