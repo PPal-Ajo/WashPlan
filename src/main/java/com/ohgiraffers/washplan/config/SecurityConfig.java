@@ -1,6 +1,8 @@
 package com.ohgiraffers.washplan.config;
 
 import com.ohgiraffers.washplan.auth.model.service.CustomUserDetailsService;
+import com.ohgiraffers.washplan.admin.model.dao.AdminMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,9 +15,17 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import java.time.LocalDate;
 
 @Configuration
 public class SecurityConfig {
+
+    private final AdminMapper adminMapper;
+
+    @Autowired
+    public SecurityConfig(AdminMapper adminMapper) {
+        this.adminMapper = adminMapper;
+    }
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -43,21 +53,31 @@ public class SecurityConfig {
                         .loginPage("/login")
                         .defaultSuccessUrl("/main") // 기본 성공 URL
                         .successHandler((request, response, authentication) -> {
-                            // 로그인 성공 후 처리
-                            String role = authentication.getAuthorities().iterator().next().getAuthority();
-                            if ("ROLE_ADMIN".equals(role)) {
-                                // 어드민 권한일 경우 관리자 페이지로 리다이렉트
-                                response.sendRedirect("/admin");
-                            } else if ("ROLE_USER".equals(role)) {
-                                // 유저 권한일 경우 메인 페이지로 리다이렉트
-                                response.sendRedirect("/main");
+                            // 권한 확인
+                            if (authentication.getAuthorities().stream()
+                                    .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+                                response.sendRedirect("/admin"); // 관리자인 경우 관리자 페이지로
                             } else {
-                                response.sendRedirect("/login?error");
+                                response.sendRedirect("/main"); // 일반 사용자인 경우 메인 페이지로
                             }
                         })
                         .failureHandler((request, response, exception) -> {
-                            System.out.println("로그인 실패: " + exception.getMessage());
-                            response.sendRedirect("/login?error");
+                            try {
+                                String username = request.getParameter("username");
+                                String status = adminMapper.getUserStatus(username);
+                                
+                                if ("일시정지".equals(status)) {
+                                    LocalDate endDate = adminMapper.getPenaltyEndDate(username);
+                                    response.sendRedirect("/login?error&status=pause&endDate=" + 
+                                            (endDate != null ? endDate.toString() : ""));
+                                } else if ("영구탈퇴".equals(status)) {
+                                    response.sendRedirect("/login?error&status=permanent");
+                                } else {
+                                    response.sendRedirect("/login?error");
+                                }
+                            } catch (Exception e) {
+                                response.sendRedirect("/login?error");
+                            }
                         })
                         .permitAll()
                 )

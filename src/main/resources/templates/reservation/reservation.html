@@ -83,7 +83,9 @@
             </div>
         </div>
         <div class="modal-content2" id="modal-content2">
-            <span class="reserveConfirm">예약이 완료되었습니다 !</span>
+            <span class="reserveConfirm">예약이 완료되었습니다!</span>
+            <span class="qrtext">QR코드는 마이페이지에서 확인하세요</span>
+            <img id="qrCode" class="qr-code" alt="QR Code">
             <button id="confirmButton2" class="confirm2">확인</button>
         </div>
 
@@ -666,21 +668,32 @@
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(reservationData),
                 })
-                    .then((response) => {
-                        if (response.ok) {
-
-                            document.getElementById("modal").style.display = "block";
-                            document.getElementById("modal-content2").style.display = "block";
-
-                            // 예약 상태를 확인하고 즉시 업데이트
-                            checkAndUpdateStatus();
-                        } else {
-                            alert("예약에 실패했습니다.");
-                        }
-                    })
-                    .catch((error) => console.error("Error:", error));
-
-
+                .then(response => response.json())
+                .then(data => {
+                    if (data.qrCode) {
+                        // 첫 번째 모달 닫기
+                        modal.style.display = "block";
+                        modal1.style.display = "none";
+                        
+                        // QR 코드 이미지 설정 및 두 번째 모달 표시
+                        const qrImage = document.getElementById("qrCode");
+                        qrImage.src = "data:image/png;base64," + data.qrCode;
+                        qrImage.style.display = "block"; // 이미지 표시 확실히
+                        
+                        // 두 번째 모달 표시
+                        document.getElementById("modal-content2").style.display = "block";
+                        document.body.classList.add("no-scroll");
+                        
+                        // 예약 상태 업데이트
+                        checkAndUpdateStatus();
+                    } else {
+                        alert("예약에 실패했습니다.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("예약 중 오류가 발생했습니다.");
+                });
             });
             confirmButton2.addEventListener("click", () => {
                 modal.style.display="none";

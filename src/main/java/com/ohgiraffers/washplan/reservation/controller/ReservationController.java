@@ -4,6 +4,7 @@ import com.ohgiraffers.washplan.auth.model.dto.CustomUserDetails;
 import com.ohgiraffers.washplan.auth.model.service.CustomUserDetailsService;
 import com.ohgiraffers.washplan.reservation.model.dto.ReservationDTO;
 import com.ohgiraffers.washplan.reservation.model.service.ReservationService;
+import com.ohgiraffers.washplan.reservation.model.service.QRCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,10 +25,12 @@ import java.util.Map;
 public class ReservationController {
 
     private final ReservationService reservationService;
+    private final QRCodeService qrCodeService;
 
     @Autowired
-    public ReservationController(ReservationService reservationService) {
+    public ReservationController(ReservationService reservationService, QRCodeService qrCodeService) {
         this.reservationService = reservationService;
+        this.qrCodeService = qrCodeService;
     }
 
     @GetMapping("/reservation")
@@ -60,21 +64,42 @@ public class ReservationController {
     }
 
     @PostMapping("/reservation/save")
-    public ResponseEntity<String> saveReservation(@RequestBody ReservationDTO reservationDTO) {
-        // 로그인한 유저의 번호 가져오기
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() instanceof CustomUserDetails) {
-            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-            int userNo = userDetails.getUserNo();
-            reservationDTO.setUserNo(userNo); // 유저 번호 설정
-        } else {
-            return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED); // 인증되지 않은 경우 처리
+    public ResponseEntity<?> saveReservation(@RequestBody ReservationDTO reservationDTO) {
+        try {
+            // 기존 로그인 체크 및 예약 저장 로직
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication != null && authentication.getPrincipal() instanceof CustomUserDetails) {
+                CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+                int userNo = userDetails.getUserNo();
+                reservationDTO.setUserNo(userNo);
+            } else {
+                return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+            }
+            
+            // 예약 정보 저장
+            reservationService.saveReservation(reservationDTO);
+            
+            // QR 코드에 담을 정보 생성
+            String qrContent = String.format("예약번호:%d\n사용자:%d\n기기번호:%d\n예약일:%s\n시작시간:%s\n종료시간:%s",
+                reservationDTO.getReserveNo(),
+                reservationDTO.getUserNo(),
+                reservationDTO.getMachineNo(),
+                reservationDTO.getReserveDate(),
+                reservationDTO.getStartTime(),
+                reservationDTO.getEndTime());
+                
+            // QR 코드 생성
+            byte[] qrCodeImage = qrCodeService.generateQRCode(qrContent, 200, 200);
+            
+            // 응답 데이터 구성
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Reservation saved successfully!");
+            response.put("qrCode", Base64.getEncoder().encodeToString(qrCodeImage));
+            
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        // 예약 정보 저장
-        reservationService.saveReservation(reservationDTO);
-
-        return new ResponseEntity<>("Reservation saved successfully!", HttpStatus.OK);
     }
 
     @PostMapping("/reservation/checkStatus")
