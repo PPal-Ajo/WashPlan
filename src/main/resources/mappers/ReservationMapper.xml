@@ -78,4 +78,12 @@
         WHERE MACHINE_NO = #{machineNo}
     </select>
 
+    <!-- 자신이 한 예약 조회 -->
+    <select id="findReservationsByUsername" parameterType="string" resultType="com.ohgiraffers.washplan.reservation.model.dto.ReservationDTO">
+        SELECT *
+        FROM TBL_RESERVATION
+        WHERE USER_NO = (SELECT USER_NO FROM TBL_USER WHERE USER_ID = #{username})
+        ORDER BY RESERVE_DATE DESC, START_TIME ASC
+    </select>
+
 </mapper>

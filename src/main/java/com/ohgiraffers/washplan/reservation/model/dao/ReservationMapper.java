@@ -2,6 +2,7 @@ package com.ohgiraffers.washplan.reservation.model.dao;
 
 import com.ohgiraffers.washplan.reservation.model.dto.ReservationDTO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -40,4 +41,7 @@ public interface ReservationMapper {
     String findMachineStatus103();
 
     String getMachineStatus(int machineNo);
+
+    List<ReservationDTO> findReservationsByUsername(@Param("username") String username);
+
 }
