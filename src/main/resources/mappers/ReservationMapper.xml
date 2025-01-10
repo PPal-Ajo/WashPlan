@@ -41,11 +41,26 @@
     </select>
 
     <insert id="insertReservation" parameterType="com.ohgiraffers.washplan.reservation.model.dto.ReservationDTO" useGeneratedKeys="true" keyProperty="reserveNo">
-        INSERT INTO TBL_RESERVATION(
-            USER_NO, MACHINE_NO, RESERVE_DATE, START_TIME, END_TIME, RESERVE_OPTION, RESERVE_PRICE, RESERVE_STATUS
-        )
-        VALUES (
-            #{userNo}, #{machineNo}, #{reserveDate}, #{startTime}, #{endTime}, #{reserveOption}, #{reservePrice}, '예약중'
+        INSERT INTO TBL_RESERVATION (
+            USER_NO, 
+            MACHINE_NO, 
+            RESERVE_DATE, 
+            START_TIME, 
+            END_TIME, 
+            RESERVE_OPTION, 
+            RESERVE_PRICE, 
+            RESERVE_STATUS,
+            QR_CODE
+        ) VALUES (
+            #{userNo}, 
+            #{machineNo}, 
+            #{reserveDate}, 
+            #{startTime}, 
+            #{endTime}, 
+            #{reserveOption}, 
+            #{reservePrice}, 
+            '예약중',
+            #{qrCode}
         )
     </insert>
 
@@ -76,6 +91,12 @@
         WHERE MACHINE_NO = #{machineNo}
     </select>
 
+
+    <update id="updateQRCode" parameterType="com.ohgiraffers.washplan.reservation.model.dto.ReservationDTO">
+        UPDATE TBL_RESERVATION 
+        SET QR_CODE = #{qrCode}
+        WHERE RESERVE_NO = #{reserveNo}
+    </update>
 
 
 </mapper>
