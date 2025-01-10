@@ -47,9 +47,9 @@
         <span class="option-col" th:text="${reservation.reserveOption}"></span>
         <span class="price-col" th:text="${reservation.reservePrice + '원'}"></span>
         <div class="button-container">
-        <button class="cancel-btn">취소</button>
-        <button class="qr-btn">QR</button>
-      </div>
+          <button class="cancel-btn" th:data-reserve-no="${reservation.reserveNo}">취소</button>
+          <button class="qr-btn">QR</button>
+        </div>
       </div>
     </div>
   </div>
@@ -135,6 +135,43 @@ document.addEventListener("DOMContentLoaded", function() {
     
     // 초기 페이지네이션 설정
     updatePagination();
+});
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.cancel-btn').forEach(button => {
+    button.addEventListener('click', async function() {
+      const reserveNo = this.getAttribute('data-reserve-no'); // 속성 값 확인
+      console.log('Reserve No:', reserveNo);
+
+      if (!confirm('예약을 삭제하시겠습니까?')) {
+        return;
+      }
+
+      try {
+        const response = await fetch('/mypage/reservations/delete', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ reserveNo: parseInt(reserveNo, 10) }) // 숫자로 변환
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          alert(result.message);
+          location.reload();
+        } else {
+          alert(result.message);
+        }
+      } catch (error) {
+        console.error('예약 삭제 중 오류 발생:', error);
+        alert('예약 삭제 중 오류가 발생했습니다.');
+      }
+    });
+  });
 });
 </script>
 </body>
