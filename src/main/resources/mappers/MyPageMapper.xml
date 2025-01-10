@@ -25,15 +25,35 @@
 
     <select id="findReservationsByUser" resultType="com.ohgiraffers.washplan.user.model.dto.ReservationDetailsDTO">
         SELECT
-        MACHINE_NO AS machineNo,
-        RESERVE_DATE AS reserveDate,
-        START_TIME AS startTime,
-        RESERVE_OPTION AS reserveOption,
-        RESERVE_PRICE AS reservePrice
+            RESERVE_NO AS reserveNo,
+            MACHINE_NO AS machineNo,
+            RESERVE_DATE AS reserveDate,
+            START_TIME AS startTime,
+            RESERVE_OPTION AS reserveOption,
+            RESERVE_PRICE AS reservePrice
         FROM TBL_RESERVATION
-        WHERE USER_NO = #{userNo};
+        WHERE USER_NO = #{userNo}
+        AND RESERVE_STATUS = '예약중'
+        ORDER BY RESERVE_DATE, START_TIME;
     </select>
 
+    <select id="getUserReservations" resultType="com.ohgiraffers.washplan.user.model.dto.ReservationDetailsDTO">
+        SELECT 
+            r.RESERVE_NO AS reserveNo,
+            r.MACHINE_NO AS machineNo,
+            r.RESERVE_DATE AS reserveDate,
+            r.START_TIME AS startTime,
+            r.RESERVE_OPTION AS reserveOption,
+            r.RESERVE_PRICE AS reservePrice
+        FROM TBL_RESERVATION r
+        WHERE r.USER_NO = #{userNo}
+        AND r.RESERVE_STATUS = '예약중'
+        ORDER BY r.RESERVE_DATE, r.START_TIME
+    </select>
 
+    <delete id="deleteReservationByNo">
+        DELETE FROM TBL_RESERVATION
+        WHERE RESERVE_NO = #{reserveNo};
+    </delete>
 
 </mapper>

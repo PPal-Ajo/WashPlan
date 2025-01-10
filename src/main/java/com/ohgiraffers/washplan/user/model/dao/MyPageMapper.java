@@ -21,4 +21,11 @@ public interface MyPageMapper {
 
 
     List<ReservationDetailsDTO> findReservationsByUser(@Param("userNo") int userNo);
+
+    // 예약 삭제
+    int deleteReservationByNo(@Param("reserveNo") int reserveNo);
+
+
     }
+
+

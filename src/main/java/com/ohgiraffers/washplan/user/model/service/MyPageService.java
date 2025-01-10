@@ -15,10 +15,12 @@ import java.util.List;
 public class MyPageService {
 
     private final MyPageMapper myPageMapper;
+    private final ReservationMapper reservationMapper;
 
     @Autowired
-    public MyPageService(MyPageMapper myPageMapper) {
+    public MyPageService(MyPageMapper myPageMapper, ReservationMapper reservationMapper) {
         this.myPageMapper = myPageMapper;
+        this.reservationMapper = reservationMapper;
     }
 
     @Transactional
@@ -50,5 +52,11 @@ public class MyPageService {
         // username을 기반으로 예약 데이터를 조회
         List<ReservationDetailsDTO> reservations = myPageMapper.findReservationsByUser(userNo);
         return reservations != null ? reservations : Collections.emptyList();
+    }
+
+    @Transactional
+    public boolean deleteReservation(int reserveNo) {
+        int rowsDeleted = myPageMapper.deleteReservationByNo(reserveNo);
+        return rowsDeleted > 0; // 삭제 성공 여부 반환
     }
 }
