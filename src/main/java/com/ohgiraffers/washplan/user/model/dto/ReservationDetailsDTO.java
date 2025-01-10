@@ -4,20 +4,30 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class ReservationDetailsDTO {
+    private int reserveNo;
     private String machineNo;
     private LocalDate reserveDate;
     private LocalTime startTime;
     private String reserveOption;
     private int reservePrice;
 
-    ReservationDetailsDTO () {}
+    public ReservationDetailsDTO() {}
 
-    public ReservationDetailsDTO(String machineNo, LocalDate reserveDate, LocalTime startTime, String reserveOption, int reservePrice) {
+    public ReservationDetailsDTO(int reserveNo, String machineNo, LocalDate reserveDate, LocalTime startTime, String reserveOption, int reservePrice) {
+        this.reserveNo = reserveNo;
         this.machineNo = machineNo;
         this.reserveDate = reserveDate;
         this.startTime = startTime;
         this.reserveOption = reserveOption;
         this.reservePrice = reservePrice;
+    }
+
+    public int getReserveNo() {
+        return reserveNo;
+    }
+
+    public void setReserveNo(int reserveNo) {
+        this.reserveNo = reserveNo;
     }
 
     public String getMachineNo() {
@@ -63,7 +73,8 @@ public class ReservationDetailsDTO {
     @Override
     public String toString() {
         return "ReservationDetailsDTO{" +
-                "machineNo='" + machineNo + '\'' +
+                "reserveNo=" + reserveNo +
+                ", machineNo='" + machineNo + '\'' +
                 ", reserveDate=" + reserveDate +
                 ", startTime=" + startTime +
                 ", reserveOption='" + reserveOption + '\'' +
