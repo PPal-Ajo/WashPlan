@@ -18,6 +18,7 @@ public class ReservationDTO {
     private String reserveOption;
     private int reservePrice;
     private String reserveStatus;
+    private byte[] qrCode;
 
     public ReservationDTO() {}
 
@@ -103,6 +104,14 @@ public class ReservationDTO {
 
     public void setReserveNo(int reserveNo) {
         this.reserveNo = reserveNo;
+    }
+
+    public byte[] getQrCode() {
+        return qrCode;
+    }
+
+    public void setQrCode(byte[] qrCode) {
+        this.qrCode = qrCode;
     }
 
     @Override

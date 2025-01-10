@@ -66,39 +66,33 @@ public class ReservationController {
     @PostMapping("/reservation/save")
     public ResponseEntity<?> saveReservation(@RequestBody ReservationDTO reservationDTO) {
         try {
-            // 기존 로그인 체크 및 예약 저장 로직
+            // 로그인 체크 및 예약 저장 로직
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (authentication != null && authentication.getPrincipal() instanceof CustomUserDetails) {
                 CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
                 int userNo = userDetails.getUserNo();
                 reservationDTO.setUserNo(userNo);
             } else {
-                return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(Map.of("error", "로그인이 필요합니다."));
             }
             
-            // 예약 정보 저장
-            reservationService.saveReservation(reservationDTO);
-            
-            // QR 코드에 담을 정보 생성
-            String qrContent = String.format("예약번호:%d\n사용자:%d\n기기번호:%d\n예약일:%s\n시작시간:%s\n종료시간:%s",
-                reservationDTO.getReserveNo(),
-                reservationDTO.getUserNo(),
-                reservationDTO.getMachineNo(),
-                reservationDTO.getReserveDate(),
-                reservationDTO.getStartTime(),
-                reservationDTO.getEndTime());
-                
-            // QR 코드 생성
-            byte[] qrCodeImage = qrCodeService.generateQRCode(qrContent, 200, 200);
+            // 예약 정보 저장 및 QR 코드 생성
+            ReservationDTO savedReservation = reservationService.saveReservation(reservationDTO);
             
             // 응답 데이터 구성
             Map<String, Object> response = new HashMap<>();
-            response.put("message", "Reservation saved successfully!");
-            response.put("qrCode", Base64.getEncoder().encodeToString(qrCodeImage));
+            response.put("message", "예약이 완료되었습니다.");
+            response.put("qrCode", Base64.getEncoder().encodeToString(savedReservation.getQrCode()));
             
-            return new ResponseEntity<>(response, HttpStatus.OK);
+            return ResponseEntity.ok(response);
+            
         } catch (Exception e) {
-            return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            e.printStackTrace(); // 콘솔에 에러 출력
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(errorResponse);
         }
     }
 

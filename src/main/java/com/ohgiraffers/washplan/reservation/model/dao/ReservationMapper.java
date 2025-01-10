@@ -47,5 +47,6 @@ public interface ReservationMapper {
     List<ReservationDTO> findReservationsByUser(String username);
 
 
+    void updateQRCode(ReservationDTO reservationDTO);
 
 }
