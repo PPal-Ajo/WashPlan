@@ -67,6 +67,27 @@
   <span>ⓒ 2024 PPal-AjoㅣAll rights reserved.Designed for your convenience.</span>
 </footer>
 
+<!-- 예약 취소 확인 모달 -->
+<div id="cancelConfirmModal" class="modal">
+    <div class="modal-content">
+        <p class="modal-text">예약을 취소하시겠습니까?</p>
+        <div class="modal-buttons">
+            <button id="cancelButton" class="modal-button cancel">취소</button>
+            <button id="confirmButton" class="modal-button confirm">확인</button>
+        </div>
+    </div>
+</div>
+
+<!-- 예약 취소 완료 모달 -->
+<div id="cancelCompleteModal" class="modal">
+    <div class="modal-content">
+        <p class="modal-text">예약 취소가 완료되었습니다.</p>
+        <div class="modal-buttons">
+            <button id="completeButton" class="modal-button confirm">확인</button>
+        </div>
+    </div>
+</div>
+
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     const itemsPerPage = 4; // 페이지당 표시할 항목 수
@@ -137,41 +158,57 @@ document.addEventListener("DOMContentLoaded", function() {
     updatePagination();
 });
 
-
-
 document.addEventListener('DOMContentLoaded', function() {
-  document.querySelectorAll('.cancel-btn').forEach(button => {
-    button.addEventListener('click', async function() {
-      const reserveNo = this.getAttribute('data-reserve-no'); // 속성 값 확인
-      console.log('Reserve No:', reserveNo);
+    const cancelConfirmModal = document.getElementById('cancelConfirmModal');
+    const cancelCompleteModal = document.getElementById('cancelCompleteModal');
+    const cancelButton = document.getElementById('cancelButton');
+    const confirmButton = document.getElementById('confirmButton');
+    const completeButton = document.getElementById('completeButton');
+    let selectedReserveNo = null;
 
-      if (!confirm('예약을 삭제하시겠습니까?')) {
-        return;
-      }
-
-      try {
-        const response = await fetch('/mypage/reservations/delete', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ reserveNo: parseInt(reserveNo, 10) }) // 숫자로 변환
+    // 취소 버튼 클릭 이벤트
+    document.querySelectorAll('.cancel-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            selectedReserveNo = this.getAttribute('data-reserve-no');
+            cancelConfirmModal.style.display = 'block';
         });
-
-        const result = await response.json();
-
-        if (result.success) {
-          alert(result.message);
-          location.reload();
-        } else {
-          alert(result.message);
-        }
-      } catch (error) {
-        console.error('예약 삭제 중 오류 발생:', error);
-        alert('예약 삭제 중 오류가 발생했습니다.');
-      }
     });
-  });
+
+    // 모달의 취소 버튼
+    cancelButton.addEventListener('click', function() {
+        cancelConfirmModal.style.display = 'none';
+    });
+
+    // 모달의 확인 버튼
+    confirmButton.addEventListener('click', async function() {
+        try {
+            const response = await fetch('/mypage/reservations/delete', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ reserveNo: parseInt(selectedReserveNo, 10) })
+            });
+
+            const result = await response.json();
+
+            if (result.success === "true") {
+                cancelConfirmModal.style.display = 'none';
+                cancelCompleteModal.style.display = 'block';
+            } else {
+                alert(result.message);
+            }
+        } catch (error) {
+            console.error('예약 삭제 중 오류 발생:', error);
+            alert('예약 삭제 중 오류가 발생했습니다.');
+        }
+    });
+
+    // 완료 모달의 확인 버튼
+    completeButton.addEventListener('click', function() {
+        cancelCompleteModal.style.display = 'none';
+        location.reload(); // 페이지 새로고침
+    });
 });
 </script>
 </body>
