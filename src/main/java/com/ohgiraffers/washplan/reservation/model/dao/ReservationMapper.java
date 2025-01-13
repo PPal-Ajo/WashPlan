@@ -27,10 +27,10 @@ public interface ReservationMapper {
 
     int findMachineNo203();
 
-    
+
 
     int updateReservationStatus();
-   
+
 
 
     int checkReservation(Map<String, Object> params);
@@ -50,7 +50,7 @@ public interface ReservationMapper {
 
     void updateQRCode(ReservationDTO reservationDTO);
 
-    
+
 
     int insertReservationHistory();
 

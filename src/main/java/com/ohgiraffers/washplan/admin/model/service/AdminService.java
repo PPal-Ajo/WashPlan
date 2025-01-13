@@ -7,6 +7,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Service
 public class AdminService {
@@ -129,5 +132,46 @@ public class AdminService {
     @Scheduled(cron = "0 0 0 * * *")
     public void checkExpiredPenalties() {
         adminMapper.updateExpiredPenalties();
+    }
+
+    public String processMessage(String message) {
+        LocalDate today = LocalDate.now();
+        
+        if (message.contains("오늘") && message.contains("매출")) {
+            int sales = adminMapper.getDailySales(today.toString());
+            return String.format("오늘의 총 매출은 %,d원입니다.", sales);
+        }
+        
+        if (message.contains("이번달") && message.contains("매출")) {
+            String yearMonth = today.format(DateTimeFormatter.ofPattern("yyyy-MM"));
+            int sales = adminMapper.getMonthlySales(yearMonth);
+            return String.format("이번 달의 총 매출은 %,d원입니다.", sales);
+        }
+        
+        if (message.contains("기기별") || message.contains("기계별")) {
+            List<Map<String, Object>> machineSales = adminMapper.getMachineSales(today.toString());
+            StringBuilder response = new StringBuilder("오늘의 기기별 매출:\n");
+            for (Map<String, Object> sale : machineSales) {
+                response.append(String.format("%s: %,d원 (%d건)\n", 
+                    sale.get("MACHINE_TYPE"), 
+                    ((Number)sale.get("total")).intValue(),
+                    ((Number)sale.get("count")).intValue()));
+            }
+            return response.toString();
+        }
+        
+        if (message.contains("옵션별")) {
+            List<Map<String, Object>> optionSales = adminMapper.getOptionSales(today.toString());
+            StringBuilder response = new StringBuilder("오늘의 옵션별 매출:\n");
+            for (Map<String, Object> sale : optionSales) {
+                response.append(String.format("%s: %,d원 (%d건)\n", 
+                    sale.get("RESERVE_OPTION"), 
+                    ((Number)sale.get("total")).intValue(),
+                    ((Number)sale.get("count")).intValue()));
+            }
+            return response.toString();
+        }
+        
+        return "죄송합니다. 이해하지 못했습니다. '오늘 매출', '이번달 매출', '기기별 매출', '옵션별 매출' 등으로 물어봐주세요.";
     }
 }

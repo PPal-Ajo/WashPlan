@@ -35,21 +35,21 @@ public class ReservationController {
 
     @GetMapping("/reservation")
     public String reservation(Model model) {
-       int machineNo101 = reservationService.getMachineNo101();
-       int machineNo102 = reservationService.getMachineNo102();
-       int machineNo103 = reservationService.getMachineNo103();
-       int machineNo201 = reservationService.getMachineNo201();
-       int machineNo202 = reservationService.getMachineNo202();
-       int machineNo203 = reservationService.getMachineNo203();
+        int machineNo101 = reservationService.getMachineNo101();
+        int machineNo102 = reservationService.getMachineNo102();
+        int machineNo103 = reservationService.getMachineNo103();
+        int machineNo201 = reservationService.getMachineNo201();
+        int machineNo202 = reservationService.getMachineNo202();
+        int machineNo203 = reservationService.getMachineNo203();
 
 
-       model.addAttribute("machineNo101", machineNo101);
-       model.addAttribute("machineNo102", machineNo102);
-       model.addAttribute("machineNo103", machineNo103);
-       model.addAttribute("machineNo201", machineNo201);
-       model.addAttribute("machineNo202", machineNo202);
-       model.addAttribute("machineNo203", machineNo203);
-       
+        model.addAttribute("machineNo101", machineNo101);
+        model.addAttribute("machineNo102", machineNo102);
+        model.addAttribute("machineNo103", machineNo103);
+        model.addAttribute("machineNo201", machineNo201);
+        model.addAttribute("machineNo202", machineNo202);
+        model.addAttribute("machineNo203", machineNo203);
+
 
 
 
@@ -76,17 +76,17 @@ public class ReservationController {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                         .body(Map.of("error", "로그인이 필요합니다."));
             }
-            
+
             // 예약 정보 저장 및 QR 코드 생성
             ReservationDTO savedReservation = reservationService.saveReservation(reservationDTO);
-            
+
             // 응답 데이터 구성
             Map<String, Object> response = new HashMap<>();
             response.put("message", "예약이 완료되었습니다.");
             response.put("qrCode", Base64.getEncoder().encodeToString(savedReservation.getQrCode()));
-            
+
             return ResponseEntity.ok(response);
-            
+
         } catch (Exception e) {
             e.printStackTrace(); // 콘솔에 에러 출력
             Map<String, String> errorResponse = new HashMap<>();

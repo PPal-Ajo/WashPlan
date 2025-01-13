@@ -38,7 +38,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // 운영 환경에서 활성화 필요
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // 정적 리소스 허용
-                        .requestMatchers("/login", "/signup/**", "/email/**", "/forget/**", "/findid/**", "/findpwd/**", "/resetpwd/**", "/auth/**", "/main", "/","/api/**","/error/**").permitAll() // 비회원 허용 경로
+                        .requestMatchers("/login", "/signup/**", "/email/**", "/forget/**", "/findid/**", "/findpwd/**", "/resetpwd/**", "/auth/**", "/main", "/","/api/**","/error/**","/machine/**").permitAll() // 비회원 허용 경로
                         .requestMatchers("/reservation/**", "/mypage/**", "change-password","/faq/**", "/faq/api/**").hasRole("USER") // 예약 페이지는 USER 권한 필요
                         .requestMatchers("/admin/**", "/adminUser/**", "/adminMachine/**", "/adminInquiry/**").hasRole("ADMIN") // 관리자 페이지는 ADMIN 권한 필요
                         .anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
