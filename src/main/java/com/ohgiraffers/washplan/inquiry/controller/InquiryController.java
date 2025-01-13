@@ -7,15 +7,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
 
+import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/inquiry")
 public class InquiryController {
     
     private final InquiryService inquiryService;
@@ -47,6 +49,27 @@ public class InquiryController {
             }
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("문의 등록 중 오류가 발생했습니다.");
+        }
+    }
+
+    @GetMapping("/mypage/inquiry")
+    public String getMyInquiries(Model model) {
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
+            
+            int userNo = userDetails.getUserNo();
+            System.out.println("현재 로그인한 사용자 번호: " + userNo);
+            
+            List<InquiryDTO> inquiries = inquiryService.getInquiriesByUserNo(userNo);
+            System.out.println("조회된 문의사항 수: " + (inquiries != null ? inquiries.size() : 0));
+            
+            model.addAttribute("inquiries", inquiries);
+            return "mypage/inquiry";
+        } catch (Exception e) {
+            System.out.println("에러 발생: " + e.getMessage());
+            e.printStackTrace();
+            return "error";
         }
     }
 }

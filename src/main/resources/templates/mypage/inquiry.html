@@ -33,6 +33,16 @@
     <p class="replyNav">답변유무</p>
   </div>
   <hr>
+
+  <div class="inquiry-list">
+    <div th:each="inquiry : ${inquiries}" class="inquiry-item">
+        <span class="inquiry-no" th:text="${inquiry.inquiryNo}"></span>
+        <span class="inquiry-date" th:text="${#temporals.format(inquiry.inquiryDate, 'yyyy-MM-dd')}"></span>
+        <span class="inquiry-title" th:text="${inquiry.inquiryTitle}"></span>
+        <span class="inquiry-content" th:text="${inquiry.inquiryContent}"></span>
+        <span class="inquiry-status" th:text="${inquiry.replyStatus}"></span>
+    </div>
+  </div>
 </main>
 
 <footer>
