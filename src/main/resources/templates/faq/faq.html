@@ -155,6 +155,18 @@
         
         // 등록 버튼 클릭 시 확인 모달 표시
         sendButton.addEventListener('click', () => {
+            const title = document.getElementById('inquiryTitleInput').value;
+            const content = document.getElementById('inquiryContentInput').value;
+            
+            if (!title.trim()) {
+                alert('제목을 입력해주세요.');
+                return;
+            }
+            if (!content.trim()) {
+                alert('내용을 입력해주세요.');
+                return;
+            }
+            
             confirmModal.style.display = 'block';
         });
         
@@ -163,11 +175,33 @@
             confirmModal.style.display = 'none';
         });
         
-        // 확인 모달의 확인 버튼
-        document.getElementById('modalConfirmButton').addEventListener('click', () => {
-            // 여기에 문의 등록 로직 추가
-            confirmModal.style.display = 'none';
-            completeModal.style.display = 'block';
+        // 확인 모달의 확인 버튼 - 서버로 데이터 전송
+        document.getElementById('modalConfirmButton').addEventListener('click', async () => {
+            const title = document.getElementById('inquiryTitleInput').value;
+            const content = document.getElementById('inquiryContentInput').value;
+            
+            try {
+                const response = await fetch('/inquiry/create', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        title: title,
+                        content: content
+                    })
+                });
+                
+                if (response.ok) {
+                    confirmModal.style.display = 'none';
+                    completeModal.style.display = 'block';
+                } else {
+                    alert('문의 등록에 실패했습니다.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('문의 등록 중 오류가 발생했습니다.');
+            }
         });
         
         // 완료 모달의 확인 버튼
