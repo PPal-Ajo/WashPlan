@@ -6,14 +6,13 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.time.LocalDate;
+import java.util.Map;
 
 @Mapper
 public interface AdminMapper {
 
-
     List<AdminDTO> findUserInfo();
     
-
     void pauseUser(int userNo);
 
     void deleteUser(int userNo);
@@ -52,7 +51,6 @@ public interface AdminMapper {
 
     void insertNotice(AdminNoticeDTO noticeDTO);
 
-
     AdminNoticeDTO findLastAddedNotice(int adminNo);
 
     AdminNoticeDTO getNoticeById(int noticeNo);
@@ -70,4 +68,14 @@ public interface AdminMapper {
     String getUserStatus(String userId);
 
     LocalDate getPenaltyEndDate(String userId);
+
+    int getDailySales(String date);
+    
+    int getMonthlySales(String yearMonth);
+    
+    int getPeriodSales(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    
+    List<Map<String, Object>> getMachineSales(String date);
+    
+    List<Map<String, Object>> getOptionSales(String date);
 }

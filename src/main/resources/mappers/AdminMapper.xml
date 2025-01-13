@@ -257,4 +257,43 @@
         LIMIT 1
     </select>
 
+    <select id="getDailySales" resultType="int">
+        SELECT COALESCE(SUM(RESERVE_PRICE), 0)
+        FROM TBL_RESERVATION_HISTORY
+        WHERE DATE(COMPLETED_DATE) = #{date}
+    </select>
+    
+    <select id="getMonthlySales" resultType="int">
+        SELECT COALESCE(SUM(RESERVE_PRICE), 0)
+        FROM TBL_RESERVATION_HISTORY
+        WHERE DATE_FORMAT(COMPLETED_DATE, '%Y-%m') = #{yearMonth}
+    </select>
+    
+    <select id="getPeriodSales" resultType="int">
+        SELECT COALESCE(SUM(RESERVE_PRICE), 0)
+        FROM TBL_RESERVATION_HISTORY
+        WHERE DATE(COMPLETED_DATE) BETWEEN #{startDate} AND #{endDate}
+    </select>
+    
+    <select id="getMachineSales" resultType="map">
+        SELECT 
+            m.MACHINE_TYPE,
+            COUNT(*) as count,
+            COALESCE(SUM(h.RESERVE_PRICE), 0) as total
+        FROM TBL_RESERVATION_HISTORY h
+        JOIN TBL_MACHINE m ON h.MACHINE_NO = m.MACHINE_NO
+        WHERE DATE(h.COMPLETED_DATE) = #{date}
+        GROUP BY m.MACHINE_TYPE
+    </select>
+    
+    <select id="getOptionSales" resultType="map">
+        SELECT 
+            RESERVE_OPTION,
+            COUNT(*) as count,
+            COALESCE(SUM(RESERVE_PRICE), 0) as total
+        FROM TBL_RESERVATION_HISTORY
+        WHERE DATE(COMPLETED_DATE) = #{date}
+        GROUP BY RESERVE_OPTION
+    </select>
+
 </mapper>

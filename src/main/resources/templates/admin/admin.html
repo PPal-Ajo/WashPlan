@@ -10,6 +10,9 @@
     <link rel="stylesheet" th:href="@{/css/admin/admin.css}">
 </head>
 <body>
+<div class="decoration-circle" style="width: 300px; height: 300px; top: -150px; right: -150px;"></div>
+<div class="decoration-circle" style="width: 200px; height: 200px; bottom: -100px; left: -100px;"></div>
+<div class="decoration-circle" style="width: 150px; height: 150px; top: 50%; left: 10%;"></div>
 <header>
     <nav>
         <!--네비바-->
@@ -24,11 +27,30 @@
 
 <!-- 관리자 메뉴 -->
 <div class="admin-menu" id="adminMenu">
+    <button onclick="location.href='/admin'" class="adminMain">관리자 메인</button>
     <button onclick="location.href='/admin/adminuser'" class="adminUser">사용자 관리</button>
     <button onclick="location.href='/admin/adminmachine'" class="adminMachine">세탁기/건조기 관리</button>
     <button onclick="location.href='/admin/admininquiry'" class="adminInquiry">문의사항 관리</button>
     <button onclick="location.href='/admin/adminnotice'" class="adminNotice">공지사항 관리</button>
 </div>
+
+<div class="chat-container">
+    <div class="chat-messages" id="chatMessages">
+        <div class="message bot-message">
+            안녕하세요! 매출 관련 정보를 알려드릴 수 있습니다.
+            다음과 같이 물어보세요:
+            - 오늘 매출
+            - 이번달 매출
+            - 기기별 매출
+            - 옵션별 매출
+        </div>
+    </div>
+    <div class="chat-input">
+        <input type="text" id="messageInput" placeholder="메시지를 입력하세요...">
+        <button onclick="sendMessage()">전송</button>
+    </div>
+</div>
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -46,6 +68,49 @@
                 adminTab.classList.add("active");
             }
         });
+    });
+</script>
+
+<script>
+    function sendMessage() {
+        const input = document.getElementById('messageInput');
+        const message = input.value.trim();
+        if (!message) return;
+
+        // 사용자 메시지 표시
+        addMessage(message, 'user');
+        
+        // 서버로 메시지 전송
+        fetch('/admin/chat/message', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ message: message })
+        })
+        .then(response => response.json())
+        .then(data => {
+            // 봇 응답 표시
+            addMessage(data.message, 'bot');
+        });
+
+        input.value = '';
+    }
+
+    function addMessage(message, type) {
+        const messagesDiv = document.getElementById('chatMessages');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${type}-message`;
+        messageDiv.textContent = message;
+        messagesDiv.appendChild(messageDiv);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    // Enter 키로 메시지 전송
+    document.getElementById('messageInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
     });
 </script>
 </body>

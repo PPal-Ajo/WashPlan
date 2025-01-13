@@ -232,4 +232,20 @@ public class AdminController {
         return ResponseEntity.ok("공지사항이 성공적으로 수정되었습니다.");
     }
 
+    @GetMapping("/admin/chat")
+    public String chatbot() {
+        return "admin/chatbot";
+    }
+
+    @PostMapping("/admin/chat/message")
+    @ResponseBody
+    public Map<String, String> handleChatMessage(@RequestBody Map<String, String> request) {
+        String message = request.get("message");
+        String response = adminService.processMessage(message);
+        
+        Map<String, String> result = new HashMap<>();
+        result.put("message", response);
+        return result;
+    }
+
 }
