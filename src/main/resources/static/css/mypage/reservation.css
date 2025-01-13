@@ -469,3 +469,19 @@ hr {
 .modal-button.confirm {
     background: #42A5F5;
 }
+
+/* QR 모달 스타일 */
+.qr-modal {
+    width: 500px;
+    height: 500px;
+    background: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.qr-image {
+    max-width: 400px;
+    max-height: 400px;
+}

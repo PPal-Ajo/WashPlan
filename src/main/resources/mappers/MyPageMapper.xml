@@ -56,4 +56,18 @@
         WHERE RESERVE_NO = #{reserveNo};
     </delete>
 
+    <!-- QR 코드 조회를 위한 resultMap -->
+    <resultMap id="qrCodeResultMap" type="byte[]">
+        <result column="QR_CODE" typeHandler="org.apache.ibatis.type.BlobTypeHandler"/>
+    </resultMap>
+
+    <!-- QR 코드 조회 쿼리 -->
+    <select id="getQRCode" parameterType="int" resultMap="qrCodeResultMap">
+        SELECT QR_CODE 
+        FROM TBL_RESERVATION 
+        WHERE RESERVE_NO = #{reserveNo}
+        AND RESERVE_STATUS = '예약중'
+        AND QR_CODE IS NOT NULL
+    </select>
+
 </mapper>
