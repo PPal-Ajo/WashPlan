@@ -2,11 +2,15 @@ package com.ohgiraffers.washplan.admin.model.dao;
 
 import com.ohgiraffers.washplan.admin.model.dto.*;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.time.LocalDate;
 
 @Mapper
 public interface AdminMapper {
+
+
     List<AdminDTO> findUserInfo();
     
 
@@ -50,4 +54,20 @@ public interface AdminMapper {
 
 
     AdminNoticeDTO findLastAddedNotice(int adminNo);
+
+    AdminNoticeDTO getNoticeById(int noticeNo);
+
+    void updateNotice(AdminNoticeDTO noticeDTO);
+
+    int checkCancelCount(int userNo);
+
+    void insertPenalty(@Param("userNo") int userNo, 
+                      @Param("adminNo") int adminNo, 
+                      @Param("isPermanent") boolean isPermanent);
+
+    void updateExpiredPenalties();
+
+    String getUserStatus(String userId);
+
+    LocalDate getPenaltyEndDate(String userId);
 }

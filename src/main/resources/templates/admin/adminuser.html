@@ -188,12 +188,10 @@
                 if (response.ok) {
                     // 상태 업데이트
                     selectedUserNos.forEach(userNo => {
-                        // userNo에 해당하는 DOM 요소를 찾음
                         const userRow = Array.from(document.querySelectorAll(".userNoValue"))
                             .find(element => element.textContent.trim() === userNo);
 
                         if (userRow) {
-                            // userRow 기준으로 상태(span) 요소를 찾고 내용 변경
                             const userStatusElement = userRow.closest(".userInfo2").querySelector(".userStatusValue");
                             if (userStatusElement) {
                                 userStatusElement.textContent = "일시정지";
@@ -292,12 +290,10 @@
                 if (response.ok) {
                     // 상태 업데이트
                     selectedUserNos.forEach(userNo => {
-                        // userNo에 해당하는 DOM 요소를 찾음
                         const userRow = Array.from(document.querySelectorAll(".userNoValue"))
                             .find(element => element.textContent.trim() === userNo);
 
                         if (userRow) {
-                            // userRow 기준으로 상태(span) 요소를 찾고 내용 변경
                             const userStatusElement = userRow.closest(".userInfo2").querySelector(".userStatusValue");
                             if (userStatusElement) {
                                 userStatusElement.textContent = "영구탈퇴";

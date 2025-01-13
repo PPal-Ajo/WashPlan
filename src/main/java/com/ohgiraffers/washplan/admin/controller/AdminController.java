@@ -212,4 +212,24 @@ public class AdminController {
         return ResponseEntity.ok(savedNotice); // JSON 응답 반환
     }
 
+    @GetMapping("/adminnotice/{noticeNo}")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> getNotice(@PathVariable int noticeNo) {
+        AdminNoticeDTO noticeDetail = adminService.getNoticeById(noticeNo);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("noticeDetail", noticeDetail);
+
+        return ResponseEntity.ok(response);
+    }
+
+
+    // 공지사항 수정
+    @PutMapping("/adminnotice/update")
+    @ResponseBody
+    public ResponseEntity<String> updateNotice(@RequestBody AdminNoticeDTO noticeDTO) {
+        adminService.updateNotice(noticeDTO);
+        return ResponseEntity.ok("공지사항이 성공적으로 수정되었습니다.");
+    }
+
 }
