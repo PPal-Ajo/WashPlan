@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>마이페이지</title>
+    <link th:href="@{/css/base/nav.css}" rel="stylesheet">
+    <link th:href="@{/css/faq/faq.css}" rel="stylesheet">
+</head>
+<body>
+<!-- 배경 이미지 -->
+<img th:src="@{/images/main/FAQ.png}" alt="mainpage" class="bg">
+
+<header>
+    <nav>
+        <span onclick="location.href='/'">WashPlan</span>
+        <span>예약</span>
+        <span>FAQ</span>
+        <span style="color: #FFFF00">마이페이지</span>
+        <span onclick="location.href='/login'">로그아웃</span>
+    </nav>
+</header>
+
+<main>
+    <button class="faqBtn">FAQ</button>
+    <button class="noticeBtn">공지사항</button>
+
+
+    <div class="DivQ1">
+        <img th:src="@{/images/main/Q.png}" alt="QImage" class="Q1">
+        <p class="QP1">예약은 어떻게 하나요?</p>
+    </div>
+
+    <div class="DivA1">
+        <img th:src="@{/images/main/A.png}" alt="AImage" class="A1">
+        <p class="AP1">예약 페이지에서 원하는 날짜와 시간을 선택하고, 사용 가능한 세탁기나 건조기를 예약하시면 됩니다.<br>
+            기기의 상태는 실시간으로 업데이트됩니다.
+        </p>
+    </div>
+
+    <hr class="custom-line1">
+
+    <div class="DivQ2">
+        <img th:src="@{/images/main/Q.png}" alt="QImage" class="Q2">
+        <p class="QP2">예약 가능한 기기 목록은 어떻게 확인하나요?</p>
+    </div>
+
+    <div class="DivA2">
+        <img th:src="@{/images/main/A.png}" alt="AImage" class="A2">
+        <p class="AP2">예약 페이지에서 사용 가능한 세탁기와 건조기의 상태를 실시간으로 확인하실 수 있습니다.</p>
+    </div>
+    <hr class="custom-line2">
+
+
+    <div class="DivQ3">
+        <img th:src="@{/images/main/Q.png}" alt="QImage" class="Q3">
+        <p class="QP3">세탁기와 건조기의 옵션은 무엇인가요?</p>
+    </div>
+
+    <div class="DivA3">
+        <img th:src="@{/images/main/A.png}" alt="AImage" class="A3">
+        <p class="AP3">세탁기는 표준세탁(30분)과 침구세탁(40분) 옵션이 있으며, 건조기는 소량건조(30분)와 표준건조<br>(40분) 옵션이 제공됩니다.
+        </p>
+    </div>
+
+    <hr class="custom-line3">
+
+    <div class="DivQ4">
+        <img th:src="@{/images/main/Q.png}" alt="QImage" class="Q4">
+        <p class="QP4">예약 시간이 10분 단위로 제한되는데, 왜 그런가요?</p>
+    </div>
+
+    <div class="DivA4">
+        <img th:src="@{/images/main/A.png}" alt="AImage" class="A4">
+        <p class="AP4">예약은 10분 단위로 가능합니다. 옵션 시간에 10분을 더한 후 예약을 잠그는 시스템으로,  효율적인<br>
+            예약 관리를 위해 설정되었습니다.
+        </p>
+    </div>
+
+    <hr class="custom-line4">
+
+    <div class="DivQ5">
+        <img th:src="@{/images/main/Q.png}" alt="QImage" class="Q5">
+        <p class="QP5">다른 사람이 내 예약을 볼 수 있나요?</p>
+    </div>
+
+    <div class="DivA5">
+        <img th:src="@{/images/main/A.png}" alt="AImage" class="A5">
+        <p class="AP5">다른 사용자는 예약된 시간대와 기기의 상태는 확인할 수 있지만, 예약자 정보는 볼 수 없습니다.</p>
+    </div>
+
+    <p class="p1">도움말을 통해 문제를 해결하지 못하셨나요?</p>
+
+    <div class="DivIq">
+        <img th:src="@{/images/main/iq.png}" alt="AImage" class="Iq">
+        <p class="IqP1">문의하기<br>
+            <br>
+            마이페이지에서 답변을 받을 수 있습니다.</p>
+    </div>
+
+</main>
+
+<footer>
+    <span>📞031-123-4567ㅣ✉️contact@washplan.com</span>
+    <span>🚩경기 하남시 미사강변동로 85 힐스테이트 에코 3층</span>
+    <span>ⓒ 2024 PPal-AjoㅣAll rights reserved.Designed for your convenience.</span>
+</footer>
+</body>
+</html>

@@ -3,7 +3,6 @@ package com.ohgiraffers.washplan.user.model.dao;
 import com.ohgiraffers.washplan.user.model.dto.ReservationDetailsDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -25,6 +24,7 @@ public interface MyPageMapper {
     // 예약 삭제
     int deleteReservationByNo(@Param("reserveNo") int reserveNo);
 
+    byte[] getQRCode(@Param("reserveNo") int reserveNo);
 
     }
 
