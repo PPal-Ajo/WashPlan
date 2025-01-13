@@ -75,8 +75,32 @@ public class ReservationService {
         return reservationMapper.findMachineNo203();
     }
 
+    @Transactional
     public void updateReservationStatus() {
-        reservationMapper.updateReservationStatus();
+        try {
+            System.out.println("===== 예약 상태 업데이트 시작 =====");
+            System.out.println("현재 시간: " + new java.util.Date());
+            
+            // 1. 예약 상태를 '완료'로 변경
+            int updated = reservationMapper.updateReservationStatus();
+            System.out.println("완료로 변경된 예약 수: " + updated);
+            
+            // 2. 완료된 예약을 히스토리로 이동
+            int inserted = reservationMapper.insertReservationHistory();
+            System.out.println("히스토리로 이동된 예약 수: " + inserted);
+
+            // 3. 원본 데이터 삭제
+            if (inserted > 0) {
+                int deleted = reservationMapper.deleteCompletedReservations();
+                System.out.println("삭제된 예약 수: " + deleted);
+            }
+            
+            System.out.println("===== 예약 상태 업데이트 완료 =====");
+        } catch (Exception e) {
+            System.err.println("예약 상태 업데이트 중 오류 발생: " + e.getMessage());
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     public int checkReservationStatus(int machineNo, String reserveDate, String startTime, String endTime) {

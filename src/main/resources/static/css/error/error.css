@@ -1,0 +1,53 @@
+.image{
+    position: absolute;
+    left:-1px;
+    top:-1px;
+    width: 1920px;
+
+
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 선택적으로 그림자 추가 */
+
+}
+
+/* 공통 버튼 스타일 */
+button {
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.2s ease; /* 부드러운 전환 효과 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* 버튼 그림자 */
+
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 400px;
+    height: 210px;
+    left: 747px;
+    top: 573px;
+
+    background: #42A5F5;
+    border: 20px solid #FFFFFF;
+    border-radius: 50px;
+
+    /* 메인 */
+
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 100px;
+    line-height: 125px;
+    text-align: center;
+    /* identical to box height */
+
+    color: #FFFFFF;
+}
+
+/* 버튼 클릭 시 효과 */
+button:active {
+    transform: scale(0.95); /* 클릭 시 살짝 작아지는 효과 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 클릭 시 그림자 감소 */
+}
+
+
+
+
+
