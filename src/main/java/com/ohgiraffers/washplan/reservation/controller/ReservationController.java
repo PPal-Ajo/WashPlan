@@ -4,6 +4,7 @@ import com.ohgiraffers.washplan.auth.model.dto.CustomUserDetails;
 import com.ohgiraffers.washplan.auth.model.service.CustomUserDetailsService;
 import com.ohgiraffers.washplan.reservation.model.dto.ReservationDTO;
 import com.ohgiraffers.washplan.reservation.model.service.ReservationService;
+import com.ohgiraffers.washplan.reservation.model.service.QRCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,10 +25,12 @@ import java.util.Map;
 public class ReservationController {
 
     private final ReservationService reservationService;
+    private final QRCodeService qrCodeService;
 
     @Autowired
-    public ReservationController(ReservationService reservationService) {
+    public ReservationController(ReservationService reservationService, QRCodeService qrCodeService) {
         this.reservationService = reservationService;
+        this.qrCodeService = qrCodeService;
     }
 
     @GetMapping("/reservation")
@@ -60,21 +64,36 @@ public class ReservationController {
     }
 
     @PostMapping("/reservation/save")
-    public ResponseEntity<String> saveReservation(@RequestBody ReservationDTO reservationDTO) {
-        // 로그인한 유저의 번호 가져오기
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() instanceof CustomUserDetails) {
-            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-            int userNo = userDetails.getUserNo();
-            reservationDTO.setUserNo(userNo); // 유저 번호 설정
-        } else {
-            return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED); // 인증되지 않은 경우 처리
+    public ResponseEntity<?> saveReservation(@RequestBody ReservationDTO reservationDTO) {
+        try {
+            // 로그인 체크 및 예약 저장 로직
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication != null && authentication.getPrincipal() instanceof CustomUserDetails) {
+                CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+                int userNo = userDetails.getUserNo();
+                reservationDTO.setUserNo(userNo);
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(Map.of("error", "로그인이 필요합니다."));
+            }
+            
+            // 예약 정보 저장 및 QR 코드 생성
+            ReservationDTO savedReservation = reservationService.saveReservation(reservationDTO);
+            
+            // 응답 데이터 구성
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "예약이 완료되었습니다.");
+            response.put("qrCode", Base64.getEncoder().encodeToString(savedReservation.getQrCode()));
+            
+            return ResponseEntity.ok(response);
+            
+        } catch (Exception e) {
+            e.printStackTrace(); // 콘솔에 에러 출력
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(errorResponse);
         }
-
-        // 예약 정보 저장
-        reservationService.saveReservation(reservationDTO);
-
-        return new ResponseEntity<>("Reservation saved successfully!", HttpStatus.OK);
     }
 
     @PostMapping("/reservation/checkStatus")

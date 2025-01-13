@@ -43,13 +43,6 @@
 
 
 <div>
-<a href="https://github.com/suwanpp"><img src="https://avatars.githubusercontent.com/u/177711372?v=4" alt="박수완"></a>
-
-![Static Badge](https://img.shields.io/badge/DB%EB%A7%A4%EB%8B%88%EC%A0%80-%EB%B0%95%EC%88%98%EC%99%84-red)
-
-</div>
-
-<div>
 <a href="https://github.com/soonbin2"><img src="https://github.com/user-attachments/assets/b9f735fd-d1cf-44e2-ada3-6d1d8eb81fe0" alt="황순빈"></a>
 
 ![Static Badge](https://img.shields.io/badge/%ED%98%95%EC%83%81%EA%B4%80%EB%A6%AC%EC%9E%90-%ED%99%A9%EC%88%9C%EB%B9%88-green

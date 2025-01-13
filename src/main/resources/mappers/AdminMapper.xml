@@ -194,8 +194,67 @@
         LIMIT 1
     </select>
 
+    <select id="getNoticeById" resultMap="noticeResultMap">
+        SELECT NOTICE_TITLE,
+                NOTICE_CONTENT
+        FROM TBL_NOTICE
+        WHERE NOTICE_NO = #{noticeNo}
+    </select>
 
+    <update id="updateNotice">
+        UPDATE TBL_NOTICE
+        SET NOTICE_TITLE = #{noticeTitle},
+            NOTICE_CONTENT = #{noticeContent}
+        WHERE NOTICE_NO = #{noticeNo}
+    </update>
 
+    <!-- 자동취소 횟수 확인 -->
+    <select id="checkCancelCount" resultType="int">
+        SELECT CANCEL_COUNT 
+        FROM TBL_USER 
+        WHERE USER_NO = #{userNo}
+    </select>
 
+    <!-- 패널티 추가 (일시정지) -->
+    <insert id="insertPenalty">
+        INSERT INTO TBL_PENALTY (USER_NO, PENALTY_START, PENALTY_END, ADMIN_NO)
+        VALUES (#{userNo}, CURDATE(), 
+            <choose>
+                <when test="isPermanent == true">
+                    NULL
+                </when>
+                <otherwise>
+                    DATE_ADD(CURDATE(), INTERVAL 3 DAY)
+                </otherwise>
+            </choose>, 
+            #{adminNo})
+    </insert>
+
+    <!-- 패널티 만료 체크 및 상태 업데이트 -->
+    <update id="updateExpiredPenalties">
+        UPDATE TBL_USER u
+        SET u.USER_STATUS = '정상'
+        WHERE u.USER_NO IN (
+            SELECT p.USER_NO 
+            FROM TBL_PENALTY p 
+            WHERE p.PENALTY_END = CURDATE()
+        )
+    </update>
+
+    <!-- 사용자 상태 조회 -->
+    <select id="getUserStatus" resultType="string">
+        SELECT USER_STATUS
+        FROM TBL_USER
+        WHERE USER_ID = #{userId}
+    </select>
+
+    <!-- 패널티 종료일 조회 -->
+    <select id="getPenaltyEndDate" resultType="java.time.LocalDate">
+        SELECT PENALTY_END
+        FROM TBL_PENALTY
+        WHERE USER_NO = (SELECT USER_NO FROM TBL_USER WHERE USER_ID = #{userId})
+        ORDER BY PENALTY_NO DESC
+        LIMIT 1
+    </select>
 
 </mapper>

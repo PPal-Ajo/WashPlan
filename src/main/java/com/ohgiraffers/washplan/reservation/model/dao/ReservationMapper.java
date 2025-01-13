@@ -29,7 +29,8 @@ public interface ReservationMapper {
 
     
 
-    void updateReservationStatus();
+    int updateReservationStatus();
+   
 
 
     int checkReservation(Map<String, Object> params);
@@ -47,5 +48,13 @@ public interface ReservationMapper {
     List<ReservationDTO> findReservationsByUser(String username);
 
 
+    void updateQRCode(ReservationDTO reservationDTO);
 
+    
+
+    int insertReservationHistory();
+
+    int deleteCompletedReservations();
+
+    List<ReservationDTO> getCurrentReservations();
 }

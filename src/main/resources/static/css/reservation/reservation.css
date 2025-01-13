@@ -537,64 +537,78 @@ hr{
     display: none;
     position: absolute;
     width: 1106px;
-    height: 326px;
+    height: 300px;
     left: calc(50% - 1106px/2 + 1px);
     top: 160px;
     z-index: 1002;
-
     background: #E3F2FD;
     box-shadow: 0px 7px 24.4px 7px rgba(0, 0, 0, 0.25);
     border-radius: 70px;
+    padding: 30px;
 }
-.reserveConfirm{
-    /* 예약이 완료되었습니다! */
 
+.reserveConfirm {
     position: absolute;
-    width: 921px;
-    height: 172px;
-    left:350px;
-    top: 50px;
-
+    width: 100%;
+    height: 60px;
+    left: 0;
+    top: 80px;
     font-family: 'Do Hyeon';
     font-style: normal;
     font-weight: 400;
     font-size: 48px;
     line-height: 60px;
-    display: flex;
-    align-items: center;
     text-align: center;
-
     color: #000000;
-
 }
-.confirm2{
-    /* Rectangle 276 */
 
+.qr-code {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    left: 83%;
+    top: 80px;
+    transform: translateX(-50%);
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    display: block;
+    background-color: white;
+}
+
+.qrtext {
+    position: absolute;
+    width: 100%;
+    height: 40px;
+    left: 0;
+    top: 180px;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 40px;
+    text-align: center;
+    color: #2E8B57;
+}
+
+.confirm2 {
     position: absolute;
     width: 209px;
     height: 59px;
-    left: calc(50% - 209px/2 + 2.5px);
-    top: 200px;
-
+    left: 480px;
+    top:260px;
     background: #42A5F5;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 50px;
-    border:none;
-
-    /* 확인 */
-
-    box-sizing: border-box;
-    text-align: center;
-
+    border: none;
     font-family: 'Do Hyeon';
     font-style: normal;
     font-weight: 400;
     font-size: 40px;
     line-height: 50px;
-
     color: #FFFFFF;
 
 }
+
+
 
 .washimage2{
     position: absolute;
@@ -1456,6 +1470,10 @@ hr{
     top:178px;
     font-size: 30px;
 }
+
+
+
+
 
 
 

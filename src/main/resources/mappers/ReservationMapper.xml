@@ -40,15 +40,28 @@
         WHERE MACHINE_NO = 203
     </select>
 
-    <insert id="insertReservation" parameterType="com.ohgiraffers.washplan.reservation.model.dto.ReservationDTO">
-        INSERT INTO TBL_RESERVATION(
-            USER_NO, MACHINE_NO, RESERVE_DATE, START_TIME, END_TIME, RESERVE_OPTION, RESERVE_PRICE, RESERVE_STATUS
+    <insert id="insertReservation" parameterType="com.ohgiraffers.washplan.reservation.model.dto.ReservationDTO" useGeneratedKeys="true" keyProperty="reserveNo">
+        INSERT INTO TBL_RESERVATION (
+            USER_NO, 
+            MACHINE_NO, 
+            RESERVE_DATE, 
+            START_TIME, 
+            END_TIME, 
+            RESERVE_OPTION, 
+            RESERVE_PRICE, 
+            RESERVE_STATUS,
+            QR_CODE
+        ) VALUES (
+            #{userNo}, 
+            #{machineNo}, 
+            #{reserveDate}, 
+            #{startTime}, 
+            #{endTime}, 
+            #{reserveOption}, 
+            #{reservePrice}, 
+            '예약중',
+            #{qrCode}
         )
-        VALUES (
-            #{userNo}, #{machineNo}, #{reserveDate}, #{startTime}, #{endTime}, #{reserveOption}, #{reservePrice}, '예약중'
-        )
-
-
     </insert>
 
 
@@ -61,13 +74,15 @@
     </select>
 
 
-    <!-- 예약 상태 완료로 변경 -->
-    <update id="updateReservationStatus">
+<!--     예약 상태 완료로 변경 -->
+     <update id="updateReservationStatus">
         UPDATE TBL_RESERVATION
         SET RESERVE_STATUS = '완료'
         WHERE RESERVE_STATUS = '예약중'
-        AND RESERVE_DATE &lt; CURDATE()
-        OR (RESERVE_DATE = CURDATE() AND END_TIME &lt;= CURTIME());
+        AND (
+            RESERVE_DATE &lt; CURDATE()
+            OR (RESERVE_DATE = CURDATE() AND END_TIME &lt;= CURTIME())
+        )
     </update>
 
 
@@ -79,5 +94,34 @@
     </select>
 
 
+    <update id="updateQRCode" parameterType="com.ohgiraffers.washplan.reservation.model.dto.ReservationDTO">
+        UPDATE TBL_RESERVATION 
+        SET QR_CODE = #{qrCode}
+        WHERE RESERVE_NO = #{reserveNo}
+    </update>
+
+
+    <!-- 종료된 예약을 히스토리로 이동 -->
+    <insert id="insertReservationHistory">
+        INSERT INTO TBL_RESERVATION_HISTORY 
+        (RESERVE_NO, USER_NO, MACHINE_NO, RESERVE_DATE, START_TIME, END_TIME, RESERVE_OPTION, RESERVE_PRICE, RESERVE_STATUS)
+        SELECT 
+            RESERVE_NO, USER_NO, MACHINE_NO, RESERVE_DATE, START_TIME, END_TIME, RESERVE_OPTION, RESERVE_PRICE, RESERVE_STATUS
+        FROM TBL_RESERVATION
+        WHERE RESERVE_STATUS = '완료'
+    </insert>
+
+    <!-- 히스토리로 이동된 예약 삭제 -->
+    <delete id="deleteCompletedReservations">
+        DELETE FROM TBL_RESERVATION
+        WHERE RESERVE_STATUS = '완료'
+    </delete>
+
+    <!-- 현재 예약 상태 조회 -->
+    <select id="getCurrentReservations" resultType="com.ohgiraffers.washplan.reservation.model.dto.ReservationDTO">
+        SELECT *
+        FROM TBL_RESERVATION
+        WHERE RESERVE_STATUS = '예약중'
+    </select>
 
 </mapper>

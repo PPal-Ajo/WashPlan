@@ -83,7 +83,9 @@
             </div>
         </div>
         <div class="modal-content2" id="modal-content2">
-            <span class="reserveConfirm">예약이 완료되었습니다 !</span>
+            <span class="reserveConfirm">예약이 완료되었습니다!</span>
+            <span class="qrtext">QR코드는 마이페이지에서 확인하세요</span>
+            <img id="qrCode" class="qr-code" alt="QR Code">
             <button id="confirmButton2" class="confirm2">확인</button>
         </div>
 
@@ -119,6 +121,8 @@
         </div>
         <div class="modal-content2" id="modal-content4">
             <span class="reserveConfirm">예약이 완료되었습니다 !</span>
+            <span class="qrtext">QR코드는 마이페이지에서 확인하세요</span>
+            <img id="qrCode2" class="qr-code" alt="QR Code">
             <button id="confirmButton4" class="confirm2">확인</button>
         </div>
 
@@ -155,6 +159,8 @@
         </div>
         <div class="modal-content2" id="modal-content6">
             <span class="reserveConfirm">예약이 완료되었습니다 !</span>
+            <span class="qrtext">QR코드는 마이페이지에서 확인하세요</span>
+            <img id="qrCode3" class="qr-code" alt="QR Code">
             <button id="confirmButton6" class="confirm2">확인</button>
         </div>
     </div>
@@ -209,6 +215,8 @@
         </div>
         <div class="modal-content2" id="modal-content8">
             <span class="reserveConfirm">예약이 완료되었습니다 !</span>
+            <span class="qrtext">QR코드는 마이페이지에서 확인하세요</span>
+            <img id="qrCode4" class="qr-code" alt="QR Code">
             <button id="confirmButton8" class="confirm2">확인</button>
         </div>
 
@@ -244,6 +252,8 @@
         </div>
         <div class="modal-content2" id="modal-content10">
             <span class="reserveConfirm">예약이 완료되었습니다 !</span>
+            <span class="qrtext">QR코드는 마이페이지에서 확인하세요</span>
+            <img id="qrCode5" class="qr-code" alt="QR Code">
             <button id="confirmButton10" class="confirm2">확인</button>
         </div>
 
@@ -279,6 +289,8 @@
         </div>
         <div class="modal-content2" id="modal-content12">
             <span class="reserveConfirm">예약이 완료되었습니다 !</span>
+            <span class="qrtext">QR코드는 마이페이지에서 확인하세요</span>
+            <img id="qrCode6" class="qr-code" alt="QR Code">
             <button id="confirmButton12" class="confirm2">확인</button>
         </div>
     </div>
@@ -612,23 +624,44 @@
 
             // 예약 종료 시간 업데이트 (서버에 완료 상태 변경 요청)
             async function updateReservationStatus() {
-
                 if (isMachineBroken) {
-                    // 기기가 고장 상태라면 예약 상태를 확인하지 않음
                     return;
                 }
+                
                 try {
-                    await fetch("/reservation/updateStatus", {
+                    const response = await fetch("/reservation/updateStatus", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                     });
-                    checkAndUpdateStatus(); // 예약 상태 다시 확인
+                    
+                    if (!response.ok) {
+                        console.warn("예약 상태 업데이트 실패:", response.status);
+                        return;
+                    }
+                    
+                    await checkAndUpdateStatus(); // 예약 상태 다시 확인
                 } catch (error) {
-                    console.error("Error:", error);
+                    console.error("예약 상태 업데이트 중 오류:", error);
                 }
             }
-            // 예약 상태와 종료 시간 자동 업데이트 (1분마다 실행)
-            setInterval(updateReservationStatus, 60000); // 60초마다 실행
+            // 예약 상태와 종료 시간 자동 업데이트 (10분마다 실행)
+            let updateInterval;
+
+            function startStatusUpdate() {
+                // 이전 인터벌이 있다면 제거
+                if (updateInterval) {
+                    clearInterval(updateInterval);
+                }
+                // 새로운 인터벌 설정 (10분)
+                updateInterval = setInterval(updateReservationStatus, 60000); // 60초
+                // 초기 실행
+                updateReservationStatus();
+            }
+
+            // 페이지 로드 시 자동 업데이트 시작
+            document.addEventListener("DOMContentLoaded", () => {
+                startStatusUpdate();
+            });
 
             // 예약하기 버튼 클릭 시 모달 열기
             reserveButton.addEventListener("click", () => {
@@ -666,21 +699,32 @@
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(reservationData),
                 })
-                    .then((response) => {
-                        if (response.ok) {
-
-                            document.getElementById("modal").style.display = "block";
-                            document.getElementById("modal-content2").style.display = "block";
-
-                            // 예약 상태를 확인하고 즉시 업데이트
-                            checkAndUpdateStatus();
-                        } else {
-                            alert("예약에 실패했습니다.");
-                        }
-                    })
-                    .catch((error) => console.error("Error:", error));
-
-
+                .then(response => response.json())
+                .then(data => {
+                    if (data.qrCode) {
+                        // 첫 번째 모달 닫기
+                        modal.style.display = "block";
+                        modal1.style.display = "none";
+                        
+                        // QR 코드 이미지 설정 및 두 번째 모달 표시
+                        const qrImage = document.getElementById("qrCode");
+                        qrImage.src = "data:image/png;base64," + data.qrCode;
+                        qrImage.style.display = "block"; // 이미지 표시 확실히
+                        
+                        // 두 번째 모달 표시
+                        document.getElementById("modal-content2").style.display = "block";
+                        document.body.classList.add("no-scroll");
+                        
+                        // 예약 상태 업데이트
+                        checkAndUpdateStatus();
+                    } else {
+                        alert("예약에 실패했습니다.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("예약 중 오류가 발생했습니다.");
+                });
             });
             confirmButton2.addEventListener("click", () => {
                 modal.style.display="none";
@@ -792,22 +836,43 @@
             // 예약 종료 시간 업데이트 (서버에 완료 상태 변경 요청)
             async function updateReservationStatus() {
                 if (isMachineBroken) {
-                    // 기기가 고장 상태라면 예약 상태를 업데이트하지 않음
                     return;
                 }
-
+                
                 try {
-                    await fetch("/reservation/updateStatus", {
+                    const response = await fetch("/reservation/updateStatus", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                     });
-                    checkAndUpdateStatus(); // 예약 상태 다시 확인
+                    
+                    if (!response.ok) {
+                        console.warn("예약 상태 업데이트 실패:", response.status);
+                        return;
+                    }
+                    
+                    await checkAndUpdateStatus(); // 예약 상태 다시 확인
                 } catch (error) {
-                    console.error("Error:", error);
+                    console.error("예약 상태 업데이트 중 오류:", error);
                 }
             }
-            // 예약 상태와 종료 시간 자동 업데이트 (1분마다 실행)
-            setInterval(updateReservationStatus, 60000);
+            // 예약 상태와 종료 시간 자동 업데이트 (10분마다 실행)
+            let updateInterval;
+
+            function startStatusUpdate() {
+                // 이전 인터벌이 있다면 제거
+                if (updateInterval) {
+                    clearInterval(updateInterval);
+                }
+                // 새로운 인터벌 설정 (10분)
+                updateInterval = setInterval(updateReservationStatus, 60000); // 60초
+                // 초기 실행
+                updateReservationStatus();
+            }
+
+            // 페이지 로드 시 자동 업데이트 시작
+            document.addEventListener("DOMContentLoaded", () => {
+                startStatusUpdate();
+            });
 
             // 예약하기 버튼 클릭 시 모달 열기
             reserveButton.addEventListener("click", () => {
@@ -845,20 +910,32 @@
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(reservationData),
                 })
-                    .then((response) => {
-                        if (response.ok) {
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.qrCode) {
+                            // 첫 번째 모달 닫기
+                            modal.style.display = "block";
+                            modal1.style.display = "none";
 
-                            document.getElementById("modal2").style.display = "block";
+                            // QR 코드 이미지 설정 및 두 번째 모달 표시
+                            const qrImage = document.getElementById("qrCode2");
+                            qrImage.src = "data:image/png;base64," + data.qrCode;
+                            qrImage.style.display = "block"; // 이미지 표시 확실히
+
+                            // 두 번째 모달 표시
                             document.getElementById("modal-content4").style.display = "block";
+                            document.body.classList.add("no-scroll");
+
+                            // 예약 상태 업데이트
                             checkAndUpdateStatus();
                         } else {
                             alert("예약에 실패했습니다.");
                         }
                     })
-                    .catch((error) => console.error("Error:", error));
-
-
-
+                    .catch(error => {
+                        console.error("Error:", error);
+                        alert("예약 중 오류가 발생했습니다.");
+                    });
             });
             confirmButton2.addEventListener("click", () => {
                 modal.style.display="none";
@@ -968,24 +1045,44 @@
 
             // 예약 종료 시간 업데이트 (서버에 완료 상태 변경 요청)
             async function updateReservationStatus() {
-
                 if (isMachineBroken) {
-                    // 기기가 고장 상태라면 예약 상태를 업데이트하지 않음
                     return;
                 }
+                
                 try {
-                    await fetch("/reservation/updateStatus", {
+                    const response = await fetch("/reservation/updateStatus", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                     });
-                    checkAndUpdateStatus(); // 예약 상태 다시 확인
+                    
+                    if (!response.ok) {
+                        console.warn("예약 상태 업데이트 실패:", response.status);
+                        return;
+                    }
+                    
+                    await checkAndUpdateStatus(); // 예약 상태 다시 확인
                 } catch (error) {
-                    console.error("Error:", error);
+                    console.error("예약 상태 업데이트 중 오류:", error);
                 }
             }
-            // 예약 상태와 종료 시간 자동 업데이트 (1분마다 실행)
-            setInterval(updateReservationStatus, 60000);
+            // 예약 상태와 종료 시간 자동 업데이트 (10분마다 실행)
+            let updateInterval;
 
+            function startStatusUpdate() {
+                // 이전 인터벌이 있다면 제거
+                if (updateInterval) {
+                    clearInterval(updateInterval);
+                }
+                // 새로운 인터벌 설정 (10분)
+                updateInterval = setInterval(updateReservationStatus, 60000); // 60초
+                // 초기 실행
+                updateReservationStatus();
+            }
+
+            // 페이지 로드 시 자동 업데이트 시작
+            document.addEventListener("DOMContentLoaded", () => {
+                startStatusUpdate();
+            });
 
             // 예약하기 버튼 클릭 시 모달 열기
             reserveButton.addEventListener("click", () => {
@@ -1023,17 +1120,32 @@
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(reservationData),
                 })
-                    .then((response) => {
-                        if (response.ok) {
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.qrCode) {
+                            // 첫 번째 모달 닫기
+                            modal.style.display = "block";
+                            modal1.style.display = "none";
 
-                            document.getElementById("modal3").style.display = "block";
+                            // QR 코드 이미지 설정 및 두 번째 모달 표시
+                            const qrImage = document.getElementById("qrCode3");
+                            qrImage.src = "data:image/png;base64," + data.qrCode;
+                            qrImage.style.display = "block"; // 이미지 표시 확실히
+
+                            // 두 번째 모달 표시
                             document.getElementById("modal-content6").style.display = "block";
+                            document.body.classList.add("no-scroll");
+
+                            // 예약 상태 업데이트
                             checkAndUpdateStatus();
                         } else {
                             alert("예약에 실패했습니다.");
                         }
                     })
-                    .catch((error) => console.error("Error:", error));
+                    .catch(error => {
+                        console.error("Error:", error);
+                        alert("예약 중 오류가 발생했습니다.");
+                    });
             });
             confirmButton2.addEventListener("click", () => {
                 modal.style.display="none";
@@ -1137,24 +1249,44 @@
 
             // 예약 종료 시간 업데이트 (서버에 완료 상태 변경 요청)
             async function updateReservationStatus() {
-
                 if (isMachineBroken) {
-                    // 기기가 고장 상태라면 예약 상태를 업데이트하지 않음
                     return;
                 }
+                
                 try {
-                    await fetch("/reservation/updateStatus", {
+                    const response = await fetch("/reservation/updateStatus", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                     });
-                    checkAndUpdateStatus(); // 예약 상태 다시 확인
+                    
+                    if (!response.ok) {
+                        console.warn("예약 상태 업데이트 실패:", response.status);
+                        return;
+                    }
+                    
+                    await checkAndUpdateStatus(); // 예약 상태 다시 확인
                 } catch (error) {
-                    console.error("Error:", error);
+                    console.error("예약 상태 업데이트 중 오류:", error);
                 }
             }
-            // 예약 상태와 종료 시간 자동 업데이트 (1분마다 실행)
-            setInterval(updateReservationStatus, 60000);
+            // 예약 상태와 종료 시간 자동 업데이트 (10분마다 실행)
+            let updateInterval;
 
+            function startStatusUpdate() {
+                // 이전 인터벌이 있다면 제거
+                if (updateInterval) {
+                    clearInterval(updateInterval);
+                }
+                // 새로운 인터벌 설정 (10분)
+                updateInterval = setInterval(updateReservationStatus, 60000); // 60초
+                // 초기 실행
+                updateReservationStatus();
+            }
+
+            // 페이지 로드 시 자동 업데이트 시작
+            document.addEventListener("DOMContentLoaded", () => {
+                startStatusUpdate();
+            });
 
             // 예약하기 버튼 클릭 시 모달 열기
             reserveButton.addEventListener("click", () => {
@@ -1192,17 +1324,32 @@
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(reservationData),
                 })
-                    .then((response) => {
-                        if (response.ok) {
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.qrCode) {
+                            // 첫 번째 모달 닫기
+                            modal.style.display = "block";
+                            modal1.style.display = "none";
 
-                            document.getElementById("modal4").style.display = "block";
+                            // QR 코드 이미지 설정 및 두 번째 모달 표시
+                            const qrImage = document.getElementById("qrCode4");
+                            qrImage.src = "data:image/png;base64," + data.qrCode;
+                            qrImage.style.display = "block"; // 이미지 표시 확실히
+
+                            // 두 번째 모달 표시
                             document.getElementById("modal-content8").style.display = "block";
+                            document.body.classList.add("no-scroll");
+
+                            // 예약 상태 업데이트
                             checkAndUpdateStatus();
                         } else {
                             alert("예약에 실패했습니다.");
                         }
                     })
-                    .catch((error) => console.error("Error:", error));
+                    .catch(error => {
+                        console.error("Error:", error);
+                        alert("예약 중 오류가 발생했습니다.");
+                    });
             });
             confirmButton2.addEventListener("click", () => {
                 modal.style.display="none";
@@ -1308,21 +1455,43 @@
             // 예약 종료 시간 업데이트 (서버에 완료 상태 변경 요청)
             async function updateReservationStatus() {
                 if (isMachineBroken) {
-                    // 기기가 고장 상태라면 예약 상태를 업데이트하지 않음
                     return;
                 }
+                
                 try {
-                    await fetch("/reservation/updateStatus", {
+                    const response = await fetch("/reservation/updateStatus", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                     });
-                    checkAndUpdateStatus(); // 예약 상태 다시 확인
+                    
+                    if (!response.ok) {
+                        console.warn("예약 상태 업데이트 실패:", response.status);
+                        return;
+                    }
+                    
+                    await checkAndUpdateStatus(); // 예약 상태 다시 확인
                 } catch (error) {
-                    console.error("Error:", error);
+                    console.error("예약 상태 업데이트 중 오류:", error);
                 }
             }
-            // 예약 상태와 종료 시간 자동 업데이트 (1분마다 실행)
-            setInterval(updateReservationStatus, 60000);
+            // 예약 상태와 종료 시간 자동 업데이트 (10분마다 실행)
+            let updateInterval;
+
+            function startStatusUpdate() {
+                // 이전 인터벌이 있다면 제거
+                if (updateInterval) {
+                    clearInterval(updateInterval);
+                }
+                // 새로운 인터벌 설정 (10분)
+                updateInterval = setInterval(updateReservationStatus, 60000); // 60초
+                // 초기 실행
+                updateReservationStatus();
+            }
+
+            // 페이지 로드 시 자동 업데이트 시작
+            document.addEventListener("DOMContentLoaded", () => {
+                startStatusUpdate();
+            });
 
             // 예약하기 버튼 클릭 시 모달 열기
             reserveButton.addEventListener("click", () => {
@@ -1360,17 +1529,32 @@
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(reservationData),
                 })
-                    .then((response) => {
-                        if (response.ok) {
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.qrCode) {
+                            // 첫 번째 모달 닫기
+                            modal.style.display = "block";
+                            modal1.style.display = "none";
 
-                            document.getElementById("modal5").style.display = "block";
+                            // QR 코드 이미지 설정 및 두 번째 모달 표시
+                            const qrImage = document.getElementById("qrCode5");
+                            qrImage.src = "data:image/png;base64," + data.qrCode;
+                            qrImage.style.display = "block"; // 이미지 표시 확실히
+
+                            // 두 번째 모달 표시
                             document.getElementById("modal-content10").style.display = "block";
+                            document.body.classList.add("no-scroll");
+
+                            // 예약 상태 업데이트
                             checkAndUpdateStatus();
                         } else {
                             alert("예약에 실패했습니다.");
                         }
                     })
-                    .catch((error) => console.error("Error:", error));
+                    .catch(error => {
+                        console.error("Error:", error);
+                        alert("예약 중 오류가 발생했습니다.");
+                    });
             });
             confirmButton2.addEventListener("click", () => {
                 modal.style.display="none";
@@ -1476,21 +1660,43 @@
             // 예약 종료 시간 업데이트 (서버에 완료 상태 변경 요청)
             async function updateReservationStatus() {
                 if (isMachineBroken) {
-                    // 기기가 고장 상태라면 예약 상태를 업데이트하지 않음
                     return;
                 }
+                
                 try {
-                    await fetch("/reservation/updateStatus", {
+                    const response = await fetch("/reservation/updateStatus", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                     });
-                    checkAndUpdateStatus(); // 예약 상태 다시 확인
+                    
+                    if (!response.ok) {
+                        console.warn("예약 상태 업데이트 실패:", response.status);
+                        return;
+                    }
+                    
+                    await checkAndUpdateStatus(); // 예약 상태 다시 확인
                 } catch (error) {
-                    console.error("Error:", error);
+                    console.error("예약 상태 업데이트 중 오류:", error);
                 }
             }
-            // 예약 상태와 종료 시간 자동 업데이트 (1분마다 실행)
-            setInterval(updateReservationStatus, 60000);
+            // 예약 상태와 종료 시간 자동 업데이트 (10분마다 실행)
+            let updateInterval;
+
+            function startStatusUpdate() {
+                // 이전 인터벌이 있다면 제거
+                if (updateInterval) {
+                    clearInterval(updateInterval);
+                }
+                // 새로운 인터벌 설정 (10분)
+                updateInterval = setInterval(updateReservationStatus, 60000); // 60초
+                // 초기 실행
+                updateReservationStatus();
+            }
+
+            // 페이지 로드 시 자동 업데이트 시작
+            document.addEventListener("DOMContentLoaded", () => {
+                startStatusUpdate();
+            });
 
             // 예약하기 버튼 클릭 시 모달 열기
             reserveButton.addEventListener("click", () => {
@@ -1528,17 +1734,32 @@
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(reservationData),
                 })
-                    .then((response) => {
-                        if (response.ok) {
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.qrCode) {
+                            // 첫 번째 모달 닫기
+                            modal.style.display = "block";
+                            modal1.style.display = "none";
 
-                            document.getElementById("modal6").style.display = "block";
+                            // QR 코드 이미지 설정 및 두 번째 모달 표시
+                            const qrImage = document.getElementById("qrCode6");
+                            qrImage.src = "data:image/png;base64," + data.qrCode;
+                            qrImage.style.display = "block"; // 이미지 표시 확실히
+
+                            // 두 번째 모달 표시
                             document.getElementById("modal-content12").style.display = "block";
+                            document.body.classList.add("no-scroll");
+
+                            // 예약 상태 업데이트
                             checkAndUpdateStatus();
                         } else {
                             alert("예약에 실패했습니다.");
                         }
                     })
-                    .catch((error) => console.error("Error:", error));
+                    .catch(error => {
+                        console.error("Error:", error);
+                        alert("예약 중 오류가 발생했습니다.");
+                    });
             });
             confirmButton2.addEventListener("click", () => {
                 modal.style.display="none";
