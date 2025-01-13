@@ -1,0 +1,647 @@
+.bg{
+    position: absolute;
+    left: -1px;
+    top: -1px;
+    width: 1920px;
+    height: 1875px;
+
+}
+
+footer{
+    position: absolute;
+    width: 1920px;
+    height: 147px;
+    left:-1px;
+    top: 1728px;
+    background: #1A73E8;
+}
+footer span:nth-child(1){
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 25px;
+    color: #FFFFFF;
+    position: absolute;
+    left:350px;
+    top:30px;
+}
+footer span:nth-child(2){
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 25px;
+    color: #FFFFFF;
+    position: absolute;
+    left:970px;
+    top:30px;
+}
+footer span:nth-child(3){
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 25px;
+    color: #FFFFFF;
+    position: absolute;
+    left:500px;
+    top:90px;
+}
+
+.faqBtn {
+    /* Rectangle 339 */
+
+    position: absolute;
+    width: 190px;
+    height: 73px;
+    left: 295px;
+    top: 122px;
+
+    background: #0056B3;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    border: none;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.noticeBtn {
+    /* Rectangle 338 */
+
+    position: absolute;
+    width: 190px;
+    height: 73px;
+    left: 525px;
+    top: 122px;
+
+    background: #42A5F5;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    border: none;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+
+    color: #FFFFFF;
+    cursor: pointer;
+
+}
+
+.DivQ1 {
+    display: flex; /* 플렉스박스를 사용하여 자식 요소를 배치 */
+    align-items: center; /* 수직 중앙 정렬 */
+    position: absolute;
+    width: auto; /* 컨텐츠에 따라 자동 크기 조정 */
+    height: 72px;
+    left: 368.95px;
+    top: 259px;
+}
+
+.Q1 {
+    /* 이미지 스타일 */
+    width: 55.65px; /* 이미지 너비 설정 */
+    height: 57px; /* 비율 유지 */
+    margin-right: 20px; /* 텍스트와의 간격 */
+}
+
+.QP1 {
+    /* 텍스트 스타일 */
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    color: #1A73E8;
+    margin: 35px;
+}
+
+.DivA1 {
+    display: flex; /* 플렉스박스를 사용하여 자식 요소를 배치 */
+    align-items: center; /* 수직 중앙 정렬 */
+    position: absolute;
+    width: auto; /* 컨텐츠에 따라 자동 크기 조정 */
+    height: 72px;
+    left: 361px;
+    top: 360px;
+}
+
+.A1 {
+    /* 이미지 스타일 */
+    width: 72.54px; /* 이미지 너비 설정 */
+    height: 61px; /* 비율 유지 */
+    margin-right: 20px; /* 텍스트와의 간격 */
+}
+
+.AP1 {
+    /* 텍스트 스타일 */
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 25px;
+    color: #000000;
+    margin: 25px;
+}
+
+.custom-line1 {
+    position: absolute;
+    width: 1222px;
+    height: 0px;
+    left: 344px;
+    top: 453.5px;
+    border: 1px solid #000000;
+    transform: rotate(-0.09deg);
+}
+
+.DivQ2 {
+    display: flex; /* 플렉스박스를 사용하여 자식 요소를 배치 */
+    align-items: center; /* 수직 중앙 정렬 */
+    position: absolute;
+    width: auto; /* 컨텐츠에 따라 자동 크기 조정 */
+    height: 72px;
+    left: 368.95px;
+    top: 479px;
+}
+
+.Q2 {
+    /* 이미지 스타일 */
+    width: 55.65px; /* 이미지 너비 설정 */
+    height: 57px; /* 비율 유지 */
+    margin-right: 20px; /* 텍스트와의 간격 */
+}
+
+.QP2 {
+    /* 텍스트 스타일 */
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    color: #1A73E8;
+    margin: 35px;
+}
+
+.DivA2 {
+    display: flex; /* 플렉스박스를 사용하여 자식 요소를 배치 */
+    align-items: center; /* 수직 중앙 정렬 */
+    position: absolute;
+    width: auto; /* 컨텐츠에 따라 자동 크기 조정 */
+    height: 72px;
+    left: 361px;
+    top: 580px;
+}
+
+.A2 {
+    /* 이미지 스타일 */
+    width: 72.54px; /* 이미지 너비 설정 */
+    height: 61px; /* 비율 유지 */
+    margin-right: 20px; /* 텍스트와의 간격 */
+}
+
+.AP2 {
+    /* 텍스트 스타일 */
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 25px;
+    color: #000000;
+    margin: 25px;
+}
+
+.custom-line2 {
+    position: absolute;
+    width: 1222px;
+    height: 0px;
+    left: 344px;
+    top: 674.98px;
+    border: 1px solid #000000;
+    transform: rotate(-0.09deg);
+}
+
+.DivQ3 {
+    display: flex; /* 플렉스박스를 사용하여 자식 요소를 배치 */
+    align-items: center; /* 수직 중앙 정렬 */
+    position: absolute;
+    width: auto; /* 컨텐츠에 따라 자동 크기 조정 */
+    height: 72px;
+    left: 368.95px;
+    top: 709px;
+}
+
+.Q3 {
+    /* 이미지 스타일 */
+    width: 55.65px; /* 이미지 너비 설정 */
+    height: 57px; /* 비율 유지 */
+    margin-right: 20px; /* 텍스트와의 간격 */
+}
+
+.QP3 {
+    /* 텍스트 스타일 */
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    color: #1A73E8;
+    margin: 35px;
+}
+
+.DivA3 {
+    display: flex; /* 플렉스박스를 사용하여 자식 요소를 배치 */
+    align-items: center; /* 수직 중앙 정렬 */
+    position: absolute;
+    width: auto; /* 컨텐츠에 따라 자동 크기 조정 */
+    height: 72px;
+    left: 361px;
+    top: 810px;
+}
+
+.A3 {
+    /* 이미지 스타일 */
+    width: 72.54px; /* 이미지 너비 설정 */
+    height: 61px; /* 비율 유지 */
+    margin-right: 20px; /* 텍스트와의 간격 */
+}
+
+.AP3 {
+    /* 텍스트 스타일 */
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 25px;
+    color: #000000;
+    margin: 25px;
+}
+
+.custom-line3 {
+    position: absolute;
+    width: 1222px;
+    height: 0px;
+    left: 344px;
+    top: 904.98px;
+    border: 1px solid #000000;
+    transform: rotate(-0.09deg);
+}
+
+.DivQ4 {
+    display: flex; /* 플렉스박스를 사용하여 자식 요소를 배치 */
+    align-items: center; /* 수직 중앙 정렬 */
+    position: absolute;
+    width: auto; /* 컨텐츠에 따라 자동 크기 조정 */
+    height: 72px;
+    left: 368.95px;
+    top: 929px;
+}
+
+.Q4 {
+    /* 이미지 스타일 */
+    width: 55.65px; /* 이미지 너비 설정 */
+    height: 57px; /* 비율 유지 */
+    margin-right: 20px; /* 텍스트와의 간격 */
+}
+
+.QP4 {
+    /* 텍스트 스타일 */
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    color: #1A73E8;
+    margin: 35px;
+}
+
+.DivA4 {
+    display: flex; /* 플렉스박스를 사용하여 자식 요소를 배치 */
+    align-items: center; /* 수직 중앙 정렬 */
+    position: absolute;
+    width: auto; /* 컨텐츠에 따라 자동 크기 조정 */
+    height: 72px;
+    left: 360px;
+    top: 1030px;
+}
+
+.A4 {
+    /* 이미지 스타일 */
+    width: 72.54px; /* 이미지 너비 설정 */
+    height: 61px; /* 비율 유지 */
+    margin-right: 20px; /* 텍스트와의 간격 */
+}
+
+.AP4 {
+    /* 텍스트 스타일 */
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 25px;
+    color: #000000;
+    margin: 25px;
+}
+
+.custom-line4 {
+    position: absolute;
+    width: 1222px;
+    height: 0px;
+    left: 344px;
+    top: 1114.98px;
+    border: 1px solid #000000;
+    transform: rotate(-0.09deg);
+}
+
+.DivQ5 {
+    display: flex; /* 플렉스박스를 사용하여 자식 요소를 배치 */
+    align-items: center; /* 수직 중앙 정렬 */
+    position: absolute;
+    width: auto; /* 컨텐츠에 따라 자동 크기 조정 */
+    height: 72px;
+    left: 368.95px;
+    top: 1139px;
+}
+
+.Q5 {
+    /* 이미지 스타일 */
+    width: 55.65px; /* 이미지 너비 설정 */
+    height: 57px; /* 비율 유지 */
+    margin-right: 20px; /* 텍스트와의 간격 */
+}
+
+.QP5 {
+    /* 텍스트 스타일 */
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    color: #1A73E8;
+    margin: 35px;
+}
+
+.DivA5 {
+    display: flex; /* 플렉스박스를 사용하여 자식 요소를 배치 */
+    align-items: center; /* 수직 중앙 정렬 */
+    position: absolute;
+    width: auto; /* 컨텐츠에 따라 자동 크기 조정 */
+    height: 72px;
+    left: 361px;
+    top: 1240px;
+}
+
+.A5 {
+    /* 이미지 스타일 */
+    width: 72.54px; /* 이미지 너비 설정 */
+    height: 61px; /* 비율 유지 */
+    margin-right: 20px; /* 텍스트와의 간격 */
+}
+
+.AP5 {
+    /* 텍스트 스타일 */
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 25px;
+    color: #000000;
+    margin: 25px;
+}
+
+.p1 {
+    /* 도움말을 통해 문제를 해결하지 못하셨나요? */
+
+    position: absolute;
+    width: 1733px;
+    height: 59px;
+    left: 303px;
+    top: 1378px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+
+    color: #000000;
+
+
+}
+
+.DivIq{
+    /* Frame 4 */
+
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 1353px;
+    height: 142px;
+    left: 280px;
+    top: 1507px;
+
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    border-radius: 50px;
+
+    cursor: pointer;
+}
+
+.Iq{
+    /* image 6 */
+
+    position: absolute;
+    width: 99px;
+    height: 99px;
+    left: 62px;
+    top: 13px;
+
+}
+
+.IqP1 {
+
+    /* 문의하기 마이페이지에서 답변을 받을 수 있습니다. */
+
+    position: absolute;
+    width: 1017px;
+    height: 105px;
+    left: 186px;
+    bottom: 0;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+
+    color: #000000;
+
+
+}
+
+/* 모달 공통 스타일 */
+.modal {
+    display: none;
+    position: fixed;
+    width: 1920px;
+    height: 1880px;
+    background: rgba(0, 0, 0, 0.5);
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+/* 문의하기 모달 */
+.modal-inquiryContent {
+    position: absolute;
+    width: 1106px;
+    height: 626px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: #E3F2FD;
+    box-shadow: 0px 7px 24.4px 7px rgba(0, 0, 0, 0.25);
+    border-radius: 70px;
+}
+
+.modalInquiryTitle {
+    position: absolute;
+    left: 91px;
+    top: 52px;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 50px;
+    color: #000000;
+}
+
+.modalTitleText {
+    position: absolute;
+    left: 91px;
+    top: 132px;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    color: #000000;
+}
+
+.inquiryTitleInput {
+    position: absolute;
+    width: 897px;
+    height: 70px;
+    left: 91px;
+    top: 170px;
+    background: #FFFFFF;
+    border-radius: 10px;
+    border: none;
+    padding: 0 20px;
+    font-family: 'Gmarket Sans';
+    font-size: 25px;
+}
+
+.modalContentText {
+    position: absolute;
+    left: 91px;
+    top: 270px;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    color: #000000;
+}
+
+.inquiryContentInput {
+    position: absolute;
+    width: 897px;
+    height: 146px;
+    left: 91px;
+    top: 308px;
+    background: #FFFFFF;
+    border-radius: 10px;
+    border: none;
+    padding: 20px;
+    font-family: 'Gmarket Sans';
+    font-size: 25px;
+    resize: none;
+}
+
+/* 확인/취소 모달 */
+.modal-content {
+    position: absolute;
+    width: 1106px;
+    height: 326px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: #E3F2FD;
+    box-shadow: 0px 7px 24.4px 7px rgba(0, 0, 0, 0.25);
+    border-radius: 70px;
+}
+
+.modal-text {
+    position: absolute;
+    width: 100%;
+    top: 60px;
+    text-align: center;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 50px;
+    color: #000000;
+}
+
+/* 모달 버튼 공통 스타일 */
+.modal-buttons {
+    position: absolute;
+    width: 100%;
+    bottom: 40px;
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+}
+
+.modal-button, .cancelInquiry, .sendInquiry {
+    width: 209px;
+    height: 70px;
+    border: none;
+    border-radius: 50px;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 50px;
+    color: #FFFFFF;
+    cursor: pointer;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.modal-button.cancel, .cancelInquiry {
+    background: #0056B3;
+}
+
+.modal-button.confirm, .sendInquiry {
+    background: #42A5F5;
+}
+
+/* 문의하기 모달 버튼 위치 */
+.cancelInquiry {
+    position: absolute;
+    left: 198px;
+    bottom: 40px;
+}
+
+.sendInquiry {
+    position: absolute;
+    right: 198px;
+    bottom: 40px;
+}

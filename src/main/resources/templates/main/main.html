@@ -17,7 +17,7 @@
         <!-- 네비게이션 바 -->
         <span>WashPlan</span>
         <span onclick="location.href='/reservation'">예약</span>
-        <span>FAQ</span>
+        <span onclick="location.href='/faq'">FAQ</span>
         <span th:if="${#authentication.principal != null and #authentication.principal instanceof T(com.ohgiraffers.washplan.auth.model.dto.CustomUserDetails)}"
               onclick="location.href='/mypage'">마이페이지</span>
         <span th:if="${#authentication.principal != null and #authentication.principal instanceof T(com.ohgiraffers.washplan.auth.model.dto.CustomUserDetails)}"

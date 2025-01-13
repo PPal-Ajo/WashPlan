@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ohgiraffers.washplan.inquiry.model.dao.InquiryMapper">
+
+    <insert id="insertInquiry" parameterType="com.ohgiraffers.washplan.inquiry.model.dto.InquiryDTO">
+        INSERT INTO TBL_INQUIRY
+        (USER_NO, INQUIRY_TITLE, INQUIRY_CONTENT, INQUIRY_DATE, REPLY_STATUS)
+        VALUES
+        (#{userNo}, #{inquiryTitle}, #{inquiryContent}, #{inquiryDate}, #{replyStatus})
+    </insert>
+
+</mapper> 

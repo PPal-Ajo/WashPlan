@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
+@Transactional
 public class MyPageService {
 
     private final MyPageMapper myPageMapper;
@@ -58,5 +59,18 @@ public class MyPageService {
     public boolean deleteReservation(int reserveNo) {
         int rowsDeleted = myPageMapper.deleteReservationByNo(reserveNo);
         return rowsDeleted > 0; // 삭제 성공 여부 반환
+    }
+
+    public byte[] getQRCode(int reserveNo) {
+        try {
+            byte[] qrCode = myPageMapper.getQRCode(reserveNo);
+            if (qrCode != null && qrCode.length > 0) {
+                return qrCode;
+            }
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

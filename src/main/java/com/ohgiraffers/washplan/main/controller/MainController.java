@@ -10,4 +10,9 @@ public class MainController {
     public String main() {
         return "main/main";
     }
+
+    @GetMapping("/faq")
+    public String faqPage() {
+        return "faq/faq";
+    }
 }
