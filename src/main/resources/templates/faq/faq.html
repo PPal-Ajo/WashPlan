@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>마이페이지</title>
+    <title>FAQ</title>
     <link th:href="@{/css/base/nav.css}" rel="stylesheet">
     <link th:href="@{/css/faq/faq.css}" rel="stylesheet">
 </head>
@@ -96,6 +96,90 @@
             <br>
             마이페이지에서 답변을 받을 수 있습니다.</p>
     </div>
+
+    <!-- 문의하기 팝업 -->
+    <div id="inquiryModal" class="modal" style="display: none;">
+        <div class="modal-inquiryContent">
+            <span class="modalInquiryTitle">문의하기</span>
+            <span class="modalTitleText">제목</span>
+            <input type="text" class="inquiryTitleInput" id="inquiryTitleInput" placeholder="제목을 입력하세요">
+            <span class="modalContentText">내용</span>
+            <textarea class="inquiryContentInput" id="inquiryContentInput" placeholder="내용을 입력하세요"></textarea>
+            <button id="inquiryCancelButton" class="cancelInquiry">취소</button>
+            <button id="sendInquiryButton" class="sendInquiry">등록</button>
+        </div>
+    </div>
+
+    <!-- 문의 등록 확인 모달 -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <p class="modal-text">문의를 등록하시겠습니까?</p>
+            <div class="modal-buttons">
+                <button id="modalCancelButton" class="modal-button cancel">취소</button>
+                <button id="modalConfirmButton" class="modal-button confirm">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 등록 완료 모달 -->
+    <div id="completeModal" class="modal">
+        <div class="modal-content">
+            <p class="modal-text">문의가 등록되었습니다.</p>
+            <div class="modal-buttons">
+                <button id="completeButton" class="modal-button confirm">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const inquiryDiv = document.querySelector('.DivIq');
+        const inquiryModal = document.getElementById('inquiryModal');
+        const confirmModal = document.getElementById('confirmModal');
+        const completeModal = document.getElementById('completeModal');
+        const cancelButton = document.getElementById('inquiryCancelButton');
+        const sendButton = document.getElementById('sendInquiryButton');
+        
+        // 문의하기 DIV 클릭 시 모달 표시
+        inquiryDiv.addEventListener('click', () => {
+            inquiryModal.style.display = 'block';
+        });
+        
+        // 취소 버튼 클릭 시 모달 닫기
+        cancelButton.addEventListener('click', () => {
+            inquiryModal.style.display = 'none';
+            // 입력 필드 초기화
+            document.getElementById('inquiryTitleInput').value = '';
+            document.getElementById('inquiryContentInput').value = '';
+        });
+        
+        // 등록 버튼 클릭 시 확인 모달 표시
+        sendButton.addEventListener('click', () => {
+            confirmModal.style.display = 'block';
+        });
+        
+        // 확인 모달의 취소 버튼
+        document.getElementById('modalCancelButton').addEventListener('click', () => {
+            confirmModal.style.display = 'none';
+        });
+        
+        // 확인 모달의 확인 버튼
+        document.getElementById('modalConfirmButton').addEventListener('click', () => {
+            // 여기에 문의 등록 로직 추가
+            confirmModal.style.display = 'none';
+            completeModal.style.display = 'block';
+        });
+        
+        // 완료 모달의 확인 버튼
+        document.getElementById('completeButton').addEventListener('click', () => {
+            completeModal.style.display = 'none';
+            inquiryModal.style.display = 'none';
+            // 입력 필드 초기화
+            document.getElementById('inquiryTitleInput').value = '';
+            document.getElementById('inquiryContentInput').value = '';
+        });
+    });
+    </script>
 
 </main>
 
