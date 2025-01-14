@@ -1,0 +1,190 @@
+.bg{
+    position: absolute;
+    left: -1px;
+    top: -1px;
+    width: 1920px;
+    height: 1875px;
+
+}
+
+footer{
+    position: absolute;
+    width: 1920px;
+    height: 147px;
+    left:-1px;
+    top: 1728px;
+    background: #1A73E8;
+}
+footer span:nth-child(1){
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 25px;
+    color: #FFFFFF;
+    position: absolute;
+    left:350px;
+    top:30px;
+}
+footer span:nth-child(2){
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 25px;
+    color: #FFFFFF;
+    position: absolute;
+    left:970px;
+    top:30px;
+}
+footer span:nth-child(3){
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 25px;
+    color: #FFFFFF;
+    position: absolute;
+    left:500px;
+    top:90px;
+}
+
+.faqBtn {
+    /* Rectangle 339 */
+
+    position: absolute;
+    width: 190px;
+    height: 73px;
+    left: 295px;
+    top: 122px;
+    background: #42A5F5;
+
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    border: none;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.noticeBtn {
+    /* Rectangle 338 */
+
+    position: absolute;
+    width: 190px;
+    height: 73px;
+    left: 525px;
+    top: 122px;
+
+    background: #0056B3;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    border: none;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+
+    color: #FFFFFF;
+    cursor: pointer;
+
+}
+
+/* 네비게이션 헤더 */
+.nav-header {
+    position: absolute;
+    width: 1371px;
+    left: 300px;
+    top: 270px;
+    display: flex;
+}
+
+.noNav {
+    width: 150px;
+    text-align: center;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    color: #000000;
+}
+
+.titleNav {
+    width: 800px;
+    text-align: center;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    color: #000000;
+}
+
+.dateNav {
+    width: 200px;
+    text-align: center;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    color: #000000;
+}
+
+hr {
+    position: absolute;
+    width: 1371px;
+    height: 0px;
+    left: 300px;
+    top: 355px;
+    border: 2px solid #000000;
+    transform: rotate(-0.04deg);
+}
+
+/* 공지사항 리스트 */
+.notice-list {
+    position: absolute;
+    width: 1371px;
+    left: 300px;
+    top: 380px;
+}
+
+.notice-item {
+    display: flex;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #E0E0E0;
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.notice-item:hover {
+    background-color: #f5f5f5;
+}
+
+.notice-no {
+    width: 150px;
+    text-align: center;
+}
+
+.notice-title {
+    width: 800px;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.notice-date {
+    width: 200px;
+    text-align: center;
+}
