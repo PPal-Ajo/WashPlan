@@ -158,7 +158,7 @@ footer span:nth-child(3){
 .optionNav {
     position: absolute;
     width: 150px;
-    left: 980px;
+    left: 1050px;
     top: 270px;
     text-align: center;
     font-family: 'Do Hyeon';
@@ -186,7 +186,7 @@ footer span:nth-child(3){
 .replyNav {
     position: absolute;
     width: 150px;
-    left: 1350px;
+    left: 1375px;
     top: 270px;
     text-align: center;
     font-family: 'Do Hyeon';
@@ -226,12 +226,12 @@ hr {
 }
 
 .inquiry-no {
-    width: 150px;
+    width: 250px;
     text-align: center;
 }
 
 .inquiry-date {
-    width: 200px;
+    width: 400px;
     text-align: center;
 }
 
@@ -252,15 +252,11 @@ hr {
 }
 
 .inquiry-status {
-    width: 150px;
+    width: 300px;
     text-align: center;
     color: #1A73E8;
 }
 
-/* 답변 상태에 따른 색상 */
-.inquiry-status[data-status='대기중'] {
-    color: #FFA000;
-}
 
 .inquiry-status[data-status='완료'] {
     color: #4CAF50;

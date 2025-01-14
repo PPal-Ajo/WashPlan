@@ -132,87 +132,99 @@
     </div>
 
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const inquiryDiv = document.querySelector('.DivIq');
-        const inquiryModal = document.getElementById('inquiryModal');
-        const confirmModal = document.getElementById('confirmModal');
-        const completeModal = document.getElementById('completeModal');
-        const cancelButton = document.getElementById('inquiryCancelButton');
-        const sendButton = document.getElementById('sendInquiryButton');
-        
-        // 문의하기 DIV 클릭 시 모달 표시
-        inquiryDiv.addEventListener('click', () => {
-            inquiryModal.style.display = 'block';
-        });
-        
-        // 취소 버튼 클릭 시 모달 닫기
-        cancelButton.addEventListener('click', () => {
-            inquiryModal.style.display = 'none';
-            // 입력 필드 초기화
-            document.getElementById('inquiryTitleInput').value = '';
-            document.getElementById('inquiryContentInput').value = '';
-        });
-        
-        // 등록 버튼 클릭 시 확인 모달 표시
-        sendButton.addEventListener('click', () => {
-            const title = document.getElementById('inquiryTitleInput').value;
-            const content = document.getElementById('inquiryContentInput').value;
-            
-            if (!title.trim()) {
-                alert('제목을 입력해주세요.');
-                return;
+        document.addEventListener('DOMContentLoaded', function() {
+            const inquiryDiv = document.querySelector('.DivIq');
+            const inquiryModal = document.getElementById('inquiryModal');
+            const confirmModal = document.getElementById('confirmModal');
+            const completeModal = document.getElementById('completeModal');
+            const cancelButton = document.getElementById('inquiryCancelButton');
+            const sendButton = document.getElementById('sendInquiryButton');
+
+            // 팝업 열기 함수
+            function openModal(modal) {
+                modal.style.display = 'block';
+                document.body.classList.add('no-scroll'); // 스크롤 비활성화
             }
-            if (!content.trim()) {
-                alert('내용을 입력해주세요.');
-                return;
+
+            // 팝업 닫기 함수
+            function closeModal(modal) {
+                modal.style.display = 'none';
+                document.body.classList.remove('no-scroll'); // 스크롤 활성화
             }
-            
-            confirmModal.style.display = 'block';
-        });
-        
-        // 확인 모달의 취소 버튼
-        document.getElementById('modalCancelButton').addEventListener('click', () => {
-            confirmModal.style.display = 'none';
-        });
-        
-        // 확인 모달의 확인 버튼 - 서버로 데이터 전송
-        document.getElementById('modalConfirmButton').addEventListener('click', async () => {
-            const title = document.getElementById('inquiryTitleInput').value;
-            const content = document.getElementById('inquiryContentInput').value;
-            
-            try {
-                const response = await fetch('/inquiry/create', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        title: title,
-                        content: content
-                    })
-                });
-                
-                if (response.ok) {
-                    confirmModal.style.display = 'none';
-                    completeModal.style.display = 'block';
-                } else {
-                    alert('문의 등록에 실패했습니다.');
+
+            // 문의하기 DIV 클릭 시 모달 표시
+            inquiryDiv.addEventListener('click', () => {
+                openModal(inquiryModal);
+            });
+
+            // 취소 버튼 클릭 시 모달 닫기
+            cancelButton.addEventListener('click', () => {
+                closeModal(inquiryModal);
+                // 입력 필드 초기화
+                document.getElementById('inquiryTitleInput').value = '';
+                document.getElementById('inquiryContentInput').value = '';
+            });
+
+            // 등록 버튼 클릭 시 확인 모달 표시
+            sendButton.addEventListener('click', () => {
+                const title = document.getElementById('inquiryTitleInput').value;
+                const content = document.getElementById('inquiryContentInput').value;
+
+                if (!title.trim()) {
+                    alert('제목을 입력해주세요.');
+                    return;
                 }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('문의 등록 중 오류가 발생했습니다.');
-            }
+                if (!content.trim()) {
+                    alert('내용을 입력해주세요.');
+                    return;
+                }
+
+                openModal(confirmModal);
+            });
+
+            // 확인 모달의 취소 버튼
+            document.getElementById('modalCancelButton').addEventListener('click', () => {
+                closeModal(confirmModal);
+            });
+
+            // 확인 모달의 확인 버튼 - 서버로 데이터 전송
+            document.getElementById('modalConfirmButton').addEventListener('click', async () => {
+                const title = document.getElementById('inquiryTitleInput').value;
+                const content = document.getElementById('inquiryContentInput').value;
+
+                try {
+                    const response = await fetch('/inquiry/create', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            title: title,
+                            content: content
+                        })
+                    });
+
+                    if (response.ok) {
+                        closeModal(confirmModal);
+                        openModal(completeModal);
+                    } else {
+                        alert('문의 등록에 실패했습니다.');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('문의 등록 중 오류가 발생했습니다.');
+                }
+            });
+
+            // 완료 모달의 확인 버튼
+            document.getElementById('completeButton').addEventListener('click', () => {
+                closeModal(completeModal);
+                closeModal(inquiryModal);
+                // 입력 필드 초기화
+                document.getElementById('inquiryTitleInput').value = '';
+                document.getElementById('inquiryContentInput').value = '';
+            });
         });
-        
-        // 완료 모달의 확인 버튼
-        document.getElementById('completeButton').addEventListener('click', () => {
-            completeModal.style.display = 'none';
-            inquiryModal.style.display = 'none';
-            // 입력 필드 초기화
-            document.getElementById('inquiryTitleInput').value = '';
-            document.getElementById('inquiryContentInput').value = '';
-        });
-    });
     </script>
 
 </main>
