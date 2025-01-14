@@ -30,4 +30,8 @@ public class InquiryService {
     public InquiryDTO getInquiryDetail(int inquiryNo) {
         return inquiryMapper.findInquiryByNo(inquiryNo);
     }
+    
+    public boolean deleteInquiry(int inquiryNo) {
+        return inquiryMapper.deleteInquiry(inquiryNo) > 0;
+    }
 }

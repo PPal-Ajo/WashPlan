@@ -34,11 +34,19 @@
   <hr>
 
   <div class="inquiry-list">
-    <div th:each="inquiry : ${inquiries}" class="inquiry-item" th:data-inquiry-no="${inquiry.inquiryNo}">
-        <span class="inquiry-no" th:text="${inquiry.inquiryNo}"></span>
-        <span class="inquiry-date" th:text="${#temporals.format(inquiry.inquiryDate, 'yyyy-MM-dd')}"></span>
-        <span class="inquiry-title" th:text="${inquiry.inquiryTitle}"></span>
-        <span class="inquiry-status" th:text="${inquiry.replyStatus}"></span>
+    <!-- 문의내역이 없을 경우 표시할 메시지 -->
+    <div th:if="${#lists.isEmpty(inquiries)}" class="no-inquiry-message">
+        현재 문의 내역이 없습니다.
+    </div>
+    
+    <!-- 문의내역이 있을 경우 목록 표시 -->
+    <div th:unless="${#lists.isEmpty(inquiries)}">
+        <div th:each="inquiry : ${inquiries}" class="inquiry-item" th:data-inquiry-no="${inquiry.inquiryNo}">
+            <span class="inquiry-no" th:text="${inquiry.inquiryNo}"></span>
+            <span class="inquiry-date" th:text="${#temporals.format(inquiry.inquiryDate, 'yyyy-MM-dd')}"></span>
+            <span class="inquiry-title" th:text="${inquiry.inquiryTitle}"></span>
+            <span class="inquiry-status" th:text="${inquiry.replyStatus}"></span>
+        </div>
     </div>
   </div>
 
@@ -65,16 +73,44 @@
       </div>
   </div>
 
+  <!-- 삭제 확인 모달 -->
+  <div id="deleteConfirmModal" class="modal">
+      <div class="modal-content confirm-modal">
+          <div class="modal-message">
+              <p>정말로 문의를 삭제하시겠습니까?</p>
+              <div class="modal-buttons">
+                  <button class="cancel-btn">취소</button>
+                  <button class="confirm-delete-btn">확인</button>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <!-- 삭제 완료 모달 -->
+  <div id="deleteCompleteModal" class="modal">
+      <div class="modal-content complete-modal">
+          <div class="modal-message">
+              <p>문의삭제가 완료되었습니다!</p>
+              <div class="modal-buttons">
+                  <button class="complete-btn">확인</button>
+              </div>
+          </div>
+      </div>
+  </div>
+
   <script>
   document.addEventListener('DOMContentLoaded', function() {
       const modal = document.getElementById('inquiryDetailModal');
+      const deleteConfirmModal = document.getElementById('deleteConfirmModal');
+      const deleteCompleteModal = document.getElementById('deleteCompleteModal');
+      let currentInquiryNo = null;
       
       // 각 문의항목 클릭 이벤트
       document.querySelectorAll('.inquiry-item').forEach(item => {
           item.addEventListener('click', async function() {
-              const inquiryNo = this.getAttribute('data-inquiry-no');
+              currentInquiryNo = this.getAttribute('data-inquiry-no');
               try {
-                  const response = await fetch(`/inquiry/detail/${inquiryNo}`);
+                  const response = await fetch(`/inquiry/detail/${currentInquiryNo}`);
                   const data = await response.json();
                   
                   // 모달 내용 업데이트
@@ -106,9 +142,46 @@
           modal.style.display = 'none';
       });
 
-      // 삭제 버튼 클릭 이벤트 (나중에 구현)
+      // 삭제 버튼 클릭 이벤트
       document.querySelector('.delete-btn').addEventListener('click', function() {
-          console.log('삭제 기능은 아직 구현되지 않았습니다.');
+          if (currentInquiryNo) {
+              modal.style.display = 'none';
+              deleteConfirmModal.style.display = 'block';
+          }
+      });
+
+      // 삭제 확인 모달의 취소 버튼
+      document.querySelector('.cancel-btn').addEventListener('click', function() {
+          deleteConfirmModal.style.display = 'none';
+          modal.style.display = 'block';
+      });
+
+      // 삭제 확인 모달의 확인 버튼
+      document.querySelector('.confirm-delete-btn').addEventListener('click', async function() {
+          try {
+              const response = await fetch(`/inquiry/delete/${currentInquiryNo}`, {
+                  method: 'DELETE',
+                  headers: {
+                      'Content-Type': 'application/json'
+                  }
+              });
+              
+              if (response.ok) {
+                  deleteConfirmModal.style.display = 'none';
+                  deleteCompleteModal.style.display = 'block';
+              } else {
+                  alert('삭제 중 오류가 발생했습니다.');
+              }
+          } catch (error) {
+              console.error('Error:', error);
+              alert('삭제 중 오류가 발생했습니다.');
+          }
+      });
+
+      // 삭제 완료 모달의 확인 버튼
+      document.querySelector('.complete-btn').addEventListener('click', function() {
+          deleteCompleteModal.style.display = 'none';
+          location.reload(); // 페이지 새로고침
       });
   });
   </script>
