@@ -34,13 +34,84 @@
   <hr>
 
   <div class="inquiry-list">
-    <div th:each="inquiry : ${inquiries}" class="inquiry-item">
+    <div th:each="inquiry : ${inquiries}" class="inquiry-item" th:data-inquiry-no="${inquiry.inquiryNo}">
         <span class="inquiry-no" th:text="${inquiry.inquiryNo}"></span>
         <span class="inquiry-date" th:text="${#temporals.format(inquiry.inquiryDate, 'yyyy-MM-dd')}"></span>
         <span class="inquiry-title" th:text="${inquiry.inquiryTitle}"></span>
         <span class="inquiry-status" th:text="${inquiry.replyStatus}"></span>
     </div>
   </div>
+
+  <!-- 문의내역 상세보기 모달 -->
+  <div id="inquiryDetailModal" class="modal">
+      <div class="modal-content">
+          <div class="inquiry-detail">
+              <p><strong>제목</strong></p>
+              <div id="modalTitle" class="content-box"></div>
+              <p><strong>문의내용</strong></p>
+              <div id="modalContent" class="content-box"></div>
+              <p><strong>답변</strong></p>
+              <div id="modalReply" class="reply-box">
+                  <p id="noReplyMessage" style="display: none;">
+                      관리자가 답변을 작성중입니다. 잠시만 기다려주세요.
+                  </p>
+                  <div id="replyContent" style="display: none;"></div>
+              </div>
+              <div class="modal-buttons">
+                  <button class="delete-btn">삭제</button>
+                  <button class="confirm-btn">확인</button>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+      const modal = document.getElementById('inquiryDetailModal');
+      
+      // 각 문의항목 클릭 이벤트
+      document.querySelectorAll('.inquiry-item').forEach(item => {
+          item.addEventListener('click', async function() {
+              const inquiryNo = this.getAttribute('data-inquiry-no');
+              try {
+                  const response = await fetch(`/inquiry/detail/${inquiryNo}`);
+                  const data = await response.json();
+                  
+                  // 모달 내용 업데이트
+                  document.getElementById('modalTitle').textContent = data.inquiryTitle;
+                  document.getElementById('modalContent').textContent = data.inquiryContent;
+                  
+                  // 답변 처리
+                  const noReplyMessage = document.getElementById('noReplyMessage');
+                  const replyContent = document.getElementById('replyContent');
+                  
+                  if (data.replyComment) {
+                      noReplyMessage.style.display = 'none';
+                      replyContent.style.display = 'block';
+                      replyContent.textContent = data.replyComment;
+                  } else {
+                      noReplyMessage.style.display = 'block';
+                      replyContent.style.display = 'none';
+                  }
+                  
+                  modal.style.display = 'block';
+              } catch (error) {
+                  console.error('Error:', error);
+              }
+          });
+      });
+      
+      // 확인 버튼 클릭 시 모달 닫기
+      document.querySelector('.confirm-btn').addEventListener('click', function() {
+          modal.style.display = 'none';
+      });
+
+      // 삭제 버튼 클릭 이벤트 (나중에 구현)
+      document.querySelector('.delete-btn').addEventListener('click', function() {
+          console.log('삭제 기능은 아직 구현되지 않았습니다.');
+      });
+  });
+  </script>
 </main>
 
 <footer>

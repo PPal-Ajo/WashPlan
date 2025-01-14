@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Map;
@@ -69,6 +70,17 @@ public class InquiryController {
             System.out.println("에러 발생: " + e.getMessage());
             e.printStackTrace();
             return "error";
+        }
+    }
+
+    @GetMapping("/inquiry/detail/{inquiryNo}")
+    @ResponseBody
+    public ResponseEntity<?> getInquiryDetail(@PathVariable int inquiryNo) {
+        try {
+            InquiryDTO inquiry = inquiryService.getInquiryDetail(inquiryNo);
+            return ResponseEntity.ok(inquiry);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("상세 조회 중 오류가 발생했습니다.");
         }
     }
 }

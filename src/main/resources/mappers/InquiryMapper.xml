@@ -24,4 +24,18 @@
         ORDER BY INQUIRY_DATE DESC
     </select>
 
+    <select id="findInquiryByNo" resultType="com.ohgiraffers.washplan.inquiry.model.dto.InquiryDTO">
+        SELECT 
+            i.INQUIRY_NO as inquiryNo,
+            i.USER_NO as userNo,
+            i.INQUIRY_TITLE as inquiryTitle,
+            i.INQUIRY_CONTENT as inquiryContent,
+            i.INQUIRY_DATE as inquiryDate,
+            i.REPLY_STATUS as replyStatus,
+            r.REPLY_COMMENT as replyComment
+        FROM TBL_INQUIRY i
+        LEFT JOIN TBL_INQUIRY_REPLY r ON i.INQUIRY_NO = r.INQUIRY_NO
+        WHERE i.INQUIRY_NO = #{inquiryNo}
+    </select>
+
 </mapper> 

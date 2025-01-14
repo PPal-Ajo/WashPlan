@@ -1,6 +1,7 @@
 package com.ohgiraffers.washplan.inquiry.model.dto;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class InquiryDTO {
     private int inquiryNo;
@@ -9,6 +10,7 @@ public class InquiryDTO {
     private String inquiryContent;
     private LocalDate inquiryDate;
     private String replyStatus;
+    private String replyComment;
 
     public InquiryDTO() {}
 
@@ -33,4 +35,10 @@ public class InquiryDTO {
     public void setInquiryDate(LocalDate inquiryDate) { this.inquiryDate = inquiryDate; }
     public String getReplyStatus() { return replyStatus; }
     public void setReplyStatus(String replyStatus) { this.replyStatus = replyStatus; }
+    public String getReplyComment() {
+        return replyComment;
+    }
+    public void setReplyComment(String replyComment) {
+        this.replyComment = replyComment;
+    }
 }
