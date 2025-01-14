@@ -26,4 +26,8 @@ public class InquiryService {
         System.out.println("조회된 문의사항: " + inquiries);
         return inquiries;
     }
+    
+    public InquiryDTO getInquiryDetail(int inquiryNo) {
+        return inquiryMapper.findInquiryByNo(inquiryNo);
+    }
 }
