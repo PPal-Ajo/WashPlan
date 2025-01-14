@@ -248,4 +248,15 @@ public class AdminController {
         return result;
     }
 
+    @PostMapping("/adminmachine/add")
+    @ResponseBody
+    public ResponseEntity<AdminMachineDTO> addMachine(@RequestBody AdminMachineDTO machine) {
+        try {
+            adminService.addMachine(machine);
+            return ResponseEntity.ok(machine);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
 }

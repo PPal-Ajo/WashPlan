@@ -222,6 +222,20 @@ button:active {
 
 
 }
+.washMenu{
+    /* Rectangle 85 */
+
+    position: absolute;
+    width: 490px;
+    height: 73px;
+    left: 369px;
+    top: 400px;
+
+    background: #1A73E8;
+    box-shadow: 0px 4px 19.1px rgba(0, 0, 0, 0.25);
+
+
+}
 
 .washingNo{
     /* 호 번호 */
@@ -229,8 +243,9 @@ button:active {
     position: absolute;
     width: 113px;
     height: 38px;
-    left: 480px;
-    top: 402px;
+    left:111px;
+    top:15px;
+
 
     font-family: 'Do Hyeon';
     font-style: normal;
@@ -250,8 +265,9 @@ button:active {
     position: absolute;
     width: 82px;
     height: 38px;
-    left: 697px;
-    top: 402px;
+    left:328px;
+    top:15px;
+
 
     font-family: 'Do Hyeon';
     font-style: normal;
@@ -264,14 +280,33 @@ button:active {
 
 
 }
+
+.dryMenu{
+    /* Rectangle 85 */
+
+    position: absolute;
+    width: 490px;
+    height: 73px;
+    left: 1086px;
+    top: 400px;
+
+    background: #1A73E8;
+    box-shadow: 0px 4px 19.1px rgba(0, 0, 0, 0.25);
+
+
+}
+
+
+
+
 .dryingNo{
     /* 호 번호 */
 
     position: absolute;
     width: 113px;
     height: 38px;
-    left: 1197px;
-    top: 402px;
+    left:111px;
+    top:15px;
 
     font-family: 'Do Hyeon';
     font-style: normal;
@@ -290,8 +325,8 @@ button:active {
     position: absolute;
     width: 82px;
     height: 38px;
-    left: 1414px;
-    top: 402px;
+    left:328px;
+    top:15px;
 
     font-family: 'Do Hyeon';
     font-style: normal;
@@ -364,25 +399,39 @@ button:active {
     border-radius: 70px;
 }
 
-.modal-text{
-    /* "예약된 시간으로부터 10분 이내에 이용을 시작하지 않을 경우, 예약이 자동 취소됩니다. 자동 취소가 3회 발생할 경우, 계정이 일시 정지됩니다.” 위 내용을 확인하시고 예약을 진행하시겠습니까? */
+/*.modal-text{*/
+
+
+/*    position: absolute;*/
+/*    width: 921px;*/
+/*    height: 172px;*/
+/*    left: 190px;*/
+/*    top: 10px;*/
+
+/*    font-family: 'Do Hyeon';*/
+/*    font-style: normal;*/
+/*    font-weight: 400;*/
+/*    font-size: 48px;*/
+/*    line-height: 60px;*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    text-align: center;*/
+
+/*    color: #000000;*/
+
+
+/*}*/
+
+.modal-text2{
+
 
     position: absolute;
-    width: 921px;
-    height: 172px;
-    left: 190px;
-    top: 10px;
-
+    left:290px;
+    top:10px;
     font-family: 'Do Hyeon';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 48px;
-    line-height: 60px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-
-    color: #000000;
+    font-size: 45px;
+    line-height: 1.5;
+    color: black;
 
 
 }
@@ -476,6 +525,25 @@ button:active {
     color: #000000;
 
 }
+
+.reserveConfirm{
+    position: absolute;
+    width: 921px;
+    height: 172px;
+    left: 290px;
+    top: 10px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 48px;
+    line-height: 60px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: #000000;
+}
 .confirm2{
     /* Rectangle 276 */
 
@@ -507,8 +575,13 @@ button:active {
 
 .washingInfo{
     position: absolute;
-    top:500px;
-    left:492px;
+    top:470px;
+    left: 369px;
+    width:450px;
+    min-height: 350px;
+    padding: 30px 20px;
+    background: #FFFFFF;
+    transition: height 0.3s ease;
     font-family: 'Do Hyeon';
     font-style: normal;
     font-weight: 400;
@@ -519,26 +592,52 @@ button:active {
     color: #000000;
 }
 
+/* 세탁기 정별 행 컨테이너 */
+.washingInfo2 {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 40px;
+    height: 40px;
+}
 
-.washMachineStatusValue{
-    position: absolute;
-    left:135px;
-    width:200px;
+/* 세탁기 체크박스 */
+.washingCheckbox {
+    position: relative;
+    left: 10px;
+    width: 30px;
+    height: 30px;
+}
+
+/* 세탁기 번호 */
+.washMachineNoValue {
+    position: relative;
+    left: 1px;
+    width: 200px;
+    font-family: 'Do Hyeon';
+    font-size: 30px;
     text-align: center;
 }
 
-.washingCheckbox{
-    position: absolute;
-    left:-80px;
-    width:30px;
-    height:30px;
+/* 세탁기 상태 */
+.washMachineStatusValue {
+    position: relative;
+    left: 1px;
+    width: 200px;
+    font-family: 'Do Hyeon';
+    font-size: 30px;
+    text-align: center;
 }
-
 
 .dryingInfo{
     position: absolute;
-    top:500px;
-    left:1207px;
+    top:470px;
+    left:1086px;
+    width:450px;
+    min-height: 350px;
+    padding: 30px 20px;
+    background: #FFFFFF;
+    transition: height 0.3s ease;
     font-family: 'Do Hyeon';
     font-style: normal;
     font-weight: 400;
@@ -549,20 +648,222 @@ button:active {
     color: #000000;
 }
 
+/* 건조기 개별 행 컨테이너 */
+.dryingInfo2 {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 40px;
+    height: 40px;
+}
 
-.dryMachineStatusValue{
-    position: absolute;
-    left:135px;
-    width:200px;
+/* 건조기 체크박스 */
+.dryingCheckbox {
+    position: relative;
+    left: 10px;
+    width: 30px;
+    height: 30px;
+}
+
+/* 건조기 번호 */
+.dryMachineNoValue {
+    position: relative;
+    left: 1px;
+    width: 200px;
+    font-family: 'Do Hyeon';
+    font-size: 30px;
     text-align: center;
 }
 
-.dryingCheckbox{
-    position: absolute;
-    left:-80px;
-    width:30px;
-    height:30px;
+/* 건조기 상태 */
+.dryMachineStatusValue {
+    position: relative;
+    left: 1px;
+    width: 200px;
+    font-family: 'Do Hyeon';
+    font-size: 30px;
+    text-align: center;
 }
+
+/* 기기 추가 모달 */
+.add-machine-modal {
+    display: none;
+    position: absolute;
+    z-index: 1000;
+    left:-1px;
+    top:-1px;
+    width: 1920px;
+    height: 1080px;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.add-machine-content {
+    position: absolute;
+    width: 1106px;
+    height: 326px;
+    left: 404px;
+    top: 388px;
+    z-index: 1001;
+    background: #E3F2FD;
+    box-shadow: 0px 7px 24.4px 7px rgba(0, 0, 0, 0.25);
+    border-radius: 70px;
+    padding: 40px;
+}
+
+.add-machine-content h2 {
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 48px;
+    line-height: 60px;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #000000;
+}
+
+.form-group {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.form-group label {
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    margin-right: 20px;
+    color: #000000;
+}
+
+.form-group select,
+.form-group input {
+    width: 200px;
+    height: 40px;
+    padding: 5px 10px;
+    border: 2px solid #42A5F5;
+    border-radius: 10px;
+    font-size: 20px;
+}
+
+.modal-buttons {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.modal-buttons button {
+    width: 209px;
+    height: 59px;
+    margin: 0 20px;
+    border: none;
+    border-radius: 50px;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 50px;
+    color: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.modal-buttons button:first-child {
+    background: #42A5F5;
+}
+
+.modal-buttons button:last-child {
+    background: #0056B3;
+}
+
+/* 기기 추가 모달 */
+.addMachineBtn {
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 209px;
+    height: 59px;
+    left: 100px;
+    top: 992px;
+
+    background: #42A5F5;
+    border:none;
+    border-radius: 50px;
+
+    padding-top: 3px;
+    /* 상태변경 */
+
+    box-sizing: border-box;
+
+    text-align: center;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 50px;
+
+    color: #FFFFFF;
+}
+
+/* 기기 선택 컨테이너 */
+.machine-select-container {
+    position: absolute;
+    width: 100%;
+    top: 150px;
+    text-align: center;
+}
+
+.machine-select-container label {
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    margin-left: 80px;
+
+
+}
+
+.machine-input {
+    width: 150px;
+    height: 43px;
+    border: 1px solid #000000;
+    border-radius: 50px;
+    font-family: 'Gmarket Sans';
+    font-size: 20px;
+    text-align: center;
+}
+
+/* 선택된 기기 정보 */
+.machine-info {
+    position: absolute;
+    width: 100%;
+    top: 150px;
+    text-align: center;
+    font-family: 'Do Hyeon';
+    font-size: 35px;
+    color: #2E8B57;
+}
+
+/* 모달 텍스트 스타일 */
+.modal-text {
+    position: absolute;
+    left:340px;
+    top:10px;
+    font-family: 'Do Hyeon';
+    font-size: 45px;
+    line-height: 1.5;
+    color: black;
+}
+.dropdown{
+    box-sizing: border-box;
+    width: 140px;
+    height: 43px;
+    background: #FFFFFF;
+    border-radius: 50px;
+    font-family: 'Gmarket Sans';
+    font-size: 20px;
+    color: black;
+    text-align: center;
+}
+
+
 
 
 

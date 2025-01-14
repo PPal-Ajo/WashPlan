@@ -1,6 +1,7 @@
 package com.ohgiraffers.washplan.reservation.model.dao;
 
 import com.ohgiraffers.washplan.reservation.model.dto.ReservationDTO;
+import com.ohgiraffers.washplan.machine.model.dto.MachineDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -29,7 +30,7 @@ public interface ReservationMapper {
 
 
 
-    int updateReservationStatus();
+    void updateReservationStatus();
 
 
 
@@ -52,9 +53,11 @@ public interface ReservationMapper {
 
 
 
-    int insertReservationHistory();
+    void insertReservationHistory();
 
-    int deleteCompletedReservations();
+    void deleteCompletedReservations();
 
     List<ReservationDTO> getCurrentReservations();
+
+    List<MachineDTO> findMachinesByType(String machineType);
 }

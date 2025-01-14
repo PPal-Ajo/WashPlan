@@ -13,6 +13,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import com.ohgiraffers.washplan.machine.model.dto.MachineDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -20,9 +23,12 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
 
 @Controller
 public class ReservationController {
+
+    private static final Logger log = LoggerFactory.getLogger(ReservationController.class);
 
     private final ReservationService reservationService;
     private final QRCodeService qrCodeService;
@@ -35,24 +41,20 @@ public class ReservationController {
 
     @GetMapping("/reservation")
     public String reservation(Model model) {
-        int machineNo101 = reservationService.getMachineNo101();
-        int machineNo102 = reservationService.getMachineNo102();
-        int machineNo103 = reservationService.getMachineNo103();
-        int machineNo201 = reservationService.getMachineNo201();
-        int machineNo202 = reservationService.getMachineNo202();
-        int machineNo203 = reservationService.getMachineNo203();
+        List<MachineDTO> washingMachines = reservationService.getMachinesByType("세탁기");
+        List<MachineDTO> dryingMachines = reservationService.getMachinesByType("건조기");
 
+        // 두 리스트를 하나로 합침
+        List<MachineDTO> allMachines = new ArrayList<>();
+        allMachines.addAll(washingMachines);
+        allMachines.addAll(dryingMachines);
 
-        model.addAttribute("machineNo101", machineNo101);
-        model.addAttribute("machineNo102", machineNo102);
-        model.addAttribute("machineNo103", machineNo103);
-        model.addAttribute("machineNo201", machineNo201);
-        model.addAttribute("machineNo202", machineNo202);
-        model.addAttribute("machineNo203", machineNo203);
+        model.addAttribute("washingMachines", washingMachines);
+        model.addAttribute("dryingMachines", dryingMachines);
+        model.addAttribute("allMachines", allMachines);  // 합친 리스트 추가
 
-
-
-
+        log.info("Washing Machines: {}", washingMachines);
+        log.info("Drying Machines: {}", dryingMachines);
 
         return "reservation/reservation";
     }
@@ -117,6 +119,12 @@ public class ReservationController {
     public ResponseEntity<String> updateReservationStatus() {
         reservationService.updateReservationStatus();
         return new ResponseEntity<>("Reservation status updated!", HttpStatus.OK);
+    }
+
+    @PostMapping("/reservation/check-expired")
+    public ResponseEntity<String> checkExpiredReservations() {
+        reservationService.handleExpiredReservations();
+        return ResponseEntity.ok("Completed");
     }
 
 

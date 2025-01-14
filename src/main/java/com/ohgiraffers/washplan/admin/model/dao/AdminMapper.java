@@ -78,4 +78,6 @@ public interface AdminMapper {
     List<Map<String, Object>> getMachineSales(String date);
     
     List<Map<String, Object>> getOptionSales(String date);
+
+    void insertMachine(AdminMachineDTO machine);
 }
