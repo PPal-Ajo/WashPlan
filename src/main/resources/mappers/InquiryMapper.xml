@@ -38,4 +38,8 @@
         WHERE i.INQUIRY_NO = #{inquiryNo}
     </select>
 
+    <delete id="deleteInquiry" parameterType="int">
+        DELETE FROM TBL_INQUIRY WHERE INQUIRY_NO = #{inquiryNo}
+    </delete>
+
 </mapper> 

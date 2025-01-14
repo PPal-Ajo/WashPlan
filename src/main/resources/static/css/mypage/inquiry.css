@@ -282,8 +282,7 @@ hr {
 
 .modal-content {
     position: relative;
-    width: 1250px;
-    height: 750px;
+    width: 1106px;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
@@ -371,4 +370,93 @@ hr {
 
 .confirm-btn {
     background: #42A5F5;
+}
+
+
+
+.modal-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.modal-message p {
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    margin-bottom: 50px;
+}
+
+.cancel-btn, .confirm-delete-btn, .complete-btn {
+    width: 209px;
+    height: 70px;
+    border: none;
+    border-radius: 50px;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 50px;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.cancel-btn {
+    background: #0056B3;
+}
+
+.confirm-delete-btn, .complete-btn {
+    background: #42A5F5;
+}
+
+/* 확인/완료 모달 스타일 */
+.confirm-modal .modal-content, 
+.complete-modal .modal-content {
+    width: 600px !important;  /* 더 작게 조절 */
+    height: 300px !important; /* 더 작게 조절 */
+    padding: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.modal-message p {
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+/* 삭제 확인/완료 모달의 버튼 간격 조절 */
+.confirm-modal .modal-buttons,
+.complete-modal .modal-buttons {
+    padding: 0 50px;
+    margin-top: 20px;
+    gap: 200px;
+}
+
+.no-inquiry-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 30px;
+    color: #666666;
+    text-align: center;
 }

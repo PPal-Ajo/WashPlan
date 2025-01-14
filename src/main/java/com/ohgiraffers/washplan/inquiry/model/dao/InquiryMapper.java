@@ -9,4 +9,5 @@ public interface InquiryMapper {
     int insertInquiry(InquiryDTO inquiry);
     List<InquiryDTO> findInquiriesByUserNo(int userNo);
     InquiryDTO findInquiryByNo(int inquiryNo);
+    int deleteInquiry(int inquiryNo);
 }

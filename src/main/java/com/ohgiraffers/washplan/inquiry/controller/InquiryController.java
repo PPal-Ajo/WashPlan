@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 import java.util.List;
 import java.util.Map;
@@ -81,6 +82,21 @@ public class InquiryController {
             return ResponseEntity.ok(inquiry);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("상세 조회 중 오류가 발생했습니다.");
+        }
+    }
+
+    @DeleteMapping("/inquiry/delete/{inquiryNo}")
+    @ResponseBody
+    public ResponseEntity<?> deleteInquiry(@PathVariable int inquiryNo) {
+        try {
+            boolean result = inquiryService.deleteInquiry(inquiryNo);
+            if (result) {
+                return ResponseEntity.ok().build();
+            } else {
+                return ResponseEntity.badRequest().body("삭제에 실패했습니다.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("삭제 중 오류가 발생했습니다.");
         }
     }
 }
