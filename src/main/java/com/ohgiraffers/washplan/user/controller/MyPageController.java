@@ -124,9 +124,4 @@ public class MyPageController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
-
-    @GetMapping("/mypage/inquiry")
-    public String myPageInquiry() {
-        return "mypage/inquiry";
-    }
 }

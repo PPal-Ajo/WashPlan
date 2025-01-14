@@ -11,4 +11,17 @@
         (#{userNo}, #{inquiryTitle}, #{inquiryContent}, #{inquiryDate}, #{replyStatus})
     </insert>
 
+    <select id="findInquiriesByUserNo" resultType="com.ohgiraffers.washplan.inquiry.model.dto.InquiryDTO">
+        SELECT 
+            INQUIRY_NO as inquiryNo,
+            USER_NO as userNo,
+            INQUIRY_TITLE as inquiryTitle,
+            INQUIRY_CONTENT as inquiryContent,
+            INQUIRY_DATE as inquiryDate,
+            REPLY_STATUS as replyStatus
+        FROM TBL_INQUIRY
+        WHERE USER_NO = #{userNo}
+        ORDER BY INQUIRY_DATE DESC
+    </select>
+
 </mapper> 

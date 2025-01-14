@@ -5,6 +5,8 @@ import com.ohgiraffers.washplan.inquiry.model.dto.InquiryDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class InquiryService {
     
@@ -17,5 +19,11 @@ public class InquiryService {
     @Transactional
     public boolean createInquiry(InquiryDTO inquiry) {
         return inquiryMapper.insertInquiry(inquiry) > 0;
+    }
+    
+    public List<InquiryDTO> getInquiriesByUserNo(int userNo) {
+        List<InquiryDTO> inquiries = inquiryMapper.findInquiriesByUserNo(userNo);
+        System.out.println("조회된 문의사항: " + inquiries);
+        return inquiries;
     }
 }
