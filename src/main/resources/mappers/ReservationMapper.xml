@@ -9,6 +9,12 @@
         <result column="MACHINE_NO" property="machineNo"/>
     </resultMap>
 
+    <resultMap id="machineResultMap" type="com.ohgiraffers.washplan.machine.model.dto.MachineDTO">
+        <id property="machineNo" column="MACHINE_NO"/>
+        <result property="machineType" column="MACHINE_TYPE"/>
+        <result property="machineStatus" column="MACHINE_STATUS"/>
+    </resultMap>
+
     <select id="findMachineNo101" resultType="int" >
         SELECT MACHINE_NO
         FROM TBL_MACHINE
@@ -104,9 +110,9 @@
     <!-- 종료된 예약을 히스토리로 이동 -->
     <insert id="insertReservationHistory">
         INSERT INTO TBL_RESERVATION_HISTORY
-        (RESERVE_NO, USER_NO, MACHINE_NO, RESERVE_DATE, START_TIME, END_TIME, RESERVE_OPTION, RESERVE_PRICE, RESERVE_STATUS)
+        (RESERVE_NO, USER_NO, MACHINE_NO, RESERVE_DATE, START_TIME, END_TIME, RESERVE_OPTION, RESERVE_PRICE)
         SELECT
-        RESERVE_NO, USER_NO, MACHINE_NO, RESERVE_DATE, START_TIME, END_TIME, RESERVE_OPTION, RESERVE_PRICE, RESERVE_STATUS
+        RESERVE_NO, USER_NO, MACHINE_NO, RESERVE_DATE, START_TIME, END_TIME, RESERVE_OPTION, RESERVE_PRICE
         FROM TBL_RESERVATION
         WHERE RESERVE_STATUS = '완료'
     </insert>
@@ -122,6 +128,16 @@
         SELECT *
         FROM TBL_RESERVATION
         WHERE RESERVE_STATUS = '예약중'
+    </select>
+
+    <select id="findMachinesByType" resultMap="machineResultMap">
+        SELECT
+            MACHINE_NO,
+            MACHINE_TYPE,
+            MACHINE_STATUS
+        FROM TBL_MACHINE
+        WHERE MACHINE_TYPE = #{machineType}
+        ORDER BY MACHINE_NO
     </select>
 
 </mapper>

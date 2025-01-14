@@ -174,4 +174,8 @@ public class AdminService {
         
         return "죄송합니다. 이해하지 못했습니다. '오늘 매출', '이번달 매출', '기기별 매출', '옵션별 매출' 등으로 물어봐주세요.";
     }
+
+    public void addMachine(AdminMachineDTO machine) {
+        adminMapper.insertMachine(machine);
+    }
 }

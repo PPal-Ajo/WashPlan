@@ -29,14 +29,17 @@
     <button onclick="location.href='/admin/adminnotice'" class="adminNotice">공지사항 관리</button>
 </div>
 
-<img class="adminimage" th:src="@{/images/admin/Machine.png}" alt="관리자기기배경">
+<img class="adminimage" th:src="@{/images/admin/Machine2.png}" alt="관리자기기배경">
 <span class="userManagement">세탁기/건조기 관리</span>
 
 <span class="washing">세탁기</span>
 <span class="drying">건조기</span>
 
-<span class="washingNo">기기번호</span>
-<span class="washingStatus">상태</span>
+<div class="washMenu">
+    <span class="washingNo">기기번호</span>
+    <span class="washingStatus">상태</span>
+</div>
+
 
 <!--세탁기 정보 불러오기 -->
 <div id="washingContainer" class="washingInfo">
@@ -47,8 +50,11 @@
     </div>
 </div>
 
-<span class="dryingNo">기기번호</span>
-<span class="dryingStatus">상태</span>
+<div class="dryMenu">
+    <span class="dryingNo">기기번호</span>
+    <span class="dryingStatus">상태</span>
+</div>
+
 
 <!--세탁기 정보 불러오기 -->
 <div id="dryingContainer" class="dryingInfo">
@@ -76,6 +82,45 @@
 <div class="modal-content2" id="modal-content2">
     <span class="changeConfirm">상태변경이 완료되었습니다 !</span>
     <button id="confirmButton2" class="confirm2">확인</button>
+</div>
+
+<!-- 기기 추가 모달 -->
+<button class="addMachineBtn">기기추가</button>
+
+<!-- 기기 선택 모달 -->
+<div class="add-machine-modal modal">
+    <div class="modal-content">
+        <p class="modal-text" style="color: black;">추가할 기기를 선택해주세요</p>
+        <div class="machine-select-container">
+            <label>기기 유형 : </label>
+            <select id="machineType" class="dropdown">
+                <option value="세탁기">세탁기</option>
+                <option value="건조기">건조기</option>
+            </select>
+            <label>기기 번호 : </label>
+            <input type="number" id="machineNo" class="machine-input" min="1">
+        </div>
+        <button class="cancel addMachineCancel">취소</button>
+        <button class="confirm addMachineConfirm">확인</button>
+    </div>
+</div>
+
+<!-- 기기 추가 확인 모달 -->
+<div class="confirm-add-modal modal">
+    <div class="modal-content">
+        <p class="modal-text2" style="color: black;">선택하신 기기를 추가하시겠습니까?</p>
+        <div id="selectedMachineInfo" class="machine-info"></div>
+        <button class="cancel confirmAddCancel">취소</button>
+        <button class="confirm confirmAddConfirm">확인</button>
+    </div>
+</div>
+
+<!-- 기기 추가 완료 모달 -->
+<div class="complete-add-modal modal">
+    <div class="modal-content">
+        <p class="reserveConfirm">기기 추가가 완료되었습니다!</p>
+        <button class="confirm2 completeAddConfirm">확인</button>
+    </div>
 </div>
 
 <script>
@@ -242,24 +287,29 @@
 
         // 데이터를 화면에 추가하는 함수
         function renderWashMachines(washmachines) {
-            washingContainer.innerHTML = ""; // 기존 내용을 비웁니다.
+            washingContainer.innerHTML = "";
 
             washmachines.forEach(washmachine => {
                 const washingContent = document.createElement("div");
                 washingContent.classList.add("washingInfo2");
-                washingContent.style.marginBottom = "100px"; // 항목 간의 간격 설정
+                washingContent.style.marginBottom = "70px"; // 간격 조정
 
-                // 상태에 따라 색상을 변경
                 const statusColor = washmachine.machineStatus === "사용가능" ? "#0062FF" : "#A500FF";
 
                 washingContent.innerHTML = `
-                <input type="checkbox" class="washingCheckbox" name="machineCheckBox" value="${washmachine.machineNo}">
-                <span class="washMachineNoValue">${washmachine.machineNo +'호'}</span>
-               <span class="washMachineStatusValue" style="color: ${statusColor};">${washmachine.machineStatus}</span>
-            `;
+                    <input type="checkbox" class="washingCheckbox" name="machineCheckBox" value="${washmachine.machineNo}">
+                    <span class="washMachineNoValue">${washmachine.machineNo +'호'}</span>
+                    <span class="washMachineStatusValue" style="color: ${statusColor};">${washmachine.machineStatus}</span>
+                `;
 
                 washingContainer.appendChild(washingContent);
             });
+
+            // 3개 기준으로 ��이 조정
+            const baseHeight = 380; // 3개 기기의 기본 높이
+            const itemHeight = 110; // 각 ��가 항목당 높이
+            const containerHeight = Math.max(baseHeight, washmachines.length * itemHeight);
+            washingContainer.parentElement.style.height = `${containerHeight}px`;
         }
 
         // 초기 데이터 가져오기
@@ -285,24 +335,29 @@
 
         // 데이터를 화면에 추가하는 함수
         function renderDryMachines(drymachines) {
-            dryingContainer.innerHTML = ""; // 기존 내용을 비웁니다.
+            dryingContainer.innerHTML = "";
 
             drymachines.forEach(drymachine => {
                 const dryingContent = document.createElement("div");
                 dryingContent.classList.add("dryingInfo2");
-                dryingContent.style.marginBottom = "100px"; // 항목 간의 간격 설정
+                dryingContent.style.marginBottom = "70px"; // 간격 조정
 
-                // 상태에 따라 색상을 변경
                 const statusColor = drymachine.machineStatus === "사용가능" ? "#0062FF" : "#A500FF";
 
                 dryingContent.innerHTML = `
-                <input type="checkbox" class="dryingCheckbox" name="machineCheckBox" value="${drymachine.machineNo}">
-                <span class="dryMachineNoValue">${drymachine.machineNo +'호'}</span>
-                 <span class="dryMachineStatusValue" style="color: ${statusColor};">${drymachine.machineStatus}</span>
-            `;
+                    <input type="checkbox" class="dryingCheckbox" name="machineCheckBox" value="${drymachine.machineNo}">
+                    <span class="dryMachineNoValue">${drymachine.machineNo +'호'}</span>
+                    <span class="dryMachineStatusValue" style="color: ${statusColor};">${drymachine.machineStatus}</span>
+                `;
 
                 dryingContainer.appendChild(dryingContent);
             });
+
+            // 3개 기준으로 ��이 조정
+            const baseHeight = 380; // 3개 기기의 기본 높이
+            const itemHeight = 110; // 각 ��가 항목당 높이
+            const containerHeight = Math.max(baseHeight, drymachines.length * itemHeight);
+            dryingContainer.parentElement.style.height = `${containerHeight}px`;
         }
 
         // 초기 데이터 가져오기
@@ -325,6 +380,93 @@
     }
 
 </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const addMachineBtn = document.querySelector('.addMachineBtn');
+    const addMachineModal = document.querySelector('.add-machine-modal');
+    const confirmAddModal = document.querySelector('.confirm-add-modal');
+    const completeAddModal = document.querySelector('.complete-add-modal');
+    
+    // 기기 추가 버튼 클릭
+    addMachineBtn.addEventListener('click', () => {
+        addMachineModal.style.display = 'block';
+    });
+
+    // 첫 번째 모달 취소
+    document.querySelector('.addMachineCancel').addEventListener('click', () => {
+        addMachineModal.style.display = 'none';
+        clearInputs();
+    });
+
+    // 첫 번째 모달 확인
+    document.querySelector('.addMachineConfirm').addEventListener('click', () => {
+        const type = document.getElementById('machineType').value;
+        const no = document.getElementById('machineNo').value;
+        
+        if (!no) {
+            alert('기기 번호를 입력해주세요.');
+            return;
+        }
+
+        document.getElementById('selectedMachineInfo').textContent = 
+            `${type} - ${no}호`;
+        
+        addMachineModal.style.display = 'none';
+        confirmAddModal.style.display = 'block';
+    });
+
+    // 두 번째 모달 취소
+    document.querySelector('.confirmAddCancel').addEventListener('click', () => {
+        confirmAddModal.style.display = 'none';
+        addMachineModal.style.display = 'block';
+    });
+
+    // 두 번째 모달 확인
+    document.querySelector('.confirmAddConfirm').addEventListener('click', async () => {
+        const type = document.getElementById('machineType').value;
+        const no = document.getElementById('machineNo').value;
+
+        try {
+            const response = await fetch('/adminmachine/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    machineType: type,
+                    machineNo: parseInt(no),
+                    machineStatus: '사용가능'
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error('기기 추가 실패');
+            }
+
+            confirmAddModal.style.display = 'none';
+            completeAddModal.style.display = 'block';
+            clearInputs();
+        } catch (error) {
+            alert('기기 추가 중 오류가 발생했습니다.');
+            console.error('Error:', error);
+        }
+    });
+
+    // 세 번째 모달 확인
+    document.querySelector('.completeAddConfirm').addEventListener('click', () => {
+        completeAddModal.style.display = 'none';
+        location.reload(); // 페이지 새로고침
+    });
+
+    function clearInputs() {
+        document.getElementById('machineType').value = '세탁기';
+        document.getElementById('machineNo').value = '';
+    }
+});
+</script>
+
+
 
 </body>
 </html>

@@ -1,417 +1,255 @@
-/* 스크롤 비활성화 */
+/* 기본 레이아웃 */
 body.no-scroll {
     overflow: hidden;
 }
 
 .background-container {
     position: absolute;
-    left:-1px;
-    top:-1px;
+    left: -1px;
+    top: -1px;
     width: 1920px;
     height: 1191px;
-    background: #E3F2FD; /* 원하는 배경색 */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 선택적으로 그림자 추가 */
-
+    background: #E3F2FD;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-footer{
+/* 푸터 스타일 */
+footer {
     position: absolute;
     width: 1920px;
     height: 147px;
-    left:-1px;
+    left: -1px;
     top: 1044px;
     background: #1A73E8;
 }
-footer span:nth-child(1){
+
+footer span {
     font-family: 'Gmarket Sans';
     font-style: normal;
     font-weight: 500;
     font-size: 25px;
     color: #FFFFFF;
     position: absolute;
-    left:350px;
-    top:30px;
 }
-footer span:nth-child(2){
-    font-family: 'Gmarket Sans';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 25px;
-    color: #FFFFFF;
-    position: absolute;
-    left:970px;
-    top:30px;
-}
-footer span:nth-child(3){
-    font-family: 'Gmarket Sans';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 25px;
-    color: #FFFFFF;
-    position: absolute;
-    left:500px;
-    top:90px;
-}
+
+footer span:nth-child(1) { left: 350px; top: 30px; }
+footer span:nth-child(2) { left: 970px; top: 30px; }
+footer span:nth-child(3) { left: 500px; top: 90px; }
 
 /* 공통 버튼 스타일 */
 button {
     cursor: pointer;
-    transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.2s ease; /* 부드러운 전환 효과 */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* 버튼 그림자 */
-}
-/* 비활성화된 버튼 스타일 */
-button.disabled-button {
-    pointer-events: none; /* 클릭 효과 제거 */
-    cursor: not-allowed; /* 금지 커서 */
-    background-color: #D3D3D3; /* 회색 배경 */
-    color: #A9A9A9; /* 흐린 텍스트 색상 */
-    box-shadow: none; /* 그림자 제거 */
-    transform: none; /* 클릭 시 눌림 효과 제거 */
-}
-
-.wash{
-    position: absolute;
-    width: 190px;
-    height: 73px;
-    left: 80px;
-    top: 161px;
-
-    background: #42A5F5;
-    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-    border-radius: 20px;
-    border:none;
-
+    transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     font-family: 'Do Hyeon';
     font-style: normal;
     font-weight: 400;
-    font-size: 30px;
-    line-height: 38px;
-
+    border: none;
     color: #FFFFFF;
-
-
 }
 
-
-
-.dry{
-    position: absolute;
-    width: 190px;
-    height: 73px;
-    left: 330px;
-    top: 161px;
-
-    background: #42A5F5;
-    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-    border-radius: 20px;
-    border:none;
-
-    font-family: 'Do Hyeon';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 38px;
-    /* identical to box height */
-
-    color: #FFFFFF;
-
-
-}
-
-
-.active {
-    background: #0056B3;
-}
-/* 버튼 클릭 시 효과 */
 button:active {
-    transform: scale(0.95); /* 클릭 시 살짝 작아지는 효과 */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 클릭 시 그림자 감소 */
+    transform: scale(0.95);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.washReserve{
+button.disabled-button {
+    pointer-events: none;
+    cursor: not-allowed;
+    background-color: #D3D3D3;
+    color: #A9A9A9;
+    box-shadow: none;
+    transform: none;
+}
+
+/* 탭 버튼 공통 스타일 */
+.wash, .dry {
+    position: absolute;
+    width: 190px;
+    height: 73px;
+    top: 161px;
+    background: #42A5F5;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    border-radius: 20px;
+    font-size: 30px;
+    line-height: 38px;
+}
+
+.wash { left: 80px; }
+.dry { left: 330px; }
+
+.active { background: #0056B3; }
+
+/* 예약 섹션 공통 스타일 */
+.washReserve, .dryReserve {
     position: absolute;
     width: 1813px;
     height: 680px;
     left: 54px;
     top: 256px;
-
     background: #FFFFFF;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 50px;
 }
-.washReserve .machine{
-    position: absolute;
-    width: 47px;
-    height: 38px;
-    left: 262px;
-    top: 29px;
 
+/* 헤더 텍스트 공통 스타일 */
+.washReserve .machine, .washReserve .curent, .washReserve .option, 
+.washReserve .price, .washReserve .reserve,
+.dryReserve .machine, .dryReserve .curent, .dryReserve .option, 
+.dryReserve .price, .dryReserve .reserve {
+    position: absolute;
+    height: 38px;
+    top: 29px;
     font-family: 'Do Hyeon';
     font-style: normal;
     font-weight: 400;
     font-size: 30px;
     line-height: 38px;
-    /* identical to box height */
-
     color: #000000;
 }
-.washReserve .curent{
+
+.machine { left: 262px; }
+.curent { left: 614px; }
+.option { left: 944px; }
+.price { left: 1278px; }
+.reserve { left: 1588px; }
+
+hr {
     position: absolute;
-    width: 47px;
-    height: 38px;
-    left: 614px;
-    top: 29px;
-
-    font-family: 'Do Hyeon';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 38px;
-    /* identical to box height */
-
-    color: #000000;
-}
-.washReserve .option{
-    position: absolute;
-    width: 47px;
-    height: 38px;
-    left: 944px;
-    top: 29px;
-
-    font-family: 'Do Hyeon';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 38px;
-    /* identical to box height */
-
-    color: #000000;
-}
-.washReserve .price{
-    position: absolute;
-    width: 47px;
-    height: 38px;
-    left: 1278px;
-    top: 29px;
-
-    font-family: 'Do Hyeon';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 38px;
-    /* identical to box height */
-
-    color: #000000;
-}
-.washReserve .reserve{
-    position: absolute;
-    width: 47px;
-    height: 38px;
-    left: 1588px;
-    top: 29px;
-
-    font-family: 'Do Hyeon';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 38px;
-    /* identical to box height */
-
-    color: #000000;
-}
-hr{
-    position: absolute;
-    left:50px;
-    top:90px;
-    width:1700px;
+    left: 50px;
+    top: 90px;
+    width: 1700px;
     border: 2px solid #000000;
-
-}
-.washimage{
-    position: absolute;
-    left:122px;
-    top:135px;
 }
 
-.washReserve .호101{
+
+
+.washimage, .dryimage {
     position: absolute;
-    width: 195px;
+    left: 122px;
+}
+
+/* 기기 번호 스타일 */
+[class^="호"] {
+    position: absolute;
+    width: 300px;
     height: 30px;
     left: 288px;
-    top: 177px;
-
     font-family: 'Gmarket Sans';
     font-style: normal;
     font-weight: 400;
     font-size: 30px;
     line-height: 30px;
-    /* identical to box height */
-
     color: #000000;
 }
 
-.situation{
-
+/* 상태 표시 공통 스타일 */
+.situation, .dry-situation {
     box-sizing: border-box;
-
     position: absolute;
     width: 171px;
     height: 43px;
     left: 552px;
-    top: 170px;
-
     background: #FFFFFF;
     border: 1px solid #000000;
     border-radius: 50px;
-
-
-
-
 }
 
-.situation span:nth-of-type(1){
-
+.situation span, .dry-situation span {
     position: absolute;
     width: 171px;
     height: 43px;
-
-    top:8px;
     text-align: center;
+    top: 8px;
     font-family: 'Gmarket Sans';
     font-style: normal;
     font-weight: 500;
     font-size: 25px;
     line-height: 25px;
-
-
-    color: #0062FF;
 }
 
-
-
-/* 드롭다운 스타일 */
-.dropdown-container {
+/* 드롭다운 공통 스타일 */
+[class*="dropdown-container"] {
     box-sizing: border-box;
-
     position: absolute;
     width: 260px;
     height: 43px;
     left: 835px;
-    top: 170px;
-
     background: #FFFFFF;
-
     border-radius: 50px;
+}
 
+[class*="dropdown-container"]::after {
+    content: "▼";
+    font-size: 20px;
+    color: #000000;
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    pointer-events: none;
 }
 
 .dropdown {
-    appearance: none; /* 기본 브라우저 스타일 제거 */
+    appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
     background: #FFFFFF;
     border: 1px solid #000000;
     border-radius: 20px;
-
-
     font-family: 'Gmarket Sans';
     font-style: normal;
     font-weight: 400;
     font-size: 25px;
-
-    /* identical to box height */
-
     color: #000000;
     cursor: pointer;
     width: 260px;
     height: 43px;
-
     text-align: center;
 }
 
-
 .dropdown:focus {
-    outline: none; /* 포커스 시 외곽선 제거 */
-
+    outline: none;
 }
 
-.dropdown-label {
-    display: none; /* 필요 시 보이도록 수정 가능 */
-}
-
-/* 화살표 커스터마이즈 */
-.dropdown-container::after {
-    content: "▼";
-    font-size: 20px;
-    color: #000000;
+/* 결과 표시 공통 스타일 */
+[class*="result"] {
     position: absolute;
-    right:15px;
-    top: 10px;
-    pointer-events: none; /* 클릭 불가 처리 */
-}
-
-/* 선택된 결과 스타일 */
-.result {
-    position: absolute;
-    width: 117px;
+    width: 307px;
     height: 30px;
     left: 1250px;
-    top: 177px;
-
     font-family: 'Gmarket Sans';
     font-style: normal;
     font-weight: 400;
     font-size: 30px;
     line-height: 30px;
-    /* identical to box height */
-
     color: #000000;
 }
 
-.reservebtn{
-    /* Rectangle 315 */
-
+/* 예약 버튼 공통 스타일 */
+[class*="reservebtn"] {
     position: absolute;
     width: 190px;
     height: 73px;
     left: 1520px;
-    top: 150px;
-
     background: #42A5F5;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 20px;
-    border:none;
-
-
-    /* 예약하기 */
-
-
-    font-family: 'Do Hyeon';
-    font-style: normal;
-    font-weight: 400;
     font-size: 30px;
     line-height: 38px;
-    /* identical to box height */
-
-    color: #FFFFFF;
-
-
 }
 
-.modal{
-    display: none; /* 초기 상태에서는 숨김 */
+/* 모달 스타일 */
+.modal {
+    display: none;
     position: absolute;
     z-index: 1000;
-    left:-54px;
-    top: -256px;
+    left: 0px;
+    top: 0px;
     width: 1920px;
     height: 1191px;
-    background: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
-
-
+    background: rgba(0, 0, 0, 0.5);
 }
 
-/* 모달 내용 */
 .modal-content {
     position: absolute;
     width: 1106px;
@@ -419,132 +257,104 @@ hr{
     left: calc(50% - 1106px/2 + 1px);
     top: 416px;
     z-index: 1001;
-
     background: #E3F2FD;
     box-shadow: 0px 7px 24.4px 7px rgba(0, 0, 0, 0.25);
     border-radius: 70px;
 }
 
-.modal-text{
-    /* "예약된 시간으로부터 10분 이내에 이용을 시작하지 않을 경우, 예약이 자동 취소됩니다. 자동 취소가 3회 발생할 경우, 계정이 일시 정지됩니다.” 위 내용을 확인하시고 예약을 진행하시겠습니까? */
-
+.modal-text {
     position: absolute;
     width: 921px;
     height: 172px;
     left: calc(50% - 921px/2 + 1.5px);
     top: 1px;
-
     font-family: 'Do Hyeon';
     font-style: normal;
     font-weight: 400;
     font-size: 35px;
     line-height: 44px;
     text-align: center;
-
     color: #FD3C3C;
-
-
 }
 
-.reserveText{
-
-
+/* 예약 텍스트 스타일 */
+.reserveText {
     position: absolute;
     width: 921px;
     height: 172px;
     left: calc(50% - 921px/2 + 1.5px);
     top: 180px;
-
     font-family: 'Do Hyeon';
     font-style: normal;
     font-weight: 400;
     font-size: 35px;
     line-height: 44px;
     text-align: center;
-
     color: #000000;
-
-
 }
-.reserveText .modal-time{
+
+.reserveText .modal-time {
     font-family: 'Do Hyeon';
     font-style: normal;
     font-weight: 400;
     font-size: 35px;
     line-height: 44px;
     text-align: center;
-
     color: #2E8B57;
 }
-.cancel{
-    /* Rectangle 276 */
 
+/* 모달 버튼 스타일 */
+.cancel, .confirm {
     position: absolute;
     width: 209px;
     height: 59px;
+    top: 240px;
+    border-radius: 50px;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 50px;
+    color: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.cancel {
     left: calc(50% - 209px/2 - 215.5px);
-    top: 240px;
-
     background: #0056B3;
-    border-radius: 50px;
-    border:none;
-    text-align: center;
-
-    /* 취소 */
-
-    font-family: 'Do Hyeon';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 40px;
-    line-height: 50px;
-
-    color: #FFFFFF;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-
-
-
 }
-.confirm{
-    /* Rectangle 276 */
 
-    position: absolute;
-    width: 209px;
-    height: 59px;
+.confirm {
     left: calc(50% - 209px/2 + 214.5px);
-    top: 240px;
-
     background: #42A5F5;
-    border-radius: 50px;
-    border:none;
-
-    /* 확인 */
-
-    text-align: center;
-    font-family: 'Do Hyeon';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 40px;
-    line-height: 50px;
-
-    color: #FFFFFF;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-
-
 }
 
-/* 모달 내용 */
+/* QR 코드 모달 스타일 */
 .modal-content2 {
     display: none;
     position: absolute;
     width: 1106px;
     height: 300px;
     left: calc(50% - 1106px/2 + 1px);
-    top: 160px;
+    top: 416px;
     z-index: 1002;
     background: #E3F2FD;
     box-shadow: 0px 7px 24.4px 7px rgba(0, 0, 0, 0.25);
     border-radius: 70px;
     padding: 30px;
+}
+
+.qr-code {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    left: 83%;
+    top: 80px;
+    transform: translateX(-50%);
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    display: block;
+    background-color: white;
 }
 
 .reserveConfirm {
@@ -562,20 +372,8 @@ hr{
     color: #000000;
 }
 
-.qr-code {
-    position: absolute;
-    width: 200px;
-    height: 200px;
-    left: 83%;
-    top: 80px;
-    transform: translateX(-50%);
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    display: block;
-    background-color: white;
-}
 
-.qrtext {
+.qrText {
     position: absolute;
     width: 100%;
     height: 40px;
@@ -595,881 +393,124 @@ hr{
     width: 209px;
     height: 59px;
     left: 480px;
-    top:260px;
+    top: 260px;
     background: #42A5F5;
     border-radius: 50px;
-    border: none;
     font-family: 'Do Hyeon';
     font-style: normal;
     font-weight: 400;
     font-size: 40px;
     line-height: 50px;
     color: #FFFFFF;
-
 }
 
-
-
-.washimage2{
-    position: absolute;
-    left:122px;
-    top:337px;
-}
-
-.washReserve .호102{
-    position: absolute;
-    width: 300px;
-    height: 30px;
-    left: 288px;
-    top: 387px;
-
-    font-family: 'Gmarket Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 30px;
-    /* identical to box height */
-
-    color: #000000;
-}
-.situation2{
-
-    box-sizing: border-box;
-
-    position: absolute;
-    width: 171px;
-    height: 43px;
-    left: 552px;
-    top: 379px;
-
-    background: #FFFFFF;
-    border: 1px solid #000000;
-    border-radius: 50px;
-
-
-
-
-}
-
-.situation2 span:nth-of-type(1){
-
-    position: absolute;
-    width: 171px;
-    height: 43px;
-    text-align: center;
-    top:8px;
-    font-family: 'Gmarket Sans';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 25px;
-    line-height: 25px;
-
-
-    color: #0062FF;
-}
-
-
-
-/* 드롭다운 스타일 */
-.dropdown-container2 {
-    box-sizing: border-box;
-
-    position: absolute;
-    width: 260px;
-    height: 43px;
-    left: 835px;
-    top: 379px;
-
-    background: #FFFFFF;
-
-    border-radius: 50px;
-
-}
-
-/* 화살표 커스터마이즈 */
-.dropdown-container2::after {
-    content: "▼";
-    font-size: 20px;
-    color: #000000;
-    position: absolute;
-    right:15px;
-    top: 10px;
-    pointer-events: none; /* 클릭 불가 처리 */
-}
-
-
-/* 선택된 결과 스타일 */
-.result2 {
-    position: absolute;
-    width: 117px;
-    height: 30px;
-    left: 1250px;
-    top: 387px;
-
-    font-family: 'Gmarket Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 30px;
-    /* identical to box height */
-
-    color: #000000;
-}
-
-.reservebtn2{
-    /* Rectangle 315 */
-
-    position: absolute;
-    width: 190px;
-    height: 73px;
-    left: 1520px;
-    top: 360px;
-
-    background: #42A5F5;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 20px;
-    border:none;
-
-
-    /* 예약하기 */
-
-
-    font-family: 'Do Hyeon';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 38px;
-    /* identical to box height */
-
-    color: #FFFFFF;
-
-
-}
-
-.washimage3{
-    position: absolute;
-    left:122px;
-    top:537px;
-}
-
-.washReserve .호103{
-    position: absolute;
-    width: 300px;
-    height: 30px;
-    left: 288px;
-    top: 587px;
-
-    font-family: 'Gmarket Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 30px;
-    /* identical to box height */
-
-    color: #000000;
-}
-.situation3{
-
-    box-sizing: border-box;
-
-    position: absolute;
-    width: 171px;
-    height: 43px;
-    left: 552px;
-    top: 579px;
-
-    background: #FFFFFF;
-    border: 1px solid #000000;
-    border-radius: 50px;
-
-
-
-
-}
-
-.situation3 span:nth-of-type(1){
-
-    position: absolute;
-    width: 171px;
-    height: 43px;
-    text-align: center;
-    top:8px;
-    font-family: 'Gmarket Sans';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 25px;
-    line-height: 25px;
-
-
-    color: #0062FF;
-}
-
-
-
-/* 드롭다운 스타일 */
-.dropdown-container3 {
-    box-sizing: border-box;
-
-    position: absolute;
-    width: 260px;
-    height: 43px;
-    left: 835px;
-    top: 579px;
-
-    background: #FFFFFF;
-
-    border-radius: 50px;
-
-}
-
-/* 화살표 커스터마이즈 */
-.dropdown-container3::after {
-    content: "▼";
-    font-size: 20px;
-    color: #000000;
-    position: absolute;
-    right:15px;
-    top: 10px;
-    pointer-events: none; /* 클릭 불가 처리 */
-}
-
-
-/* 선택된 결과 스타일 */
-.result3 {
-    position: absolute;
-    width: 117px;
-    height: 30px;
-    left: 1250px;
-    top: 587px;
-
-    font-family: 'Gmarket Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 30px;
-    /* identical to box height */
-
-    color: #000000;
-}
-
-.reservebtn3{
-    /* Rectangle 315 */
-
-    position: absolute;
-    width: 190px;
-    height: 73px;
-    left: 1520px;
-    top: 560px;
-
-    background: #42A5F5;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 20px;
-    border:none;
-
-
-    /* 예약하기 */
-
-
-    font-family: 'Do Hyeon';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 38px;
-    /* identical to box height */
-
-    color: #FFFFFF;
-
-
-}
-
-.dryReserve{
-    position: absolute;
-    width: 1813px;
-    height: 680px;
-    left: 54px;
-    top: 256px;
-
-    background: #FFFFFF;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 50px;
-}
-
-.dryReserve .machine{
-    position: absolute;
-    width: 47px;
-    height: 38px;
-    left: 262px;
-    top: 29px;
-
-    font-family: 'Do Hyeon';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 38px;
-    /* identical to box height */
-
-    color: #000000;
-}
-.dryReserve .curent{
-    position: absolute;
-    width: 47px;
-    height: 38px;
-    left: 614px;
-    top: 29px;
-
-    font-family: 'Do Hyeon';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 38px;
-    /* identical to box height */
-
-    color: #000000;
-}
-.dryReserve .option{
-    position: absolute;
-    width: 47px;
-    height: 38px;
-    left: 944px;
-    top: 29px;
-
-    font-family: 'Do Hyeon';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 38px;
-    /* identical to box height */
-
-    color: #000000;
-}
-.dryReserve .price{
-    position: absolute;
-    width: 47px;
-    height: 38px;
-    left: 1278px;
-    top: 29px;
-
-    font-family: 'Do Hyeon';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 38px;
-    /* identical to box height */
-
-    color: #000000;
-}
-.dryReserve .reserve{
-    position: absolute;
-    width: 47px;
-    height: 38px;
-    left: 1588px;
-    top: 29px;
-
-    font-family: 'Do Hyeon';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 38px;
-    /* identical to box height */
-
-    color: #000000;
-}
-
-
-
-.dryimage{
-    position: absolute;
-    left:122px;
-    top:135px;
-}
-
-.dryReserve .호201{
-    position: absolute;
-    width: 300px;
-    height: 30px;
-    left: 288px;
-    top: 177px;
-
-    font-family: 'Gmarket Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 30px;
-    /* identical to box height */
-
-    color: #000000;
-}
-.dry-situation{
-
-    box-sizing: border-box;
-
-    position: absolute;
-    width: 171px;
-    height: 43px;
-    left: 552px;
-    top: 170px;
-
-    background: #FFFFFF;
-    border: 1px solid #000000;
-    border-radius: 50px;
-
-
-
-
-}
-
-.dry-situation span:nth-of-type(1){
-
-    position: absolute;
-    width: 171px;
-    height: 43px;
-    text-align: center;
-    top:8px;
-    font-family: 'Gmarket Sans';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 25px;
-    line-height: 25px;
-
-
-    color: #0062FF;
-}
-
-
-
-/* 드롭다운 스타일 */
-.dry-dropdown-container {
-    box-sizing: border-box;
-
-    position: absolute;
-    width: 260px;
-    height: 43px;
-    left: 835px;
-    top: 170px;
-
-    background: #FFFFFF;
-
-    border-radius: 50px;
-
-}
-/* 화살표 커스터마이즈 */
-.dry-dropdown-container::after {
-    content: "▼";
-    font-size: 20px;
-    color: #000000;
-    position: absolute;
-    right:15px;
-    top: 10px;
-    pointer-events: none; /* 클릭 불가 처리 */
-}
-
-
-/* 선택된 결과 스타일 */
-.dry-result {
-    position: absolute;
-    width: 307px;
-    height: 30px;
-    left: 1250px;
-    top: 177px;
-
-    font-family: 'Gmarket Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 30px;
-    /* identical to box height */
-
-    color: #000000;
-}
-
-.dry-reservebtn{
-    /* Rectangle 315 */
-
-    position: absolute;
-    width: 190px;
-    height: 73px;
-    left: 1520px;
-    top: 150px;
-
-    background: #42A5F5;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 20px;
-    border:none;
-
-
-    /* 예약하기 */
-
-
-    font-family: 'Do Hyeon';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 38px;
-    /* identical to box height */
-
-    color: #FFFFFF;
-
-
-}
-.dryimage2{
-    position: absolute;
-    left:122px;
-    top:337px;
-}
-
-.dryReserve .호202{
-    position: absolute;
-    width: 300px;
-    height: 30px;
-    left: 288px;
-    top: 387px;
-
-    font-family: 'Gmarket Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 30px;
-    /* identical to box height */
-
-    color: #000000;
-}
-.dry-situation2{
-
-    box-sizing: border-box;
-
-    position: absolute;
-    width: 171px;
-    height: 43px;
-    left: 552px;
-    top: 379px;
-
-    background: #FFFFFF;
-    border: 1px solid #000000;
-    border-radius: 50px;
-
-
-
-
-}
-
-.dry-situation2 span:nth-of-type(1){
-
-    position: absolute;
-    width: 171px;
-    height: 43px;
-    text-align: center;
-    top:8px;
-    font-family: 'Gmarket Sans';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 25px;
-    line-height: 25px;
-
-
-    color: #0062FF;
-}
-
-
-
-/* 드롭다운 스타일 */
-.dry-dropdown-container2 {
-    box-sizing: border-box;
-
-    position: absolute;
-    width: 260px;
-    height: 43px;
-    left: 835px;
-    top: 379px;
-
-    background: #FFFFFF;
-
-    border-radius: 50px;
-
-}
-/* 화살표 커스터마이즈 */
-.dry-dropdown-container2::after {
-    content: "▼";
-    font-size: 20px;
-    color: #000000;
-    position: absolute;
-    right:15px;
-    top: 10px;
-    pointer-events: none; /* 클릭 불가 처리 */
-}
-
-
-/* 선택된 결과 스타일 */
-.dry-result2 {
-    position: absolute;
-    width: 307px;
-    height: 30px;
-    left: 1250px;
-    top: 387px;
-
-    font-family: 'Gmarket Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 30px;
-    /* identical to box height */
-
-    color: #000000;
-}
-
-.dry-reservebtn2{
-    /* Rectangle 315 */
-
-    position: absolute;
-    width: 190px;
-    height: 73px;
-    left: 1520px;
-    top: 360px;
-
-    background: #42A5F5;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 20px;
-    border:none;
-
-
-    /* 예약하기 */
-
-
-    font-family: 'Do Hyeon';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 38px;
-    /* identical to box height */
-
-    color: #FFFFFF;
-
-
-}
-
-.dryimage3{
-    position: absolute;
-    left:122px;
-    top:537px;
-}
-
-.dryReserve .호203{
-    position: absolute;
-    width: 300px;
-    height: 30px;
-    left: 288px;
-    top: 587px;
-
-    font-family: 'Gmarket Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 30px;
-    /* identical to box height */
-
-    color: #000000;
-}
-.dry-situation3{
-
-    box-sizing: border-box;
-
-    position: absolute;
-    width: 171px;
-    height: 43px;
-    left: 552px;
-    top: 579px;
-
-    background: #FFFFFF;
-    border: 1px solid #000000;
-    border-radius: 50px;
-
-
-
-
-}
-
-.dry-situation3 span:nth-of-type(1){
-
-    position: absolute;
-    width: 171px;
-    height: 43px;
-    text-align: center;
-    top:8px;
-    font-family: 'Gmarket Sans';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 25px;
-    line-height: 25px;
-
-
-    color: #0062FF;
-}
-
-
-
-/* 드롭다운 스타일 */
-.dry-dropdown-container3 {
-    box-sizing: border-box;
-
-    position: absolute;
-    width: 260px;
-    height: 43px;
-    left: 835px;
-    top: 579px;
-
-    background: #FFFFFF;
-
-    border-radius: 50px;
-
-}
-/* 화살표 커스터마이즈 */
-.dry-dropdown-container3::after {
-    content: "▼";
-    font-size: 20px;
-    color: #000000;
-    position: absolute;
-    right:15px;
-    top: 10px;
-    pointer-events: none; /* 클릭 불가 처리 */
-}
-
-
-/* 선택된 결과 스타일 */
-.dry-result3 {
-    position: absolute;
-    width: 307px;
-    height: 30px;
-    left: 1250px;
-    top: 587px;
-
-    font-family: 'Gmarket Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 30px;
-    /* identical to box height */
-
-    color: #000000;
-}
-
-.dry-reservebtn3{
-    /* Rectangle 315 */
-
-    position: absolute;
-    width: 190px;
-    height: 73px;
-    left: 1520px;
-    top: 560px;
-
-    background: #42A5F5;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 20px;
-    border:none;
-
-
-    /* 예약하기 */
-
-
-    font-family: 'Do Hyeon';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 38px;
-    /* identical to box height */
-
-    color: #FFFFFF;
-
-
-}
-.reserveDate{
-
-
+/* 예약 시간 관련 스타일 */
+.reserveDate {
     position: absolute;
     width: 100px;
     height: 38px;
     left: 1100px;
     top: -75px;
-
     font-family: 'Do Hyeon';
     font-style: normal;
     font-weight: 400;
     font-size: 30px;
     line-height: 38px;
-    /* identical to box height */
     text-align: center;
-
     color: #000000;
-
-
 }
 
-.reserveTime{
+.reserveTime {
     position: absolute;
-    top:-80px;
-    left:1170px;
-    width:500px;
+    top: -80px;
+    left: 1170px;
+    width: 500px;
 }
-/* 화살표 커스터마이즈 */
+
 .reserveTime::after {
     content: "▼";
     font-size: 20px;
     color: #000000;
     position: absolute;
-    right:190px;
+    right: 190px;
     top: 10px;
-    pointer-events: none; /* 클릭 불가 처리 */
+    pointer-events: none;
 }
 
-/* 입력 필드에 포커스 시 스타일 */
-.datetime-picker:focus {
-    border:none;
-
-}
-
-.time-range-display{
-    position: absolute;
-    top:-95px;
-    left:1560px;
-    font-family: 'Gmarket Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 25px;
-    line-height: 25px;
-
-    /* identical to box height */
-
-    color: #000000;
-}
-.datetime-picker{
+.datetime-picker {
     box-sizing: border-box;
     width: 320px;
     height: 43px;
     background: #FFFFFF;
     border: 1px solid #000000;
     border-radius: 50px;
-
     font-family: 'Gmarket Sans';
     font-style: normal;
     font-weight: 400;
     font-size: 25px;
     line-height: 25px;
     text-align: center;
-    /* identical to box height */
-
     color: #000000;
 }
-.imtDate{
-    position: absolute;
-    left:1180px;
-    top:180px;
-    font-size: 30px;
 
+.datetime-picker:focus {
+    border: none;
 }
-.imtTime{
+
+.time-range-display {
     position: absolute;
-    left:1570px;
-    top:178px;
+    top: -95px;
+    left: 1560px;
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 25px;
+    color: #000000;
+}
+
+/* 아이콘 스타일 */
+.imtDate {
+    position: absolute;
+    left: 1180px;
+    top: 180px;
     font-size: 30px;
 }
+
+.imtTime {
+    position: absolute;
+    left: 1570px;
+    top: 178px;
+    font-size: 30px;
+}
+
+/* 세탁기/건�기 컨테이너 스타일 수정 */
+.washing-machines-container, .drying-machines-container {
+    position: relative;
+    margin-top: 100px;
+    transition: height 0.3s ease;
+}
+
+/* 기기별 위치 조정 수정 */
+.machine-row {
+    position: relative;
+    height: 150px;
+    margin-top: 40px;
+}
+
+/* 기기 행 위치 자동 계산 */
+.machine-row:nth-child(n) {
+    top: 85px;
+}
+
+/* 기기 행 내부 요소들의 상대적 위치는 유지 */
+.machine-row .situation { top: -20px; }
+.machine-row .dropdown-container { top: -20px; }
+.machine-row .result { top: -10px; }
+.machine-row .reservebtn { top: -30px; }
+.machine-row .washimage,
+.machine-row .dryimage { top: -50px; }
+.machine-row [class^="호"] { top: -15px; }
 
 
 

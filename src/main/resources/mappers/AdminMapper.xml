@@ -296,4 +296,10 @@
         GROUP BY RESERVE_OPTION
     </select>
 
+    <!-- 새로운 기기 추가 -->
+    <insert id="insertMachine">
+        INSERT INTO TBL_MACHINE (MACHINE_NO, MACHINE_TYPE, MACHINE_STATUS)
+        VALUES (#{machineNo}, #{machineType}, '사용가능')
+    </insert>
+
 </mapper>
