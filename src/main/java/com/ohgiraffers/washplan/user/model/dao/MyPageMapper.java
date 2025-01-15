@@ -1,8 +1,9 @@
 package com.ohgiraffers.washplan.user.model.dao;
 
+import com.ohgiraffers.washplan.reservation.model.dto.ReservationDTO;
 import com.ohgiraffers.washplan.user.model.dto.ReservationDetailsDTO;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.type.BlobTypeHandler;
 
 import java.util.List;
 
@@ -25,6 +26,8 @@ public interface MyPageMapper {
     int deleteReservationByNo(@Param("reserveNo") int reserveNo);
 
     byte[] getQRCode(@Param("reserveNo") int reserveNo);
+
+    ReservationDTO findReservationQRCode(int reserveNo);
 
     }
 

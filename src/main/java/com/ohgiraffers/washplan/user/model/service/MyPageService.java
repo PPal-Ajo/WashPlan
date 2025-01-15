@@ -10,6 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
+import java.io.ByteArrayOutputStream;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 
 @Service
 @Transactional
@@ -63,14 +68,23 @@ public class MyPageService {
 
     public byte[] getQRCode(int reserveNo) {
         try {
-            byte[] qrCode = myPageMapper.getQRCode(reserveNo);
-            if (qrCode != null && qrCode.length > 0) {
-                return qrCode;
-            }
-            return null;
+            // 임시 QR 코드 생성
+            String dummyData = "예약번호: " + reserveNo;
+            QRCodeWriter qrCodeWriter = new QRCodeWriter();
+            BitMatrix bitMatrix = qrCodeWriter.encode(dummyData, BarcodeFormat.QR_CODE, 200, 200);
+            
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            MatrixToImageWriter.writeToStream(bitMatrix, "PNG", outputStream);
+            
+            return outputStream.toByteArray();
+            
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            throw new RuntimeException("QR 코드 생성 중 오류가 발생했습니다.", e);
         }
+    }
+
+    public ReservationDTO getReservationQRCode(int reserveNo) {
+        return myPageMapper.findReservationQRCode(reserveNo);
     }
 }
