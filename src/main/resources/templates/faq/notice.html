@@ -38,6 +38,54 @@
             <span class="notice-date" th:text="${#temporals.format(notice.noticeDate, 'yyyy-MM-dd')}"></span>
         </div>
     </div>
+
+    <!-- 공지사항 상세보기 모달 -->
+    <div id="noticeDetailModal" class="modal">
+        <div class="modal-content">
+            <div class="notice-detail">
+                <p><strong>제목</strong></p>
+                <div id="modalTitle" class="content-box"></div>
+                <p><strong>내용</strong></p>
+                <div id="modalContent" class="content-box"></div>
+                <div class="modal-buttons">
+                    <button class="confirm-btn">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const modal = document.getElementById('noticeDetailModal');
+        
+        // 각 공지사항 클릭 이벤트
+        document.querySelectorAll('.notice-item').forEach(item => {
+            item.addEventListener('click', async function() {
+                const noticeNo = this.querySelector('.notice-no').textContent;
+                try {
+                    const response = await fetch(`/notice/detail/${noticeNo}`);
+                    const data = await response.json();
+                    
+                    // 모달 내용 업데이트
+                    document.getElementById('modalTitle').textContent = data.noticeTitle;
+                    document.getElementById('modalContent').textContent = data.noticeContent;
+                    
+                    // 모달 표시 및 스크롤 막기
+                    modal.style.display = 'block';
+                    document.body.classList.add('no-scroll');
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+        
+        // 확인 버튼 클릭 시 모달 닫기
+        document.querySelector('.confirm-btn').addEventListener('click', function() {
+            modal.style.display = 'none';
+            document.body.classList.remove('no-scroll');
+        });
+    });
+    </script>
 </main>
 
 <footer>
