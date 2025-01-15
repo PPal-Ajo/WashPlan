@@ -302,4 +302,55 @@
         VALUES (#{machineNo}, #{machineType}, '사용가능')
     </insert>
 
+    <delete id="deleteMachine" parameterType="int">
+        DELETE FROM TBL_MACHINE 
+        WHERE MACHINE_NO = #{machineNo}
+    </delete>
+
+    <select id="getDailyDetailSales" resultType="map">
+        SELECT 
+            m.MACHINE_TYPE,
+            h.RESERVE_OPTION,
+            COUNT(*) as count,
+            COALESCE(SUM(h.RESERVE_PRICE), 0) as total
+        FROM TBL_RESERVATION_HISTORY h
+        JOIN TBL_MACHINE m ON h.MACHINE_NO = m.MACHINE_NO
+        WHERE DATE(h.COMPLETED_DATE) = #{date}
+        GROUP BY m.MACHINE_TYPE, h.RESERVE_OPTION
+    </select>
+
+    <select id="getMonthlyDetailSales" resultType="map">
+        SELECT 
+            m.MACHINE_TYPE,
+            h.RESERVE_OPTION,
+            COUNT(*) as count,
+            COALESCE(SUM(h.RESERVE_PRICE), 0) as total
+        FROM TBL_RESERVATION_HISTORY h
+        JOIN TBL_MACHINE m ON h.MACHINE_NO = m.MACHINE_NO
+        WHERE DATE_FORMAT(h.COMPLETED_DATE, '%Y-%m') = #{yearMonth}
+        GROUP BY m.MACHINE_TYPE, h.RESERVE_OPTION
+    </select>
+
+    <select id="getYearlyDetailSales" resultType="map">
+        SELECT 
+            m.MACHINE_TYPE,
+            h.RESERVE_OPTION,
+            COUNT(*) as count,
+            COALESCE(SUM(h.RESERVE_PRICE), 0) as total
+        FROM TBL_RESERVATION_HISTORY h
+        JOIN TBL_MACHINE m ON h.MACHINE_NO = m.MACHINE_NO
+        WHERE DATE_FORMAT(h.COMPLETED_DATE, '%Y') = #{year}
+        GROUP BY m.MACHINE_TYPE, h.RESERVE_OPTION
+    </select>
+
+    <select id="getMonthlyDataForYear" resultType="map">
+        SELECT 
+            MONTH(COMPLETED_DATE) as MONTH,
+            COALESCE(SUM(RESERVE_PRICE), 0) as TOTAL
+        FROM TBL_RESERVATION_HISTORY
+        WHERE DATE_FORMAT(COMPLETED_DATE, '%Y') = #{year}
+        GROUP BY MONTH(COMPLETED_DATE)
+        ORDER BY MONTH(COMPLETED_DATE)
+    </select>
+
 </mapper>

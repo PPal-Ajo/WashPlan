@@ -25,9 +25,9 @@ button:active {
 
     position: absolute;
     width: 415px;
-    height: 531px;
+    height: 650px;
     left: 1505px;
-    top: 79px;
+    top: 69px;
 
     background: #E3F2FD;
     border: 1px solid #000000;
@@ -35,7 +35,7 @@ button:active {
 
 }
 
-.adminUser{
+.adminMain{
     /* Rectangle 314 */
 
     position: absolute;
@@ -63,13 +63,42 @@ button:active {
 
 }
 
-.adminMachine{
+
+.adminUser{
+    /* Rectangle 314 */
 
     position: absolute;
     width: 325px;
     height: 70px;
     left: 45px;
     top: 168px;
+
+    background: #42A5F5;
+    border-radius: 20px;
+    border:none;
+
+
+    /* 사용자 관리 */
+    text-align: center;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+
+    color: #FFFFFF;
+
+
+}
+
+.adminMachine{
+
+    position: absolute;
+    width: 325px;
+    height: 70px;
+    left: 45px;
+    top: 287px;
 
     background: #42A5F5;
     border-radius: 20px;
@@ -93,7 +122,7 @@ button:active {
     width: 325px;
     height: 70px;
     left: 45px;
-    top: 287px;
+    top: 406px;
 
     background: #42A5F5;
     border-radius: 20px;
@@ -111,13 +140,14 @@ button:active {
 
     color: #FFFFFF;
 }
+
 .adminNotice{
 
     position: absolute;
     width: 325px;
     height: 70px;
     left: 45px;
-    top: 406px;
+    top: 525px;
 
     background: #42A5F5;
     border-radius: 20px;
