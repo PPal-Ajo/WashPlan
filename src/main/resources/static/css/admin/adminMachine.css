@@ -20,9 +20,9 @@ button:active {
 
     position: absolute;
     width: 415px;
-    height: 531px;
+    height: 650px;
     left: 1505px;
-    top: 79px;
+    top: 69px;
 
     background: #E3F2FD;
     border: 1px solid #000000;
@@ -30,7 +30,7 @@ button:active {
 
 }
 
-.adminUser{
+.adminMain{
     /* Rectangle 314 */
 
     position: absolute;
@@ -58,13 +58,42 @@ button:active {
 
 }
 
-.adminMachine{
+
+.adminUser{
+    /* Rectangle 314 */
 
     position: absolute;
     width: 325px;
     height: 70px;
     left: 45px;
     top: 168px;
+
+    background: #42A5F5;
+    border-radius: 20px;
+    border:none;
+
+
+    /* 사용자 관리 */
+    text-align: center;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+
+    color: #FFFFFF;
+
+
+}
+
+.adminMachine{
+
+    position: absolute;
+    width: 325px;
+    height: 70px;
+    left: 45px;
+    top: 287px;
 
     background: #42A5F5;
     border-radius: 20px;
@@ -88,7 +117,7 @@ button:active {
     width: 325px;
     height: 70px;
     left: 45px;
-    top: 287px;
+    top: 406px;
 
     background: #42A5F5;
     border-radius: 20px;
@@ -113,7 +142,7 @@ button:active {
     width: 325px;
     height: 70px;
     left: 45px;
-    top: 406px;
+    top: 525px;
 
     background: #42A5F5;
     border-radius: 20px;
@@ -861,6 +890,34 @@ button:active {
     font-size: 20px;
     color: black;
     text-align: center;
+}
+
+.deleteMachineBtn{
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 209px;
+    height: 59px;
+    left: 850px;
+    top: 992px;
+
+    background: #42A5F5;
+    border:none;
+    border-radius: 50px;
+
+    padding-top: 3px;
+    /* 상태변경 */
+
+    box-sizing: border-box;
+
+    text-align: center;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 50px;
+
+    color: #FFFFFF;
 }
 
 

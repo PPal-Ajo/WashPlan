@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 
 @Service
 public class AdminService {
@@ -138,14 +139,20 @@ public class AdminService {
         LocalDate today = LocalDate.now();
         
         if (message.contains("오늘") && message.contains("매출")) {
-            int sales = adminMapper.getDailySales(today.toString());
-            return String.format("오늘의 총 매출은 %,d원입니다.", sales);
+            List<Map<String, Object>> detailSales = adminMapper.getDailyDetailSales(today.toString());
+            return formatDetailSales(detailSales, "오늘");
         }
         
         if (message.contains("이번달") && message.contains("매출")) {
             String yearMonth = today.format(DateTimeFormatter.ofPattern("yyyy-MM"));
-            int sales = adminMapper.getMonthlySales(yearMonth);
-            return String.format("이번 달의 총 매출은 %,d원입니다.", sales);
+            List<Map<String, Object>> detailSales = adminMapper.getMonthlyDetailSales(yearMonth);
+            return formatDetailSales(detailSales, "이번달");
+        }
+        
+        if (message.contains("이번년도") && message.contains("매출")) {
+            String year = today.format(DateTimeFormatter.ofPattern("yyyy"));
+            List<Map<String, Object>> detailSales = adminMapper.getYearlyDetailSales(year);
+            return formatDetailSales(detailSales, "이번년도");
         }
         
         if (message.contains("기기별") || message.contains("기계별")) {
@@ -172,10 +179,64 @@ public class AdminService {
             return response.toString();
         }
         
-        return "죄송합니다. 이해하지 못했습니다. '오늘 매출', '이번달 매출', '기기별 매출', '옵션별 매출' 등으로 물어봐주세요.";
+        return "죄송합니다. 이해하지 못했습니다. '오늘 매출', '이번달 매출', '이번연도 매출', '기기별 매출', '옵션별 매출' 등으로 물어봐주세요.";
+    }
+
+    private String formatDetailSales(List<Map<String, Object>> detailSales, String period) {
+        Map<String, Integer> washingCounts = new HashMap<>();
+        Map<String, Integer> dryingCounts = new HashMap<>();
+        int washingTotal = 0;
+        int dryingTotal = 0;
+        
+        // 데이터 분류
+        for (Map<String, Object> sale : detailSales) {
+            String machineType = (String) sale.get("MACHINE_TYPE");
+            String option = (String) sale.get("RESERVE_OPTION");
+            int count = ((Number) sale.get("count")).intValue();
+            int total = ((Number) sale.get("total")).intValue();
+            
+            if ("세탁기".equals(machineType)) {
+                washingCounts.put(option, count);
+                washingTotal += total;
+            } else if ("건조기".equals(machineType)) {
+                dryingCounts.put(option, count);
+                dryingTotal += total;
+            }
+        }
+        
+        // 결과 포맷팅
+        StringBuilder response = new StringBuilder(period + "의 매출 현황:\n\n");
+        
+        // 세탁기 정보
+        response.append("■ 세탁기\n");
+        response.append(String.format("- 표준세탁: %d회\n", washingCounts.getOrDefault("표준세탁", 0)));
+        response.append(String.format("- 침구세탁: %d회\n", washingCounts.getOrDefault("침구세탁", 0)));
+        response.append(String.format("총 사용 횟수: %d회\n", 
+            washingCounts.values().stream().mapToInt(Integer::intValue).sum()));
+        response.append(String.format("세탁기 매출: %,d원\n\n", washingTotal));
+        
+        // 건조기 정보
+        response.append("■ 건조기\n");
+        response.append(String.format("- 표준건조: %d회\n", dryingCounts.getOrDefault("표준건조", 0)));
+        response.append(String.format("- 소량건조: %d회\n", dryingCounts.getOrDefault("소량건조", 0)));
+        response.append(String.format("총 사용 횟수: %d회\n",
+            dryingCounts.values().stream().mapToInt(Integer::intValue).sum()));
+        response.append(String.format("건조기 매출: %,d원\n\n", dryingTotal));
+        
+        // 전체 매출
+        response.append(String.format("▶ 전체 매출: %,d원", washingTotal + dryingTotal));
+        
+        return response.toString();
     }
 
     public void addMachine(AdminMachineDTO machine) {
         adminMapper.insertMachine(machine);
     }
+
+    public void deleteMachines(List<Integer> machineNos) {
+        for (Integer machineNo : machineNos) {
+            adminMapper.deleteMachine(machineNo);
+        }
+    }
+
 }

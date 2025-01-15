@@ -259,4 +259,15 @@ public class AdminController {
         }
     }
 
+    @PostMapping("/adminmachine/delete")
+    @ResponseBody
+    public ResponseEntity<String> deleteMachines(@RequestBody List<Integer> machineNos) {
+        try {
+            adminService.deleteMachines(machineNos);
+            return ResponseEntity.ok("기기 삭제 성공");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("기기 삭제 실패");
+        }
+    }
+
 }

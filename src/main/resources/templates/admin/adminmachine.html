@@ -23,6 +23,7 @@
 
 <!-- 관리자 메뉴 -->
 <div class="admin-menu" id="adminMenu">
+    <button onclick="location.href='/admin'" class="adminMain">관리자 메인</button>
     <button onclick="location.href='/admin/adminuser'" class="adminUser">사용자 관리</button>
     <button onclick="location.href='/admin/adminmachine'" class="adminMachine">세탁기/건조기 관리</button>
     <button onclick="location.href='/admin/admininquiry'" class="adminInquiry">문의사항 관리</button>
@@ -120,6 +121,27 @@
     <div class="modal-content">
         <p class="reserveConfirm">기기 추가가 완료되었습니다!</p>
         <button class="confirm2 completeAddConfirm">확인</button>
+    </div>
+</div>
+
+<!-- 기기 삭제 버튼 -->
+<button class="deleteMachineBtn">기기삭제</button>
+
+<!-- 기기 삭제 확인 모달 -->
+<div class="delete-machine-modal modal">
+    <div class="modal-content">
+        <p class="modal-text2" style="color: black;">선택하신 기기를 삭제하시겠습니까?</p>
+        <div id="selectedDeleteMachineInfo" class="machine-info"></div>
+        <button class="cancel deleteMachineCancel">취소</button>
+        <button class="confirm deleteMachineConfirm">확인</button>
+    </div>
+</div>
+
+<!-- 기기 삭제 완료 모달 -->
+<div class="delete-complete-modal modal">
+    <div class="modal-content">
+        <p class="reserveConfirm">기기 삭제가 완료되었습니다!</p>
+        <button class="confirm2 deleteCompleteConfirm">확인</button>
     </div>
 </div>
 
@@ -305,9 +327,9 @@
                 washingContainer.appendChild(washingContent);
             });
 
-            // 3개 기준으로 ��이 조정
+            // 3개 기준으로 이 조정
             const baseHeight = 380; // 3개 기기의 기본 높이
-            const itemHeight = 110; // 각 ��가 항목당 높이
+            const itemHeight = 110; // 각 기기 항목당 높이
             const containerHeight = Math.max(baseHeight, washmachines.length * itemHeight);
             washingContainer.parentElement.style.height = `${containerHeight}px`;
         }
@@ -353,9 +375,9 @@
                 dryingContainer.appendChild(dryingContent);
             });
 
-            // 3개 기준으로 ��이 조정
+            // 3개 기준으로 이 조정
             const baseHeight = 380; // 3개 기기의 기본 높이
-            const itemHeight = 110; // 각 ��가 항목당 높이
+            const itemHeight = 110; // 각 기기 항목당 높이
             const containerHeight = Math.max(baseHeight, drymachines.length * itemHeight);
             dryingContainer.parentElement.style.height = `${containerHeight}px`;
         }
@@ -463,6 +485,75 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('machineType').value = '세탁기';
         document.getElementById('machineNo').value = '';
     }
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const deleteMachineBtn = document.querySelector('.deleteMachineBtn');
+    const deleteMachineModal = document.querySelector('.delete-machine-modal');
+    const deleteCompleteModal = document.querySelector('.delete-complete-modal');
+    
+    // 기기 삭제 버튼 클릭
+    deleteMachineBtn.addEventListener('click', () => {
+        const selectedMachines = getSelectedMachineNo();
+        if (selectedMachines.length === 0) {
+            alert('삭제할 기기를 선택해주세요.');
+            return;
+        }
+
+        // 선택된 기기 정보 가져오기
+        const selectedInfo = [];
+        selectedMachines.forEach(machineNo => {
+            const checkbox = document.querySelector(`input[value="${machineNo}"]`);
+            if (checkbox) {
+                const machineType = checkbox.classList.contains('washingCheckbox') ? '세탁기' : '건조기';
+                selectedInfo.push(`${machineType} - ${machineNo}호`);
+            }
+        });
+
+        // 선택된 기기 정보를 모달에 표시
+        const selectedDeleteMachineInfo = document.getElementById('selectedDeleteMachineInfo');
+        selectedDeleteMachineInfo.innerHTML = selectedInfo.join('<br>');
+        
+        deleteMachineModal.style.display = 'block';
+    });
+
+    // 삭제 모달 취소
+    document.querySelector('.deleteMachineCancel').addEventListener('click', () => {
+        deleteMachineModal.style.display = 'none';
+    });
+
+    // 삭제 모달 확인
+    document.querySelector('.deleteMachineConfirm').addEventListener('click', async () => {
+        const selectedMachines = getSelectedMachineNo();
+        try {
+            const response = await fetch('/adminmachine/delete', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(selectedMachines)
+            });
+
+            if (!response.ok) {
+                throw new Error('기기 삭제 실패');
+            }
+
+            deleteMachineModal.style.display = 'none';
+            deleteCompleteModal.style.display = 'block';
+
+        } catch (error) {
+            alert('기기 삭제 중 오류가 발생했습니다.');
+            console.error('Error:', error);
+        }
+    });
+
+    // 삭제 완료 모달 확인
+    document.querySelector('.deleteCompleteConfirm').addEventListener('click', () => {
+        deleteCompleteModal.style.display = 'none';
+        location.reload(); // 페이지 새로고침
+    });
 });
 </script>
 

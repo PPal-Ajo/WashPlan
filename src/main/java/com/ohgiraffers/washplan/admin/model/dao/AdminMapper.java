@@ -80,4 +80,12 @@ public interface AdminMapper {
     List<Map<String, Object>> getOptionSales(String date);
 
     void insertMachine(AdminMachineDTO machine);
+
+    void deleteMachine(int machineNo);
+
+    List<Map<String, Object>> getDailyDetailSales(String date);
+    List<Map<String, Object>> getMonthlyDetailSales(String yearMonth);
+    List<Map<String, Object>> getYearlyDetailSales(String year);
+
+    List<Map<String, Object>> getMonthlyDataForYear(String year);
 }

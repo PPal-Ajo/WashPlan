@@ -24,6 +24,8 @@
     </nav>
 </header>
 
+<img class="adminimage" th:src="@{/images/login/Login.png}" alt="관리자메인배경">
+
 
 <!-- 관리자 메뉴 -->
 <div class="admin-menu" id="adminMenu">
@@ -37,17 +39,22 @@
 <div class="chat-container">
     <div class="chat-messages" id="chatMessages">
         <div class="message bot-message">
-            안녕하세요! 매출 관련 정보를 알려드릴 수 있습니다.
-            다음과 같이 물어보세요:
-            - 오늘 매출
-            - 이번달 매출
-            - 기기별 매출
-            - 옵션별 매출
+            안녕하세요! 매출 관련 정보를 알려드릴 수 있습니다.<br>
+            다음과 같이 물어보세요:<br><br>
+            ■ 기간별 상세 매출 조회<br>
+            - 오늘 매출 (세탁기/건조기 상세 내역)<br>
+            - 이번달 매출 (세탁기/건조기 상세 내역)<br>
+            - 이번년도 매출 (세탁기/건조기 상세 내역)<br><br>
         </div>
     </div>
+    
+    <div id="chartContainer" style="display: none; margin: 20px 0;">
+        <canvas id="salesChart"></canvas>
+    </div>
+    
     <div class="chat-input">
         <input type="text" id="messageInput" placeholder="메시지를 입력하세요...">
-        <button onclick="sendMessage()">전송</button>
+        <button onclick="sendMessage()" class="chatbtn">전송</button>
     </div>
 </div>
 
@@ -90,8 +97,12 @@
         })
         .then(response => response.json())
         .then(data => {
-            // 봇 응답 표시
+            // 봇 응답 표시 - 줄바꿈 처리를 위해 innerHTML 사용
             addMessage(data.message, 'bot');
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            addMessage('죄송합니다. 오류가 발생했습니다.', 'bot');
         });
 
         input.value = '';
@@ -101,7 +112,10 @@
         const messagesDiv = document.getElementById('chatMessages');
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${type}-message`;
-        messageDiv.textContent = message;
+        
+        // 줄바꿈 문자(\n)를 <br> 태그로 변환
+        messageDiv.innerHTML = message.replace(/\n/g, '<br>');
+        
         messagesDiv.appendChild(messageDiv);
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
     }
@@ -113,5 +127,8 @@
         }
     });
 </script>
+
+<!-- Chart.js CDN 추가 -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>
