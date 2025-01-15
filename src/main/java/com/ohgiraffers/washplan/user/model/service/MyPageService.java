@@ -68,9 +68,7 @@ public class MyPageService {
 
     public byte[] getQRCode(int reserveNo) {
         try {
-            System.out.println("서비스 계층 - QR 코드 조회 시작: " + reserveNo);
-            
-            // 실제 DB에서 조회하는 대신 임시 QR 코드 생성
+            // 임시 QR 코드 생성
             String dummyData = "예약번호: " + reserveNo;
             QRCodeWriter qrCodeWriter = new QRCodeWriter();
             BitMatrix bitMatrix = qrCodeWriter.encode(dummyData, BarcodeFormat.QR_CODE, 200, 200);
@@ -78,13 +76,9 @@ public class MyPageService {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             MatrixToImageWriter.writeToStream(bitMatrix, "PNG", outputStream);
             
-            byte[] qrCode = outputStream.toByteArray();
-            System.out.println("서비스 계층 - 더미 QR 코드 생성 완료: " + qrCode.length + " bytes");
-            
-            return qrCode;
+            return outputStream.toByteArray();
             
         } catch (Exception e) {
-            System.out.println("서비스 계층 - QR 코드 생성 실패: " + e.getMessage());
             e.printStackTrace();
             throw new RuntimeException("QR 코드 생성 중 오류가 발생했습니다.", e);
         }
