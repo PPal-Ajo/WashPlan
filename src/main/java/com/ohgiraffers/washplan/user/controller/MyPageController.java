@@ -16,11 +16,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Base64;
 
 @Controller
 public class MyPageController {
@@ -122,6 +125,29 @@ public class MyPageController {
             response.put("success", "false");
             response.put("message", "서버 오류가 발생했습니다.");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
+    @GetMapping("/mypage/reservations/qr/{reserveNo}")
+    @ResponseBody
+    public ResponseEntity<?> getQRCode(@PathVariable int reserveNo) {
+        try {
+            System.out.println("컨트롤러 - QR 코드 요청 받음 - 예약번호: " + reserveNo);
+            byte[] qrCode = myPageService.getQRCode(reserveNo);
+            
+            if (qrCode == null || qrCode.length == 0) {
+                System.out.println("컨트롤러 - QR 코드가 없거나 비어있음");
+                return ResponseEntity.notFound().build();
+            }
+            
+            String base64QR = Base64.getEncoder().encodeToString(qrCode);
+            System.out.println("컨트롤러 - QR 코드 변환 완료 - 길이: " + base64QR.length());
+            return ResponseEntity.ok(Map.of("qrCode", base64QR));
+        } catch (Exception e) {
+            System.out.println("컨트롤러 - QR 코드 조회 중 오류 발생: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                               .body("QR 코드 조회 중 오류가 발생했습니다: " + e.getMessage());
         }
     }
 }
