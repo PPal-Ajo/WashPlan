@@ -188,3 +188,94 @@ hr {
     width: 200px;
     text-align: center;
 }
+
+/* 모달 스타일 */
+.modal {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 1920px;
+    height: 1880px;
+    background-color: rgba(0,0,0,0.4);
+    z-index: 1000;
+}
+
+.modal-content {
+    position: absolute;
+    width: 1106px;
+    height: 1000px;
+    left: 900px;
+    top: 831px;
+    transform: translate(-50%, -50%);
+    background: #E3F2FD;
+    box-shadow: 0px 7px 24.4px 7px rgba(0, 0, 0, 0.25);
+    border-radius: 70px;
+    padding: 40px;
+}
+
+.notice-detail {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.notice-detail p {
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 35px;
+    margin: 30px 0 15px 0;
+}
+
+.content-box {
+    background: #FFFFFF;
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 30px;
+    font-family: 'Gmarket Sans';
+    font-size: 28px;
+    line-height: 1.5;
+}
+
+#modalTitle {
+    height: 80px;
+}
+
+#modalContent {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 400px;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.confirm-btn {
+    width: 250px;
+    height: 80px;
+    background: #42A5F5;
+    border: none;
+    border-radius: 50px;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 45px;
+    line-height: 50px;
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.confirm-btn:hover {
+    background: #1E88E5;
+}
+
+/* 스크롤 방지 */
+.no-scroll {
+    overflow: hidden;
+}

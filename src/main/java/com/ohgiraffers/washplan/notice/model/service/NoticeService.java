@@ -18,4 +18,8 @@ public class NoticeService {
     public List<NoticeDTO> getAllNotices() {
         return noticeMapper.findAllNotices();
     }
+
+    public NoticeDTO getNoticeDetail(int noticeNo) {
+        return noticeMapper.findNoticeByNo(noticeNo);
+    }
 }
