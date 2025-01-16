@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.nio.charset.StandardCharsets;
 
 @Service
 public class ReservationService {
@@ -31,14 +32,14 @@ public class ReservationService {
             reservationDTO.setQrCode(null);
             reservationMapper.insertReservation(reservationDTO);
 
-            // QR 코드 생성
-            String qrContent = String.format("예약번호:%d\n사용자:%d\n기기번호:%d\n예약일:%s\n시작시간:%s\n종료시간:%s",
+            // QR 코드 생성 (UTF-8 인코딩 적용)
+            String qrContent = new String(String.format("예약번호:%d\n사용자:%d\n기기번호:%d\n예약일:%s\n시작시간:%s\n종료시간:%s",
                     reservationDTO.getReserveNo(),
                     reservationDTO.getUserNo(),
                     reservationDTO.getMachineNo(),
                     reservationDTO.getReserveDate(),
                     reservationDTO.getStartTime(),
-                    reservationDTO.getEndTime());
+                    reservationDTO.getEndTime()).getBytes(StandardCharsets.UTF_8));
             
             byte[] qrCodeImage = qrCodeService.generateQRCode(qrContent, 200, 200);
             System.out.println("QR 코드 생성 완료 - 크기: " + qrCodeImage.length + " bytes");

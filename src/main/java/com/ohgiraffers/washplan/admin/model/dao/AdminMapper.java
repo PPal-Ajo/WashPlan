@@ -88,4 +88,9 @@ public interface AdminMapper {
     List<Map<String, Object>> getYearlyDetailSales(String year);
 
     List<Map<String, Object>> getMonthlyDataForYear(String year);
+    Map<String, Object> getUserStats();
+    
+    List<Map<String, Object>> getMachineStatus();
+    
+    Map<String, Object> getInquiryStats();
 }

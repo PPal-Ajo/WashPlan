@@ -11,6 +11,8 @@ import java.util.Map;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 @Service
 public class AdminService {
@@ -146,7 +148,8 @@ public class AdminService {
         if (message.contains("이번달") && message.contains("매출")) {
             String yearMonth = today.format(DateTimeFormatter.ofPattern("yyyy-MM"));
             List<Map<String, Object>> detailSales = adminMapper.getMonthlyDetailSales(yearMonth);
-            return formatDetailSales(detailSales, "이번달");
+            String currentMonth = today.format(DateTimeFormatter.ofPattern("M")) + "월";
+            return formatDetailSales(detailSales, currentMonth);
         }
         
         if (message.contains("이번년도") && message.contains("매출")) {
@@ -179,12 +182,39 @@ public class AdminService {
             return response.toString();
         }
         
-        return "죄송합니다. 이해하지 못했습니다. '오늘 매출', '이번달 매출', '이번연도 매출', '기기별 매출', '옵션별 매출' 등으로 물어봐주세요.";
+        if (message.contains("회원") || message.contains("사용자")) {
+            Map<String, Object> userStats = adminMapper.getUserStats();
+            return formatUserStats(userStats);
+        }
+        
+        if (message.contains("기기") && message.contains("현황")) {
+            List<Map<String, Object>> machineStatus = adminMapper.getMachineStatus();
+            return formatMachineStatus(machineStatus);
+        }
+        
+        if (message.contains("문의") || message.contains("문의사항")) {
+            Map<String, Object> inquiryStats = adminMapper.getInquiryStats();
+            return formatInquiryStats(inquiryStats);
+        }
+        
+        return "죄송합니다. 이해하지 못했습니다. 다음과 같이 물어보세요:\n" +
+               "■ 매출 조회\n" +
+               "- 오늘 매출\n" +
+               "- 이번달 매출\n" +
+               "- 이번년도 매출\n" +
+               "■ 현황 조회\n" +
+               "- 회원 현황\n" +
+               "- 기기 현황\n" +
+               "- 문의사항 현황";
     }
 
     private String formatDetailSales(List<Map<String, Object>> detailSales, String period) {
-        Map<String, Integer> washingCounts = new HashMap<>();
-        Map<String, Integer> dryingCounts = new HashMap<>();
+        if (period.equals("이번년도")) {
+            return formatYearlyDetailSales(detailSales);
+        }
+
+        Map<String, Map<String, Object>> washingCounts = new HashMap<>();
+        Map<String, Map<String, Object>> dryingCounts = new HashMap<>();
         int washingTotal = 0;
         int dryingTotal = 0;
         
@@ -194,37 +224,77 @@ public class AdminService {
             String option = (String) sale.get("RESERVE_OPTION");
             int count = ((Number) sale.get("count")).intValue();
             int total = ((Number) sale.get("total")).intValue();
+            int optionPrice = ((Number) sale.get("OPTION_PRICE")).intValue();
+            
+            Map<String, Object> optionData = new HashMap<>();
+            optionData.put("count", count);
+            optionData.put("total", total);
+            optionData.put("price", optionPrice);
             
             if ("세탁기".equals(machineType)) {
-                washingCounts.put(option, count);
+                washingCounts.put(option, optionData);
                 washingTotal += total;
             } else if ("건조기".equals(machineType)) {
-                dryingCounts.put(option, count);
+                dryingCounts.put(option, optionData);
                 dryingTotal += total;
             }
         }
         
-        // 결과 포맷팅
-        StringBuilder response = new StringBuilder(period + "의 매출 현황:\n\n");
+        StringBuilder response = new StringBuilder(period + " 매출 현황:\n\n");
         
         // 세탁기 정보
         response.append("■ 세탁기\n");
-        response.append(String.format("- 표준세탁: %d회\n", washingCounts.getOrDefault("표준세탁", 0)));
-        response.append(String.format("- 침구세탁: %d회\n", washingCounts.getOrDefault("침구세탁", 0)));
+        washingCounts.forEach((option, data) -> {
+            response.append(String.format("- %s(%,d원): %d회\n", 
+                option, 
+                ((Number)data.get("price")).intValue(),
+                ((Number)data.get("count")).intValue()));
+            response.append(String.format("- %s 총 가격: %,d원\n", 
+                option,
+                ((Number)data.get("total")).intValue()));
+        });
         response.append(String.format("총 사용 횟수: %d회\n", 
-            washingCounts.values().stream().mapToInt(Integer::intValue).sum()));
+            washingCounts.values().stream()
+                .mapToInt(data -> ((Number)data.get("count")).intValue())
+                .sum()));
         response.append(String.format("세탁기 매출: %,d원\n\n", washingTotal));
         
         // 건조기 정보
         response.append("■ 건조기\n");
-        response.append(String.format("- 표준건조: %d회\n", dryingCounts.getOrDefault("표준건조", 0)));
-        response.append(String.format("- 소량건조: %d회\n", dryingCounts.getOrDefault("소량건조", 0)));
-        response.append(String.format("총 사용 횟수: %d회\n",
-            dryingCounts.values().stream().mapToInt(Integer::intValue).sum()));
+        dryingCounts.forEach((option, data) -> {
+            response.append(String.format("- %s(%,d원): %d회\n", 
+                option, 
+                ((Number)data.get("price")).intValue(),
+                ((Number)data.get("count")).intValue()));
+            response.append(String.format("- %s 총 가격: %,d원\n", 
+                option,
+                ((Number)data.get("total")).intValue()));
+        });
+        response.append(String.format("총 사용 횟수: %d회\n", 
+            dryingCounts.values().stream()
+                .mapToInt(data -> ((Number)data.get("count")).intValue())
+                .sum()));
         response.append(String.format("건조기 매출: %,d원\n\n", dryingTotal));
         
         // 전체 매출
-        response.append(String.format("▶ 전체 매출: %,d원", washingTotal + dryingTotal));
+        response.append(String.format("▶ %s 전체 매출: %,d원", period, washingTotal + dryingTotal));
+        
+        return response.toString();
+    }
+
+    private String formatYearlyDetailSales(List<Map<String, Object>> detailSales) {
+        Map<Integer, List<Map<String, Object>>> salesByMonth = detailSales.stream()
+            .collect(Collectors.groupingBy(sale -> ((Number)sale.get("MONTH")).intValue()));
+        
+        StringBuilder response = new StringBuilder("2024년도 매출 현황:\n\n");
+        
+        for (int month = 1; month <= 12; month++) {
+            List<Map<String, Object>> monthSales = salesByMonth.getOrDefault(month, new ArrayList<>());
+            if (!monthSales.isEmpty()) {
+                response.append(formatDetailSales(monthSales, month + "월"));
+                response.append("\n\n");
+            }
+        }
         
         return response.toString();
     }
@@ -237,6 +307,45 @@ public class AdminService {
         for (Integer machineNo : machineNos) {
             adminMapper.deleteMachine(machineNo);
         }
+    }
+
+    private String formatUserStats(Map<String, Object> stats) {
+        StringBuilder response = new StringBuilder("회원 현황:\n\n");
+        response.append(String.format("▶ 전체 회원 수: %d명\n", 
+            ((Number)stats.get("total_users")).intValue()));
+        response.append(String.format("▶ 오늘 신규 가입: %d명", 
+            ((Number)stats.get("new_users")).intValue()));
+        return response.toString();
+    }
+
+    private String formatMachineStatus(List<Map<String, Object>> machines) {
+        StringBuilder response = new StringBuilder("기기 현황:\n\n");
+        
+        // 세탁기 현황
+        response.append("■ 세탁기\n");
+        machines.stream()
+            .filter(m -> "세탁기".equals(m.get("MACHINE_TYPE")))
+            .forEach(m -> response.append(String.format("- %d번 기기: %s\n", 
+                ((Number)m.get("MACHINE_NO")).intValue(),
+                m.get("MACHINE_STATUS"))));
+        
+        response.append("\n■ 건조기\n");
+        machines.stream()
+            .filter(m -> "건조기".equals(m.get("MACHINE_TYPE")))
+            .forEach(m -> response.append(String.format("- %d번 기기: %s\n", 
+                ((Number)m.get("MACHINE_NO")).intValue(),
+                m.get("MACHINE_STATUS"))));
+        
+        return response.toString();
+    }
+
+    private String formatInquiryStats(Map<String, Object> stats) {
+        StringBuilder response = new StringBuilder("문의사항 현황:\n\n");
+        response.append(String.format("▶ 오늘 신규 문의: %d건\n", 
+            ((Number)stats.get("today_inquiries")).intValue()));
+        response.append(String.format("▶ 답변 대기 문의: %d건", 
+            ((Number)stats.get("pending_inquiries")).intValue()));
+        return response.toString();
     }
 
 }
