@@ -68,10 +68,36 @@ public class MyPageService {
 
     public byte[] getQRCode(int reserveNo) {
         try {
-            // 임시 QR 코드 생성
-            String dummyData = "예약번호: " + reserveNo;
+            // 예약 정보 조회
+            ReservationDTO reservation = myPageMapper.findReservationQRCode(reserveNo);
+            
+            if (reservation == null) {
+                throw new RuntimeException("예약 정보를 찾을 수 없습니다.");
+            }
+            
+            // QR 코드에 포함될 정보 구성
+            StringBuilder qrData = new StringBuilder();
+            qrData.append("예약번호: ").append(reservation.getReserveNo()).append("\n");
+            qrData.append("회원번호: ").append(reservation.getUserNo()).append("\n");
+            qrData.append("기기번호: ").append(reservation.getMachineNo()).append("\n");
+            
+            // null 체크를 하면서 정보 추가
+            if (reservation.getReserveDate() != null) {
+                qrData.append("예약일자: ").append(reservation.getReserveDate().toString()).append("\n");
+            }
+            if (reservation.getStartTime() != null) {
+                qrData.append("시작시간: ").append(reservation.getStartTime().toString()).append("\n");
+            }
+            if (reservation.getEndTime() != null) {
+                qrData.append("종료시간: ").append(reservation.getEndTime().toString()).append("\n");
+            }
+            if (reservation.getReserveOption() != null) {
+                qrData.append("예약옵션: ").append(reservation.getReserveOption());
+            }
+            
+            // QR 코드 생성
             QRCodeWriter qrCodeWriter = new QRCodeWriter();
-            BitMatrix bitMatrix = qrCodeWriter.encode(dummyData, BarcodeFormat.QR_CODE, 200, 200);
+            BitMatrix bitMatrix = qrCodeWriter.encode(qrData.toString(), BarcodeFormat.QR_CODE, 200, 200);
             
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             MatrixToImageWriter.writeToStream(bitMatrix, "PNG", outputStream);
