@@ -54,6 +54,13 @@
         </div>
     </div>
 
+    <!-- 페이지네이션 추가 -->
+    <div id="pagination" class="pagination">
+        <button id="prevPage" disabled>◀︎</button>
+        <div id="pageNumbers"></div>
+        <button id="nextPage" disabled>►</button>
+    </div>
+
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         const modal = document.getElementById('noticeDetailModal');
@@ -84,8 +91,76 @@
             modal.style.display = 'none';
             document.body.classList.remove('no-scroll');
         });
+
+        // 페이지네이션 관련 변수
+        const itemsPerPage = 13; // 페이지당 보여줄 항목 수
+        const noticeItems = document.querySelectorAll('.notice-item');
+        const totalPages = Math.ceil(noticeItems.length / itemsPerPage);
+        let currentPage = 1;
+
+        // 페이지 번호 생성
+        function createPageNumbers() {
+            const pageNumbers = document.getElementById('pageNumbers');
+            pageNumbers.innerHTML = '';
+            
+            for (let i = 1; i <= totalPages; i++) {
+                const button = document.createElement('button');
+                button.className = `page-number ${i === currentPage ? 'active' : ''}`;
+                button.textContent = i;
+                button.onclick = () => goToPage(i);
+                pageNumbers.appendChild(button);
+            }
+        }
+
+        // 페이지 이동
+        function goToPage(page) {
+            currentPage = page;
+            updateDisplay();
+            updateButtons();
+            createPageNumbers();
+        }
+
+        // 화면 업데이트
+        function updateDisplay() {
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+
+            noticeItems.forEach((item, index) => {
+                item.style.display = (index >= start && index < end) ? '' : 'none';
+            });
+        }
+
+        // 버튼 상태 업데이트
+        function updateButtons() {
+            document.getElementById('prevPage').disabled = currentPage === 1;
+            document.getElementById('nextPage').disabled = currentPage === totalPages;
+        }
+
+        // 이전/다음 버튼 이벤트
+        document.getElementById('prevPage').onclick = () => {
+            if (currentPage > 1) goToPage(currentPage - 1);
+        };
+
+        document.getElementById('nextPage').onclick = () => {
+            if (currentPage < totalPages) goToPage(currentPage + 1);
+        };
+
+        // 초기 설정
+        createPageNumbers();
+        updateDisplay();
+        updateButtons();
     });
     </script>
+
+    <!-- 문의하기 섹션 추가 -->
+    <p class="p1">도움말을 통해 문제를 해결하지 못하셨나요?</p>
+
+    <div class="DivIq">
+        <img th:src="@{/images/main/iq.png}" alt="AImage" class="Iq">
+        <p class="IqP1">문의하기<br>
+            <br>
+            마이페이지에서 답변을 받을 수 있습니다.</p>
+    </div>
 </main>
 
 <footer>

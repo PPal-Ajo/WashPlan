@@ -28,7 +28,6 @@ public interface UserMapper {
     @Update("UPDATE TBL_USER SET USER_PWD = #{password} WHERE EMAIL = #{email} AND USER_ID = #{userId}")
     int updatePasswordByEmailAndId(@Param("email") String email, @Param("userId") String userId, @Param("password") String password);
 
-
-
+    UserDTO findByUsername(String username);
 
 }
