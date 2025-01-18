@@ -60,4 +60,18 @@ public interface ReservationMapper {
     List<ReservationDTO> getCurrentReservations();
 
     List<MachineDTO> findMachinesByType(String machineType);
+
+    ReservationDTO selectReservationByNo(int reserveNo);
+
+    int updateReservationStatusToUsing(int reserveNo);
+
+    ReservationDTO getCurrentReservation(@Param("machineNo") int machineNo, 
+                                       @Param("selectedDate") String selectedDate,
+                                       @Param("selectedTime") String selectedTime);
+
+    List<Integer> findUnusedReservationUserNos();
+
+    void deleteUnusedReservation();
+
+    void updateUserCancelCount(int userNo);
 }

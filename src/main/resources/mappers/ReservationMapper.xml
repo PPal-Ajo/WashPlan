@@ -15,6 +15,19 @@
         <result property="machineStatus" column="MACHINE_STATUS"/>
     </resultMap>
 
+    <resultMap id="reservationResultMap2" type="com.ohgiraffers.washplan.reservation.model.dto.ReservationDTO">
+        <id property="reserveNo" column="RESERVE_NO"/>
+         <result property="userNo" column="USER_NO"/>
+        <result property="machineNo" column="MACHINE_NO"/>
+        <result property="reserveDate" column="RESERVE_DATE"/>
+        <result property="startTime" column="START_TIME"/>
+        <result property="endTime" column="END_TIME"/>
+        <result property="reserveOption" column="RESERVE_OPTION"/>
+        <result property="reservePrice" column="RESERVE_PRICE"/>
+        <result property="reserveStatus" column="RESERVE_STATUS"/>
+        <result property="qrCode" column="QR_CODE"/>
+    </resultMap>
+
     <select id="findMachineNo101" resultType="int" >
         SELECT MACHINE_NO
         FROM TBL_MACHINE
@@ -77,6 +90,7 @@
         WHERE MACHINE_NO = #{machineNo}
         AND RESERVE_DATE = #{reserveDate}
         AND (START_TIME &lt; #{endTime} AND END_TIME &gt; #{startTime})
+        AND RESERVE_STATUS IN ('예약중', '사용중')
     </select>
 
 
@@ -84,7 +98,7 @@
     <update id="updateReservationStatus">
         UPDATE TBL_RESERVATION
         SET RESERVE_STATUS = '완료'
-        WHERE RESERVE_STATUS = '예약중'
+        WHERE RESERVE_STATUS = '사용중'
         AND (
         RESERVE_DATE &lt; CURDATE()
         OR (RESERVE_DATE = CURDATE() AND END_TIME &lt;= CURTIME())
@@ -138,6 +152,95 @@
         FROM TBL_MACHINE
         WHERE MACHINE_TYPE = #{machineType}
         ORDER BY MACHINE_NO
+    </select>
+
+    <select id="selectReservationByNo" resultType="com.ohgiraffers.washplan.reservation.model.dto.ReservationDTO">
+        SELECT
+            reserve_no AS reserveNo,
+            user_no AS userNo,
+            machine_no AS machineNo,
+            reserve_date AS reserveDate,
+            start_time AS StartTime,
+            end_time AS EndTime,
+            reserve_option AS reserveOption,
+            reserve_price AS reservePrice,
+            reserve_status AS reserveStatus,
+            qr_code AS qrCode
+        FROM
+            tbl_reservation
+        WHERE
+            reserve_no = #{reserveNo}
+    </select>
+
+    <update id="updateReservationStatusToUsing">
+        UPDATE TBL_RESERVATION
+        SET RESERVE_STATUS = '사용중'
+        WHERE RESERVE_NO = #{reserveNo}
+          AND RESERVE_STATUS = '예약중'
+    </update>
+
+    <select id="getCurrentReservation" resultMap="reservationResultMap2">
+        /* 현재 예약 상태 조회 */
+        SELECT 
+            RESERVE_NO,
+            USER_NO,
+            MACHINE_NO,
+            RESERVE_DATE,
+            START_TIME,
+            END_TIME,
+            RESERVE_OPTION,
+            RESERVE_PRICE,
+            RESERVE_STATUS,
+            QR_CODE
+        FROM TBL_RESERVATION r
+        WHERE r.MACHINE_NO = #{machineNo}
+        AND r.RESERVE_STATUS IN ('예약중', '사용중')
+        AND r.RESERVE_DATE = #{selectedDate, jdbcType=VARCHAR}
+        AND (
+            (#{selectedTime, jdbcType=VARCHAR} BETWEEN r.START_TIME AND r.END_TIME)
+            OR (r.START_TIME BETWEEN #{selectedTime, jdbcType=VARCHAR} AND DATE_ADD(#{selectedTime, jdbcType=VARCHAR}, INTERVAL 1 HOUR))
+        )
+        ORDER BY r.RESERVE_NO DESC
+        LIMIT 1
+    </select>
+
+    <!-- 10분 이내 미사용 예약 자동 삭제 및 취소 횟수 증가 -->
+    <delete id="deleteUnusedReservation">
+        DELETE r FROM TBL_RESERVATION r
+        WHERE r.RESERVE_STATUS = '예약중'
+        AND (
+            (r.RESERVE_DATE = CURDATE() 
+             AND NOW() &gt;= DATE_ADD(CONCAT(r.RESERVE_DATE, ' ', r.START_TIME), INTERVAL 10 MINUTE)
+             AND NOW() &lt;= CONCAT(r.RESERVE_DATE, ' ', r.END_TIME))
+            OR r.RESERVE_DATE &lt; CURDATE()
+        )
+    </delete>
+
+    <!-- 미사용 예약 사용자의 취소 횟수 증가 -->
+    <update id="updateUserCancelCount">
+        UPDATE TBL_USER u
+        JOIN TBL_RESERVATION r ON u.USER_NO = r.USER_NO
+        SET u.CANCEL_COUNT = u.CANCEL_COUNT + 1
+        WHERE r.RESERVE_STATUS = '예약중'
+        AND (
+            (r.RESERVE_DATE = CURDATE() 
+             AND NOW() &gt;= DATE_ADD(CONCAT(r.RESERVE_DATE, ' ', r.START_TIME), INTERVAL 10 MINUTE)
+             AND NOW() &lt;= CONCAT(r.RESERVE_DATE, ' ', r.END_TIME))
+            OR r.RESERVE_DATE &lt; CURDATE()
+        )
+    </update>
+
+    <!-- 미사용 예약의 사용자 번호 조회 -->
+    <select id="findUnusedReservationUserNos" resultType="int">
+        SELECT DISTINCT r.USER_NO
+        FROM TBL_RESERVATION r
+        WHERE r.RESERVE_STATUS = '예약중'
+        AND (
+            (r.RESERVE_DATE = CURDATE() 
+             AND NOW() &gt;= DATE_ADD(CONCAT(r.RESERVE_DATE, ' ', r.START_TIME), INTERVAL 10 MINUTE)
+             AND NOW() &lt;= CONCAT(r.RESERVE_DATE, ' ', r.END_TIME))
+            OR r.RESERVE_DATE &lt; CURDATE()
+        )
     </select>
 
 </mapper>

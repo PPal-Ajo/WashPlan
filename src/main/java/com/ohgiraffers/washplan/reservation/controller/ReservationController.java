@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import com.ohgiraffers.washplan.machine.model.dto.MachineDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -101,16 +102,21 @@ public class ReservationController {
     @PostMapping("/reservation/checkStatus")
     @ResponseBody
     public Map<String, String> checkReservationStatus(@RequestBody Map<String, String> request) {
-        int machineNo = Integer.parseInt(request.get("machineNo")); // String to int 변환
+        log.info("=== 예약 상태 체크 요청 ===");
+        log.info("요청 데이터: {}", request);
+
+        int machineNo = Integer.parseInt(request.get("machineNo"));
         String reserveDate = request.get("reserveDate");
         String startTime = request.get("startTime");
         String endTime = request.get("endTime");
 
-        int count = reservationService.checkReservationStatus(machineNo, reserveDate, startTime, endTime);
+        String status = reservationService.checkReservationStatus(machineNo, reserveDate, startTime, endTime);
+        log.info("반환되는 상태: {}", status);
 
         Map<String, String> response = new HashMap<>();
-        response.put("status", count > 0 ? "예약중" : "사용가능");
+        response.put("status", status);
 
+        log.info("=== 예약 상태 체크 응답 완료 ===");
         return response;
     }
 
@@ -127,11 +133,119 @@ public class ReservationController {
         return ResponseEntity.ok("Completed");
     }
 
+    @PostMapping("/reservation/qr-scan/{reserveNo}")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> updateReservationStatusAfterQRScan(@PathVariable int reserveNo) {
+        Map<String, Object> response = new HashMap<>();
+        
+        try {
+            // 로그인 체크
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (!(authentication != null && authentication.getPrincipal() instanceof CustomUserDetails)) {
+                response.put("success", false);
+                response.put("message", "로그인이 필요합니다.");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+            }
 
+            // 예약 정보 조회
+            ReservationDTO reservation = reservationService.findReservationByNo(reserveNo);
+            
+            if (reservation == null) {
+                response.put("success", false);
+                response.put("message", "유효하지 않은 예약입니다.");
+                return ResponseEntity.badRequest().body(response);
+            }
+            
+            if (!"예약중".equals(reservation.getReserveStatus())) {
+                response.put("success", false);
+                response.put("message", "이미 처리된 예약이거나 취소된 예약입니다.");
+                return ResponseEntity.badRequest().body(response);
+            }
+            
+            // 예약 상태 업데이트
+            reservationService.updateQRScanStatus(reserveNo);
+            
+            // 업데이트된 예약 정보 다시 조회
+            ReservationDTO updatedReservation = reservationService.findReservationByNo(reserveNo);
+            
+            response.put("success", true);
+            response.put("message", "QR 코드 스캔이 완료되었습니다.");
+            response.put("reservation", updatedReservation);  // 업데이트된 예약 정보 전달
+            response.put("machineNo", updatedReservation.getMachineNo());  // 기기 번호도 전달
+            
+            return ResponseEntity.ok(response);
+            
+        } catch (Exception e) {
+            log.error("QR 코드 스캔 처리 중 오류 발생: ", e);
+            response.put("success", false);
+            response.put("message", "처리 중 오류가 발생했습니다: " + e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
 
+    @GetMapping("/reservation/qr-scan/{reserveNo}")
+    public String handleQRScanFromMobile(@PathVariable int reserveNo, RedirectAttributes redirectAttributes) {
+        try {
+            // 예약 정보 조회
+            ReservationDTO reservation = reservationService.findReservationByNo(reserveNo);
+            
+            if (reservation == null) {
+                log.error("예약을 찾을 수 없음: {}", reserveNo);
+                redirectAttributes.addFlashAttribute("error", "유효하지 않은 예약입니다.");
+                return "redirect:/reservation/error";
+            }
+            
+            // 현재 예약 상태 로깅
+            log.info("예약 상태: {}", reservation.getReserveStatus());
+            
+            if (!"예약중".equals(reservation.getReserveStatus())) {
+                log.error("잘못된 예약 상태: {}", reservation.getReserveStatus());
+                redirectAttributes.addFlashAttribute("error", 
+                    "이미 처리된 예약이거나 취소된 예약입니다. (현재 상태: " + reservation.getReserveStatus() + ")");
+                return "redirect:/reservation/error";
+            }
+            
+            // 예약 상태 업데이트
+            reservationService.updateQRScanStatus(reserveNo);
+            
+            redirectAttributes.addFlashAttribute("success", "QR 코드 스캔이 완료되었습니다. 이용을 시작하세요.");
+            return "redirect:/reservation/success";
+            
+        } catch (Exception e) {
+            log.error("QR 스캔 처리 중 오류: ", e);
+            redirectAttributes.addFlashAttribute("error", "처리 중 오류가 발생했습니다: " + e.getMessage());
+            return "redirect:/reservation/error";
+        }
+    }
+    @GetMapping("/reservation/current/{machineNo}")
+    @ResponseBody
+    public String getCurrentReservationStatus(@PathVariable int machineNo) {
+        log.info("[ReservationController] getCurrentReservationStatus : machineNo={}", machineNo);
+        
+        return reservationService.getCurrentReservationStatus(machineNo);
+    }
 
+    @GetMapping("/reservation/success")
+    public String showSuccess() {
+        return "reservation/success";
+    }
 
+    @GetMapping("/reservation/error")
+    public String showError() {
+        return "reservation/error";
+    }
 
-
-
+    @PostMapping("/reservation/check-unused")
+    public ResponseEntity<String> checkUnusedReservations() {
+        log.info("=== 미사용 예약 체크 요청 ===");
+        try {
+            reservationService.handleUnusedReservations();
+            log.info("=== 미사용 예약 체크 완료 ===");
+            return ResponseEntity.ok("Completed");
+        } catch (Exception e) {
+            log.error("미사용 예약 처리 중 오류 발생", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error processing unused reservations");
+        }
+    }
 }
