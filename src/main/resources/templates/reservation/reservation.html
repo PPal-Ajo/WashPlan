@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>예약페이지</title>
     <link rel="stylesheet" th:href="@{/css/base/nav.css}">
     <link rel="stylesheet" th:href="@{/css/reservation/reservation.css}">
     <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css}">
@@ -149,8 +149,11 @@
     <span>ⓒ 2024 PPal-AjoㅣAll rights reserved.Designed for your convenience.</span>
 </footer>
 
-<script>
+<script th:inline="javascript">
     document.addEventListener("DOMContentLoaded", function () {
+        // Thymeleaf에서 전달받은 machines 데이터
+        const machines = /*[[${allMachines}]]*/ [];
+        
         // 1. 기본 요소 초기화
         const washButton = document.getElementById("washButton");
         const dryButton = document.getElementById("dryButton");
@@ -716,6 +719,51 @@
 
         // 1분마다 미사용 예약 체크
         setInterval(checkUnusedReservations, 60000);
+
+        // 모달 높이 조절 함수 수정
+        function adjustModalHeight() {
+            const pageHeight = Math.max(
+                document.body.scrollHeight,
+                document.documentElement.scrollHeight,
+                document.body.offsetHeight,
+                document.documentElement.offsetHeight,
+                document.body.clientHeight,
+                document.documentElement.clientHeight
+            );
+
+            // 모든 모달 요소를 직접 선택하여 높이 조절
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                modal.style.height = pageHeight + 'px';
+            });
+        }
+
+        // 페이지 로드 시 실행
+        adjustModalHeight();
+
+        // 윈도우 크기 변경 시 실행
+        window.addEventListener('resize', adjustModalHeight);
+
+        // 예약 버튼 클릭 이벤트에 높이 조절 추가
+        document.querySelectorAll('[id^="reserveButton-"]').forEach(button => {
+            button.addEventListener("click", function() {
+                adjustModalHeight(); // 모달 표시 전 높이 조절
+                const machineNo = this.id.split('-')[1];
+                const modal = document.getElementById(`modal-${machineNo}`);
+                const modalContent = document.getElementById(`modal-content-${machineNo}`);
+                if (modal && modalContent) {
+                    modal.style.display = "block";
+                    modalContent.style.display = "block";
+                }
+            });
+        });
+
+        // DOM 변경 감지하여 모달 높이 조절
+        const observer = new MutationObserver(adjustModalHeight);
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
     });
 </script>
 

@@ -155,7 +155,19 @@ public class AdminService {
         if (message.contains("이번년도") && message.contains("매출")) {
             String year = today.format(DateTimeFormatter.ofPattern("yyyy"));
             List<Map<String, Object>> detailSales = adminMapper.getYearlyDetailSales(year);
+            if (message.contains("총")) {
+                return formatYearlyTotalSales(detailSales, year);
+            }
             return formatDetailSales(detailSales, "이번년도");
+        }
+        
+        if (message.contains("작년") || message.contains("2024년") && message.contains("매출")) {
+            String year = String.valueOf(today.getYear() - 1);  // 2024
+            List<Map<String, Object>> detailSales = adminMapper.getYearlyDetailSales(year);
+            if (message.contains("총")) {
+                return formatYearlyTotalSales(detailSales, year);
+            }
+            return formatLastYearDetailSales(detailSales);
         }
         
         if (message.contains("기기별") || message.contains("기계별")) {
@@ -202,6 +214,9 @@ public class AdminService {
                "- 오늘 매출\n" +
                "- 이번달 매출\n" +
                "- 이번년도 매출\n" +
+               "- 이번년도 총 매출\n" +
+               "- 작년 매출\n" +
+               "- 작년 총 매출\n" +
                "■ 현황 조회\n" +
                "- 회원 현황\n" +
                "- 기기 현황\n" +
@@ -286,7 +301,7 @@ public class AdminService {
         Map<Integer, List<Map<String, Object>>> salesByMonth = detailSales.stream()
             .collect(Collectors.groupingBy(sale -> ((Number)sale.get("MONTH")).intValue()));
         
-        StringBuilder response = new StringBuilder("2024년도 매출 현황:\n\n");
+        StringBuilder response = new StringBuilder("2025년도 매출 현황:\n\n");
         
         for (int month = 1; month <= 12; month++) {
             List<Map<String, Object>> monthSales = salesByMonth.getOrDefault(month, new ArrayList<>());
@@ -345,6 +360,46 @@ public class AdminService {
             ((Number)stats.get("today_inquiries")).intValue()));
         response.append(String.format("▶ 답변 대기 문의: %d건", 
             ((Number)stats.get("pending_inquiries")).intValue()));
+        return response.toString();
+    }
+
+    private String formatYearlyTotalSales(List<Map<String, Object>> detailSales, String year) {
+        Map<Integer, Integer> monthlyTotals = new HashMap<>();
+        
+        for (Map<String, Object> sale : detailSales) {
+            int month = ((Number)sale.get("MONTH")).intValue();
+            int total = ((Number)sale.get("total")).intValue();
+            monthlyTotals.merge(month, total, Integer::sum);
+        }
+        
+        StringBuilder response = new StringBuilder(year + "년 월별 매출:\n\n");
+        int yearTotal = 0;
+        
+        for (int month = 1; month <= 12; month++) {
+            int monthTotal = monthlyTotals.getOrDefault(month, 0);
+            yearTotal += monthTotal;
+            response.append(String.format("%2d월 매출: %,d원\n", month, monthTotal));
+        }
+        
+        response.append(String.format("\n▶ %s년 전체 매출: %,d원", year, yearTotal));
+        
+        return response.toString();
+    }
+
+    private String formatLastYearDetailSales(List<Map<String, Object>> detailSales) {
+        Map<Integer, List<Map<String, Object>>> salesByMonth = detailSales.stream()
+            .collect(Collectors.groupingBy(sale -> ((Number)sale.get("MONTH")).intValue()));
+        
+        StringBuilder response = new StringBuilder("2024년도 매출 현황:\n\n");
+        
+        for (int month = 1; month <= 12; month++) {
+            List<Map<String, Object>> monthSales = salesByMonth.getOrDefault(month, new ArrayList<>());
+            if (!monthSales.isEmpty()) {
+                response.append(formatDetailSales(monthSales, month + "월"));
+                response.append("\n\n");
+            }
+        }
+        
         return response.toString();
     }
 
