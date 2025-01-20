@@ -33,7 +33,7 @@
             RESERVE_PRICE AS reservePrice
         FROM TBL_RESERVATION
         WHERE USER_NO = #{userNo}
-        AND RESERVE_STATUS = '예약중'
+        AND RESERVE_STATUS IN ('예약중', '사용중')
         ORDER BY RESERVE_DATE, START_TIME;
     </select>
 

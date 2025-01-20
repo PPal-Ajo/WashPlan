@@ -472,13 +472,18 @@ hr {
 
 /* QR 모달 스타일 */
 .qr-modal {
-    width: 500px;
-    height: 500px;
+    width: 400px;
+    height: 400px;
     background: #FFFFFF;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
+    border-radius: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .qr-image {

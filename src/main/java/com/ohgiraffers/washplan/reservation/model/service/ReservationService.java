@@ -242,4 +242,8 @@ public class ReservationService {
         
         log.info("=== 미사용 예약 처리 종료 ===");
     }
+
+    public void updateReservationStatusToUsing(int reserveNo) {
+        reservationMapper.updateReservationStatusToUsing(reserveNo);
+    }
 }

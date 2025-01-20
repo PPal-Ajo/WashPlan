@@ -6,8 +6,11 @@ import com.ohgiraffers.washplan.reservation.model.service.ReservationService;
 import com.ohgiraffers.washplan.user.model.dto.ReservationDetailsDTO;
 import com.ohgiraffers.washplan.user.model.service.MyPageService;
 import com.ohgiraffers.washplan.user.model.service.UserService;
+import com.ohgiraffers.washplan.reservation.model.service.QRCodeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -30,11 +34,14 @@ public class MyPageController {
 
     private final UserService userService;
     private final MyPageService myPageService;
+    private final ReservationService reservationService;
+    private final QRCodeService qrCodeService;
 
-
-    public MyPageController(UserService userService, MyPageService myPageService) {
+    public MyPageController(UserService userService, MyPageService myPageService, ReservationService reservationService, QRCodeService qrCodeService) {
         this.userService = userService;
         this.myPageService = myPageService;
+        this.reservationService = reservationService;
+        this.qrCodeService = qrCodeService;
     }
 
     @GetMapping("/mypage")
@@ -132,22 +139,47 @@ public class MyPageController {
     @ResponseBody
     public ResponseEntity<?> getQRCode(@PathVariable int reserveNo) {
         try {
-            System.out.println("컨트롤러 - QR 코드 요청 받음 - 예약번호: " + reserveNo);
-            byte[] qrCode = myPageService.getQRCode(reserveNo);
-            
-            if (qrCode == null || qrCode.length == 0) {
-                System.out.println("컨트롤러 - QR 코드가 없거나 비어있음");
-                return ResponseEntity.notFound().build();
-            }
-            
-            String base64QR = Base64.getEncoder().encodeToString(qrCode);
-            System.out.println("컨트롤러 - QR 코드 변환 완료 - 길이: " + base64QR.length());
-            return ResponseEntity.ok(Map.of("qrCode", base64QR));
+            byte[] qrCode = qrCodeService.generateMyPageQRCode(String.valueOf(reserveNo), 200, 200);
+            return ResponseEntity.ok(Map.of("qrCode", Base64.getEncoder().encodeToString(qrCode)));
         } catch (Exception e) {
-            System.out.println("컨트롤러 - QR 코드 조회 중 오류 발생: " + e.getMessage());
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                               .body("QR 코드 조회 중 오류가 발생했습니다: " + e.getMessage());
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
     }
+
+    @GetMapping("/mypage/reservations/scan/{reserveNo}")
+    public String handleQRScanFromMobile(@PathVariable int reserveNo, RedirectAttributes redirectAttributes) {
+        try {
+            // 예약 정보 조회
+            ReservationDTO reservation = reservationService.findReservationByNo(reserveNo);
+            
+            if (reservation == null) {
+                redirectAttributes.addFlashAttribute("error", "유효하지 않은 예약입니다.");
+                return "redirect:/reservation/error";
+            }
+            
+            if (!"예약중".equals(reservation.getReserveStatus())) {
+                redirectAttributes.addFlashAttribute("error", 
+                    "이미 처리된 예약이거나 취소된 예약입니다. (현재 상태: " + reservation.getReserveStatus() + ")");
+                return "redirect:/reservation/error";
+            }
+            
+            // 단순히 DB의 예약 상태만 '사용중'으로 업데이트
+            reservationService.updateReservationStatusToUsing(reserveNo);
+            
+            redirectAttributes.addFlashAttribute("success", "QR 코드 스캔이 완료되었습니다. 이용을 시작하세요.");
+            return "redirect:/reservation/success";
+            
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "처리 중 오류가 발생했습니다: " + e.getMessage());
+            return "redirect:/reservation/error";
+        }
+    }
+
+    @GetMapping("/mypage/reservations/status/{reserveNo}")
+    @ResponseBody
+    public String getReservationStatus(@PathVariable int reserveNo) {
+        ReservationDTO reservation = reservationService.findReservationByNo(reserveNo);
+        return reservation.getReserveStatus();
+    }
+
 }

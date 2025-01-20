@@ -8,7 +8,8 @@
     <title>WashPlan</title>
     <link rel="stylesheet" th:href="@{/css/base/nav.css}">
     <link rel="stylesheet" th:href="@{/css/main/main.css}">
-    <script th:src="@{/js/common/nav.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/admin/admin.css}">
+
 
 </head>
 <body>
@@ -19,14 +20,33 @@
         <span>WashPlan</span>
         <span onclick="location.href='/reservation'">예약</span>
         <span onclick="location.href='/faq'">FAQ</span>
-        <span th:if="${#authentication.principal != null and #authentication.principal instanceof T(com.ohgiraffers.washplan.auth.model.dto.CustomUserDetails)}"
-              onclick="location.href='/mypage'">마이페이지</span>
-        <span th:if="${#authentication.principal != null and #authentication.principal instanceof T(com.ohgiraffers.washplan.auth.model.dto.CustomUserDetails)}"
-              onclick="location.href='/logout'">로그아웃</span>
-        <span th:if="${#authentication.principal == null or #authentication.principal == 'anonymousUser'}"
-              onclick="location.href='/signup/agree'">회원가입</span>
-        <span th:if="${#authentication.principal == null or #authentication.principal == 'anonymousUser'}"
-              onclick="location.href='/login'">로그인</span>
+        
+        <!-- 관리자 로그인 시 (ROLE_ADMIN) -->
+        <th:block th:if="${#authentication.principal != null and #authentication.principal instanceof T(com.ohgiraffers.washplan.auth.model.dto.CustomUserDetails) and #authentication.principal.role == 'ROLE_ADMIN'}">
+            <span id="adminTab" class="admin" onclick="toggleAdminMenu()">관리자</span>
+            <span onclick="location.href='/logout'">로그아웃</span>
+            
+            <!-- 관리자 메뉴 -->
+            <div class="admin-menu" id="adminMenu" style="display: none;">
+                <button onclick="location.href='/admin'" class="adminMain">관리자 메인</button>
+                <button onclick="location.href='/admin/adminuser'" class="adminUser">사용자 관리</button>
+                <button onclick="location.href='/admin/adminmachine'" class="adminMachine">세탁기/건조기 관리</button>
+                <button onclick="location.href='/admin/admininquiry'" class="adminInquiry">문의사항 관리</button>
+                <button onclick="location.href='/admin/adminnotice'" class="adminNotice">공지사항 관리</button>
+            </div>
+        </th:block>
+        
+        <!-- 일반 사용자 로그인 시 (ROLE_USER) -->
+        <th:block th:if="${#authentication.principal != null and #authentication.principal instanceof T(com.ohgiraffers.washplan.auth.model.dto.CustomUserDetails) and #authentication.principal.role == 'ROLE_USER'}">
+            <span onclick="location.href='/mypage'">마이페이지</span>
+            <span onclick="location.href='/logout'">로그아웃</span>
+        </th:block>
+        
+        <!-- 로그인하지 않은 경우 -->
+        <th:block th:if="${#authentication.principal == null or #authentication.principal == 'anonymousUser'}">
+            <span onclick="location.href='/signup/agree'">회원가입</span>
+            <span onclick="location.href='/login'">로그인</span>
+        </th:block>
     </nav>
 </header>
 
@@ -134,6 +154,24 @@
             // mouseover, mouseout 이벤트는 제거 (더 이상 필요하지 않음)
         });
     </script>
+
+<script>
+    function toggleAdminMenu() {
+        const adminMenu = document.getElementById('adminMenu');
+        adminMenu.style.display = adminMenu.style.display === 'none' ? 'block' : 'none';
+    }
+
+    // 메뉴 외부 클릭시 닫기
+    document.addEventListener('click', function(event) {
+        const adminTab = document.getElementById('adminTab');
+        const adminMenu = document.getElementById('adminMenu');
+        if (adminTab && adminMenu) {
+            if (!adminTab.contains(event.target) && !adminMenu.contains(event.target)) {
+                adminMenu.style.display = 'none';
+            }
+        }
+    });
+</script>
 
 
 

@@ -5,6 +5,7 @@
   <title>마이페이지</title>
   <link th:href="@{/css/base/nav.css}" rel="stylesheet">
   <link th:href="@{/css/mypage/reservation.css}" rel="stylesheet">
+  <script src="https://unpkg.com/html5-qrcode"></script>
 </head>
 <body>
 <!-- 배경 이미지 -->
@@ -90,8 +91,8 @@
 
 <!-- QR 코드 모달 -->
 <div id="qrModal" class="modal">
-    <div class="modal-content qr-modal">
-        <img id="qrImage" class="qr-image" alt="QR Code">
+    <div class="qr-modal">
+        <img id="qrImage" class="qr-image" src="" alt="QR Code">
     </div>
 </div>
 
@@ -223,26 +224,17 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.qr-btn').forEach(button => {
         button.addEventListener('click', async function() {
             const reserveNo = this.parentElement.querySelector('.cancel-btn').getAttribute('data-reserve-no');
-            console.log('클릭한 예약 번호:', reserveNo);
             
             try {
+                // QR 코드 가져오기
                 const response = await fetch(`/mypage/reservations/qr/${reserveNo}`);
-                console.log('서버 응답:', response);
-                
                 if (!response.ok) {
-                    const errorText = await response.text();
-                    console.error('서버 에러 응답:', errorText);
                     throw new Error('QR 코드를 가져오는데 실패했습니다.');
                 }
                 
                 const data = await response.json();
-                console.log('받은 데이터:', data);
-                
                 if (data.qrCode) {
-                    const qrModal = document.getElementById('qrModal');
-                    const qrImage = document.getElementById('qrImage');
-                    qrImage.src = "data:image/png;base64," + data.qrCode;
-                    qrModal.style.display = 'block';
+                    showQRCodeModal(data.qrCode);
                 }
             } catch (error) {
                 console.error('QR 코드 로딩 중 오류:', error);
@@ -251,7 +243,16 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // QR 모달 외부 클릭 시 닫기
+    // QR 코드 모달 표시 함수
+    function showQRCodeModal(qrCode) {
+        const modal = document.getElementById('qrModal');
+        const qrImage = document.getElementById('qrImage');
+        
+        qrImage.src = "data:image/png;base64," + qrCode;
+        modal.style.display = 'block';
+    }
+
+    // 모달 닫기 이벤트
     const qrModal = document.getElementById('qrModal');
     qrModal.addEventListener('click', function(event) {
         if (event.target === qrModal) {
