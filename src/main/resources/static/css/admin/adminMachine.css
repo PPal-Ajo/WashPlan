@@ -22,7 +22,7 @@ button:active {
     width: 415px;
     height: 650px;
     left: 1505px;
-    top: 69px;
+    top: 78px;
 
     background: #E3F2FD;
     border: 1px solid #000000;
@@ -875,6 +875,17 @@ button:active {
     position: absolute;
     left:340px;
     top:10px;
+    font-family: 'Do Hyeon';
+    font-size: 45px;
+    line-height: 1.5;
+    color: black;
+}
+
+/* 모달 텍스트 스타일 */
+.modal-text3 {
+    position: absolute;
+    left:230px;
+    top:40px;
     font-family: 'Do Hyeon';
     font-size: 45px;
     line-height: 1.5;

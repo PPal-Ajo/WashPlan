@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>관리자공지페이지</title>
     <link rel="stylesheet" th:href="@{/css/base/nav.css}">
     <link rel="stylesheet" th:href="@{/css/admin/adminNotice.css}">
 </head>
@@ -109,10 +109,10 @@
 <div id="noticeModal" class="modal" style="display: none;">
     <div class="modal-noticeContent">
         <span id="noticeTitle" class="noticeTitle2">공지 제목</span>
-        <input class="titleContentInput" placeholder="제목을 입력하세요">
+        <input id="writeTitleInput" class="titleContentInput" placeholder="제목을 입력하세요">
 
         <span id="noticeContent" class="noticeContent">공지 내용</span>
-        <textarea class="noticeContentInput" placeholder="내용을 입력하세요"></textarea>
+        <textarea id="writeContentInput" class="noticeContentInput" placeholder="내용을 입력하세요"></textarea>
 
         <button id="writeCancelButton" class="cancelWrite">취소</button>
         <button id="writeNoticeButton" class="writeNotice">작성</button>
@@ -157,6 +157,78 @@
 </script>
 
 <script>
+    // 전역 변수와 함수 선언
+    window.notices = [];
+    window.currentPage = 1;
+    window.totalPages = 1;
+    window.itemsPerPage = 6;
+
+    // updatePagination 함수 추가
+    window.updatePagination = function(page) {
+        window.currentPage = page;
+
+        // 이전, 다음 버튼 활성화/비활성화
+        const prevPageButton = document.getElementById("prevPage");
+        const nextPageButton = document.getElementById("nextPage");
+        prevPageButton.disabled = page === 1;
+        nextPageButton.disabled = page === window.totalPages;
+
+        // 현재 페이지 강조
+        const pageButtons = document.querySelectorAll(".page-number");
+        pageButtons.forEach(button => {
+            button.classList.remove("active");
+            if (parseInt(button.dataset.page) === page) {
+                button.classList.add("active");
+            }
+        });
+    };
+
+    window.renderPage = function(page) {
+        const noticeContainer = document.getElementById("noticeInfo");
+        noticeContainer.innerHTML = "";
+        const startIndex = (page - 1) * window.itemsPerPage;
+        const endIndex = startIndex + window.itemsPerPage;
+        const pageData = window.notices.slice(startIndex, endIndex);
+
+        pageData.forEach(notice => {
+            const noticeContent = document.createElement("div");
+            noticeContent.classList.add("noticeInfo2");
+            noticeContent.style.marginBottom = "35px";
+
+            noticeContent.innerHTML = `
+                <input type="checkbox" class="noticeCheckbox" name="noticeCheckBox" value="${notice.noticeNo}">
+                <span class="noticeNoValue">${notice.noticeNo}</span>
+                <span class="noticeTitleValue">${notice.noticeTitle}</span>
+                <span class="noticeDateValue">${notice.noticeDate}</span>
+            `;
+
+            noticeContainer.appendChild(noticeContent);
+        });
+        
+        // 페이지네이션 상태 업데이트
+        window.updatePagination(page);
+    };
+
+    window.renderPageNumbers = function() {
+        const pageNumbersDiv = document.getElementById("pageNumbers");
+        pageNumbersDiv.innerHTML = "";
+
+        for (let i = 1; i <= window.totalPages; i++) {
+            const pageButton = document.createElement("button");
+            pageButton.textContent = i;
+            pageButton.classList.add("page-number");
+            pageButton.dataset.page = i;
+            if (i === window.currentPage) {
+                pageButton.classList.add("active");
+            }
+            pageButton.addEventListener("click", () => {
+                window.renderPage(i);
+            });
+
+            pageNumbersDiv.appendChild(pageButton);
+        }
+    };
+
     document.addEventListener("DOMContentLoaded", function () {
         const deleteButton = document.getElementById("deleteButton");
         const modal = document.getElementById("modal");
@@ -207,16 +279,25 @@
                 });
 
                 if (response.ok) {
-                    // 성공적으로 삭제 후 UI 업데이트
                     selectedNoticeNos.forEach(noticeNo => {
-                        const noticeElement = document.querySelector(`input[value="${noticeNo}"]`).parentElement;
-                        if (noticeElement) {
-                            noticeElement.remove();
+                        const index = window.notices.findIndex(notice => notice.noticeNo === noticeNo);
+                        if (index !== -1) {
+                            window.notices.splice(index, 1);
                         }
                     });
 
+                    window.totalPages = Math.ceil(window.notices.length / window.itemsPerPage);
+                    
+                    const currentPageItems = window.notices.slice((window.currentPage - 1) * window.itemsPerPage, window.currentPage * window.itemsPerPage);
+                    if (currentPageItems.length === 0 && window.currentPage > 1) {
+                        window.currentPage--;
+                    }
+
+                    window.renderPage(window.currentPage);
+                    window.renderPageNumbers();
+
                     modal1.style.display = "none";
-                    modal2.style.display = "block"; // 완료 모달 표시
+                    modal2.style.display = "block";
                 } else {
                     throw new Error("공지사항 삭제에 실패했습니다.");
                 }
@@ -265,8 +346,8 @@
         const searchButton = document.getElementById("searchButton");
         const writeButton = document.getElementById("writeButton");
         const noticeModal = document.getElementById("noticeModal");
-        const titleInput = document.querySelector(".titleContentInput");
-        const contentInput = document.querySelector(".noticeContentInput");
+        const titleInput = document.getElementById("writeTitleInput");
+        const contentInput = document.getElementById("writeContentInput");
         const writeCancelButton = document.getElementById("writeCancelButton");
         const writeNoticeButton = document.getElementById("writeNoticeButton");
         const modal = document.getElementById("modal3");
@@ -279,7 +360,7 @@
         let currentPage = 1; // 현재 페이지
         let totalPages = 1; // 전체 페이지 수
         const itemsPerPage = 6; // 한 페이지에 표시할 항목 수
-        let notices =[];
+        window.notices = []; // notices를 window 객체에 할당
 
 
 
@@ -290,10 +371,10 @@
                 if (!response.ok) {
                     throw new Error("공지사항 데이터를 가져오는 데 실패했습니다.");
                 }
-                notices = await response.json();
-                totalPages = Math.ceil(notices.length / itemsPerPage); // 전체 페이지 계산
-                renderPage(1); // 첫 번째 페이지 렌더링
-                renderPageNumbers(); // 페이지 번호 렌더링
+                window.notices = await response.json(); // window.notices에 할당
+                totalPages = Math.ceil(window.notices.length / itemsPerPage);
+                renderPage(1);
+                renderPageNumbers();
             } catch (error) {
                 console.error("공지사항 데이터를 가져오는 중 오류 발생:", error);
             }
@@ -311,8 +392,8 @@
                 if (!response.ok) {
                     throw new Error("검색 결과를 가져오는 데 실패했습니다.");
                 }
-                notices = await response.json();
-                totalPages = Math.ceil(notices.length / itemsPerPage);
+                window.notices = await response.json();
+                totalPages = Math.ceil(window.notices.length / itemsPerPage);
                 renderPage(1);
                 renderPageNumbers();
             } catch (error) {
@@ -327,7 +408,7 @@
             // 현재 페이지에 해당하는 데이터 가져오기
             const startIndex = (page - 1) * itemsPerPage;
             const endIndex = startIndex + itemsPerPage;
-            const pageData = notices.slice(startIndex, endIndex);
+            const pageData = window.notices.slice(startIndex, endIndex);
 
             pageData.forEach(notice => {
                 const noticeContent = document.createElement("div");
@@ -472,8 +553,8 @@
 
         // 새 공지사항을 DOM에 추가하는 함수
         function addNoticeToDOM(notice) {
-            notices.unshift(notice); // 공지사항 리스트의 맨 앞에 새 공지 추가
-            totalPages = Math.ceil(notices.length / itemsPerPage); // 전체 페이지 계산
+            window.notices.unshift(notice); // 공지사항 리스트의 맨 앞에 새 공지 추가
+            totalPages = Math.ceil(window.notices.length / itemsPerPage); // 전체 페이지 계산
             renderPage(1); // 첫 번째 페이지 재렌더링
             renderPageNumbers(); // 페이지 번호 업데이트
 

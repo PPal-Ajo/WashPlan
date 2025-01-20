@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>관리자문의페이지</title>
     <link rel="stylesheet" th:href="@{/css/base/nav.css}">
     <link rel="stylesheet" th:href="@{/css/admin/adminInquiry.css}">
 </head>
@@ -120,6 +120,12 @@
     <button id="confirmButton2" class="confirm2">확인</button>
 </div>
 
+<!-- 전역 변수 선언 (스크립트 최상단에 추가)
+window.inquiries = [];
+window.currentPage = 1;
+window.totalPages = 1;
+window.itemsPerPage = 6; -->
+
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const adminTab = document.getElementById("adminTab");
@@ -175,8 +181,7 @@
         });
 
         confirmButton.addEventListener("click", async () => {
-
-            selectedInquiryNos = getSelectedInquiryNos();
+            const selectedInquiryNos = getSelectedInquiryNos();
 
             if (selectedInquiryNos.length === 0) {
                 alert("삭제할 문의 내역을 선택하세요.");
@@ -191,25 +196,35 @@
                 });
 
                 if (response.ok) {
-                    // 삭제 성공 시 화면에서 삭제
+                    // inquiries 배열에서도 삭제된 항목들 제거
                     selectedInquiryNos.forEach(inquiryNo => {
-                        const inquiryRow = document.querySelector(
-                            `input[name='inquiryCheckBox'][value='${inquiryNo}']`
-                        ).closest(".inquiryInfo2");
-                        if (inquiryRow) {
-                            inquiryRow.remove();
+                        const index = window.inquiries.findIndex(inquiry => inquiry.inquiryNo === inquiryNo);
+                        if (index !== -1) {
+                            window.inquiries.splice(index, 1);
                         }
                     });
 
+                    // 전체 페이지 수 다시 계산
+                    window.totalPages = Math.ceil(window.inquiries.length / window.itemsPerPage);
+                    
+                    // 현재 페이지에 항목이 없으면 이전 페이지로 이동
+                    const currentPageItems = window.inquiries.slice((window.currentPage - 1) * window.itemsPerPage, window.currentPage * window.itemsPerPage);
+                    if (currentPageItems.length === 0 && window.currentPage > 1) {
+                        window.currentPage--;
+                    }
+
+                    // 페이지 다시 렌더링
+                    window.renderPage(window.currentPage);
+                    window.renderPageNumbers();
+
                     modal1.style.display = "none";
-                    modal2.style.display = "block";
+                    modal2.style.display = "block"; // 완료 모달 표시
                 } else {
-                    alert("삭제에 실패했습니다.");
+                    throw new Error("문의사항 삭제에 실패했습니다.");
                 }
             } catch (error) {
-                console.error("문의 삭제 중 오류 발생:", error);
+                console.error("문의사항 삭제 중 오류 발생:", error);
             }
-
         });
 
 
@@ -303,14 +318,15 @@
         // 모든 데이터를 가져오는 함수
         async function fetchAllInquiries() {
             try {
-                const response = await fetch("/admininquiry/inquiries"); // 모든 데이터를 가져오는 API
+                const response = await fetch("/admininquiry/inquiries");
                 if (!response.ok) {
                     throw new Error("문의사항 데이터를 가져오는 데 실패했습니다.");
                 }
-                inquiries = await response.json(); // JSON 데이터 파싱
-                totalPages = Math.ceil(inquiries.length / itemsPerPage); // 전체 페이지 계산
-                renderPage(1); // 첫 번째 페이지 렌더링
-                renderPageNumbers(); // 페이지 번호 렌더링
+                window.inquiries = await response.json();
+                window.inquiries.sort((a, b) => b.inquiryNo - a.inquiryNo);
+                window.totalPages = Math.ceil(window.inquiries.length / window.itemsPerPage);
+                window.renderPage(1);
+                window.renderPageNumbers();
             } catch (error) {
                 console.error("전체 데이터를 가져오는 중 오류 발생:", error);
             }
@@ -328,10 +344,11 @@
                 if (!response.ok) {
                     throw new Error("문의사항 데이터를 가져오는 데 실패했습니다.");
                 }
-                inquiries = await response.json(); // JSON 데이터 파싱
-                totalPages = Math.ceil(inquiries.length / itemsPerPage); // 전체 페이지 계산
-                renderPage(currentPage); // 첫 번째 페이지 렌더링
-                renderPageNumbers(); // 페이지 번호 렌더링
+                window.inquiries = await response.json();
+                window.inquiries.sort((a, b) => b.inquiryNo - a.inquiryNo);
+                window.totalPages = Math.ceil(window.inquiries.length / window.itemsPerPage);
+                window.renderPage(window.currentPage);
+                window.renderPageNumbers();
             } catch (error) {
                 console.error("문의사항 데이터를 가져오는 중 오류 발생:", error);
             }
@@ -548,6 +565,79 @@
         });
     });
 
+</script>
+
+<script>
+// 전역 변수 선언
+window.inquiries = [];
+window.currentPage = 1;
+window.totalPages = 1;
+window.itemsPerPage = 6;
+
+// 전역 함수 선언
+window.renderPage = function(page) {
+    const inquiryContainer = document.getElementById("inquiryContent");
+    inquiryContainer.innerHTML = "";
+    const startIndex = (page - 1) * window.itemsPerPage;
+    const endIndex = startIndex + window.itemsPerPage;
+    const pageData = window.inquiries.slice(startIndex, endIndex);
+
+    pageData.forEach(inquiry => {
+        const inquiryContent = document.createElement("div");
+        inquiryContent.classList.add("inquiryInfo2");
+        inquiryContent.style.marginBottom = "35px";
+
+        inquiryContent.innerHTML = `
+            <input type="checkbox" class="inquiryCheckbox" name="inquiryCheckBox" value="${inquiry.inquiryNo}">
+            <span class="inquiryNoValue">${inquiry.inquiryNo}</span>
+            <span class="inquiryIdValue">${inquiry.userId}</span>
+            <span class="inquiryTitleValue">${inquiry.inquiryTitle}</span>
+            <span class="inquiryDateValue">${inquiry.inquiryDate}</span>
+            <span class="replyStatusValue">${inquiry.replyStatus}</span>
+        `;
+
+        inquiryContainer.appendChild(inquiryContent);
+    });
+    
+    window.updatePagination(page);
+};
+
+window.updatePagination = function(page) {
+    window.currentPage = page;
+    const prevPageButton = document.getElementById("prevPage");
+    const nextPageButton = document.getElementById("nextPage");
+    
+    prevPageButton.disabled = page === 1;
+    nextPageButton.disabled = page === window.totalPages;
+
+    const pageButtons = document.querySelectorAll(".page-number");
+    pageButtons.forEach(button => {
+        button.classList.remove("active");
+        if (parseInt(button.dataset.page) === page) {
+            button.classList.add("active");
+        }
+    });
+};
+
+window.renderPageNumbers = function() {
+    const pageNumbersDiv = document.getElementById("pageNumbers");
+    pageNumbersDiv.innerHTML = "";
+
+    for (let i = 1; i <= window.totalPages; i++) {
+        const pageButton = document.createElement("button");
+        pageButton.textContent = i;
+        pageButton.classList.add("page-number");
+        pageButton.dataset.page = i;
+        if (i === window.currentPage) {
+            pageButton.classList.add("active");
+        }
+        pageButton.addEventListener("click", () => {
+            window.renderPage(i);
+        });
+
+        pageNumbersDiv.appendChild(pageButton);
+    }
+};
 </script>
 </body>
 </html>

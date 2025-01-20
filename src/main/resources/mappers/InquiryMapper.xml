@@ -21,7 +21,7 @@
             REPLY_STATUS as replyStatus
         FROM TBL_INQUIRY
         WHERE USER_NO = #{userNo}
-        ORDER BY INQUIRY_DATE DESC
+        ORDER BY INQUIRY_DATE DESC, INQUIRY_NO DESC
     </select>
 
     <select id="findInquiryByNo" resultType="com.ohgiraffers.washplan.inquiry.model.dto.InquiryDTO">
