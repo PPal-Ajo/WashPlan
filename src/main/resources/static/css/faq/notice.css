@@ -104,7 +104,7 @@ footer span:nth-child(3){
 }
 
 .noNav {
-    width: 150px;
+    width: 350px;
     text-align: center;
     font-family: 'Do Hyeon';
     font-style: normal;
@@ -115,7 +115,7 @@ footer span:nth-child(3){
 }
 
 .titleNav {
-    width: 800px;
+    width: 500px;
     text-align: center;
     font-family: 'Do Hyeon';
     font-style: normal;
@@ -126,7 +126,7 @@ footer span:nth-child(3){
 }
 
 .dateNav {
-    width: 200px;
+    width: 400px;
     text-align: center;
     font-family: 'Do Hyeon';
     font-style: normal;
@@ -138,7 +138,7 @@ footer span:nth-child(3){
 
 hr {
     position: absolute;
-    width: 1271px;
+    width: 1311px;
     height: 0;
     left: 300px;
     top: 355px;
@@ -173,12 +173,12 @@ hr {
 }
 
 .notice-no {
-    width: 150px;
+    width: 350px;
     text-align: center;
 }
 
 .notice-title {
-    width: 800px;
+    width: 510px;
     text-align: center;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -186,7 +186,7 @@ hr {
 }
 
 .notice-date {
-    width: 200px;
+    width: 375px;
     text-align: center;
 }
 
