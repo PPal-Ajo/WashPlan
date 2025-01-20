@@ -33,21 +33,25 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable()) // 운영 환경에서 활성화 필요
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // 정적 리소스 허용
                         .requestMatchers("/login", "/signup/**", "/email/**", "/forget/**", "/findid/**", "/findpwd/**", "/resetpwd/**", "/auth/**", "/main", "/","/api/**","/error/**","/machine/**").permitAll() // 비회원 허용 경로
-                        .requestMatchers("/reservation/**", "/mypage/**", "change-password","/faq/**", "/faq/api/**").hasRole("USER") // 예약 페이지는 USER 권한 필요
+                        .requestMatchers("/reservation/**", "/mypage/**", "change-password", "/faq/**", "/faq/api/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/admin/**", "/adminUser/**", "/adminMachine/**", "/adminInquiry/**").hasRole("ADMIN") // 관리자 페이지는 ADMIN 권한 필요
                         .anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
                 )
                 .anonymous(anonymous -> anonymous
                         .authorities("ROLE_ANONYMOUS")
                 )// 익명 사용자 권한 지정
-                .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // 필요 시 세션 생성
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                        .invalidSessionUrl("/login")  // 유효하지 않은 세션 접근시 리다이렉트
+                        .maximumSessions(1)
+                        .maxSessionsPreventsLogin(true)  // 중복 로그인 방지
+                        .expiredUrl("/login")
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
@@ -85,7 +89,8 @@ public class SecurityConfig {
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
                         .invalidateHttpSession(true)
-                        .deleteCookies("JSESSIONID")
+                        .clearAuthentication(true)
+                        .deleteCookies("JSESSIONID", "remember-me")
                         .permitAll()
                 );
         return http.build();
