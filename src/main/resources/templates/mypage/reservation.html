@@ -190,6 +190,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // 모달의 확인 버튼
     confirmButton.addEventListener('click', async function() {
         try {
+            // 먼저 예약 상태 확인
+            const statusResponse = await fetch(`/mypage/reservations/status/${selectedReserveNo}`);
+            const reservationStatus = await statusResponse.text();
+            
+            if (reservationStatus !== '예약중') {
+                alert('기기가 사용중이여서 취소가 불가능합니다.');
+                cancelConfirmModal.style.display = 'none';
+                return;
+            }
+            
+            // 예약중 상태일 때만 삭제 진행
             const response = await fetch('/mypage/reservations/delete', {
                 method: 'POST',
                 headers: {

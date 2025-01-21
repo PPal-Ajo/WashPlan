@@ -35,92 +35,114 @@
       <option value="gmail.com">gmail.com</option>
       <option value="daum.net">daum.net</option>
     </select>
+
   </div>
+
+  <button id="sendAuthCode">인증번호 전송</button>
 
   <div class="idBox">
     <label for="idInput">아이디 : </label>
     <input type="text" id="idInput">
   </div>
 
-  <button class="nextBtn disabled" id="nextBtn" disabled onclick="location.href='/resetpwd'">다음</button>
+  <div class="codeBox">
+    <label for="codeInput">인증번호 : </label>
+    <input type="text" id="codeInput">
+    <button id="verifyCode">코드 확인</button>
+  </div>
 
-  <div id="message" style="display: none; color: red;"></div>
+  <div id="message" style="display: none;"></div>
+  <div id="verifyMessage" style="display: none;"></div>
 
-  <script>
-    const emailDomain = document.getElementById('emailDomain');
-    const customDomain = document.getElementById('customDomain');
-    const emailInput = document.getElementById('emailinput');
-    const idInput = document.getElementById('idInput');
-    const nextBtn = document.getElementById('nextBtn');
-    const message = document.getElementById('message');
-
-    // 도메인 선택 변경 이벤트
-    emailDomain.addEventListener('change', () => {
-      if (emailDomain.value === 'custom') {
-        customDomain.disabled = false;
-        customDomain.value = '';
-        customDomain.focus();
-      } else {
-        customDomain.disabled = true;
-        customDomain.value = emailDomain.value;
-      }
-    });
-
-    // 이메일과 아이디가 데이터베이스와 일치하는지 확인하는 함수
-    function checkCredentials() {
-      const email = `${emailInput.value}@${emailDomain.value === 'custom' ? customDomain.value : emailDomain.value}`;
-      const userId = idInput.value;
-
-      // 입력 값 검증
-      if (!email || !userId) {
-        message.textContent = "이메일과 아이디를 모두 입력해주세요.";
-        message.style.display = "block";
-        disableNextButton();
-        return;
-      }
-
-      // 서버에 요청 보내기
-      fetch('/auth/check-credentials', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, userId })
-      })
-              .then(response => response.json())
-              .then(data => {
-                if (data.success) {
-                  message.style.display = "none";
-                  enableNextButton(); // 버튼 활성화
-                } else {
-                  message.textContent = "이메일과 아이디가 일치하지 않습니다.";
-                  message.style.display = "block";
-                  disableNextButton(); // 버튼 비활성화
-                }
-              })
-              .catch(error => {
-                console.error('Error:', error);
-                message.textContent = "서버 오류가 발생했습니다.";
-                message.style.display = "block";
-                disableNextButton(); // 버튼 비활성화
-              });
-    }
-
-    // 버튼 활성화 함수
-    function enableNextButton() {
-      nextBtn.disabled = false;
-      nextBtn.classList.remove('disabled');
-    }
-
-    // 버튼 비활성화 함수
-    function disableNextButton() {
-      nextBtn.disabled = true;
-      nextBtn.classList.add('disabled');
-    }
-
-    // 입력 필드 변경 시마다 검증 수행
-    emailInput.addEventListener('input', checkCredentials);
-    customDomain.addEventListener('input', checkCredentials);
-    idInput.addEventListener('input', checkCredentials);
-  </script>
+  <!-- 인증 성공 모달 -->
+  <div id="successModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <p class="modal-text">인증이 완료되었습니다.</p>
+      <button id="confirmButton" class="modal-btn">확인</button>
+    </div>
+  </div>
 </main>
+
+<script>
+  const emailDomain = document.getElementById('emailDomain');
+  const customDomain = document.getElementById('customDomain');
+  const emailInput = document.getElementById('emailinput');
+  const idInput = document.getElementById('idInput');
+  const message = document.getElementById('message');
+  const verifyMessage = document.getElementById('verifyMessage');
+  const successModal = document.getElementById('successModal');
+  const confirmButton = document.getElementById('confirmButton');
+
+  // 도메인 선택 변경 이벤트
+  emailDomain.addEventListener('change', () => {
+    if (emailDomain.value === 'custom') {
+      customDomain.disabled = false;
+      customDomain.value = '';
+      customDomain.focus();
+    } else {
+      customDomain.disabled = true;
+      customDomain.value = emailDomain.value;
+    }
+  });
+
+  // 인증번호 전송 버튼 클릭 이벤트
+  document.getElementById('sendAuthCode').addEventListener('click', () => {
+    const email = `${emailInput.value}@${emailDomain.value === 'custom' ? customDomain.value : emailDomain.value}`;
+    const userId = idInput.value;
+
+    if (!email || !userId) {
+      message.textContent = "이메일과 아이디를 모두 입력해주세요.";
+      message.style.color = "#FD3C3C";
+      message.style.display = "block";
+      return;
+    }
+
+    fetch('/email/find-pwd/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, userId })
+    })
+            .then(response => response.json())
+            .then(data => {
+              if (data.success) {
+                message.textContent = "인증번호가 발송되었습니다.";
+                message.style.color = "#0062FF";
+                message.style.display = "block";
+              } else {
+                message.textContent = "이메일 또는 아이디가 일치하지 않습니다.";
+                message.style.color = "#FD3C3C";
+                message.style.display = "block";
+              }
+            });
+  });
+
+  // 코드 확인 버튼 클릭 이벤트
+  document.getElementById('verifyCode').addEventListener('click', () => {
+    const email = `${emailInput.value}@${emailDomain.value === 'custom' ? customDomain.value : emailDomain.value}`;
+    const code = document.getElementById('codeInput').value;
+    const userId = idInput.value;
+
+    fetch('/email/find-pwd/verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, code, userId })
+    })
+            .then(response => response.json())
+            .then(data => {
+              if (data.success) {
+                successModal.style.display = 'flex'; // 모달 열기
+              } else {
+                verifyMessage.textContent = "인증번호가 일치하지 않습니다.";
+                verifyMessage.style.display = "block";
+              }
+            });
+  });
+
+  // 확인 버튼 클릭 시 /resetpwd로 이동
+  confirmButton.addEventListener('click', () => {
+    successModal.style.display = 'none'; // 모달 닫기
+    window.location.href = '/resetpwd'; // 페이지 이동
+  });
+</script>
 </body>
 </html>

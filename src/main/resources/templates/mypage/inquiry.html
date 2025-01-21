@@ -26,7 +26,7 @@
   <button class="inquiry" onclick="location.href='/mypage/inquiry'">문의내역</button>
 
   <div class="nav-header">
-    <p class="machineNav">번호</p>
+    <p></p>
     <p class="timeNav">문의날짜</p>
     <p class="optionNav">문의제목</p>
     <p class="replyNav">답변유무</p>
@@ -42,7 +42,7 @@
     <!-- 문의내역이 있을 경우 목록 표시 -->
     <div th:unless="${#lists.isEmpty(inquiries)}">
         <div th:each="inquiry : ${inquiries}" class="inquiry-item" th:data-inquiry-no="${inquiry.inquiryNo}">
-            <span class="inquiry-no" th:text="${inquiry.inquiryNo}"></span>
+            <span></span>
             <span class="inquiry-date" th:text="${#temporals.format(inquiry.inquiryDate, 'yyyy-MM-dd')}"></span>
             <span class="inquiry-title" th:text="${inquiry.inquiryTitle}"></span>
             <span class="inquiry-status" th:text="${inquiry.replyStatus}"></span>
