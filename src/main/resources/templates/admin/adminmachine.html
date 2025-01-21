@@ -15,7 +15,7 @@
         <!--네비바-->
         <span onclick="location.href='/main'">WashPlan</span>
         <span onclick="location.href='/reservation'">예약</span>
-        <span>FAQ</span>
+        <span onclick="location.href='/faq'">FAQ</span>
         <span id="adminTab" class="admin">관리자</span>
         <span onclick="location.href='/logout'" id="logout">로그아웃</span>
     </nav>
@@ -310,28 +310,27 @@
         // 데이터를 화면에 추가하는 함수
         function renderWashMachines(washmachines) {
             washingContainer.innerHTML = "";
+            
+            // 컨테이너 스타일 설정
+            washingContainer.style.maxHeight = "300px"; // 고정 높이
+            washingContainer.style.overflowY = "auto";  // 세로 스크롤
+            washingContainer.style.paddingRight = "10px"; // 스크롤바 공간
 
             washmachines.forEach(washmachine => {
                 const washingContent = document.createElement("div");
                 washingContent.classList.add("washingInfo2");
-                washingContent.style.marginBottom = "70px"; // 간격 조정
+                washingContent.style.marginBottom = "60px"; // 간격 축소
 
                 const statusColor = washmachine.machineStatus === "사용가능" ? "#0062FF" : "#A500FF";
 
                 washingContent.innerHTML = `
                     <input type="checkbox" class="washingCheckbox" name="machineCheckBox" value="${washmachine.machineNo}">
-                    <span class="washMachineNoValue">${washmachine.machineNo +'호'}</span>
+                    <span class="washMachineNoValue">${washmachine.machineNo}호</span>
                     <span class="washMachineStatusValue" style="color: ${statusColor};">${washmachine.machineStatus}</span>
                 `;
 
                 washingContainer.appendChild(washingContent);
             });
-
-            // 3개 기준으로 이 조정
-            const baseHeight = 380; // 3개 기기의 기본 높이
-            const itemHeight = 110; // 각 기기 항목당 높이
-            const containerHeight = Math.max(baseHeight, washmachines.length * itemHeight);
-            washingContainer.parentElement.style.height = `${containerHeight}px`;
         }
 
         // 초기 데이터 가져오기
@@ -358,28 +357,27 @@
         // 데이터를 화면에 추가하는 함수
         function renderDryMachines(drymachines) {
             dryingContainer.innerHTML = "";
+            
+            // 컨테이너 스타일 설정
+            dryingContainer.style.maxHeight = "300px"; // 고정 높이
+            dryingContainer.style.overflowY = "auto";  // 세로 스크롤
+            dryingContainer.style.paddingRight = "10px"; // 스크롤바 공간
 
             drymachines.forEach(drymachine => {
                 const dryingContent = document.createElement("div");
                 dryingContent.classList.add("dryingInfo2");
-                dryingContent.style.marginBottom = "70px"; // 간격 조정
+                dryingContent.style.marginBottom = "60px"; // 간격 축소
 
                 const statusColor = drymachine.machineStatus === "사용가능" ? "#0062FF" : "#A500FF";
 
                 dryingContent.innerHTML = `
                     <input type="checkbox" class="dryingCheckbox" name="machineCheckBox" value="${drymachine.machineNo}">
-                    <span class="dryMachineNoValue">${drymachine.machineNo +'호'}</span>
+                    <span class="dryMachineNoValue">${drymachine.machineNo}호</span>
                     <span class="dryMachineStatusValue" style="color: ${statusColor};">${drymachine.machineStatus}</span>
                 `;
 
                 dryingContainer.appendChild(dryingContent);
             });
-
-            // 3개 기준으로 이 조정
-            const baseHeight = 380; // 3개 기기의 기본 높이
-            const itemHeight = 110; // 각 기기 항목당 높이
-            const containerHeight = Math.max(baseHeight, drymachines.length * itemHeight);
-            dryingContainer.parentElement.style.height = `${containerHeight}px`;
         }
 
         // 초기 데이터 가져오기

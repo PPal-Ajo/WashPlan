@@ -15,7 +15,7 @@
         <!--네비바-->
         <span onclick="location.href='/main'">WashPlan</span>
         <span onclick="location.href='/reservation'">예약</span>
-        <span>FAQ</span>
+        <span onclick="location.href='/faq'">FAQ</span>
         <span id="adminTab" class="admin">관리자</span>
         <span onclick="location.href='/logout'" id="logout">로그아웃</span>
     </nav>
@@ -190,14 +190,20 @@
         const endIndex = startIndex + window.itemsPerPage;
         const pageData = window.notices.slice(startIndex, endIndex);
 
-        pageData.forEach(notice => {
+        // 전체 데이터 개수 기준으로 순번 계산
+        const totalItems = window.notices.length;
+
+        pageData.forEach((notice, index) => {
             const noticeContent = document.createElement("div");
             noticeContent.classList.add("noticeInfo2");
             noticeContent.style.marginBottom = "35px";
 
+            // 순번 계산: 전체 개수에서 현재 항목의 위치를 뺌
+            const displayNumber = totalItems - (startIndex + index);
+
             noticeContent.innerHTML = `
                 <input type="checkbox" class="noticeCheckbox" name="noticeCheckBox" value="${notice.noticeNo}">
-                <span class="noticeNoValue">${notice.noticeNo}</span>
+                <span class="noticeNoValue">${displayNumber}</span>
                 <span class="noticeTitleValue">${notice.noticeTitle}</span>
                 <span class="noticeDateValue">${notice.noticeDate}</span>
             `;
@@ -403,6 +409,7 @@
 
         // 데이터를 화면에 추가하는 함수
         function renderPage(page) {
+            const noticeContainer = document.getElementById("noticeInfo");
             noticeContainer.innerHTML = ""; // 기존 내용을 비웁니다.
 
             // 현재 페이지에 해당하는 데이터 가져오기
@@ -410,21 +417,27 @@
             const endIndex = startIndex + itemsPerPage;
             const pageData = window.notices.slice(startIndex, endIndex);
 
-            pageData.forEach(notice => {
+            // 전체 데이터 개수 기준으로 순번 계산
+            const totalItems = window.notices.length;
+
+            pageData.forEach((notice, index) => {
                 const noticeContent = document.createElement("div");
                 noticeContent.classList.add("noticeInfo2");
-                noticeContent.style.marginBottom= "35px";
+                noticeContent.style.marginBottom = "35px";
 
+                // 순번 계산: 전체 개수에서 현재 항목의 위치를 뺌
+                const displayNumber = totalItems - (startIndex + index);
 
                 noticeContent.innerHTML = `
-                <input type="checkbox" class="noticeCheckbox" name="noticeCheckBox" value="${notice.noticeNo}">
-                <span class="noticeNoValue">${notice.noticeNo}</span>
-                <span class="noticeTitleValue">${notice.noticeTitle}</span>
-                <span class="noticeDateValue">${notice.noticeDate}</span>
-            `;
+                    <input type="checkbox" class="noticeCheckbox" name="noticeCheckBox" value="${notice.noticeNo}">
+                    <span class="noticeNoValue">${displayNumber}</span>
+                    <span class="noticeTitleValue">${notice.noticeTitle}</span>
+                    <span class="noticeDateValue">${notice.noticeDate}</span>
+                `;
 
                 noticeContainer.appendChild(noticeContent);
             });
+            
             // 페이지네이션 상태 업데이트
             updatePagination(page);
         }
@@ -541,7 +554,7 @@
                     modal2.style.display = "block"; // 성공 모달 표시
                     titleInput.value = "";
                     contentInput.value = "";
-                    // 새 공지사항 화면에 즉시 추가
+                    // 새 공지사항을 DOM에 추가
                     addNoticeToDOM(newNotice);
                 } else {
                     throw new Error("공지사항 작성에 실패했습니다.");
@@ -555,9 +568,8 @@
         function addNoticeToDOM(notice) {
             window.notices.unshift(notice); // 공지사항 리스트의 맨 앞에 새 공지 추가
             totalPages = Math.ceil(window.notices.length / itemsPerPage); // 전체 페이지 계산
-            renderPage(1); // 첫 번째 페이지 재렌더링
-            renderPageNumbers(); // 페이지 번호 업데이트
-
+            window.renderPage(1); // window.renderPage로 수정
+            window.renderPageNumbers(); // window.renderPageNumbers로 수정
         }
 
         confirmButton2.addEventListener("click", () => {

@@ -17,7 +17,7 @@ public interface AdminMapper {
 
     void deleteUser(int userNo);
 
-    List<AdminDTO> searchAll(String s);
+    
 
     List<AdminDTO> searchByCancelCount(int cancelCount);
 
@@ -93,4 +93,18 @@ public interface AdminMapper {
     List<Map<String, Object>> getMachineStatus();
     
     Map<String, Object> getInquiryStats();
+
+    List<AdminDTO> searchAll();
+
+    List<AdminDTO> searchById(String s);
+
+    List<AdminDTO> searchByStatus(String dbStatus);
+
+
+
+    List<AdminInquiryDTO> findInquiriesByUserId(String query);
+
+    List<AdminInquiryDTO> findInquiriesByTitle(String query);
+
+    List<AdminInquiryDTO> findAllInquiries();
 }

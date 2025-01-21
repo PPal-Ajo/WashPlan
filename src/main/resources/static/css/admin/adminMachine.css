@@ -606,8 +606,8 @@ button:active {
     position: absolute;
     top:470px;
     left: 369px;
-    width:450px;
-    min-height: 350px;
+    width:460px;
+    min-height: 250px;
     padding: 30px 20px;
     background: #FFFFFF;
     transition: height 0.3s ease;
@@ -662,8 +662,8 @@ button:active {
     position: absolute;
     top:470px;
     left:1086px;
-    width:450px;
-    min-height: 350px;
+    width:460px;
+    min-height: 250px;
     padding: 30px 20px;
     background: #FFFFFF;
     transition: height 0.3s ease;

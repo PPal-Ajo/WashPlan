@@ -69,13 +69,22 @@ public class AdminController {
     @GetMapping("/adminuser/search")
     @ResponseBody
     public List<AdminDTO> searchUsers(@RequestParam("category") String category, @RequestParam("keyword") String keyword) {
-        if ("전체".equals(category)) {
-            return adminService.searchAll(keyword);
-        } else if ("자동취소".equals(category)) {
-            int cancelCount = Integer.parseInt(keyword);
-            return adminService.searchByCancelCount(cancelCount);
-        } else {
-            return new ArrayList<>(); // 빈 리스트 반환
+        switch(category) {
+            case "검색":
+                return adminService.searchAll(keyword);
+            case "아이디":
+                return adminService.searchById(keyword);
+            case "상태":
+                return adminService.searchByStatus(keyword);
+            case "자동취소":
+                try {
+                    int cancelCount = Integer.parseInt(keyword);
+                    return adminService.searchByCancelCount(cancelCount);
+                } catch (NumberFormatException e) {
+                    return new ArrayList<>();
+                }
+            default:
+                return new ArrayList<>();
         }
     }
 
@@ -128,12 +137,21 @@ public class AdminController {
 
         List<AdminInquiryDTO> inquiries;
 
-        if (category.equals("전체")) {
-            inquiries = adminService.searchInquiriesByUserIdOrTitle(query);
-        } else if (category.equals("답변")) {
-            inquiries = adminService.searchInquiriesByReplyStatus(query);
-        } else {
-            inquiries = new ArrayList<>();
+        switch(category) {
+            case "검색":
+                inquiries = adminService.findAllInquiries();  // 전체 조회로 변경
+                break;
+            case "아이디":
+                inquiries = adminService.searchInquiriesByUserId(query);
+                break;
+            case "제목":
+                inquiries = adminService.searchInquiriesByTitle(query);
+                break;
+            case "답변":
+                inquiries = adminService.searchInquiriesByReplyStatus(query);
+                break;
+            default:
+                inquiries = new ArrayList<>();
         }
 
         return ResponseEntity.ok(inquiries);

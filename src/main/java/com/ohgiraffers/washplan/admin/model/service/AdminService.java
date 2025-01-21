@@ -45,7 +45,22 @@ public class AdminService {
     }
 
     public List<AdminDTO> searchAll(String keyword) {
-        return adminMapper.searchAll("%" + keyword + "%");
+        return adminMapper.searchAll();
+    }
+
+    public List<AdminDTO> searchById(String keyword) {
+        return adminMapper.searchById("%" + keyword + "%");
+    }
+
+    public List<AdminDTO> searchByStatus(String status) {
+        // 한글 상태를 DB 상태값으로 변환
+        String dbStatus = switch(status) {
+            case "활성" -> "활성";
+            case "일시정지" -> "일시정지";
+            case "영구탈퇴" -> "영구탈퇴";
+            default -> status;
+        };
+        return adminMapper.searchByStatus(dbStatus);
     }
 
     public List<AdminDTO> searchByCancelCount(int cancelCount) {
@@ -70,10 +85,29 @@ public class AdminService {
 
     public List<AdminInquiryDTO> searchInquiriesByUserIdOrTitle(String query) {
         return adminMapper.findInquiriesByUserIdOrTitle(query);
+
+    }
+
+    public List<AdminInquiryDTO> findAllInquiries() {
+        return adminMapper.findAllInquiries();
+    }
+
+    public List<AdminInquiryDTO> searchInquiriesByUserId(String query) {
+        return adminMapper.findInquiriesByUserId(query);
+    }
+
+    public List<AdminInquiryDTO> searchInquiriesByTitle(String query) {
+        return adminMapper.findInquiriesByTitle(query);
     }
 
     public List<AdminInquiryDTO> searchInquiriesByReplyStatus(String status) {
-        return adminMapper.findInquiriesByReplyStatus(status);
+        // 한글 상태를 DB 상태값으로 변환
+        String dbStatus = switch(status) {
+            case "완료" -> "완료";
+            case "대기중" -> "대기중";
+            default -> status;
+        };
+        return adminMapper.findInquiriesByReplyStatus(dbStatus);
     }
 
     public void deleteInquiries(List<Integer> inquiryNos) {
@@ -402,5 +436,7 @@ public class AdminService {
         
         return response.toString();
     }
+
+
 
 }

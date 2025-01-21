@@ -1,10 +1,11 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>FAQ</title>
     <link th:href="@{/css/base/nav.css}" rel="stylesheet">
     <link th:href="@{/css/faq/faq.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/admin/admin.css}">
 </head>
 <body>
 <!-- 배경 이미지 -->
@@ -12,11 +13,31 @@
 
 <header>
     <nav>
-        <span onclick="location.href='/'">WashPlan</span>
+        <!-- 기본 메뉴 -->
+        <span onclick="location.href='/main'">WashPlan</span>
         <span onclick="location.href='/reservation'">예약</span>
-        <span onclick="location.href='/faq'" style="color: #FFFF00">FAQ</span>
-        <span onclick="location.href='/mypage'">마이페이지</span>
-        <span onclick="location.href='/login'">로그아웃</span>
+        <span onclick="location.href='/faq'">FAQ</span>
+        
+        <!-- 관리자 로그인 시 -->
+        <span sec:authorize="hasRole('ROLE_ADMIN')" id="adminTab" class="admin" onclick="toggleAdminMenu()">관리자</span>
+        <span sec:authorize="hasRole('ROLE_ADMIN')" onclick="location.href='/logout'">로그아웃</span>
+        
+        <!-- 관리자 메뉴 -->
+        <div sec:authorize="hasRole('ROLE_ADMIN')" class="admin-menu" id="adminMenu" style="display: none;">
+            <button onclick="location.href='/admin'" class="adminMain">관리자 메인</button>
+            <button onclick="location.href='/admin/adminuser'" class="adminUser">사용자 관리</button>
+            <button onclick="location.href='/admin/adminmachine'" class="adminMachine">세탁기/건조기 관리</button>
+            <button onclick="location.href='/admin/admininquiry'" class="adminInquiry">문의사항 관리</button>
+            <button onclick="location.href='/admin/adminnotice'" class="adminNotice">공지사항 관리</button>
+        </div>
+        
+        <!-- 일반 사용자 로그인 시 -->
+        <span sec:authorize="hasRole('ROLE_USER')" onclick="location.href='/mypage'">마이페이지</span>
+        <span sec:authorize="hasRole('ROLE_USER')" onclick="location.href='/logout'">로그아웃</span>
+        
+        <!-- 로그인하지 않은 경우 -->
+        <span sec:authorize="isAnonymous()" onclick="location.href='/signup/agree'">회원가입</span>
+        <span sec:authorize="isAnonymous()" onclick="location.href='/login'">로그인</span>
     </nav>
 </header>
 
@@ -224,6 +245,24 @@
                 document.getElementById('inquiryTitleInput').value = '';
                 document.getElementById('inquiryContentInput').value = '';
             });
+        });
+    </script>
+
+    <script>
+        function toggleAdminMenu() {
+            const adminMenu = document.getElementById('adminMenu');
+            adminMenu.style.display = adminMenu.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // 메뉴 외부 클릭시 닫기
+        document.addEventListener('click', function(event) {
+            const adminTab = document.getElementById('adminTab');
+            const adminMenu = document.getElementById('adminMenu');
+            if (adminTab && adminMenu) {
+                if (!adminTab.contains(event.target) && !adminMenu.contains(event.target)) {
+                    adminMenu.style.display = 'none';
+                }
+            }
         });
     </script>
 

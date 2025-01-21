@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -10,6 +10,7 @@
     <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css}">
     <script th:src="@{https://cdn.jsdelivr.net/npm/flatpickr}"></script>
     <script th:src="@{https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ko.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/admin/admin.css}">
     <style>
 
     </style>
@@ -19,12 +20,31 @@
 <!-- 네비게이션 바 -->
 <header>
     <nav>
-        <!--네비바-->
-        <span onclick="location.href='/'">WashPlan</span>
-        <span onclick="location.href='/reservation'" style="color: #FFFF00">예약</span>
+        <!-- 기본 메뉴 -->
+        <span onclick="location.href='/main'">WashPlan</span>
+        <span onclick="location.href='/reservation'">예약</span>
         <span onclick="location.href='/faq'">FAQ</span>
-        <span onclick="location.href='/mypage'">마이페이지</span>
-        <span onclick="location.href='/login'">로그아웃</span>
+
+        <!-- 관리자 로그인 시 -->
+        <span sec:authorize="hasRole('ROLE_ADMIN')" id="adminTab" class="admin" onclick="toggleAdminMenu()">관리자</span>
+        <span sec:authorize="hasRole('ROLE_ADMIN')" onclick="location.href='/logout'">로그아웃</span>
+
+        <!-- 관리자 메뉴 -->
+        <div sec:authorize="hasRole('ROLE_ADMIN')" class="admin-menu" id="adminMenu" style="display: none;">
+            <button onclick="location.href='/admin'" class="adminMain">관리자 메인</button>
+            <button onclick="location.href='/admin/adminuser'" class="adminUser">사용자 관리</button>
+            <button onclick="location.href='/admin/adminmachine'" class="adminMachine">세탁기/건조기 관리</button>
+            <button onclick="location.href='/admin/admininquiry'" class="adminInquiry">문의사항 관리</button>
+            <button onclick="location.href='/admin/adminnotice'" class="adminNotice">공지사항 관리</button>
+        </div>
+
+        <!-- 일반 사용자 로그인 시 -->
+        <span sec:authorize="hasRole('ROLE_USER')" onclick="location.href='/mypage'">마이페이지</span>
+        <span sec:authorize="hasRole('ROLE_USER')" onclick="location.href='/logout'">로그아웃</span>
+
+        <!-- 로그인하지 않은 경우 -->
+        <span sec:authorize="isAnonymous()" onclick="location.href='/signup/agree'">회원가입</span>
+        <span sec:authorize="isAnonymous()" onclick="location.href='/login'">로그인</span>
     </nav>
 </header>
 
@@ -274,7 +294,7 @@
             const statusColors = {
                 "고장": "#A500FF",
                 "예약중": "#FD3C3C",
-                "사용중": "#FD3C3C",    // 사용중 상태 추가
+                "사용중": "#2E8B57",    // 사용중 상태 추가
                 "사용가능": "#0062FF"
             };
 
@@ -294,7 +314,6 @@
             const situationElement = document.querySelector(`[data-machine="${machineNo}"] .situation span`);
             const currentStatus = situationElement.textContent;
 
-            // 이미 고장 상태인 경우 상태 업데이트를 하지 않음
             if (currentStatus === "고장") {
                 return;
             }
@@ -302,7 +321,6 @@
             try {
                 console.log(`[${machineNo}] 상태 체크 시작`);
                 
-                // 선택된 시간의 예약 상태 확인
                 const type = machineNo < 200 ? "wash" : "dry";
                 const datePickerId = `${type}DatetimePicker`;
                 const timeRangeId = `${type}TimeRangeDisplay`;
@@ -311,42 +329,48 @@
                 const selectedTimeRange = document.getElementById(timeRangeId).textContent;
                 const [selectedStartTime, selectedEndTime] = selectedTimeRange.split("~").map(t => t.trim());
 
-                // 현재 예약 상태를 직접 확인 (선택된 시간대 포함)
-                const reservationStatusResponse = await fetch(
-                    `/reservation/current/${machineNo}?selectedDate=${selectedDate}&selectedTime=${selectedStartTime}`
-                );
-                const reservationStatus = await reservationStatusResponse.text();
+                // 현재 예약 상태 확인
+                const currentStatusResponse = await fetch(`/reservation/current/${machineNo}`);
+                const currentStatus = await currentStatusResponse.text();
                 
-                console.log(`[${machineNo}] 현재 예약 상태:`, reservationStatus);
+                let displayStatus = "사용가능";
 
-                const reservationData = {
-                    machineNo: machineNo,
-                    reserveDate: selectedDate,
-                    startTime: selectedStartTime,
-                    endTime: selectedEndTime
-                };
+                // 현재 시간
+                const now = new Date();
+                const selectedDateTime = new Date(`${selectedDate} ${selectedStartTime}`);
+                
+                // QR 스캔 여부에 따른 상태 처리
+                if (isQRScan) {
+                    // QR 스캔 시에는 현재 시간대의 예약이 있으면 "사용중"으로 표시
+                    if (currentStatus === "예약중" || currentStatus === "사용중") {
+                        displayStatus = "사용중";
+                    }
+                } else {
+                    // QR 스캔이 아닌 경우 예약 시간과 비교하여 상태 결정
+                    const reservationData = {
+                        machineNo: machineNo,
+                        reserveDate: selectedDate,
+                        startTime: selectedStartTime,
+                        endTime: selectedEndTime
+                    };
 
-                const response = await fetch("/reservation/checkStatus", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(reservationData)
-                });
+                    const response = await fetch("/reservation/checkStatus", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(reservationData)
+                    });
 
-                const data = await response.json();
-                const reserveButton = document.getElementById(`reserveButton-${machineNo}`);
-
-                // 상태 업데이트 로직
-                let displayStatus = data.status;
-                if (reservationStatus === "사용중") {
-                    displayStatus = reservationStatus;
+                    const statusData = await response.json();
+                    displayStatus = statusData.status;
                 }
 
-                // 고장 상태가 아닐 때만 상태 업데이트
+                const reserveButton = document.getElementById(`reserveButton-${machineNo}`);
+
                 if (currentStatus !== "고장") {
                     updateMachineStatus(displayStatus, situationElement, reserveButton);
                 }
 
-                console.log(`[${machineNo}] ${displayStatus} 상태로 업데이트 완료`);
+                console.log(`[${machineNo}] ${displayStatus} 상태로 업데이트 완료 (QR스캔: ${isQRScan})`);
 
             } catch (error) {
                 console.error(`[${machineNo}] 상태 체크 중 오류:`, error);
@@ -764,6 +788,24 @@
             childList: true,
             subtree: true
         });
+    });
+</script>
+
+<script>
+    function toggleAdminMenu() {
+        const adminMenu = document.getElementById('adminMenu');
+        adminMenu.style.display = adminMenu.style.display === 'none' ? 'block' : 'none';
+    }
+
+    // 메뉴 외부 클릭시 닫기
+    document.addEventListener('click', function(event) {
+        const adminTab = document.getElementById('adminTab');
+        const adminMenu = document.getElementById('adminMenu');
+        if (adminTab && adminMenu) {
+            if (!adminTab.contains(event.target) && !adminMenu.contains(event.target)) {
+                adminMenu.style.display = 'none';
+            }
+        }
     });
 </script>
 

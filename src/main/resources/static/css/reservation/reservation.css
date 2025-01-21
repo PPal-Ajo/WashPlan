@@ -425,6 +425,7 @@ hr {
     top: -80px;
     left: 1170px;
     width: 500px;
+
 }
 
 .reserveTime::after {
@@ -451,6 +452,7 @@ hr {
     line-height: 25px;
     text-align: center;
     color: #000000;
+
 }
 
 .datetime-picker:focus {
