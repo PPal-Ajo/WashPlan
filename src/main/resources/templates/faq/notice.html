@@ -18,11 +18,11 @@
             <span onclick="location.href='/main'">WashPlan</span>
             <span onclick="location.href='/reservation'">예약</span>
             <span onclick="location.href='/faq'">FAQ</span>
-            
+
             <!-- 관리자 로그인 시 -->
             <span sec:authorize="hasRole('ROLE_ADMIN')" id="adminTab" class="admin" onclick="toggleAdminMenu()">관리자</span>
             <span sec:authorize="hasRole('ROLE_ADMIN')" onclick="location.href='/logout'">로그아웃</span>
-            
+
             <!-- 관리자 메뉴 -->
             <div sec:authorize="hasRole('ROLE_ADMIN')" class="admin-menu" id="adminMenu" style="display: none;">
                 <button onclick="location.href='/admin'" class="adminMain">관리자 메인</button>
@@ -31,11 +31,11 @@
                 <button onclick="location.href='/admin/admininquiry'" class="adminInquiry">문의사항 관리</button>
                 <button onclick="location.href='/admin/adminnotice'" class="adminNotice">공지사항 관리</button>
             </div>
-            
+
             <!-- 일반 사용자 로그인 시 -->
             <span sec:authorize="hasRole('ROLE_USER')" onclick="location.href='/mypage'">마이페이지</span>
             <span sec:authorize="hasRole('ROLE_USER')" onclick="location.href='/logout'">로그아웃</span>
-            
+
             <!-- 로그인하지 않은 경우 -->
             <span sec:authorize="isAnonymous()" onclick="location.href='/signup/agree'">회원가입</span>
             <span sec:authorize="isAnonymous()" onclick="location.href='/login'">로그인</span>
@@ -85,94 +85,94 @@
     </div>
 
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const modal = document.getElementById('noticeDetailModal');
-        
-        // 각 공지사항 클릭 이벤트
-        document.querySelectorAll('.notice-item').forEach(item => {
-            item.addEventListener('click', async function() {
-                const noticeNo = this.querySelector('.notice-no').textContent;
-                try {
-                    const response = await fetch(`/notice/detail/${noticeNo}`);
-                    const data = await response.json();
-                    
-                    // 모달 내용 업데이트
-                    document.getElementById('modalTitle').textContent = data.noticeTitle;
-                    document.getElementById('modalContent').textContent = data.noticeContent;
-                    
-                    // 모달 표시 및 스크롤 막기
-                    modal.style.display = 'block';
-                    document.body.classList.add('no-scroll');
-                } catch (error) {
-                    console.error('Error:', error);
-                }
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('noticeDetailModal');
+
+            // 각 공지사항 클릭 이벤트
+            document.querySelectorAll('.notice-item').forEach(item => {
+                item.addEventListener('click', async function() {
+                    const noticeNo = this.querySelector('.notice-no').textContent;
+                    try {
+                        const response = await fetch(`/notice/detail/${noticeNo}`);
+                        const data = await response.json();
+
+                        // 모달 내용 업데이트
+                        document.getElementById('modalTitle').textContent = data.noticeTitle;
+                        document.getElementById('modalContent').textContent = data.noticeContent;
+
+                        // 모달 표시 및 스크롤 막기
+                        modal.style.display = 'block';
+                        document.body.classList.add('no-scroll');
+                    } catch (error) {
+                        console.error('Error:', error);
+                    }
+                });
             });
-        });
-        
-        // 확인 버튼 클릭 시 모달 닫기
-        document.querySelector('.confirm-btn').addEventListener('click', function() {
-            modal.style.display = 'none';
-            document.body.classList.remove('no-scroll');
-        });
 
-        // 페이지네이션 관련 변수
-        const itemsPerPage = 13; // 페이지당 보여줄 항목 수
-        const noticeItems = document.querySelectorAll('.notice-item');
-        const totalPages = Math.ceil(noticeItems.length / itemsPerPage);
-        let currentPage = 1;
+            // 확인 버튼 클릭 시 모달 닫기
+            document.querySelector('.confirm-btn').addEventListener('click', function() {
+                modal.style.display = 'none';
+                document.body.classList.remove('no-scroll');
+            });
 
-        // 페이지 번호 생성
-        function createPageNumbers() {
-            const pageNumbers = document.getElementById('pageNumbers');
-            pageNumbers.innerHTML = '';
-            
-            for (let i = 1; i <= totalPages; i++) {
-                const button = document.createElement('button');
-                button.className = `page-number ${i === currentPage ? 'active' : ''}`;
-                button.textContent = i;
-                button.onclick = () => goToPage(i);
-                pageNumbers.appendChild(button);
+            // 페이지네이션 관련 변수
+            const itemsPerPage = 13; // 페이지당 보여줄 항목 수
+            const noticeItems = document.querySelectorAll('.notice-item');
+            const totalPages = Math.ceil(noticeItems.length / itemsPerPage);
+            let currentPage = 1;
+
+            // 페이지 번호 생성
+            function createPageNumbers() {
+                const pageNumbers = document.getElementById('pageNumbers');
+                pageNumbers.innerHTML = '';
+
+                for (let i = 1; i <= totalPages; i++) {
+                    const button = document.createElement('button');
+                    button.className = `page-number ${i === currentPage ? 'active' : ''}`;
+                    button.textContent = i;
+                    button.onclick = () => goToPage(i);
+                    pageNumbers.appendChild(button);
+                }
             }
-        }
 
-        // 페이지 이동
-        function goToPage(page) {
-            currentPage = page;
+            // 페이지 이동
+            function goToPage(page) {
+                currentPage = page;
+                updateDisplay();
+                updateButtons();
+                createPageNumbers();
+            }
+
+            // 화면 업데이트
+            function updateDisplay() {
+                const start = (currentPage - 1) * itemsPerPage;
+                const end = start + itemsPerPage;
+
+                noticeItems.forEach((item, index) => {
+                    item.style.display = (index >= start && index < end) ? '' : 'none';
+                });
+            }
+
+            // 버튼 상태 업데이트
+            function updateButtons() {
+                document.getElementById('prevPage').disabled = currentPage === 1;
+                document.getElementById('nextPage').disabled = currentPage === totalPages;
+            }
+
+            // 이전/다음 버튼 이벤트
+            document.getElementById('prevPage').onclick = () => {
+                if (currentPage > 1) goToPage(currentPage - 1);
+            };
+
+            document.getElementById('nextPage').onclick = () => {
+                if (currentPage < totalPages) goToPage(currentPage + 1);
+            };
+
+            // 초기 설정
+            createPageNumbers();
             updateDisplay();
             updateButtons();
-            createPageNumbers();
-        }
-
-        // 화면 업데이트
-        function updateDisplay() {
-            const start = (currentPage - 1) * itemsPerPage;
-            const end = start + itemsPerPage;
-
-            noticeItems.forEach((item, index) => {
-                item.style.display = (index >= start && index < end) ? '' : 'none';
-            });
-        }
-
-        // 버튼 상태 업데이트
-        function updateButtons() {
-            document.getElementById('prevPage').disabled = currentPage === 1;
-            document.getElementById('nextPage').disabled = currentPage === totalPages;
-        }
-
-        // 이전/다음 버튼 이벤트
-        document.getElementById('prevPage').onclick = () => {
-            if (currentPage > 1) goToPage(currentPage - 1);
-        };
-
-        document.getElementById('nextPage').onclick = () => {
-            if (currentPage < totalPages) goToPage(currentPage + 1);
-        };
-
-        // 초기 설정
-        createPageNumbers();
-        updateDisplay();
-        updateButtons();
-    });
+        });
     </script>
 
     <script>
