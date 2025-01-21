@@ -30,4 +30,7 @@ public interface UserMapper {
 
     UserDTO findByUsername(String username);
 
+    @Select("SELECT COUNT(*) > 0 FROM TBL_USER WHERE EMAIL = #{email} AND USER_ID = #{userId}")
+    boolean existsByEmailAndUserId(@Param("email") String email, @Param("userId") String userId);
+
 }

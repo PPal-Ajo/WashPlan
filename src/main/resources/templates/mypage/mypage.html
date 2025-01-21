@@ -37,6 +37,8 @@
 
     <button id="changePasswordButton" class="change">변경</button>
 
+    <img th:src="@{/images/login/Invisible.png}" alt="Invisible" class="ivs1">
+
     <!-- 이메일 -->
     <p class="email">이메일</p>
     <input class="emailInput" th:value="${email}" readonly>
@@ -61,11 +63,17 @@
         </div>
     </div>
 
+    <!-- 회원탈퇴 확인 모달 수정 -->
     <div id="secessionModal" class="modal" style="display: none;">
         <div class="modal-content">
-            <p class="secessionP">회원 탈퇴를 하시겠습니까?</p>
-            <button id="modalCancelButton" class="modal-btn">취소</button>
-            <button id="modalConfirmButton" class="modal-btn">확인</button>
+            <p class="secessionP">정말로 탈퇴하시겠습니까?</p>
+            <p class="secessionSubP">영구 탈퇴를 원하시면 아래에 "영구탈퇴"를 입력해주세요.</p>
+            <input type="text" id="secessionConfirmText" class="secession-input" placeholder="영구탈퇴">
+            <p id="secessionErrorMsg" class="error-message" style="display: none;">올바른 확인 문구를 입력해주세요.</p>
+            <div class="modal-buttons">
+                <button id="modalCancelButton" class="modal-btn">취소</button>
+                <button id="modalConfirmButton" class="modal-btn" disabled>확인</button>
+            </div>
         </div>
     </div>
 
@@ -75,6 +83,8 @@
             <button id="secessionConfirmButton" class="modal-btn">확인</button>
         </div>
     </div>
+
+
 </main>
 
 <footer>
@@ -161,19 +171,46 @@
         const modalCancelButton = document.getElementById("modalCancelButton");
         const modalConfirmButton = document.getElementById("modalConfirmButton");
         const secessionConfirmButton = document.getElementById("secessionConfirmButton");
+        const secessionInput = document.getElementById('secessionConfirmText');
 
         // 회원탈퇴 버튼 클릭 시 탈퇴 확인 모달 열기
         secessionButton.addEventListener("click", function () {
-            secessionModal.style.display = "flex"; // 탈퇴 확인 모달 열기
+            secessionModal.style.display = "flex";
         });
 
-        // 탈퇴 확인 모달 취소 버튼 클릭 이벤트
-        modalCancelButton.addEventListener("click", function () {
-            secessionModal.style.display = "none"; // 탈퇴 확인 모달 닫기
+        // 입력값 확인
+        secessionInput.addEventListener('input', function() {
+            const errorMsg = document.getElementById('secessionErrorMsg');
+
+            if (this.value === '영구탈퇴') {
+                modalConfirmButton.disabled = false;
+                errorMsg.style.display = 'none'; // 에러 메시지 숨기기
+            } else {
+                modalConfirmButton.disabled = true;
+                errorMsg.style.display = 'block'; // 에러 메시지 표시
+            }
         });
+
+        // 모달 취소 버튼 클릭 이벤트
+        document.getElementById("modalCancelButton").onclick = function() {
+            document.getElementById("secessionModal").style.display = "none";
+            document.getElementById("secessionConfirmText").value = '';
+            document.getElementById("modalConfirmButton").disabled = true;
+            document.getElementById("secessionErrorMsg").style.display = 'none';
+        };
 
         // 탈퇴 확인 모달 확인 버튼 클릭 이벤트
         modalConfirmButton.addEventListener("click", function () {
+            const errorMsg = document.getElementById('secessionErrorMsg');
+
+            if (secessionInput.value !== '영구탈퇴') {
+                errorMsg.style.display = 'block'; // 에러 메시지 표시
+                return;
+            }
+
+            // 입력값이 맞으면 에러 메시지 숨기기
+            errorMsg.style.display = 'none';
+
             fetch('/delete-account', {
                 method: 'POST',
                 headers: {
@@ -181,12 +218,11 @@
                 }
             })
                 .then(response => {
-                    secessionModal.style.display = "none"; // 탈퇴 확인 모달 닫기
+                    secessionModal.style.display = "none";
                     if (response.ok) {
                         // 로그아웃 처리
                         fetch('/logout', { method: 'POST' })
                             .then(() => {
-                                // 탈퇴 완료 모달 열기
                                 secessionConfirmModal.style.display = "flex";
                             })
                             .catch(error => {
@@ -198,7 +234,7 @@
                     }
                 })
                 .catch(error => {
-                    secessionModal.style.display = "none"; // 탈퇴 확인 모달 닫기
+                    secessionModal.style.display = "none";
                     alert("오류가 발생했습니다. 다시 시도해주세요.");
                     console.error(error);
                 });
@@ -209,8 +245,36 @@
             secessionConfirmModal.style.display = "none"; // 탈퇴 완료 모달 닫기
             window.location.href = '/'; // 메인 페이지로 이동
         });
+
+
+
+
+        // 비밀번호 입력 필드와 토글 버튼
+        const checkPasswordInput = document.getElementById('checkPasswordInput');
+        const passwordToggle = document.querySelector('.password-toggle');
+        let isPasswordVisible = false;
+
+        // 비밀번호 표시/숨김 토글
+        passwordToggle.addEventListener('click', () => {
+            isPasswordVisible = !isPasswordVisible;
+            checkPasswordInput.type = isPasswordVisible ? 'text' : 'password';
+        });
+
+        // 취소 버튼 클릭 시 메인 페이지로 이동
+        document.getElementById("checkCancelButton").onclick = function() {
+            window.location.href = '/';
+        };
     });
 
+    // 비밀번호 표시/숨김 관련 코드
+    const ivs1 = document.querySelector('.ivs1');
+    const passwordInput = document.getElementById('passwordInput');
+    let isPasswordVisible = false;
+
+    ivs1.addEventListener('click', () => {
+        isPasswordVisible = !isPasswordVisible;
+        passwordInput.type = isPasswordVisible ? 'text' : 'password';
+    });
 </script>
 </body>
 </html>

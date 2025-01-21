@@ -202,3 +202,152 @@
 
 
 }
+
+.codeBox {
+    position: absolute;
+    top: 823px;
+    left: 248px;
+    font-size: 30px;
+    font-family: "Do Hyeon";
+}
+
+#codeInput {
+    width: 825px;
+    height: 59px;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    border: none;
+    font-family: "Do Hyeon";
+    font-size: 30px;
+    padding-left: 20px;
+}
+
+#sendAuthCode {
+    position: absolute;
+    width: 209px;
+    height: 59px;
+    left: 1250px;
+    top: 650px;
+    background: #42A5F5;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    border: none;
+    font-family: "Do Hyeon";
+    font-size: 30px;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+#verifyCode {
+    position: absolute;
+    width: 209px;
+    height: 59px;
+    left: 1000px;
+    background: #42A5F5;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    border: none;
+    font-family: "Do Hyeon";
+    font-size: 30px;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+#verifyMessage {
+    position: absolute;
+    width: 324px;
+    height: 38px;
+    left: 335px;
+    top: 893px;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    color: #FD3C3C;
+}
+
+/* 버튼 hover/active 상태 */
+#sendAuthCode:hover, #verifyCode:hover {
+    background: #1976D2;
+}
+
+#sendAuthCode:active, #verifyCode:active {
+    background: #0056B3;
+}
+
+/* 모달의 배경 (반투명 검은색) */
+.modal{
+    display: none; /* 초기 상태에서는 숨김 */
+    position: absolute;
+    z-index: 1000;
+    left:-1px;
+    top:-1px;
+    width: 1920px;
+    height: 1080px;
+    background: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+}
+
+/* 모달 콘텐츠 */
+.modal-content {
+    position: absolute;
+    width: 1106px;
+    height: 326px;
+    left: 404px;
+    top: 388px;
+    z-index: 1001;
+
+    background: #E3F2FD;
+    box-shadow: 0px 7px 24.4px 7px rgba(0, 0, 0, 0.25);
+    border-radius: 70px;
+}
+
+/* 모달 안의 텍스트 */
+.modal-text{
+    position: absolute;
+    width: 921px;
+    height: 172px;
+    left: 350px;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 48px;
+    line-height: 60px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: #000000;
+
+
+}
+
+/* 확인 버튼 스타일 */
+.modal-btn {
+    position: absolute;
+    width: 209px;
+    height: 59px;
+    left: calc(50% - 209px/2 + 2.5px);
+    top: 210px;
+
+    background: #42A5F5;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    border:none;
+
+    /* 확인 */
+
+    box-sizing: border-box;
+    text-align: center;
+
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 50px;
+
+    color: #FFFFFF;
+
+}
