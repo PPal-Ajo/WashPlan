@@ -184,37 +184,42 @@ public class ReservationController {
     }
 
     @GetMapping("/reservation/qr-scan/{reserveNo}")
-    public String handleQRScanFromMobile(@PathVariable int reserveNo, RedirectAttributes redirectAttributes) {
+    public String handleQRScanFromMobile(@PathVariable int reserveNo, Model model) {
         try {
-            // 예약 정보 조회
+            // 예약 정보 조회 (로그인 체크 없이)
             ReservationDTO reservation = reservationService.findReservationByNo(reserveNo);
             
             if (reservation == null) {
-                log.error("예약을 찾을 수 없음: {}", reserveNo);
-                redirectAttributes.addFlashAttribute("error", "유효하지 않은 예약입니다.");
-                return "redirect:/reservation/error";
+                model.addAttribute("error", "유효하지 않은 예약입니다.");
+                return "reservation/error";
             }
-            
-            // 현재 예약 상태 로깅
-            log.info("예약 상태: {}", reservation.getReserveStatus());
             
             if (!"예약중".equals(reservation.getReserveStatus())) {
-                log.error("잘못된 예약 상태: {}", reservation.getReserveStatus());
-                redirectAttributes.addFlashAttribute("error", 
+                model.addAttribute("error", 
                     "이미 처리된 예약이거나 취소된 예약입니다. (현재 상태: " + reservation.getReserveStatus() + ")");
-                return "redirect:/reservation/error";
+                return "reservation/error";
             }
             
-            // 예약 상태 업데이트
+            // 예약 상태 업데이트 전에 현재 상태 다시 한번 확인
+            ReservationDTO currentStatus = reservationService.findReservationByNo(reserveNo);
+            if (!"예약중".equals(currentStatus.getReserveStatus())) {
+                model.addAttribute("error", "예약 상태가 변경되었습니다.");
+                return "reservation/error";
+            }
+            
+            // 예약 상태 업데이트 (로그인 체크 없이)
             reservationService.updateQRScanStatus(reserveNo);
             
-            redirectAttributes.addFlashAttribute("success", "QR 코드 스캔이 완료되었습니다. 이용을 시작하세요.");
-            return "redirect:/reservation/success";
+            // 성공 메시지와 기기 번호 추가
+            model.addAttribute("success", "QR 코드 스캔이 완료되었습니다. 이용을 시작하세요.");
+            model.addAttribute("machineNo", reservation.getMachineNo());
+            
+            return "reservation/success";
             
         } catch (Exception e) {
             log.error("QR 스캔 처리 중 오류: ", e);
-            redirectAttributes.addFlashAttribute("error", "처리 중 오류가 발생했습니다: " + e.getMessage());
-            return "redirect:/reservation/error";
+            model.addAttribute("error", "처리 중 오류가 발생했습니다.");
+            return "reservation/error";
         }
     }
     @GetMapping("/reservation/current/{machineNo}")

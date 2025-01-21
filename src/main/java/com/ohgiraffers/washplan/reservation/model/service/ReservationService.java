@@ -199,7 +199,7 @@ public class ReservationService {
         LocalDate currentDate = LocalDate.now();
         LocalTime currentTime = LocalTime.now();
         String selectedDate = currentDate.toString();
-        String selectedTime = currentTime.format(DateTimeFormatter.ofPattern("HH:mm"));
+        String selectedTime = currentTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"));  // 초(ss) 추가
         
         // 1. 먼저 현재 사용중인 예약이 있는지 확인
         ReservationDTO currentReservation = reservationMapper.getCurrentReservation(machineNo, selectedDate, selectedTime);
@@ -213,8 +213,6 @@ public class ReservationService {
                 currentReservation.getEndTime()
             );
             return currentReservation.getReserveStatus();
-        } else {
-            log.error("예약 정보 조회 실패: machineNo={}", machineNo);
         }
         
         log.info("현재 예약 없음");

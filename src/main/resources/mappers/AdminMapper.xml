@@ -43,11 +43,12 @@
 
     <select id="findUserInfo" resultMap="adminResultMap">
         SELECT USER_NO,
-                USER_ID,
-                CREATED_TIME,
-                USER_STATUS,
-                CANCEL_COUNT
-            FROM TBL_USER
+               USER_ID,
+               CREATED_TIME,
+               USER_STATUS,
+               CANCEL_COUNT
+        FROM TBL_USER
+        ORDER BY USER_NO DESC
     </select>
 
     <update id="pauseUser">
@@ -63,28 +64,38 @@
     </update>
 
     <select id="searchAll" parameterType="string" resultMap="adminResultMap">
+    SELECT USER_NO, USER_ID, CREATED_TIME, USER_STATUS, CANCEL_COUNT
+    FROM TBL_USER
+    </select>
+
+    <select id="searchById" parameterType="string" resultMap="adminResultMap">
         SELECT USER_NO, USER_ID, CREATED_TIME, USER_STATUS, CANCEL_COUNT
         FROM TBL_USER
         WHERE USER_ID LIKE #{keyword}
-        OR USER_STATUS LIKE #{keyword}
+    </select>
+
+    <select id="searchByStatus" parameterType="string" resultMap="adminResultMap">
+        SELECT USER_NO, USER_ID, CREATED_TIME, USER_STATUS, CANCEL_COUNT
+        FROM TBL_USER
+        WHERE USER_STATUS = #{status}
     </select>
 
     <select id="searchByCancelCount" parameterType="int" resultMap="adminResultMap">
         SELECT USER_NO, USER_ID, CREATED_TIME, USER_STATUS, CANCEL_COUNT
         FROM TBL_USER
-        WHERE CANCEL_COUNT >= #{cancelCount}
+        WHERE CANCEL_COUNT &gt;= #{cancelCount}
     </select>
 
     <select id="findWashMachineInfo" resultMap="machineResultMap">
         SELECT MACHINE_NO,
-                MACHINE_STATUS
+        MACHINE_STATUS
         FROM TBL_MACHINE
         WHERE MACHINE_TYPE = '세탁기'
     </select>
 
     <select id="findDryMachineInfo" resultMap="machineResultMap">
         SELECT MACHINE_NO,
-                MACHINE_STATUS
+        MACHINE_STATUS
         FROM TBL_MACHINE
         WHERE MACHINE_TYPE = '건조기'
 
@@ -93,19 +104,19 @@
     <update id="toggleMachineStatus">
         UPDATE TBL_MACHINE
         SET MACHINE_STATUS =
-            CASE
-                WHEN MACHINE_STATUS = '사용가능' THEN '고장'
-                ELSE '사용가능'
-            END
+        CASE
+        WHEN MACHINE_STATUS = '사용가능' THEN '고장'
+        ELSE '사용가능'
+        END
         WHERE MACHINE_NO = #{machineNo}
     </update>
 
     <select id="findInquiryInfo" resultMap="inquiryResultMap">
         SELECT i.INQUIRY_NO,
-                u.USER_ID,
-                i.INQUIRY_TITLE,
-                i.INQUIRY_DATE,
-                i.REPLY_STATUS
+        u.USER_ID,
+        i.INQUIRY_TITLE,
+        i.INQUIRY_DATE,
+        i.REPLY_STATUS
         FROM TBL_INQUIRY i
         JOIN TBL_USER u ON i.USER_NO = u.USER_NO
     </select>
@@ -118,11 +129,35 @@
         OR i.INQUIRY_TITLE LIKE CONCAT('%', #{query}, '%')
     </select>
 
+    <select id="findAllInquiries" resultMap="inquiryResultMap">
+        SELECT i.INQUIRY_NO, u.USER_ID, i.INQUIRY_TITLE, i.INQUIRY_DATE, i.REPLY_STATUS
+        FROM TBL_INQUIRY i
+        JOIN TBL_USER u ON i.USER_NO = u.USER_NO
+        ORDER BY i.INQUIRY_NO DESC
+    </select>
+
+    <select id="findInquiriesByUserId" resultMap="inquiryResultMap">
+        SELECT i.INQUIRY_NO, u.USER_ID, i.INQUIRY_TITLE, i.INQUIRY_DATE, i.REPLY_STATUS
+        FROM TBL_INQUIRY i
+        JOIN TBL_USER u ON i.USER_NO = u.USER_NO
+        WHERE u.USER_ID LIKE CONCAT('%', #{query}, '%')
+        ORDER BY i.INQUIRY_NO DESC
+    </select>
+
+    <select id="findInquiriesByTitle" resultMap="inquiryResultMap">
+        SELECT i.INQUIRY_NO, u.USER_ID, i.INQUIRY_TITLE, i.INQUIRY_DATE, i.REPLY_STATUS
+        FROM TBL_INQUIRY i
+        JOIN TBL_USER u ON i.USER_NO = u.USER_NO
+        WHERE i.INQUIRY_TITLE LIKE CONCAT('%', #{query}, '%')
+        ORDER BY i.INQUIRY_NO DESC
+    </select>
+
     <select id="findInquiriesByReplyStatus" resultMap="inquiryResultMap">
         SELECT i.INQUIRY_NO, u.USER_ID, i.INQUIRY_TITLE, i.INQUIRY_DATE, i.REPLY_STATUS
         FROM TBL_INQUIRY i
         JOIN TBL_USER u ON i.USER_NO = u.USER_NO
         WHERE i.REPLY_STATUS = #{status}
+        ORDER BY i.INQUIRY_NO DESC
     </select>
 
     <delete id="deleteInquiries">
@@ -160,9 +195,9 @@
 
     <select id="findNoticeInfo" resultMap="noticeResultMap">
         SELECT NOTICE_NO,
-                NOTICE_TITLE,
-                NOTICE_DATE
-            FROM TBL_NOTICE
+        NOTICE_TITLE,
+        NOTICE_DATE
+        FROM TBL_NOTICE
         ORDER BY NOTICE_NO DESC
     </select>
 
@@ -196,7 +231,7 @@
 
     <select id="getNoticeById" resultMap="noticeResultMap">
         SELECT NOTICE_TITLE,
-                NOTICE_CONTENT
+        NOTICE_CONTENT
         FROM TBL_NOTICE
         WHERE NOTICE_NO = #{noticeNo}
     </select>
@@ -204,30 +239,30 @@
     <update id="updateNotice">
         UPDATE TBL_NOTICE
         SET NOTICE_TITLE = #{noticeTitle},
-            NOTICE_CONTENT = #{noticeContent}
+        NOTICE_CONTENT = #{noticeContent}
         WHERE NOTICE_NO = #{noticeNo}
     </update>
 
     <!-- 자동취소 횟수 확인 -->
     <select id="checkCancelCount" resultType="int">
-        SELECT CANCEL_COUNT 
-        FROM TBL_USER 
+        SELECT CANCEL_COUNT
+        FROM TBL_USER
         WHERE USER_NO = #{userNo}
     </select>
 
     <!-- 패널티 추가 (일시정지) -->
     <insert id="insertPenalty">
         INSERT INTO TBL_PENALTY (USER_NO, PENALTY_START, PENALTY_END, ADMIN_NO)
-        VALUES (#{userNo}, CURDATE(), 
-            <choose>
-                <when test="isPermanent == true">
-                    NULL
-                </when>
-                <otherwise>
-                    DATE_ADD(CURDATE(), INTERVAL 3 DAY)
-                </otherwise>
-            </choose>, 
-            #{adminNo})
+        VALUES (#{userNo}, CURDATE(),
+        <choose>
+            <when test="isPermanent == true">
+                NULL
+            </when>
+            <otherwise>
+                DATE_ADD(CURDATE(), INTERVAL 3 DAY)
+            </otherwise>
+        </choose>,
+        #{adminNo})
     </insert>
 
     <!-- 패널티 만료 체크 및 상태 업데이트 -->
@@ -235,9 +270,9 @@
         UPDATE TBL_USER u
         SET u.USER_STATUS = '정상'
         WHERE u.USER_NO IN (
-            SELECT p.USER_NO 
-            FROM TBL_PENALTY p 
-            WHERE p.PENALTY_END = CURDATE()
+        SELECT p.USER_NO
+        FROM TBL_PENALTY p
+        WHERE p.PENALTY_END = CURDATE()
         )
     </update>
 
@@ -262,35 +297,35 @@
         FROM TBL_RESERVATION_HISTORY
         WHERE DATE(COMPLETED_DATE) = #{date}
     </select>
-    
+
     <select id="getMonthlySales" resultType="int">
         SELECT COALESCE(SUM(RESERVE_PRICE), 0)
         FROM TBL_RESERVATION_HISTORY
         WHERE DATE_FORMAT(COMPLETED_DATE, '%Y-%m') = #{yearMonth}
     </select>
-    
+
     <select id="getPeriodSales" resultType="int">
         SELECT COALESCE(SUM(RESERVE_PRICE), 0)
         FROM TBL_RESERVATION_HISTORY
         WHERE DATE(COMPLETED_DATE) BETWEEN #{startDate} AND #{endDate}
     </select>
-    
+
     <select id="getMachineSales" resultType="map">
-        SELECT 
-            m.MACHINE_TYPE,
-            COUNT(*) as count,
-            COALESCE(SUM(h.RESERVE_PRICE), 0) as total
+        SELECT
+        m.MACHINE_TYPE,
+        COUNT(*) as count,
+        COALESCE(SUM(h.RESERVE_PRICE), 0) as total
         FROM TBL_RESERVATION_HISTORY h
         JOIN TBL_MACHINE m ON h.MACHINE_NO = m.MACHINE_NO
         WHERE DATE(h.COMPLETED_DATE) = #{date}
         GROUP BY m.MACHINE_TYPE
     </select>
-    
+
     <select id="getOptionSales" resultType="map">
-        SELECT 
-            RESERVE_OPTION,
-            COUNT(*) as count,
-            COALESCE(SUM(RESERVE_PRICE), 0) as total
+        SELECT
+        RESERVE_OPTION,
+        COUNT(*) as count,
+        COALESCE(SUM(RESERVE_PRICE), 0) as total
         FROM TBL_RESERVATION_HISTORY
         WHERE DATE(COMPLETED_DATE) = #{date}
         GROUP BY RESERVE_OPTION
@@ -303,97 +338,97 @@
     </insert>
 
     <delete id="deleteMachine" parameterType="int">
-        DELETE FROM TBL_MACHINE 
+        DELETE FROM TBL_MACHINE
         WHERE MACHINE_NO = #{machineNo}
     </delete>
 
     <select id="getDailyDetailSales" resultType="map">
-        SELECT 
-            mo.MACHINE_TYPE,
-            mo.OPTION_NAME as RESERVE_OPTION,
-            mo.OPTION_PRICE,
-            COUNT(h.RESERVE_NO) as count,
-            COALESCE(SUM(h.RESERVE_PRICE), 0) as total
+        SELECT
+        mo.MACHINE_TYPE,
+        mo.OPTION_NAME as RESERVE_OPTION,
+        mo.OPTION_PRICE,
+        COUNT(h.RESERVE_NO) as count,
+        COALESCE(SUM(h.RESERVE_PRICE), 0) as total
         FROM TBL_MACHINE_OPTION mo
         LEFT JOIN TBL_MACHINE m ON mo.MACHINE_TYPE = m.MACHINE_TYPE
-        LEFT JOIN TBL_RESERVATION_HISTORY h ON m.MACHINE_NO = h.MACHINE_NO 
-            AND mo.OPTION_NAME = h.RESERVE_OPTION
-            AND DATE(h.COMPLETED_DATE) = #{date}
+        LEFT JOIN TBL_RESERVATION_HISTORY h ON m.MACHINE_NO = h.MACHINE_NO
+        AND mo.OPTION_NAME = h.RESERVE_OPTION
+        AND DATE(h.RESERVE_DATE) = #{date}
         GROUP BY mo.MACHINE_TYPE, mo.OPTION_NAME, mo.OPTION_PRICE
     </select>
 
     <select id="getMonthlyDetailSales" resultType="map">
-        SELECT 
-            #{yearMonth} as YEARMONTH,
-            mo.MACHINE_TYPE,
-            mo.OPTION_NAME as RESERVE_OPTION,
-            mo.OPTION_PRICE,
-            COUNT(h.RESERVE_NO) as count,
-            COALESCE(SUM(h.RESERVE_PRICE), 0) as total
+        SELECT
+        #{yearMonth} as YEARMONTH,
+        mo.MACHINE_TYPE,
+        mo.OPTION_NAME as RESERVE_OPTION,
+        mo.OPTION_PRICE,
+        COUNT(h.RESERVE_NO) as count,
+        COALESCE(SUM(h.RESERVE_PRICE), 0) as total
         FROM TBL_MACHINE_OPTION mo
         LEFT JOIN TBL_MACHINE m ON mo.MACHINE_TYPE = m.MACHINE_TYPE
-        LEFT JOIN TBL_RESERVATION_HISTORY h ON m.MACHINE_NO = h.MACHINE_NO 
-            AND mo.OPTION_NAME = h.RESERVE_OPTION
-            AND DATE_FORMAT(h.COMPLETED_DATE, '%Y-%m') = #{yearMonth}
+        LEFT JOIN TBL_RESERVATION_HISTORY h ON m.MACHINE_NO = h.MACHINE_NO
+        AND mo.OPTION_NAME = h.RESERVE_OPTION
+        AND DATE_FORMAT(h.RESERVE_DATE, '%Y-%m') = #{yearMonth}
         GROUP BY mo.MACHINE_TYPE, mo.OPTION_NAME, mo.OPTION_PRICE
     </select>
 
     <select id="getYearlyDetailSales" resultType="map">
         WITH MONTHS AS (
-            SELECT 1 as MONTH UNION SELECT 2 UNION SELECT 3 UNION SELECT 4
-            UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8
-            UNION SELECT 9 UNION SELECT 10 UNION SELECT 11 UNION SELECT 12
+        SELECT 1 as MONTH UNION SELECT 2 UNION SELECT 3 UNION SELECT 4
+        UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8
+        UNION SELECT 9 UNION SELECT 10 UNION SELECT 11 UNION SELECT 12
         )
-        SELECT 
-            m.MONTH,
-            mo.MACHINE_TYPE,
-            mo.OPTION_NAME as RESERVE_OPTION,
-            mo.OPTION_PRICE,
-            COUNT(h.RESERVE_NO) as count,
-            COALESCE(SUM(h.RESERVE_PRICE), 0) as total
+        SELECT
+        m.MONTH,
+        mo.MACHINE_TYPE,
+        mo.OPTION_NAME as RESERVE_OPTION,
+        mo.OPTION_PRICE,
+        COUNT(h.RESERVE_NO) as count,
+        COALESCE(SUM(h.RESERVE_PRICE), 0) as total
         FROM MONTHS m
         CROSS JOIN TBL_MACHINE_OPTION mo
         LEFT JOIN TBL_MACHINE mac ON mo.MACHINE_TYPE = mac.MACHINE_TYPE
-        LEFT JOIN TBL_RESERVATION_HISTORY h ON mac.MACHINE_NO = h.MACHINE_NO 
-            AND mo.OPTION_NAME = h.RESERVE_OPTION
-            AND MONTH(h.COMPLETED_DATE) = m.MONTH
-            AND DATE_FORMAT(h.COMPLETED_DATE, '%Y') = #{year}
+        LEFT JOIN TBL_RESERVATION_HISTORY h ON mac.MACHINE_NO = h.MACHINE_NO
+        AND mo.OPTION_NAME = h.RESERVE_OPTION
+        AND MONTH(h.RESERVE_DATE) = m.MONTH
+        AND DATE_FORMAT(h.RESERVE_DATE, '%Y') = #{year}
         GROUP BY m.MONTH, mo.MACHINE_TYPE, mo.OPTION_NAME, mo.OPTION_PRICE
         ORDER BY m.MONTH
     </select>
 
     <select id="getMonthlyDataForYear" resultType="map">
-        SELECT 
-            MONTH(COMPLETED_DATE) as MONTH,
-            COALESCE(SUM(RESERVE_PRICE), 0) as TOTAL
+        SELECT
+        MONTH(RESERVE_DATE) as MONTH,
+        COALESCE(SUM(RESERVE_PRICE), 0) as TOTAL
         FROM TBL_RESERVATION_HISTORY
-        WHERE DATE_FORMAT(COMPLETED_DATE, '%Y') = #{year}
-        GROUP BY MONTH(COMPLETED_DATE)
-        ORDER BY MONTH(COMPLETED_DATE)
+        WHERE DATE_FORMAT(RESERVE_DATE, '%Y') = #{year}
+        GROUP BY MONTH(RESERVE_DATE)
+        ORDER BY MONTH(RESERVE_DATE)
     </select>
 
     <!-- 전체 회원 수와 오늘 가입한 회원 수 조회 -->
     <select id="getUserStats" resultType="map">
-        SELECT 
-            (SELECT COUNT(*) FROM TBL_USER) as total_users,
-            (SELECT COUNT(*) FROM TBL_USER WHERE DATE(CREATED_TIME) = CURDATE()) as new_users
+        SELECT
+        (SELECT COUNT(*) FROM TBL_USER) as total_users,
+        (SELECT COUNT(*) FROM TBL_USER WHERE DATE(CREATED_TIME) = CURDATE()) as new_users
     </select>
 
     <!-- 기기 현황 조회 -->
     <select id="getMachineStatus" resultType="map">
-        SELECT 
-            MACHINE_NO,
-            MACHINE_TYPE,
-            MACHINE_STATUS
+        SELECT
+        MACHINE_NO,
+        MACHINE_TYPE,
+        MACHINE_STATUS
         FROM TBL_MACHINE
         ORDER BY MACHINE_TYPE, MACHINE_NO
     </select>
 
     <!-- 문의사항 현황 조회 -->
     <select id="getInquiryStats" resultType="map">
-        SELECT 
-            (SELECT COUNT(*) FROM TBL_INQUIRY WHERE DATE(INQUIRY_DATE) = CURDATE()) as today_inquiries,
-            (SELECT COUNT(*) FROM TBL_INQUIRY WHERE REPLY_STATUS = '대기중') as pending_inquiries
+        SELECT
+        (SELECT COUNT(*) FROM TBL_INQUIRY WHERE DATE(INQUIRY_DATE) = CURDATE()) as today_inquiries,
+        (SELECT COUNT(*) FROM TBL_INQUIRY WHERE REPLY_STATUS = '대기중') as pending_inquiries
     </select>
 
 </mapper>

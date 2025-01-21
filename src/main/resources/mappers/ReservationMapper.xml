@@ -196,14 +196,13 @@
         WHERE r.MACHINE_NO = #{machineNo}
         AND r.RESERVE_DATE = #{selectedDate, jdbcType=VARCHAR}
         AND (
-            /* 선택한 시간이 정확히 예약 시작 시간과 일치하는 경우 */
-            (r.START_TIME = #{selectedTime, jdbcType=VARCHAR} AND r.RESERVE_STATUS IN ('예약중', '사용중'))
-            OR 
-            /* 사용중인 예약의 시간대 내에 있는 경우 */
-            (
-                r.RESERVE_STATUS = '사용중' 
-                AND #{selectedTime, jdbcType=VARCHAR} BETWEEN r.START_TIME AND DATE_SUB(r.END_TIME, INTERVAL 1 MINUTE)
-            )
+            /* 예약중인 경우는 정확히 시작 시간과 일치할 때만 */
+            (r.RESERVE_STATUS = '예약중' AND r.START_TIME = #{selectedTime, jdbcType=VARCHAR})
+            OR
+            /* 사용중인 경우는 시작시간과 종료시간 사이에 있을 때만 */
+            (r.RESERVE_STATUS = '사용중' 
+             AND #{selectedTime, jdbcType=VARCHAR} &gt;= r.START_TIME 
+             AND #{selectedTime, jdbcType=VARCHAR} &lt; r.END_TIME)
         )
         ORDER BY r.RESERVE_NO DESC
         LIMIT 1

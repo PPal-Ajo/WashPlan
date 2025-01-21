@@ -14,17 +14,23 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 
 import java.time.LocalDate;
 
 @Configuration
+@EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
     private final AdminMapper adminMapper;
+    private final CustomUserDetailsService userDetailsService;
 
     @Autowired
-    public SecurityConfig(AdminMapper adminMapper) {
+    public SecurityConfig(AdminMapper adminMapper, CustomUserDetailsService userDetailsService) {
         this.adminMapper = adminMapper;
+        this.userDetailsService = userDetailsService;
     }
 
     @Bean
@@ -38,8 +44,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // 운영 환경에서 활성화 필요
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // 정적 리소스 허용
-                        .requestMatchers("/login", "/signup/**", "/email/**", "/forget/**", "/findid/**", "/findpwd/**", "/resetpwd/**", "/auth/**", "/main", "/","/api/**","/error/**","/machine/**").permitAll() // 비회원 허용 경로
-                        .requestMatchers("/reservation/**", "/mypage/**", "change-password", "/faq/**", "/faq/api/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/login", "/signup/**", "/email/**", "/forget/**", "/findid/**", "/findpwd/**", "/resetpwd/**", "/auth/**", "/","/api/**","/error/**","/machine/**", "/faq").permitAll() // 비회원 허용 경로
+                        .requestMatchers("/reservation/**", "/mypage/**", "change-password", "/faq/api/**", "/main").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/admin/**", "/adminUser/**", "/adminMachine/**", "/adminInquiry/**").hasRole("ADMIN") // 관리자 페이지는 ADMIN 권한 필요
                         .anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
                 )
@@ -50,8 +56,14 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                         .invalidSessionUrl("/login")  // 유효하지 않은 세션 접근시 리다이렉트
                         .maximumSessions(1)
-                        .maxSessionsPreventsLogin(true)  // 중복 로그인 방지
+                        .maxSessionsPreventsLogin(false)
                         .expiredUrl("/login")
+                )
+                .rememberMe(remember -> remember
+                        .key("uniqueAndSecret")
+                        .tokenValiditySeconds(86400)
+                        .rememberMeParameter("remember-me")
+                        .userDetailsService(userDetailsService)
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
