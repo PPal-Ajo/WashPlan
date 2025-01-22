@@ -55,8 +55,9 @@
     <hr>
 
     <div class="notice-list">
-        <div th:each="notice : ${notices}" class="notice-item">
-            <span class="notice-no" th:text="${notice.noticeNo}"></span>
+        <div th:each="notice, iterStat : ${notices}" class="notice-item">
+            <!-- 공지사항 번호를 연속적으로 표시 -->
+            <span class="notice-no" th:text="${notices.size() - iterStat.index}"></span>
             <span class="notice-title" th:text="${notice.noticeTitle}"></span>
             <span class="notice-date" th:text="${#temporals.format(notice.noticeDate, 'yyyy-MM-dd')}"></span>
         </div>
@@ -91,9 +92,9 @@
             // 각 공지사항 클릭 이벤트
             document.querySelectorAll('.notice-item').forEach(item => {
                 item.addEventListener('click', async function() {
-                    const noticeNo = this.querySelector('.notice-no').textContent;
+                    const noticeTitle = this.querySelector('.notice-title').textContent;
                     try {
-                        const response = await fetch(`/notice/detail/${noticeNo}`);
+                        const response = await fetch(`/notice/detail?title=${encodeURIComponent(noticeTitle)}`);
                         const data = await response.json();
 
                         // 모달 내용 업데이트
@@ -114,6 +115,8 @@
                 modal.style.display = 'none';
                 document.body.classList.remove('no-scroll');
             });
+
+
 
             // 페이지네이션 관련 변수
             const itemsPerPage = 13; // 페이지당 보여줄 항목 수

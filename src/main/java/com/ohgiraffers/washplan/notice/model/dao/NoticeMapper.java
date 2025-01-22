@@ -7,5 +7,5 @@ import java.util.List;
 @Mapper
 public interface NoticeMapper {
     List<NoticeDTO> findAllNotices();
-    NoticeDTO findNoticeByNo(int noticeNo);
+    NoticeDTO findNoticeByTitle(String title);
 }

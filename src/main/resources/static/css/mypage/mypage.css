@@ -377,7 +377,7 @@ footer span:nth-child(3){
 
 .modal-content {
     position: absolute;
-    width: 1106px;    /* 너비 조정 */
+    width: 800px;    /* 너비 조정 */
     height: 426px;    /* 높이 자동 조정 */
     left: 950px;
     top: 600px;
@@ -622,7 +622,7 @@ footer span:nth-child(3){
     font-style: normal;
     font-weight: 400;
     font-size: 25px;
-    margin-left: 325px;
+    margin-left: 175px;
 }
 
 .secession-input {
@@ -633,7 +633,7 @@ footer span:nth-child(3){
     border-radius: 8px;
     font-size: 30px;
     text-align: center;
-    margin-left: 400px;
+    margin-left: 250px;
 }
 
 /* 비활성화된 확인 버튼 스타일 */
@@ -647,4 +647,16 @@ footer span:nth-child(3){
     font-family: 'Do Hyeon';
     font-size: 30px;
     text-align: center;
+}
+
+.modal-content1 {
+    position: absolute;
+    width: 1106px;    /* 너비 조정 */
+    height: 326px;    /* 높이 자동 조정 */
+    left: 950px;
+    top: 450px;
+    transform: translate(-50%, -50%);
+    background: #E3F2FD;
+    box-shadow: 0px 7px 24.4px 7px rgba(0, 0, 0, 0.25);
+    border-radius: 70px;
 }

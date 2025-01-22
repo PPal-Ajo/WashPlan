@@ -16,7 +16,7 @@
         <!-- 기본 메뉴 -->
         <span onclick="location.href='/main'">WashPlan</span>
         <span onclick="location.href='/reservation'">예약</span>
-        <span onclick="location.href='/faq'">FAQ</span>
+        <span onclick="location.href='/faq'" style="color: #FFFF00">FAQ</span>
         
         <!-- 관리자 로그인 시 -->
         <span sec:authorize="hasRole('ROLE_ADMIN')" id="adminTab" class="admin" onclick="toggleAdminMenu()">관리자</span>
