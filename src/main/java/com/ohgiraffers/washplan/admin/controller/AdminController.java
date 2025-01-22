@@ -66,6 +66,13 @@ public class AdminController {
         return ResponseEntity.ok("영구탈퇴 완료");
     }
 
+    @PostMapping("/activate")
+    public ResponseEntity<String> activeUsers(@RequestBody Map<String, List<Integer>> request) {
+        List<Integer> userNos = request.get("userNos");
+        adminService.activeUsers(userNos);
+        return ResponseEntity.ok("활성화 완료");
+    }
+
     @GetMapping("/adminuser/search")
     @ResponseBody
     public List<AdminDTO> searchUsers(@RequestParam("category") String category, @RequestParam("keyword") String keyword) {

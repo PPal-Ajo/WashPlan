@@ -107,4 +107,7 @@ public interface AdminMapper {
     List<AdminInquiryDTO> findInquiriesByTitle(String query);
 
     List<AdminInquiryDTO> findAllInquiries();
+
+
+    void activeUser(Integer userNo);
 }

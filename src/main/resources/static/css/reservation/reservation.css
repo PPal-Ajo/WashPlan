@@ -20,7 +20,7 @@ body.no-scroll {
     left: -1px;
     top: -1px;
     width: 1920px;
-    height: 1191px;
+    height: 1080px;
     background: #E3F2FD;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
@@ -31,7 +31,7 @@ footer {
     width: 1920px;
     height: 147px;
     left: -1px;
-    top: 1044px;
+    top: 1191px;
     background: #1A73E8;
 }
 
