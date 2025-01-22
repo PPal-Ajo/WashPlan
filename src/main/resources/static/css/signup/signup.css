@@ -1,3 +1,14 @@
+/* Google Fonts import */
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap');
+
+/* 지마켓 산스 */
+@font-face {
+    font-family: 'Gmarket Sans';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-display: swap;
+}
+
 .bg{
     position: absolute;
     left: -1px;
@@ -13,7 +24,7 @@
     left: 796px;
     top: 160px;
 
-    font-family: 'BM Dohyeon';
+    font-family: 'Do hyeon';
     font-style: normal;
     font-weight: 400;
     font-size: 60px;
@@ -372,7 +383,7 @@
     left: 725px;
     top: 475px;
 
-    font-family: 'BM Dohyeon';
+    font-family: 'Do hyeon';
     font-style: normal;
     font-weight: 400;
     font-size: 30px;

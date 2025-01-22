@@ -20,12 +20,12 @@
          <result property="userNo" column="USER_NO"/>
         <result property="machineNo" column="MACHINE_NO"/>
         <result property="reserveDate" column="RESERVE_DATE"/>
-        <result property="startTime" column="START_TIME"/>
-        <result property="endTime" column="END_TIME"/>
+        <result property="StartTime" column="START_TIME"/>
+        <result property="EndTime" column="END_TIME"/>
         <result property="reserveOption" column="RESERVE_OPTION"/>
         <result property="reservePrice" column="RESERVE_PRICE"/>
         <result property="reserveStatus" column="RESERVE_STATUS"/>
-        <result property="qrCode" column="QR_CODE"/>
+        <result property="qrCode" column="QR_CODE" jdbcType="BLOB"/>
     </resultMap>
 
     <select id="findMachineNo101" resultType="int" >
@@ -154,22 +154,22 @@
         ORDER BY MACHINE_NO
     </select>
 
-    <select id="selectReservationByNo" resultType="com.ohgiraffers.washplan.reservation.model.dto.ReservationDTO">
+    <select id="selectReservationByNo" resultMap="reservationResultMap2">
         SELECT
-            reserve_no AS reserveNo,
-            user_no AS userNo,
-            machine_no AS machineNo,
-            reserve_date AS reserveDate,
-            start_time AS StartTime,
-            end_time AS EndTime,
-            reserve_option AS reserveOption,
-            reserve_price AS reservePrice,
-            reserve_status AS reserveStatus,
-            qr_code AS qrCode
+            RESERVE_NO,
+            USER_NO,
+            MACHINE_NO,
+            RESERVE_DATE,
+            START_TIME,
+            END_TIME,
+            RESERVE_OPTION,
+            RESERVE_PRICE,
+            RESERVE_STATUS,
+            QR_CODE
         FROM
-            tbl_reservation
+            TBL_RESERVATION
         WHERE
-            reserve_no = #{reserveNo}
+            RESERVE_NO = #{reserveNo}
     </select>
 
     <update id="updateReservationStatusToUsing">
@@ -234,7 +234,7 @@
         )
     </update>
 
-    <!-- 미사용 예약의 사용자 번호 조회 -->
+    
     <select id="findUnusedReservationUserNos" resultType="int">
         SELECT DISTINCT r.USER_NO
         FROM TBL_RESERVATION r

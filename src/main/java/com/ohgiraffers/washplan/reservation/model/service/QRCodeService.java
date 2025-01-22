@@ -18,7 +18,7 @@ import java.util.Map;
 @Service
 public class QRCodeService {
     
-    @Value("${app.baseUrl:http://192.168.0.13:8080}")
+    @Value("${app.baseUrl}")
     private String baseUrl;
     
     // 예약 페이지용 QR 코드 생성
