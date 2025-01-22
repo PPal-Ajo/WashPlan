@@ -19,7 +19,8 @@ public class NoticeService {
         return noticeMapper.findAllNotices();
     }
 
-    public NoticeDTO getNoticeDetail(int noticeNo) {
-        return noticeMapper.findNoticeByNo(noticeNo);
+    // 공지사항 제목으로 상세 조회
+    public NoticeDTO getNoticeDetailByTitle(String noticeTitle) {
+        return noticeMapper.findNoticeByTitle(noticeTitle);
     }
 }

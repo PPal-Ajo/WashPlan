@@ -12,18 +12,17 @@
             NOTICE_CONTENT as noticeContent,
             NOTICE_DATE as noticeDate
         FROM TBL_NOTICE
-        ORDER BY NOTICE_DATE DESC
+        ORDER BY NOTICE_NO DESC
     </select>
 
-    <select id="findNoticeByNo" resultType="com.ohgiraffers.washplan.notice.model.dto.NoticeDTO">
-        SELECT 
-            NOTICE_NO as noticeNo,
-            ADMIN_NO as adminNo,
-            NOTICE_TITLE as noticeTitle,
-            NOTICE_CONTENT as noticeContent,
-            NOTICE_DATE as noticeDate
+    <select id="findNoticeByTitle" parameterType="String" resultType="com.ohgiraffers.washplan.notice.model.dto.NoticeDTO">
+        SELECT
+        NOTICE_NO AS noticeNo,
+        NOTICE_TITLE AS noticeTitle,
+        NOTICE_CONTENT AS noticeContent,
+        NOTICE_DATE AS noticeDate
         FROM TBL_NOTICE
-        WHERE NOTICE_NO = #{noticeNo}
+        WHERE NOTICE_TITLE = #{title}
     </select>
 
 </mapper> 
