@@ -438,5 +438,13 @@ public class AdminService {
     }
 
 
-
+    public void activeUsers(List<Integer> userNos) {
+        if (userNos == null || userNos.isEmpty()) {
+            throw new IllegalArgumentException("활성화할 사용자가 선택되지 않았습니다.");
+        }
+        
+        for (Integer userNo : userNos) {
+            adminMapper.activeUser(userNo);
+        }
+    }
 }

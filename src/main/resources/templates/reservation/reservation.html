@@ -558,11 +558,11 @@
                 // 푸터 위치 조정
                 const maxHeight = Math.max(washHeight, dryHeight);
                 const footer = document.querySelector('footer');
-                footer.style.top = `${maxHeight + 364}px`; // 364는 푸터까지의 기본 여백
+                footer.style.top = `${maxHeight + 300}px`; // 364는 푸터까지의 기본 여백
 
                 // 배경 컨테이너 높이 조정
                 const background = document.querySelector('.background-container');
-                background.style.height = `${maxHeight + 511}px`; // 511은 푸터 포함 여백
+                background.style.height = `${maxHeight + 450}px`; // 511은 푸터 포함 여백
 
                 // 새로 추가된 기기들에 대한 초기화
                 initializeNewMachines();

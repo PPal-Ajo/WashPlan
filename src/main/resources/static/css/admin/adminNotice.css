@@ -41,7 +41,8 @@ button:active {
     top: 78px;
 
     background: #E3F2FD;
-    border: 1px solid #000000;
+    border:none;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     z-index: 999;
 
 }
@@ -548,8 +549,8 @@ button:active {
 .modal-noticeContent{
 
     position: absolute;
-    width: 1106px;
-    height: 882px;
+    width: 1006px;
+    height: 782px;
     left: calc(50% - 1106px/2 + 1px);
     top: 109px;
 
@@ -585,7 +586,7 @@ button:active {
     /* Rectangle 333 */
 
     position: absolute;
-    width: 897px;
+    width: 797px;
     height: 70px;
     left: 91px;
     top: 109px;
@@ -637,8 +638,8 @@ button:active {
     /* Rectangle 334 */
 
     position: absolute;
-    width: 897px;
-    height: 435px;
+    width: 797px;
+    height: 335px;
     left: 91px;
     top: 269px;
 
@@ -672,7 +673,7 @@ button:active {
     width: 209px;
     height: 70.38px;
     left:198px;
-    top: 752px;
+    top: 662px;
 
     background: #0056B3;
     border:none;
@@ -702,8 +703,8 @@ button:active {
     position: absolute;
     width: 209px;
     height: 70.38px;
-    left: 678px;
-    top: 752px;
+    left: 608px;
+    top: 662px;
 
     background: #42A5F5;
     border:none;
@@ -759,6 +760,11 @@ button:active {
     left:430px;
     width:200px;
     cursor: pointer;
+    max-width: 200px; /* 원하는 최대 너비 설정 */
+    white-space: nowrap; /* 텍스트를 한 줄로 표시 */
+    overflow: hidden; /* 넘치는 텍스트 숨김 */
+    text-overflow: ellipsis; /* 말줄임표 표시 */
+    display: inline-block; /* 인라인 블록 요소로 설정 */
 }
 
 .pagination{

@@ -95,6 +95,29 @@
 </div>
 
 
+<button class="activate" id="activeButton">활성화</button>
+<!-- 모달창 -->
+<div id="modal2" class="modal">
+    <div class="modal-content" id="modal-content4">
+        <p class="modal-text">
+            "이 계정을 다시 활성화하시겠습니까?"
+        </p>
+        <p class="pauseText">
+            계정이 즉시 활성화되며, <br>
+            사용자는 서비스를 이용할 수 있습니다.
+        </p>
+
+        <button id="cancelButton2" class="cancel">취소</button>
+        <button id="confirmButton4" class="confirm">확인</button>
+
+    </div>
+</div>
+<div class="modal-content2" id="modal-content5">
+    <span class="reserveConfirm">활성화가 완료되었습니다 !</span>
+    <button id="confirmButton5" class="confirm2">확인</button>
+</div>
+
+
 
 <button class="getOut" id="getOutButton">영구탈퇴</button>
 
@@ -240,6 +263,101 @@
 
     });
 
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const activeButton = document.getElementById("activeButton");
+        const modal = document.getElementById("modal2");
+        const modal1 = document.getElementById("modal-content4");
+        const modal2 = document.getElementById("modal-content5"); // 완료 모달 재사용
+        const cancelButton = document.getElementById("cancelButton2");
+        const confirmButton = document.getElementById("confirmButton4");
+        const confirmButton2 = document.getElementById("confirmButton5"); // 완료 모달의 확인 버튼 재사용
+
+        // 선택된 체크박스에서 userNo 값을 가져오는 함수
+        function getSelectedUserNos() {
+            const checkboxes = document.querySelectorAll("input[name='userCheckBox']:checked");
+            return Array.from(checkboxes).map(checkbox => checkbox.value);
+        }
+
+        // 활성화 버튼 클릭 시 모달 열기
+        activeButton.addEventListener("click", () => {
+            modal.style.display = "block";
+            modal1.style.display = "block";
+            document.body.classList.add("no-scroll");
+        });
+
+        // 취소 버튼 클릭 시 모달 닫기
+        cancelButton.addEventListener("click", () => {
+            modal.style.display = "none";
+            modal1.style.display = "none";
+            document.body.classList.remove("no-scroll");
+        });
+
+        // 확인 버튼 클릭 시 처리
+        confirmButton.addEventListener("click", async () => {
+            const selectedUserNos = getSelectedUserNos();
+
+            if (selectedUserNos.length === 0) {
+                alert("활성화할 사용자를 선택하세요.");
+                return;
+            }
+
+            try {
+                const response = await fetch("/activate", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ userNos: selectedUserNos })
+                });
+
+                if (response.ok) {
+                    // 상태 업데이트
+                    selectedUserNos.forEach(userNo => {
+                        const userRow = Array.from(document.querySelectorAll(".userNoValue"))
+                            .find(element => element.textContent.trim() === userNo);
+
+                        if (userRow) {
+                            const userStatusElement = userRow.closest(".userInfo2").querySelector(".userStatusValue");
+                            if (userStatusElement) {
+                                userStatusElement.textContent = "활성";
+                            }
+                        }
+                    });
+
+                    modal1.style.display = "none";
+                    modal2.style.display = "block";
+                } else {
+                    alert("활성화 요청에 실패했습니다.");
+                }
+            } catch (error) {
+                console.error("활성화 처리 중 오류가 발생했습니다:", error);
+            }
+        });
+
+        confirmButton2.addEventListener("click", () => {
+            modal.style.display = "none";
+            modal2.style.display = "none";
+            document.body.classList.remove("no-scroll");
+        });
+
+        // 외부 클릭 차단 (모든 모달)
+        modal.addEventListener("click", (event) => {
+            if (!event.target.closest(".modal-content") && !event.target.closest(".modal-content2")) {
+                event.stopPropagation();
+            }
+        });
+
+        // 모달 외부의 다른 버튼 클릭 차단
+        document.addEventListener("click", function (event) {
+            if (modal.style.display === "block") {
+                const isModalContent = event.target.closest(".modal-content") || event.target.closest(".modal-content2");
+                if (!isModalContent) {
+                    event.stopPropagation();
+                }
+            }
+        }, true);
+    });
 </script>
 
 <script>

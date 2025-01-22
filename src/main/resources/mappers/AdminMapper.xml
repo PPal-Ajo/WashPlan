@@ -63,6 +63,12 @@
         WHERE USER_NO = #{userNo}
     </update>
 
+    <update id="activeUser">
+        UPDATE TBL_USER
+        SET USER_STATUS = '활성'
+        WHERE USER_NO = #{userNo}
+    </update>
+
     <select id="searchAll" parameterType="string" resultMap="adminResultMap">
     SELECT USER_NO, USER_ID, CREATED_TIME, USER_STATUS, CANCEL_COUNT
     FROM TBL_USER
