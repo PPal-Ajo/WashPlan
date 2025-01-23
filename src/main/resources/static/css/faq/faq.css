@@ -589,7 +589,7 @@ footer span:nth-child(3){
 .modal-content {
     position: absolute;
     width: 1106px;
-    height: 326px;
+    height: 426px;
     left: 900px;
     top: 431px;
     transform: translate(-50%, -50%);
@@ -661,3 +661,89 @@ body.no-scroll {
     overflow: hidden;
 }
 
+.checkP {
+    position: absolute;
+    width: 100%;
+    top: 80px;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 35px;
+    line-height: 44px;
+    text-align: center;
+}
+
+.password-input-container {
+    position: relative;
+    width: 500px;
+    margin: 0 auto;
+    top: 180px;
+}
+
+.check-password-input {
+    width: 100%;
+    height: 50px;
+    padding: 0 60px 0 20px;
+    border: 2px solid #42A5F5;
+    border-radius: 8px;
+    font-size: 20px;
+    font-family: 'Do Hyeon';
+
+}
+
+.password-toggle {
+    position: absolute;
+    right: 220px;
+    top: 210px;
+    transform: translateY(-50%);
+    width: 75px;
+    height: 53px;
+    cursor: pointer;
+}
+
+#checkCancelButton {
+    position: absolute;
+    width: 209px;
+    height: 59px;
+    left: calc(50% - 209px / 2 - 215.5px);
+    top: 300px;
+    background: #0056B3;
+    border-radius: 50px;
+    border: none;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 50px;
+    color: #FFFFFF;
+    cursor: pointer;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+#checkConfirmButton {
+    position: absolute;
+    width: 209px;
+    height: 59px;
+    left: calc(50% - 209px / 2 + 214.5px);
+    top: 300px;
+    background: #42A5F5;
+    border-radius: 50px;
+    border: none;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 50px;
+    color: #FFFFFF;
+    cursor: pointer;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.modal-buttons2 {
+    width: 100%;
+    bottom: 40px;
+    display: flex
+;
+    justify-content: center;
+    gap: 80px;
+}

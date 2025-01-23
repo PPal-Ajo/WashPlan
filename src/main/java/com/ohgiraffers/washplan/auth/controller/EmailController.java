@@ -2,12 +2,15 @@ package com.ohgiraffers.washplan.auth.controller;
 
 import com.ohgiraffers.washplan.user.model.dao.UserMapper;
 import com.ohgiraffers.washplan.user.model.service.UserService;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -36,23 +39,32 @@ public class EmailController {
      * 이메일로 인증 코드 전송
      */
     @PostMapping("/send")
-    public ResponseEntity<?> sendEmail(@RequestBody Map<String, String> request) {
+    public ResponseEntity<?> sendEmailWithHtml(@RequestBody Map<String, String> request) throws MessagingException {
         String email = request.get("email");
         String code = generateCode();
         long expiryTime = System.currentTimeMillis() + 5 * 60 * 1000; // 5분 후 만료
 
         codeStorage.put(email, new CodeData(code, expiryTime));
 
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(email);
-        message.setSubject("WashPlan 이메일 인증 코드");
-        message.setText("인증 코드: " + code + " (유효시간: 5분)");
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+        helper.setTo(email);
+        helper.setSubject("WashPlan 이메일 인증 코드");
+
+        String emailBody = "<h1>안녕하세요, WashPlan 서비스를 이용해 주셔서 감사합니다!</h1>" +
+                "<p>다음은 이메일 인증 코드입니다:</p>" +
+                "<h2 style='color:blue; font-size:24px;'>" + code + "</h2>" +
+                "<p>⚠️ 이 인증 코드는 <b>5분 후</b>에 만료됩니다.</p>" +
+                "<p>본 코드를 사용하여 이메일 인증을 완료해 주세요.</p>" +
+                "<p>문제가 발생하거나 추가적인 지원이 필요하면 <a href='mailto:contact@washplan.com'>contact@washplan.com</a>으로 문의해 주세요.</p>" +
+                "<p>감사합니다.<br><b>WashPlan 팀</b> 드림</p>";
+
+        helper.setText(emailBody, true);
 
         mailSender.send(message);
 
         return ResponseEntity.ok(Collections.singletonMap("success", true));
     }
-
     /**
      * 인증 코드 확인
      */

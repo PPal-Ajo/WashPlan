@@ -152,6 +152,21 @@
         </div>
     </div>
 
+    <div id="passwordCheckModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <p class="checkP">비밀번호를 입력해주세요.</p>
+            <div class="password-input-container">
+                <input type="password" id="checkPasswordInput" class="check-password-input">
+            </div>
+            <img th:src="@{/images/login/Invisible.png}" alt="Invisible" class="password-toggle">
+            <div class="modal-buttons2">
+                <button id="checkCancelButton" class="modal-btn">취소</button>
+                <button id="checkConfirmButton" class="modal-btn">확인</button>
+            </div>
+        </div>
+    </div>
+
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const inquiryDiv = document.querySelector('.DivIq');
@@ -264,6 +279,76 @@
                 }
             }
         });
+
+        // 마이페이지 클릭 이벤트 처리
+        document.querySelector('span[onclick="location.href=\'/mypage\'"]').onclick = function(e) {
+            e.preventDefault(); // 기본 이벤트 중단
+            document.getElementById('passwordCheckModal').style.display = 'flex';
+        };
+
+        // 비밀번호 토글 기능
+        const passwordToggle = document.querySelector('.password-toggle');
+        const checkPasswordInput = document.getElementById('checkPasswordInput');
+        let isPasswordVisible = false;
+
+        passwordToggle.addEventListener('click', () => {
+            isPasswordVisible = !isPasswordVisible;
+            checkPasswordInput.type = isPasswordVisible ? 'text' : 'password';
+        });
+
+        // 취소 버튼
+        document.getElementById('checkCancelButton').onclick = function() {
+            document.getElementById('passwordCheckModal').style.display = 'none';
+            checkPasswordInput.value = '';
+        };
+
+        // 확인 버튼
+        document.getElementById('checkConfirmButton').onclick = function() {
+            const password = checkPasswordInput.value;
+
+            fetch('/api/user/verify-password', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ password: password })
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = '/mypage';
+                    } else {
+                        alert("비밀번호가 일치하지 않습니다.");
+                        checkPasswordInput.value = '';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error details:', error);
+                    console.error('Error message:', error.message);
+                    alert(`오류가 발생했습니다: ${error.message}`);
+                });
+        };
+
+        const body = document.body;
+
+        // 모달 열기 시 스크롤 막기
+        document.querySelector('span[onclick="location.href=\'/mypage\'"]').onclick = function(e) {
+            e.preventDefault(); // 기본 이벤트 중단
+            document.getElementById('passwordCheckModal').style.display = 'flex';
+            body.classList.add('modal-open'); // 스크롤 비활성화
+        };
+
+        // 모달 닫기 시 스크롤 허용
+        document.getElementById('checkCancelButton').onclick = function() {
+            document.getElementById('passwordCheckModal').style.display = 'none';
+            body.classList.remove('modal-open'); // 스크롤 활성화
+            checkPasswordInput.value = '';
+        };
     </script>
 
 </main>
