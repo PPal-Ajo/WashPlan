@@ -223,14 +223,28 @@
     <!-- 미사용 예약 사용자의 취소 횟수 증가 -->
     <update id="updateUserCancelCount">
         UPDATE TBL_USER u
-        JOIN TBL_RESERVATION r ON u.USER_NO = r.USER_NO
-        SET u.CANCEL_COUNT = u.CANCEL_COUNT + 1
-        WHERE r.RESERVE_STATUS = '예약중'
-        AND (
-            (r.RESERVE_DATE = CURDATE() 
-             AND NOW() &gt;= DATE_ADD(CONCAT(r.RESERVE_DATE, ' ', r.START_TIME), INTERVAL 10 MINUTE)
-             AND NOW() &lt;= CONCAT(r.RESERVE_DATE, ' ', r.END_TIME))
-            OR r.RESERVE_DATE &lt; CURDATE()
+        SET u.CANCEL_COUNT = u.CANCEL_COUNT + (
+            SELECT COUNT(*)
+            FROM TBL_RESERVATION r
+            WHERE r.USER_NO = u.USER_NO
+            AND r.RESERVE_STATUS = '예약중'
+            AND (
+                (r.RESERVE_DATE = CURDATE() 
+                 AND NOW() &gt;= DATE_ADD(CONCAT(r.RESERVE_DATE, ' ', r.START_TIME), INTERVAL 10 MINUTE)
+                 AND NOW() &lt;= CONCAT(r.RESERVE_DATE, ' ', r.END_TIME))
+                OR r.RESERVE_DATE &lt; CURDATE()
+            )
+        )
+        WHERE u.USER_NO IN (
+            SELECT DISTINCT r.USER_NO
+            FROM TBL_RESERVATION r
+            WHERE r.RESERVE_STATUS = '예약중'
+            AND (
+                (r.RESERVE_DATE = CURDATE() 
+                 AND NOW() &gt;= DATE_ADD(CONCAT(r.RESERVE_DATE, ' ', r.START_TIME), INTERVAL 10 MINUTE)
+                 AND NOW() &lt;= CONCAT(r.RESERVE_DATE, ' ', r.END_TIME))
+                OR r.RESERVE_DATE &lt; CURDATE()
+            )
         )
     </update>
 

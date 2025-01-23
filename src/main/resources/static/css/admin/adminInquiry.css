@@ -34,7 +34,7 @@ button:active {
 
     box-sizing: border-box;
 
-    position: absolute;
+    position: fixed;
     width: 415px;
     height: 650px;
     left: 1505px;
@@ -458,7 +458,7 @@ button:active {
 
 .modal{
     display: none; /* 초기 상태에서는 숨김 */
-    position: absolute;
+    position: fixed;
     z-index: 1000;
     left:-1px;
     top:-1px;
@@ -471,7 +471,7 @@ button:active {
 
 /* 모달 내용 */
 .modal-content {
-    position: absolute;
+    position: fixed;
     width: 1106px;
     height: 326px;
     left: 404px;
@@ -563,7 +563,7 @@ button:active {
 /* 모달 내용 */
 .modal-content2 {
     display: none;
-    position: absolute;
+    position: fixed;
     width: 1106px;
     height: 326px;
     left: 404px;
@@ -732,7 +732,7 @@ button:active {
 
 .modal-replyContent{
 
-    position: absolute;
+    position: fixed;
     width: 1106px;
     height: 812px;
     left: calc(50% - 1106px/2 + 1px);

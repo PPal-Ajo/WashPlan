@@ -5,6 +5,8 @@ import com.ohgiraffers.washplan.reservation.model.dto.ReservationDTO;
 import com.ohgiraffers.washplan.machine.model.dto.MachineDTO;
 import com.ohgiraffers.washplan.reservation.model.service.QRCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.slf4j.Logger;
@@ -19,6 +21,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 @Service
+@EnableScheduling
 public class ReservationService {
 
     private static final Logger log = LoggerFactory.getLogger(ReservationService.class);
@@ -145,7 +148,7 @@ public class ReservationService {
     public List<MachineDTO> getMachinesByType(String machineType) {
         return reservationMapper.findMachinesByType(machineType);
     }
-
+    @Scheduled(fixedRate = 60000)
     @Transactional
     public void handleExpiredReservations() {
         // 1. 만료된 예약 상태를 '완료'로 변경
@@ -219,6 +222,7 @@ public class ReservationService {
         return "사용가능";
     }
 
+    @Scheduled(fixedRate = 60000)  
     @Transactional
     public void handleUnusedReservations() {
         log.info("=== 미사용 예약 처리 시작 ===");
@@ -227,11 +231,11 @@ public class ReservationService {
         List<Integer> userNos = reservationMapper.findUnusedReservationUserNos();
         
         if (!userNos.isEmpty()) {
+            log.info("취소 대상 예약 발견: {} 건", userNos.size());
+            
             // 각 사용자의 취소 횟수 증가
-            for (Integer userNo : userNos) {
-                reservationMapper.updateUserCancelCount(userNo);
-                log.info("사용자({}) 취소 횟수 증가", userNo);
-            }
+            reservationMapper.updateUserCancelCount();
+            log.info("사용자 취소 횟수 증가 완료");
             
             // 예약 삭제
             reservationMapper.deleteUnusedReservation();

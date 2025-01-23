@@ -31,7 +31,7 @@ button:active {
 
     box-sizing: border-box;
 
-    position: absolute;
+    position: fixed;
     width: 415px;
     height: 650px;
     left: 1505px;

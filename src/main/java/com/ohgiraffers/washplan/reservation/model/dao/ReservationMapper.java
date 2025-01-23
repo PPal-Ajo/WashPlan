@@ -73,5 +73,6 @@ public interface ReservationMapper {
 
     void deleteUnusedReservation();
 
-    void updateUserCancelCount(int userNo);
+
+    void updateUserCancelCount();
 }
