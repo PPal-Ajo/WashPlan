@@ -22,7 +22,7 @@
     <nav>
         <!-- 기본 메뉴 -->
         <span onclick="location.href='/main'">WashPlan</span>
-        <span onclick="location.href='/reservation'">예약</span>
+        <span onclick="location.href='/reservation'" style="color: #FFFF00">예약</span>
         <span onclick="location.href='/faq'">FAQ</span>
 
         <!-- 관리자 로그인 시 -->
@@ -47,6 +47,8 @@
         <span sec:authorize="isAnonymous()" onclick="location.href='/login'">로그인</span>
     </nav>
 </header>
+
+
 
 <!-- 탭 버튼 -->
 <button class="wash" id="washButton">세탁기</button>
@@ -162,6 +164,8 @@
         <button th:id="'confirmButton2-' + ${machine.machineNo}" class="confirm2">닫기</button>
     </div>
 </div>
+
+
 
 <footer>
     <span>📞031-123-4567ㅣ✉️contact@washplan.com</span>
@@ -809,6 +813,82 @@
     });
 </script>
 
+<!-- 모달 HTML 구조 -->
+<div id="modalPasswordCheck" class="modal" style="display: none;">
+    <div class="modal-content3">
+        <p class="checkP">비밀번호를 입력해주세요.</p>
+        <div class="password-input-container">
+            <input type="password" id="checkPasswordInput" class="check-password-input">
+        </div>
+        <img src="/images/login/Invisible.png" alt="비밀번호 보기" class="password-toggle">
+        <div class="modal-buttons2">
+            <button id="checkCancelButton" class="modal-btn">취소</button>
+            <button id="checkConfirmButton" class="modal-btn">확인</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 모달 열기
+    function openPasswordCheckModal() {
+        const modal = document.getElementById('modalPasswordCheck');
+        modal.style.display = 'flex'; // 모달을 flex로 보이게 함
+        document.body.classList.add('no-scroll'); // 스크롤 막기
+    }
+
+    // 모달 닫기
+    function closePasswordCheckModal() {
+        const modal = document.getElementById('modalPasswordCheck');
+        modal.style.display = 'none'; // 모달 숨기기
+        document.body.classList.remove('no-scroll'); // 스크롤 허용
+        document.getElementById('checkPasswordInput').value = ''; // 입력값 초기화
+    }
+
+    // 비밀번호 토글 기능
+    const passwordToggle = document.querySelector('.password-toggle');
+    const passwordInput = document.getElementById('checkPasswordInput');
+    let isPasswordVisible = false;
+
+    passwordToggle.addEventListener('click', () => {
+        isPasswordVisible = !isPasswordVisible;
+        passwordInput.type = isPasswordVisible ? 'text' : 'password';
+    });
+
+    // 취소 버튼
+    document.getElementById('checkCancelButton').onclick = closePasswordCheckModal;
+
+    // 확인 버튼
+    document.getElementById('checkConfirmButton').onclick = function () {
+        const password = passwordInput.value;
+
+        // 비밀번호 확인 로직
+        fetch('/api/user/verify-password', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    closePasswordCheckModal();
+                    window.location.href = '/mypage';
+                } else {
+                    alert('비밀번호가 일치하지 않습니다.');
+                    passwordInput.value = '';
+                }
+            })
+            .catch(error => {
+                console.error('오류:', error);
+                alert('오류가 발생했습니다. 다시 시도해주세요.');
+            });
+    };
+
+    // 테스트용: 모달 열기 버튼에 이벤트 추가
+    document.querySelector('span[onclick="location.href=\'/mypage\'"]').onclick = function (e) {
+        e.preventDefault(); // 기본 이벤트 중단
+        openPasswordCheckModal();
+    };
+</script>
 
 </body>
 </html>
