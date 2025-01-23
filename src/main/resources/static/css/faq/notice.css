@@ -215,15 +215,14 @@ hr {
 
 .modal-content {
     position: absolute;
-    width: 1000px;
-    height: 1000px;
-    left: 900px;
-    top: 631px;
-    transform: translate(-50%, -50%);
+    width: 1006px;
+    height: 782px;
+    left: calc(50% - 1106px/2 + 1px);
+    top: 109px;
+
     background: #E3F2FD;
     box-shadow: 0px 7px 24.4px 7px rgba(0, 0, 0, 0.25);
     border-radius: 70px;
-    padding: 40px;
 }
 
 .notice-detail {
@@ -233,12 +232,24 @@ hr {
     padding: 20px;
 }
 
-.notice-detail p {
+.title {
+    position: absolute;
+    width: 102px;
+    height: 38px;
+    left: 91px;
+    top: 40px;
+
     font-family: 'Do Hyeon';
     font-style: normal;
     font-weight: 400;
-    font-size: 35px;
-    margin: 30px 0 15px 0;
+    font-size: 30px;
+    line-height: 38px;
+    /* identical to box height */
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: #000000;
 }
 
 .content-box {
@@ -252,19 +263,61 @@ hr {
 }
 
 #modalTitle {
-    height: 80px;
+    /* Rectangle 333 */
+
+    position: absolute;
+    width: 797px;
+    height: 70px;
+    left: 91px;
+    top: 109px;
+
+
+    padding-left: 30px;
+
+    background: #FFFFFF;
+    border-radius: 10px;
+    border:none;
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 25px;
+    /* identical to box height */
+
+    color: #000000;
+
+    display: flex; /* 플렉스 박스 사용 */
+    align-items: center; /* 수직 중앙 정렬 */
+    justify-content: flex-start; /* 수평 왼쪽 정렬 */
 }
 
 #modalContent {
-    flex: 1;
-    overflow-y: auto;
-    min-height: 400px;
+    position: absolute;
+    width: 797px;
+    height: 335px;
+    left: 91px;
+    top: 269px;
+
+    padding-top: 20px;
+    padding-left: 30px;
+
+    background: #FFFFFF;
+    border-radius: 10px;
+    border:none;
+
+    font-family: 'Gmarket Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    line-height: 25px;
+
+    color: #000000;
 }
 
 .modal-buttons {
     display: flex;
     justify-content: center;
-    margin-top: 40px;
+    margin-top: 662px;
 }
 
 .confirm-btn {
@@ -407,4 +460,18 @@ hr {
     color: #000000;
 
 
+}
+
+.content2{
+    position: absolute;
+    width: 102px;
+    height: 38px;
+    left: 91px;
+    top: 200px;
+    font-family: 'Do Hyeon';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 38px;
+    color: #000000;
 }
