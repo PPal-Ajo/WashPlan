@@ -140,7 +140,6 @@ footer span:nth-child(3){
 
 
 .noReservation {
-    display: flex;
     justify-content: center;
     align-items: center;
     height: 200px;
