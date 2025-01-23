@@ -149,11 +149,11 @@
 
 .passwordRepeatBox input {
 
-    position: fixed;
+    position: absolute;
     width: 900px;
     height: 59px;
-    left: 495px;
-    top: 622px;
+    left: 210px;
+
 
     background: #FFFFFF;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -237,10 +237,11 @@
 .emailBox{
     /* 아이디 : */
 
-    position: absolute; !important;
-    width: 85px;
+    position: absolute;
+    width: 190px;
     height: 38px;
-    left: 140px;
+    left: 340px;
+    top: 791px;
 
 
     font-family: 'Do Hyeon';
@@ -254,11 +255,10 @@
 }
 
 .emailBox input{
-    position: fixed;
+    position: absolute;
     width: 900px;
     height: 59px;
-    left: 495px;
-    top: 774px;
+    left: 155px;
 
     background: #FFFFFF;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);

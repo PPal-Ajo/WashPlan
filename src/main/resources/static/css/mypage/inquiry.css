@@ -359,6 +359,7 @@ hr {
     display: flex;
     justify-content: space-between;
     padding: 0 150px;
+    gap: 100px;
 }
 
 .delete-btn, .confirm-btn {
@@ -517,4 +518,16 @@ hr {
     background-color: #42A5F5;
     color: white;
     font-weight: bold;
+}
+
+.confirm-modal2 {
+    position: absolute;
+    width: 1106px;
+    height: 326px;
+    left: 950px;
+    top: 450px;
+    transform: translate(-50%, -50%);
+    background: #E3F2FD;
+    box-shadow: 0px 7px 24.4px 7px rgba(0, 0, 0, 0.25);
+    border-radius: 70px;
 }
