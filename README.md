@@ -61,7 +61,6 @@
 <h2>기술 스택</h2>
 <div>
     <h3>Frontend</h3>
-        <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black">
         <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white"></ul>
         <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white"> 
         <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
@@ -81,7 +80,6 @@
 <div>
     <h3>Development Environment</h3>
     <img src="https://img.shields.io/badge/intellijidea-000000?style=for-the-badge&logo=intellijidea&logoColor=white"> 
-    <img src="https://img.shields.io/badge/visualstudiocode-blue?style=for-the-badge&logo=vscode&logoColor=white">
 </div>
 
 <hr/>
