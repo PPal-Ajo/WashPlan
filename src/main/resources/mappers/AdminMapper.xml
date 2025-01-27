@@ -119,12 +119,16 @@
 
     <select id="findInquiryInfo" resultMap="inquiryResultMap">
         SELECT i.INQUIRY_NO,
-        u.USER_ID,
-        i.INQUIRY_TITLE,
-        i.INQUIRY_DATE,
-        i.REPLY_STATUS
+               u.USER_ID,
+               i.INQUIRY_TITLE,
+               i.INQUIRY_DATE,
+               i.REPLY_STATUS
         FROM TBL_INQUIRY i
         JOIN TBL_USER u ON i.USER_NO = u.USER_NO
+        ORDER BY 
+            CASE WHEN i.REPLY_STATUS = '대기중' THEN 0 ELSE 1 END,
+            i.INQUIRY_DATE DESC,
+            i.INQUIRY_NO DESC
     </select>
 
     <select id="findInquiriesByUserIdOrTitle" resultMap="inquiryResultMap">
@@ -136,10 +140,17 @@
     </select>
 
     <select id="findAllInquiries" resultMap="inquiryResultMap">
-        SELECT i.INQUIRY_NO, u.USER_ID, i.INQUIRY_TITLE, i.INQUIRY_DATE, i.REPLY_STATUS
+        SELECT i.INQUIRY_NO,
+               u.USER_ID,
+               i.INQUIRY_TITLE,
+               i.INQUIRY_DATE,
+               i.REPLY_STATUS
         FROM TBL_INQUIRY i
         JOIN TBL_USER u ON i.USER_NO = u.USER_NO
-        ORDER BY i.INQUIRY_NO DESC
+        ORDER BY 
+            CASE WHEN i.REPLY_STATUS = '대기중' THEN 0 ELSE 1 END,
+            i.INQUIRY_DATE DESC,
+            i.INQUIRY_NO DESC
     </select>
 
     <select id="findInquiriesByUserId" resultMap="inquiryResultMap">
