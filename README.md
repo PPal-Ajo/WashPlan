@@ -2,6 +2,8 @@
     <img src="https://capsule-render.vercel.app/api?type=waving&color=auto&height=300&section=header&text=PPal-Ajo&fontSize=90&animation=fadeIn&fontAlignY=38&desc=Wash%20Plan&descAlignY=60&descAlign=62"/>
 </p>
 
+
+washplan.site
 ### 목차
 ### 1. [개요](#1-개요)
 ### 2. [목적](#2-목적)
