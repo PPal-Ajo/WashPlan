@@ -298,7 +298,6 @@ hr {
     position: absolute;
     left: 340px; /* 예약 시간 컬럼의 X축 위치 */
     text-align: center;
-    width: 200px;
 }
 
 .option-col {
