@@ -390,10 +390,10 @@ button:active {
     position: absolute;
     width: 209px;
     height: 59px;
-    left: 1650px;
+    left: 850px;
     top: 992px;
 
-    background: #42A5F5;
+    background: #2E8B57;
     border:none;
     border-radius: 50px;
 
@@ -921,10 +921,10 @@ button:active {
     position: absolute;
     width: 209px;
     height: 59px;
-    left: 850px;
+    left: 1650px;
     top: 992px;
 
-    background: #42A5F5;
+    background: #FD3C3C;
     border:none;
     border-radius: 50px;
 
