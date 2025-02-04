@@ -41,7 +41,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // 운영 환경에서 활성화 필요
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // 정적 리소스 허용
                         .requestMatchers("/login", "/signup/**", "/email/**", "/forget/**", "/findid/**", "/findpwd/**", "/resetpwd/**", "/auth/**", "/","/api/**","/error/**","/machine/**", "/faq").permitAll() // 비회원 허용 경로
@@ -93,7 +93,7 @@ public class SecurityConfig {
                                 }
                             } catch (Exception e) {
                                 response.sendRedirect("/login?error");
-                            }
+                             }
                         })
                         .permitAll()
                 )
