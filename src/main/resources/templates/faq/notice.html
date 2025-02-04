@@ -65,7 +65,7 @@
 
     <!-- 공지사항 상세보기 모달 -->
     <div id="noticeDetailModal" class="modal">
-        <div class="modal-content">
+        <div class="modal-content5">
             <div class="notice-detail">
                 <p class="title">제목</p>
                 <div id="modalTitle"></div>
@@ -290,6 +290,136 @@
             <br>
             마이페이지에서 답변을 받을 수 있습니다.</p>
     </div>
+
+    <!-- 문의하기 팝업 -->
+    <div id="inquiryModal" class="modal" style="display: none;">
+        <div class="modal-inquiryContent">
+            <span class="modalInquiryTitle">문의하기</span>
+            <span class="modalTitleText">제목</span>
+            <input type="text" class="inquiryTitleInput" id="inquiryTitleInput" placeholder="제목을 입력하세요">
+            <span class="modalContentText">내용</span>
+            <textarea class="inquiryContentInput" id="inquiryContentInput" placeholder="내용을 입력하세요"></textarea>
+            <button id="inquiryCancelButton" class="cancelInquiry">취소</button>
+            <button id="sendInquiryButton" class="sendInquiry">등록</button>
+        </div>
+    </div>
+
+    <!-- 문의 등록 확인 모달 -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <p class="modal-text">문의를 등록하시겠습니까?</p>
+            <div class="modal-buttons">
+                <button id="modalCancelButton" class="modal-button cancel">취소</button>
+                <button id="modalConfirmButton" class="modal-button confirm">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 등록 완료 모달 -->
+    <div id="completeModal" class="modal">
+        <div class="modal-content">
+            <p class="modal-text">문의가 등록되었습니다.</p>
+            <div class="modal-buttons">
+                <button id="completeButton" class="modal-button confirm">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const inquiryDiv = document.querySelector('.DivIq');
+            const inquiryModal = document.getElementById('inquiryModal');
+            const confirmModal = document.getElementById('confirmModal');
+            const completeModal = document.getElementById('completeModal');
+            const cancelButton = document.getElementById('inquiryCancelButton');
+            const sendButton = document.getElementById('sendInquiryButton');
+
+            // 팝업 열기 함수
+            function openModal(modal) {
+                modal.style.display = 'block';
+                document.body.classList.add('no-scroll'); // 스크롤 비활성화
+            }
+
+            // 팝업 닫기 함수
+            function closeModal(modal) {
+                modal.style.display = 'none';
+                document.body.classList.remove('no-scroll'); // 스크롤 활성화
+            }
+
+            // 문의하기 DIV 클릭 시 모달 표시
+            inquiryDiv.addEventListener('click', () => {
+                openModal(inquiryModal);
+            });
+
+            // 취소 버튼 클릭 시 모달 닫기
+            cancelButton.addEventListener('click', () => {
+                closeModal(inquiryModal);
+                // 입력 필드 초기화
+                document.getElementById('inquiryTitleInput').value = '';
+                document.getElementById('inquiryContentInput').value = '';
+            });
+
+            // 등록 버튼 클릭 시 확인 모달 표시
+            sendButton.addEventListener('click', () => {
+                const title = document.getElementById('inquiryTitleInput').value;
+                const content = document.getElementById('inquiryContentInput').value;
+
+                if (!title.trim()) {
+                    alert('제목을 입력해주세요.');
+                    return;
+                }
+                if (!content.trim()) {
+                    alert('내용을 입력해주세요.');
+                    return;
+                }
+
+                openModal(confirmModal);
+            });
+
+            // 확인 모달의 취소 버튼
+            document.getElementById('modalCancelButton').addEventListener('click', () => {
+                closeModal(confirmModal);
+            });
+
+            // 확인 모달의 확인 버튼 - 서버로 데이터 전송
+            document.getElementById('modalConfirmButton').addEventListener('click', async () => {
+                const title = document.getElementById('inquiryTitleInput').value;
+                const content = document.getElementById('inquiryContentInput').value;
+
+                try {
+                    const response = await fetch('/inquiry/create', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            title: title,
+                            content: content
+                        })
+                    });
+
+                    if (response.ok) {
+                        closeModal(confirmModal);
+                        openModal(completeModal);
+                    } else {
+                        alert('문의 등록에 실패했습니다.');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('문의 등록 중 오류가 발생했습니다.');
+                }
+            });
+
+            // 완료 모달의 확인 버튼
+            document.getElementById('completeButton').addEventListener('click', () => {
+                closeModal(completeModal);
+                closeModal(inquiryModal);
+                // 입력 필드 초기화
+                document.getElementById('inquiryTitleInput').value = '';
+                document.getElementById('inquiryContentInput').value = '';
+            });
+        });
+    </script>
 </main>
 
 <footer>
